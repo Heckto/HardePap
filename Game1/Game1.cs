@@ -6,7 +6,10 @@ using tainicom.Aether.Physics2D.Diagnostics;
 using tainicom.Aether.Physics2D.Dynamics;
 using tainicom.Aether.Physics2D.Collision;
 using System.Linq;
+using System.IO;
 using System;
+using tainicom.Aether.Physics2D.Collision.Shapes;
+using tainicom.Aether.Physics2D.Dynamics.Joints;
 
 namespace Game1
 {
@@ -22,6 +25,7 @@ namespace Game1
 
         Player player;
         Body rec;
+        Body circle;
         Rectangle lvlBoundary;
         World world;
         DebugView debug;
@@ -63,7 +67,10 @@ namespace Game1
             // Create a new SpriteBatch, which can be used to draw textures.
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            lvl = Level.FromFile(@"C:\Users\Heckto\Desktop\ass.xml", Content);
+
+            var a = System.Reflection.Assembly.GetEntryAssembly().Location;
+            var path = Path.Combine(Path.GetDirectoryName(a), "Content");
+            lvl = Level.FromFile($"{path}\\ass.xml", Content);
             world = new World(Vector2.UnitY * 10);
 
             debug = new DebugView(world);
@@ -93,9 +100,13 @@ namespace Game1
 
             player = new Player(new Vector2(-1500, -600));
             player.LoadContent(Content);
-            rec = world.CreateRectangle(100, 200,1, new Vector2(-1500, -600), 0, BodyType.Dynamic);
+            //rec = world.CreateRectangle(100, 150,1, new Vector2(-1500, -600), 0, BodyType.Dynamic);
+            circle = world.CreateCircle(50, 0.5f, new Vector2(-1500, -600), BodyType.Dynamic);
+            circle.SetFriction(10f);
+            //world.JointList.Add(new RevoluteJoint(rec, circle, new Vector2(-1500, -600)));
 
-            rec.ApplyForce(new Vector2(0f, -10f));
+
+            circle.ApplyForce(new Vector2(0f, -10f));
             //rec.Mass = 100000f;
             //rec.SetRestitution(0.3f);
             //rec.SetFriction(0.5f);
@@ -141,14 +152,16 @@ namespace Game1
                 camera.Position = new Vector2(camera.Position.X+10, camera.Position.Y);
 
             if (kstate.IsKeyDown(Keys.Left))
-                rec.ApplyForce(new Vector2(-1000f, 0f));
+                circle.ApplyForce(new Vector2(-20, 0f));
 
             if (kstate.IsKeyDown(Keys.Right))
                 //camera.Position = new Vector2(camera.Position.X + 10, camera.Position.Y);
-                rec.ApplyForce(new Vector2(10f, 0f));
-            // TODO: Add your update logic here
+                circle.ApplyForce(new Vector2(20f, 0f));
 
-            world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
+            if (kstate.IsKeyDown(Keys.Space))
+                // TODO: Add your update logic here
+                circle.ApplyForce(new Vector2(0f, -2000000f));
+            world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             player.Update(gameTime);
 
             base.Update(gameTime);
