@@ -72,7 +72,7 @@ namespace Game1
             var path = Path.Combine(Path.GetDirectoryName(a), "Content");
             lvl = Level.FromFile($"{path}\\ass.xml", Content);
             world = new World(Vector2.UnitY * 10);
-
+            
             debug = new DebugView(world);
             debug.RemoveFlags(DebugViewFlags.Controllers);
             debug.RemoveFlags(DebugViewFlags.Joint);            
@@ -101,7 +101,7 @@ namespace Game1
             player = new Player(new Vector2(-1500, -600));
             player.LoadContent(Content);
             //rec = world.CreateRectangle(100, 150,1, new Vector2(-1500, -600), 0, BodyType.Dynamic);
-            circle = world.CreateCircle(50, 0.5f, new Vector2(-1500, -600), BodyType.Dynamic);
+            circle = world.CreateCircle(10.0f, 0.5f, new Vector2(-1500, -600), BodyType.Dynamic);
             circle.SetFriction(10f);
             //world.JointList.Add(new RevoluteJoint(rec, circle, new Vector2(-1500, -600)));
 
@@ -156,6 +156,7 @@ namespace Game1
 
             if (kstate.IsKeyDown(Keys.Right))
                 //camera.Position = new Vector2(camera.Position.X + 10, camera.Position.Y);
+                
                 circle.ApplyForce(new Vector2(20f, 0f));
 
             if (kstate.IsKeyDown(Keys.Space))

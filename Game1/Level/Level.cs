@@ -291,7 +291,7 @@ namespace Game1
             //or by using the Content Pipeline:
 
             var ass = Path.GetFileNameWithoutExtension(asset_name);
-            this.texture = cm.Load<Texture2D>(ass);
+            this.texture = cm.Load<Texture2D>("Level/" + ass);
 
         }
 
