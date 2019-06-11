@@ -43,28 +43,48 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CollisionDetection\Base\Constants.cs" />
+    <Compile Include="CollisionDetection\Base\Maths.cs" />
+    <Compile Include="CollisionDetection\Base\RectangleF.cs" />
+    <Compile Include="CollisionDetection\Base\Vector2.cs" />
+    <Compile Include="CollisionDetection\Box.cs" />
+    <Compile Include="CollisionDetection\Collision.cs" />
+    <Compile Include="CollisionDetection\CollisionHandler.cs" />
+    <Compile Include="CollisionDetection\Grid.cs" />
+    <Compile Include="CollisionDetection\Hit.cs" />
+    <Compile Include="CollisionDetection\IBox.cs" />
+    <Compile Include="CollisionDetection\ICollision.cs" />
+    <Compile Include="CollisionDetection\IHit.cs" />
+    <Compile Include="CollisionDetection\IMovement.cs" />
+    <Compile Include="CollisionDetection\IWorld.cs" />
+    <Compile Include="CollisionDetection\Movement.cs" />
+    <Compile Include="CollisionDetection\Responoses\BounceResponse.cs" />
+    <Compile Include="CollisionDetection\Responoses\CollisionResponse.cs" />
+    <Compile Include="CollisionDetection\Responoses\CollisionResponses.cs" />
+    <Compile Include="CollisionDetection\Responoses\CrossResponse.cs" />
+    <Compile Include="CollisionDetection\Responoses\ICollisionResponse.cs" />
+    <Compile Include="CollisionDetection\Responoses\SlideResponse.cs" />
+    <Compile Include="CollisionDetection\Responoses\TouchResponse.cs" />
+    <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Helpers\Debug.cs" />
+    <Compile Include="Helpers\PrimitivesDrawer.cs" />
     <Compile Include="Level\Level.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Aether.Physics2D, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aether.Physics2D.1.4.0\lib\net40\Aether.Physics2D.dll</HintPath>
-    </Reference>
-    <Reference Include="Aether.Physics2D.Diagnostics, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aether.Physics2D.Diagnostics.1.4.0\lib\net40\Aether.Physics2D.Diagnostics.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ass.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>

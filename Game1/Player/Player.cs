@@ -8,76 +8,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using Game1.Helper;
+using Game1.CollisionDetection;
+using Game1.CollisionDetection.Responses;
 
 namespace Game1
 {
     public class Player
     {
-        private const int START_POSITION_X = -1200;
-        private const int START_POSITION_Y = -425;
-        private const int PLAYER_SPEED = 350;
-        private const int MOVE_UP = -1;
-        private const int MOVE_DOWN = 1;
-        private const int MOVE_LEFT = -1;
-        private const int MOVE_RIGHT = 1;
+        public const float gravity = 0.009f;
+        public const float friction = 0.001f;
 
-        private enum State
-        {
-            Walking
-        }
-        State mCurrentState = State.Walking;
-
-        Vector2 mDirection = Vector2.Zero;
-        Vector2 mSpeed = Vector2.Zero;
-
-        KeyboardState mPreviousKeyboardState;
+        private float scale = 0.5f;
+        private Vector2 origin = new Vector2(0.5f,0.5f);
 
 
+        public CharState mCurrentState = CharState.Air;
+        Vector2 location;
+        Vector2 trajectory = Vector2.Zero;
 
+        Rectangle currentRect;
 
-        private void UpdateMovement(KeyboardState aCurrentKeyboardState)
-        {
-            if (mCurrentState == State.Walking)
-            {
-                mSpeed = Vector2.Zero;
-                mDirection = Vector2.Zero;
-
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true)
-                {
-                    mSpeed.X = PLAYER_SPEED;
-                    mDirection.X = MOVE_LEFT;
-                }
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true)
-                {
-                    mSpeed.X = PLAYER_SPEED;
-                    mDirection.X = MOVE_RIGHT;
-                }
-
-                if (aCurrentKeyboardState.IsKeyDown(Keys.Up) == true)
-                {
-                    mSpeed.Y = PLAYER_SPEED;
-                    mDirection.Y = MOVE_UP;
-                }
-                else if (aCurrentKeyboardState.IsKeyDown(Keys.Down) == true)
-                {
-                    mSpeed.Y = PLAYER_SPEED;
-                    mDirection.Y = MOVE_DOWN;
-                }
-            }
-        }
-
-        public Vector2 location { get; set; }
-
-        public string[] animation_name = { "Idle", "Run", "Attack" };
+        public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
         Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
         private string current_animation;
 
+        IBox playerCol;
+
         private FaceDirection dir = FaceDirection.Right;
 
-        public Player(Vector2 loc)
+        public Player(Vector2 loc, World world)
         {
             location = loc;
-            current_animation = "Idle";
+            current_animation = "Jump";
+
+            playerCol = world.Create(loc.X, loc.Y, 110, 200);
         }
 
         public FaceDirection Direction
@@ -92,8 +57,6 @@ namespace Game1
 
         public void LoadContent(ContentManager cm)
         {
-            location = new Vector2(START_POSITION_X, START_POSITION_Y);
-
             for (var idx=0;idx < animation_name.Length;idx++)
             {
                 animations.Add(animation_name[idx], new Animation(animation_name[idx],cm));
@@ -107,43 +70,113 @@ namespace Game1
                 current_animation = name;
         }
 
-        public void Update(GameTime gameTime)
+        
+
+        public void Update(GameTime gameTime,Camera camera)
         {
+            var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             KeyboardState kstate;
             kstate = Keyboard.GetState();
+            
+            trajectory.Y += delta * 0.001f;
+            //velocity.X = 0;
 
-            if (kstate.IsKeyDown(Keys.R))
-                setAnimation("Run");
-            if (kstate.IsKeyDown(Keys.T))
-                setAnimation("Idle");
-            if (kstate.IsKeyDown(Keys.Y))
-                setAnimation("Attack");
-            if (kstate.IsKeyDown(Keys.Left))
-                dir = FaceDirection.Left;
-            if (kstate.IsKeyDown(Keys.Right))
-                dir = FaceDirection.Right; ;
+            #region Update Location By Trajectory
+            var keyLeft = kstate.IsKeyDown(Keys.Left);
+            var keyRight = kstate.IsKeyDown(Keys.Right);
+            var keyJump = kstate.IsKeyDown(Keys.Space);
+            #endregion
+            
+            #region Key input
+            //if (current_animation == "Idle" || current_animation == "Run")
+            //{
+                if (keyLeft)
+                {
+                    setAnimation("Run");
 
-            KeyboardState aCurrentKeyboardState = Keyboard.GetState();
-            UpdateMovement(aCurrentKeyboardState);
+                    if (trajectory.X > 0)
+                        trajectory.X = 0;
+                    else
+                        trajectory.X -= friction * delta;
+                    dir = FaceDirection.Left;
+                }
+                else if (keyRight)
+                {
+                    setAnimation("Run");
+                    if (trajectory.X < 0)
+                        trajectory.X = 0;
+                    else
+                        trajectory.X += friction * delta;
+                    dir = FaceDirection.Right;
+                }
+                else if (!keyLeft && !keyRight)
+                {
+                    setAnimation("Idle");
+                }
+                if (keyJump)
+                {
+                    setAnimation("Jump");
+                    trajectory.Y -= 0.5f;
+                    mCurrentState = CharState.Air;
+                    //ledgeAttach = -1;
+                    //if (keyRight) trajectory.X = 200f;
+                    //if (keyLeft) trajectory.X = -200f;
+                }
+            //}
 
-            mPreviousKeyboardState = aCurrentKeyboardState;
-            location += mDirection * mSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (mCurrentState == CharState.Grounded)
+            //{
+            //    if (trajectory.X > 0f)
+            //    {
+            //        trajectory.X -= friction * et;
+            //        if (trajectory.X < 0f) trajectory.X = 0f;
+            //    }
+            //    if (trajectory.X < 0f)
+            //    {
+            //        trajectory.X += friction * et;
+            //        if (trajectory.X > 0f) trajectory.X = 0f;
+            //    }
+            //}
 
+
+            if (mCurrentState == CharState.Air)
+            {
+                trajectory.Y += delta * gravity;
+            }
+            #endregion           
+
+            var move = playerCol.Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
+            {
+                return CollisionResponses.Slide;
+            });
+
+            if (move.Hits.Any((c) => (c.Normal.Y < 0)))
+            {
+                //setAnimation("Idle");
+                mCurrentState = CharState.Grounded;
+                trajectory.Y = 0;
+
+            }
             animations[current_animation].Update(gameTime);
-        }
+
+            camera.Position = new Vector2(playerCol.X-600, playerCol.Y-100);
+        }      
 
         public void Draw(SpriteBatch spriteBatch,Camera camera)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
             bool flip = (dir == FaceDirection.Right);
 
-            var tex = animations[current_animation].frames[animations[current_animation].frame_idx];            
-            Rectangle dRect = new Rectangle((int)location.X, (int)location.Y, (int)(0.5* tex.Width), (int)(0.5 * tex.Height));
-            //dRect.X += (int)(0.5 * megaTex[texIndex].Width);
-            //dRect.Y += (int)(0.5 * megaTex[texIndex].Height);
+            var tex = animations[current_animation].frames[animations[current_animation].frame_idx];
+            var Origin = Vector2.Zero;
 
-            //var tex = animations[current_animation].frames[animations[current_animation].frame_idx];
-            spriteBatch.Draw(tex, dRect, null, Color.White, 0.0f, new Vector2(tex.Width / 2f, tex.Height / 2f), (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
+            
+            var dRect = new Rectangle((int)playerCol.Bounds.X, (int)playerCol.Bounds.Y, (int)playerCol.Width, (int)playerCol.Height);
+            spriteBatch.Draw(tex, dRect, null,Color.White, 0.0f, Origin, (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
+           
+            //LineBatch.DrawPoint(spriteBatch, Color.Blue, location - 0.5f * Origin);
+            //LineBatch.DrawPoint(spriteBatch, Color.Purple, checkLocation);
+            LineBatch.DrawEmptyRectangle(spriteBatch, Color.Red, currentRect);
             spriteBatch.End();
         }
     }
@@ -184,5 +217,11 @@ namespace Game1
     {
         Left,
         Right
+    };
+
+    public enum CharState
+    {
+        Grounded = 0,
+        Air = 1
     };
 }

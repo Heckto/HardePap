@@ -6,7 +6,10 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-
+using System.Linq;
+using Game1.Helper;
+using Game1.CollisionDetection;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game1
 {
@@ -26,6 +29,9 @@ namespace Game1
         /// </summary>
         public List<Layer> Layers;
 
+        [XmlIgnore]
+        public World CollisionWorld;
+
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
@@ -37,21 +43,37 @@ namespace Game1
             Visible = true;
             Layers = new List<Layer>();
             CustomProperties = new SerializableDictionary();
+            
         }
 
         public static Level FromFile(string filename, ContentManager cm)
         {
-            FileStream stream = File.Open(filename, FileMode.Open);
-            XmlSerializer serializer = new XmlSerializer(typeof(Level));
-            Level level = (Level)serializer.Deserialize(stream);
+            var stream = File.Open(filename, FileMode.Open);
+            var serializer = new XmlSerializer(typeof(Level));
+            var level = (Level)serializer.Deserialize(stream);
             stream.Close();
 
-            foreach (Layer layer in level.Layers)
+            foreach (var layer in level.Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (var item in layer.Items)
                 {
                     item.CustomProperties.RestoreItemAssociations(level);
                     item.load(cm);
+                }
+            }
+
+
+            var bounds = level.getLevelBounds();
+            bounds.Height += 500;
+            level.CollisionWorld = new World(bounds.Width, bounds.Height);
+
+            var l = level.Layers.FirstOrDefault(elem => elem.Name == "collision");
+            foreach (var elem in l.Items)
+            {
+                if (elem is RectangleItem)
+                {
+                    var rec = elem as RectangleItem;
+                    level.CollisionWorld.Create(rec.Position.X, rec.Position.Y, rec.Width, rec.Height);
                 }
             }
 
@@ -79,6 +101,9 @@ namespace Game1
             return null;
         }
 
+        
+        private SpriteBatch spriteBatch;
+
         public void draw(SpriteBatch sb,Camera camera)
         {
             foreach (Layer layer in Layers)
@@ -87,13 +112,49 @@ namespace Game1
                 camera.Position *= layer.ScrollSpeed;
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
 
-                
-                    layer.draw(sb);
+                layer.draw(sb);
 
                 camera.Position = maincameraposition;
+
                 sb.End();
-            }          
+            }
+
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
+            spriteBatch = sb;
+            var b = CollisionWorld.Bounds;
+            CollisionWorld.DrawDebug((int)b.X, (int)b.Y, (int)b.Width, (int)b.Height, DrawCell, DrawBox, DrawString);
+            sb.End();
         }
+
+        private void DrawCell(int x, int y, int w, int h, float alpha)
+        {
+            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                //spriteBatch.DrawStroke(new Rectangle(x, y, w, h), new Color(Color.White, alpha));
+        }
+
+        private void DrawString(string message, int x, int y, float alpha)
+        {            
+        }
+
+        private void DrawBox(IBox box)
+        {
+            Color color;
+
+            //if (box.HasTag(Tags.Group1))
+            //    color = Color.White;
+            //else if (box.HasTag(Tags.Group3))
+            //    color = Color.Red;
+            //else if (box.HasTag(Tags.Group4))
+                color = Color.Green;
+            //else if (box.HasTag(Tags.Group5))
+            //    color = Color.Yellow;
+            //else
+            //    color = new Color(165, 155, 250);
+
+            spriteBatch.Draw(box.Bounds, color, 0.3f);
+        }
+
+
 
         public Rectangle getLevelBounds()
         {
@@ -166,6 +227,8 @@ namespace Game1
         {
             if (!Visible) return;
             foreach (Item item in Items) item.draw(sb);
+
+            
         }
 
     }
@@ -294,6 +357,8 @@ namespace Game1
             this.texture = cm.Load<Texture2D>("Level/" + ass);
 
         }
+
+        
 
         public override void draw(SpriteBatch sb)
         {
