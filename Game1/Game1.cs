@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using System.IO;
 using System;
-using Game1.Helper;
-
+using Microsoft.Xna.Framework.Content;
+using Game1.Helpers;
 
 namespace Game1
 {
@@ -18,9 +18,13 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Level lvl;
-
+        bool debug = true;
         Player player;
-        Rectangle lvlBoundary;
+        KeyboardState pState;
+
+        public static DebugMonitor DebugMonitor = new DebugMonitor();
+        public static ContentManager ContentManager;
+        
 
         
 
@@ -28,7 +32,10 @@ namespace Game1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            ContentManager = this.Content;
+
             
+
         }
 
         /// <summary>
@@ -48,9 +55,6 @@ namespace Game1
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;            
             graphics.ApplyChanges();
             Window.IsBorderless = true;
-
-            LineBatch.Init(graphics.GraphicsDevice);
-
         }
 
         /// <summary>
@@ -67,20 +71,13 @@ namespace Game1
             var path = Path.Combine(Path.GetDirectoryName(a), "Content");
             lvl = Level.FromFile($"{path}\\ass.xml", Content);
 
-            
-            
-
             player = new Player(new Vector2(700, 1300),lvl.CollisionWorld);
             player.LoadContent(Content);          
             
             camera = new Camera(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)
             {
                 Position = new Vector2(100, 1200)
-            };
-
-            lvlBoundary = lvl.getLevelBounds();
-            
-            // TODO: use this.Content to load your game content here
+            };           
         }
 
         /// <summary>
@@ -101,21 +98,21 @@ namespace Game1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            KeyboardState kstate;
-            kstate = Keyboard.GetState();
-            if (kstate.IsKeyDown(Keys.W))
-                
-                camera.Position = new Vector2(camera.Position.X, camera.Position.Y - 10);
-            if (kstate.IsKeyDown(Keys.S))
-                camera.Position = new Vector2(camera.Position.X, camera.Position.Y + 10);
-            if (kstate.IsKeyDown(Keys.A))
-                camera.Position = new Vector2(camera.Position.X-10, camera.Position.Y);
-            if (kstate.IsKeyDown(Keys.D))
-                camera.Position = new Vector2(camera.Position.X+10, camera.Position.Y);
+
+            var currentState = Keyboard.GetState();
+
+            if (currentState.IsKeyUp(Keys.D) && pState.IsKeyDown(Keys.D))
+                debug = !debug;
 
             player.Update(gameTime,camera);
 
+            DebugMonitor.Update(gameTime);
+
             base.Update(gameTime);
+
+
+
+            pState = currentState;
         }
 
         /// <summary>
@@ -125,14 +122,11 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);            
-            lvl.draw(spriteBatch,camera);
+            lvl.draw(spriteBatch,camera,debug);
             player.Draw(spriteBatch,camera);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
-            
-            var projection = Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width,GraphicsDevice.Viewport.Height, 0f, 0f,1f);
-            
-            spriteBatch.End();
+            if(debug)
+                DebugMonitor.Draw(spriteBatch, camera);
 
             base.Draw(gameTime);
         }

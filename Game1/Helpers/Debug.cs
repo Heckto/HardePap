@@ -1,28 +1,35 @@
 ﻿using System;
-using Game1.CollisionDetection.Base;
+//using RectangleF = Game1.CollisionDetection.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public static class Debug
 {
     private static Texture2D pixel;
+    private static SpriteFont font;
 
-    public static Rectangle ToRectangle(this RectangleF r)
+
+
+    public static Rectangle ToRectangle(this Game1.CollisionDetection.Base.RectangleF r)
     {
         return new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height);
     }
 
-    public static void Draw(this SpriteBatch spriteBatch, RectangleF rect, Color color)
+
+    //Draw rectangle
+    public static void DrawRectangle(this SpriteBatch spriteBatch, Game1.CollisionDetection.Base.RectangleF rect, Color color)
     {
-        spriteBatch.Draw(rect.ToRectangle(), color);
+        spriteBatch.DrawRectangle(rect.ToRectangle(), color);
     }
 
-    public static void Draw(this SpriteBatch spriteBatch, RectangleF rect, Color color, float fillOpacity)
+    //Draw rectangle
+    public static void DrawRectangle(this SpriteBatch spriteBatch, Game1.CollisionDetection.Base.RectangleF rect, Color color, float fillOpacity)
     {
-        spriteBatch.Draw(rect.ToRectangle(), color, fillOpacity);
+        spriteBatch.DrawRectangle(rect.ToRectangle(), color, fillOpacity);
     }
 
-    public static void Draw(this SpriteBatch spriteBatch, Rectangle rect, Color color)
+    //Draw rectangle
+    public static void DrawRectangle(this SpriteBatch spriteBatch, Rectangle rect, Color color)
     {
         if (pixel == null)
         {
@@ -33,7 +40,8 @@ public static class Debug
         spriteBatch.Draw(pixel, destinationRectangle: rect, color: color);
     }
 
-    public static void Draw(this SpriteBatch spriteBatch, Rectangle rect, Color stroke, float fillOpacity)
+    //Draw rectangle
+    public static void DrawRectangle(this SpriteBatch spriteBatch, Rectangle rect, Color stroke, float fillOpacity)
     {
         if (pixel == null)
         {
@@ -46,6 +54,7 @@ public static class Debug
         spriteBatch.DrawStroke(rect, stroke);
     }
 
+    //Draw rectangle
     public static void DrawFill(this SpriteBatch spriteBatch, Rectangle rect, Color fill)
     {
         if (pixel == null)
@@ -57,6 +66,7 @@ public static class Debug
         spriteBatch.Draw(pixel, destinationRectangle: rect, color: fill);
     }
 
+    //Draw rectangle
     public static void DrawStroke(this SpriteBatch spriteBatch, Rectangle rect, Color stroke)
     {
         if (pixel == null)
@@ -74,5 +84,54 @@ public static class Debug
         spriteBatch.Draw(pixel, destinationRectangle: right, color: stroke);
         spriteBatch.Draw(pixel, destinationRectangle: top, color: stroke);
         spriteBatch.Draw(pixel, destinationRectangle: bottom, color: stroke);
+    }
+
+    static public void DrawLine(this SpriteBatch spriteBatch, Color color, Vector2 point1, Vector2 point2)
+    {
+        DrawLine(spriteBatch, color, point1, point2, 1.0f);
+    }
+
+    static public void DrawPoint(SpriteBatch spriteBatch, Color color, Vector2 point1, int radius)
+    {
+        var rec = new Rectangle((int)(point1.X - radius), (int)(point1.Y - radius), 2 * radius, 2 * radius);
+        spriteBatch.DrawRectangle(rec, color);
+    }
+
+    /// Draw a line into a SpriteBatch
+    static public void DrawLine(this SpriteBatch spriteBatch, Color color, Vector2 point1, Vector2 point2, float Layer)
+    {
+        //Check if data has been set for texture
+        //Do this only once otherwise
+        if (pixel == null)
+        {
+            pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+            pixel.SetData(new Color[] { Color.White });
+        }
+
+
+        float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+        float length = (point2 - point1).Length();
+
+        spriteBatch.Draw(pixel, point1, null, color,
+                   angle, Vector2.Zero, new Vector2(length, 1),
+                   SpriteEffects.None, Layer);
+    }
+
+    static public void DrawString(this SpriteBatch spriteBatch, string message, int x, int y, Color color, float alpha)
+    {
+        if (font == null)
+        {
+            font = Game1.PartyGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
+        }
+        spriteBatch.DrawString(font, message, new Vector2(x, y), new Color(color, alpha));
+    }
+
+    static public Vector2 MeasureString(this SpriteBatch spriteBatch, string message)
+    {
+        if (font == null)
+        {
+            font = Game1.PartyGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
+        }
+        return font.MeasureString(message);
     }
 }

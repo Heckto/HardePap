@@ -107,7 +107,7 @@
 		/// <param name="drawCell">Draw cell.</param>
 		/// <param name="drawBox">Draw box.</param>
 		/// <param name="drawString">Draw string.</param>
-		void DrawDebug(int x, int y, int w, int h, Action<int, int, int, int, float> drawCell, Action<IBox> drawBox, Action<string, int, int, float> drawString);
+		void DrawDebug(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch,int x, int y, int w, int h);
 
 		#endregion
 	}

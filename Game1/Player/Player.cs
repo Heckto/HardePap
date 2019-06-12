@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
-using Game1.Helper;
 using Game1.CollisionDetection;
 using Game1.CollisionDetection.Responses;
 
@@ -16,18 +15,11 @@ namespace Game1
 {
     public class Player
     {
-        public const float gravity = 0.009f;
+        public const float gravity = 0.001f;
         public const float friction = 0.001f;
 
-        private float scale = 0.5f;
-        private Vector2 origin = new Vector2(0.5f,0.5f);
-
-
         public CharState mCurrentState = CharState.Air;
-        Vector2 location;
         Vector2 trajectory = Vector2.Zero;
-
-        Rectangle currentRect;
 
         public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
         Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
@@ -39,10 +31,11 @@ namespace Game1
 
         public Player(Vector2 loc, World world)
         {
-            location = loc;
             current_animation = "Jump";
-
             playerCol = world.Create(loc.X, loc.Y, 110, 200);
+
+            Game1.PartyGame.DebugMonitor.AddDebugValue(this,"current_animation");
+            Game1.PartyGame.DebugMonitor.AddDebugValue(this,"trajectory");
         }
 
         public FaceDirection Direction
@@ -77,74 +70,55 @@ namespace Game1
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             KeyboardState kstate;
             kstate = Keyboard.GetState();
-            
-            trajectory.Y += delta * 0.001f;
-            //velocity.X = 0;
 
             #region Update Location By Trajectory
             var keyLeft = kstate.IsKeyDown(Keys.Left);
             var keyRight = kstate.IsKeyDown(Keys.Right);
             var keyJump = kstate.IsKeyDown(Keys.Space);
             #endregion
-            
-            #region Key input
-            //if (current_animation == "Idle" || current_animation == "Run")
-            //{
-                if (keyLeft)
-                {
-                    setAnimation("Run");
 
-                    if (trajectory.X > 0)
-                        trajectory.X = 0;
-                    else
-                        trajectory.X -= friction * delta;
-                    dir = FaceDirection.Left;
-                }
-                else if (keyRight)
-                {
-                    setAnimation("Run");
-                    if (trajectory.X < 0)
-                        trajectory.X = 0;
-                    else
-                        trajectory.X += friction * delta;
-                    dir = FaceDirection.Right;
-                }
-                else if (!keyLeft && !keyRight)
-                {
-                    setAnimation("Idle");
-                }
-                if (keyJump)
-                {
-                    setAnimation("Jump");
-                    trajectory.Y -= 0.5f;
-                    mCurrentState = CharState.Air;
-                    //ledgeAttach = -1;
-                    //if (keyRight) trajectory.X = 200f;
-                    //if (keyLeft) trajectory.X = -200f;
-                }
-            //}
+            trajectory.Y += delta * 0.001f;
+            trajectory.X = 0;
+            #region Key input            
+            if (keyLeft)
+            {
+                setAnimation("Run");
 
-            //if (mCurrentState == CharState.Grounded)
-            //{
-            //    if (trajectory.X > 0f)
-            //    {
-            //        trajectory.X -= friction * et;
-            //        if (trajectory.X < 0f) trajectory.X = 0f;
-            //    }
-            //    if (trajectory.X < 0f)
-            //    {
-            //        trajectory.X += friction * et;
-            //        if (trajectory.X > 0f) trajectory.X = 0f;
-            //    }
-            //}
-
+                if (trajectory.X > 0)
+                    trajectory.X = 0;
+                else
+                    trajectory.X =  -0.1f;
+                    trajectory.X -= friction * delta;
+                dir = FaceDirection.Left;
+            }
+            else if (keyRight)
+            {
+                setAnimation("Run");
+                if (trajectory.X < 0)
+                    trajectory.X = 0;
+                else
+                    trajectory.X += friction * delta;
+                dir = FaceDirection.Right;
+            }
+            else if (!keyLeft && !keyRight && mCurrentState == CharState.Grounded)
+            {
+                setAnimation("Idle");
+            }
+            if (keyJump & mCurrentState == CharState.Grounded)
+            {
+                setAnimation("Jump");
+                trajectory.Y -= 0.75f;
+                mCurrentState = CharState.Air;
+            }
 
             if (mCurrentState == CharState.Air)
             {
                 trajectory.Y += delta * gravity;
             }
-            #endregion           
+            #endregion
 
+
+            #region Collision
             var move = playerCol.Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
             {
                 return CollisionResponses.Slide;
@@ -152,11 +126,14 @@ namespace Game1
 
             if (move.Hits.Any((c) => (c.Normal.Y < 0)))
             {
-                //setAnimation("Idle");
+                if (mCurrentState != CharState.Grounded)
+                    setAnimation("Idle");
                 mCurrentState = CharState.Grounded;
                 trajectory.Y = 0;
 
             }
+
+            #endregion
             animations[current_animation].Update(gameTime);
 
             camera.Position = new Vector2(playerCol.X-600, playerCol.Y-100);
@@ -176,7 +153,7 @@ namespace Game1
            
             //LineBatch.DrawPoint(spriteBatch, Color.Blue, location - 0.5f * Origin);
             //LineBatch.DrawPoint(spriteBatch, Color.Purple, checkLocation);
-            LineBatch.DrawEmptyRectangle(spriteBatch, Color.Red, currentRect);
+            //LineBatch.DrawEmptyRectangle(spriteBatch, Color.Red, currentRect);
             spriteBatch.End();
         }
     }

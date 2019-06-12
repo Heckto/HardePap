@@ -49,7 +49,6 @@
     <Compile Include="CollisionDetection\Base\Vector2.cs" />
     <Compile Include="CollisionDetection\Box.cs" />
     <Compile Include="CollisionDetection\Collision.cs" />
-    <Compile Include="CollisionDetection\CollisionHandler.cs" />
     <Compile Include="CollisionDetection\Grid.cs" />
     <Compile Include="CollisionDetection\Hit.cs" />
     <Compile Include="CollisionDetection\IBox.cs" />
@@ -68,7 +67,7 @@
     <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Helpers\Debug.cs" />
-    <Compile Include="Helpers\PrimitivesDrawer.cs" />
+    <Compile Include="Helpers\DebugMonitor.cs" />
     <Compile Include="Level\Level.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />

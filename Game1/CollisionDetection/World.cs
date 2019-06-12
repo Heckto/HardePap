@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game1.CollisionDetection.Base;
 using Game1.CollisionDetection.Responses;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.CollisionDetection
 {
@@ -197,13 +198,15 @@ namespace Game1.CollisionDetection
 
 		#region Diagnostics
 
-		public void DrawDebug(int x, int y, int w, int h, Action<int,int,int,int,float> drawCell, Action<IBox> drawBox, Action<string,int,int, float> drawString)
+		public void DrawDebug(SpriteBatch spriteBatch,int x, int y, int w, int h)
 		{
 			// Drawing boxes
 			var boxes = this.grid.QueryBoxes(x, y, w, h);
 			foreach (var box in boxes)
 			{
-				drawBox(box);
+                var color = new Microsoft.Xna.Framework.Color(165, 155, 250);
+                spriteBatch.DrawRectangle(box.Bounds, color, 0.3f);
+                
 			}
 
 			// Drawing cells
@@ -212,8 +215,9 @@ namespace Game1.CollisionDetection
 			{
 				var count = cell.Count();
 				var alpha = count > 0 ? 1f : 0.4f;
-				drawCell((int)cell.Bounds.X, (int)cell.Bounds.Y, (int)cell.Bounds.Width, (int)cell.Bounds.Height, alpha);
-				drawString(count.ToString(), (int)cell.Bounds.Center.X, (int)cell.Bounds.Center.Y,alpha);
+                var rec = new Microsoft.Xna.Framework.Rectangle((int)cell.Bounds.X, (int)cell.Bounds.Y, (int)cell.Bounds.Width, (int)cell.Bounds.Height);
+                spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
+				spriteBatch.DrawString(count.ToString(), (int)cell.Bounds.Center.X, (int)cell.Bounds.Center.Y, Microsoft.Xna.Framework.Color.White,alpha);
 			}
 		}
 
