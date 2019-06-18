@@ -4761,7 +4761,7 @@
             </ScrollSpeed>
             <CustomProperties />
         </Layer>
-        <Layer Name="foreground" Visible="true">
+        <Layer Name="foreground" Visible="false">
             <Items>
                 <Item xsi:type="TextureItem" Name="Texture_0069" Visible="true">
                     <Position>

@@ -19,14 +19,15 @@ namespace Game1.Helpers
             debugMonitors = new Dictionary<string, MonitorItem>();
         }
 
-        public void AddDebugValue(object sender,string key)
+        public void AddDebugValue(object sender,string key,string alias = "")
         {
             var item = new MonitorItem()
             {
                 t = sender.GetType(),
-                DebugObject = sender                
+                DebugObject = sender,
+                Alias = alias
             };
-            debugMonitors.Add(key,item);
+            debugMonitors[key] = item;
         }
 
         public void RemoveDebugValue(string key)
@@ -44,9 +45,8 @@ namespace Game1.Helpers
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch,Camera camera)
-        {
-            
+        public void Draw(SpriteBatch spriteBatch)
+        {            
             var itemCnt = debugMonitors.Count();
             if (itemCnt > 0)
             {
@@ -55,8 +55,12 @@ namespace Game1.Helpers
                 var maxHeight = 0f;
                 foreach (var item in debugMonitors)
                 {
-                    var itemText = $"{item.Key} : { item.Value.DebugValue}";
-                    strings.Add($"{item.Key} : { item.Value.DebugValue}");
+                    var itemText = String.Empty;
+                    if (!String.IsNullOrEmpty(item.Value.Alias))
+                        itemText = $"{item.Value.Alias} : { item.Value.DebugValue}";
+                    else
+                        itemText = $"{item.Key} : { item.Value.DebugValue}";
+                    strings.Add(itemText);
                     var textSize = spriteBatch.MeasureString(itemText);
 
                     maxLength = Math.Max(maxLength, textSize.X);
@@ -65,7 +69,7 @@ namespace Game1.Helpers
 
                 var vectSize = itemCnt * maxHeight + 2f * maxHeight;
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                spriteBatch.DrawRectangle(new Rectangle(50, 50, (int)maxLength + 20, (int)vectSize), Color.Black, 0.5f);
+                spriteBatch.DrawRectangle(new Rectangle(50, 50,400, (int)vectSize), Color.Black, 0.5f);
                 var vertIdx = 70;
                 var idx = 0;
                 foreach(var item in strings)
@@ -83,5 +87,7 @@ namespace Game1.Helpers
         public Type t { get; set; }
         public object DebugObject { get; set; }
         public object DebugValue { get; set; }
+        public string Alias { get; set; } = String.Empty;
+
     }
 }

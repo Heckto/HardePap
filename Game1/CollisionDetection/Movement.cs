@@ -1,25 +1,26 @@
-﻿namespace Game1.CollisionDetection
-{
-	using Base;
-	using System.Collections.Generic;
-	using System.Linq;
+﻿using Game1.CollisionDetection.Base;
+using System.Collections.Generic;
+using System.Linq;
 
-	public class Movement : IMovement
-	{
-		public Movement()
-		{
-			this.Hits = new IHit[0];
-		}
+namespace Game1.CollisionDetection
+{   
 
-		public IEnumerable<IHit> Hits { get; set; }
+    public class Movement : IMovement
+    {
+        public Movement()
+        {
+            this.Hits = new IHit[0];
+        }
 
-		public bool HasCollided { get { return this.Hits.Any(); } }
+        public IEnumerable<IHit> Hits { get; set; }
 
-		public RectangleF Origin { get; set; }
+        public bool HasCollided { get { return this.Hits.Any(); } }
 
-		public RectangleF Destination { get; set; }
+        public RectangleF Origin { get; set; }
 
-		public RectangleF Goal { get; set; }
-	}
+        public RectangleF Destination { get; set; }
+
+        public RectangleF Goal { get; set; }
+    }
 }
 

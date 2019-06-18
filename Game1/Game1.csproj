@@ -55,8 +55,11 @@
     <Compile Include="CollisionDetection\ICollision.cs" />
     <Compile Include="CollisionDetection\IHit.cs" />
     <Compile Include="CollisionDetection\IMovement.cs" />
+    <Compile Include="CollisionDetection\IPolyLine.cs" />
+    <Compile Include="CollisionDetection\IShape.cs" />
     <Compile Include="CollisionDetection\IWorld.cs" />
     <Compile Include="CollisionDetection\Movement.cs" />
+    <Compile Include="CollisionDetection\PolyLine.cs" />
     <Compile Include="CollisionDetection\Responoses\BounceResponse.cs" />
     <Compile Include="CollisionDetection\Responoses\CollisionResponse.cs" />
     <Compile Include="CollisionDetection\Responoses\CollisionResponses.cs" />
@@ -64,10 +67,13 @@
     <Compile Include="CollisionDetection\Responoses\ICollisionResponse.cs" />
     <Compile Include="CollisionDetection\Responoses\SlideResponse.cs" />
     <Compile Include="CollisionDetection\Responoses\TouchResponse.cs" />
+    <Compile Include="CollisionDetection\Shape.cs" />
     <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Helpers\Debug.cs" />
     <Compile Include="Helpers\DebugMonitor.cs" />
+    <Compile Include="Helpers\FPSMonitor.cs" />
+    <Compile Include="Level\CollisionEnum.cs" />
     <Compile Include="Level\Level.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />

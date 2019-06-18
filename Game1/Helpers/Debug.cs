@@ -91,6 +91,14 @@ public static class Debug
         DrawLine(spriteBatch, color, point1, point2, 1.0f);
     }
 
+    static public void DrawPolyline(this SpriteBatch spriteBatch, Color color, Vector2[] points)
+    {
+        for (var idx = 0; idx < points.Length - 1; idx++)
+        {
+            spriteBatch.DrawLine(color, points[idx], points[idx + 1], 0.3f,5);
+        }
+    }
+
     static public void DrawPoint(SpriteBatch spriteBatch, Color color, Vector2 point1, int radius)
     {
         var rec = new Rectangle((int)(point1.X - radius), (int)(point1.Y - radius), 2 * radius, 2 * radius);
@@ -98,7 +106,7 @@ public static class Debug
     }
 
     /// Draw a line into a SpriteBatch
-    static public void DrawLine(this SpriteBatch spriteBatch, Color color, Vector2 point1, Vector2 point2, float Layer)
+    static public void DrawLine(this SpriteBatch spriteBatch, Color color, Vector2 point1, Vector2 point2, float Layer,float thickness =1f)
     {
         //Check if data has been set for texture
         //Do this only once otherwise
@@ -111,9 +119,9 @@ public static class Debug
 
         float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
         float length = (point2 - point1).Length();
-
+        var scale = new Vector2(length, thickness);
         spriteBatch.Draw(pixel, point1, null, color,
-                   angle, Vector2.Zero, new Vector2(length, 1),
+                   angle, Vector2.Zero, scale,
                    SpriteEffects.None, Layer);
     }
 

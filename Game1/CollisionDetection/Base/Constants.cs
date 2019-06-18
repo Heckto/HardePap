@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Game1.CollisionDetection.Base
 {
 	public static class Constants

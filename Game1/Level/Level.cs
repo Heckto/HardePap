@@ -10,10 +10,15 @@ using System.Linq;
 using Game1.CollisionDetection;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace Game1
 {
     public partial class Level
     {
+        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb,Camera camera);
+        public event HandlePlayerDrawDelegate HandlePlayerDraw;
+
+
         /// <summary>
         /// The name of the level.
         /// </summary>
@@ -63,7 +68,6 @@ namespace Game1
 
 
             var bounds = level.getLevelBounds();
-            bounds.Height += 500;
             level.CollisionWorld = new World(bounds.Width, bounds.Height);
 
             var l = level.Layers.FirstOrDefault(elem => elem.Name == "collision");
@@ -72,7 +76,13 @@ namespace Game1
                 if (elem is RectangleItem)
                 {
                     var rec = elem as RectangleItem;
-                    level.CollisionWorld.Create(rec.Position.X, rec.Position.Y, rec.Width, rec.Height);
+                    level.CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(CollisionTag.StaticBlock);
+                }
+                else if (elem is PathItem)
+                {
+                    var path = elem as PathItem;
+                    var newList = path.WorldPoints.Select(v => new Game1.CollisionDetection.Base.Vector2(v.X, v.Y));
+                    level.CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(CollisionTag.PolyLine);
                 }
             }
 
@@ -104,15 +114,22 @@ namespace Game1
         {
             foreach (Layer layer in Layers)
             {
-                var maincameraposition = camera.Position;
-                camera.Position *= layer.ScrollSpeed;
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
 
-                layer.draw(sb);
 
-                camera.Position = maincameraposition;
 
-                sb.End();
+                if (layer.Name == "player")
+                {
+                    HandlePlayerDraw?.Invoke(sb, camera);
+                }
+                else
+                {
+                    var maincameraposition = camera.Position;
+                    camera.Position *= layer.ScrollSpeed;
+                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
+                    layer.draw(sb);
+                    camera.Position = maincameraposition;
+                    sb.End();
+                }
             }
 
             if (debug)
@@ -126,26 +143,15 @@ namespace Game1
 
         public Rectangle getLevelBounds()
         {
-            var minX = float.MaxValue;
-            var maxX = float.MinValue;
-            var minY = float.MaxValue;
-            var maxY = float.MinValue;
+            var worldBounds = Rectangle.Empty;
             foreach(var l in Layers)
             {
                 foreach (var item in l.Items)
                 {
-                    if (item.Position.X < minX)
-                        minX = item.Position.X;
-                    if (item.Position.X > maxX)
-                        maxX = item.Position.X;
-                    if (item.Position.Y < minY)
-                        minY = item.Position.Y;
-                    if (item.Position.Y > maxY)
-                        maxY = item.Position.Y;
-
+                    worldBounds = Rectangle.Union(worldBounds,item.getBoundingBox());
                 }
             }
-            return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
+            return worldBounds;
         }
     }
 
@@ -204,7 +210,7 @@ namespace Game1
     [XmlInclude(typeof(RectangleItem))]
     [XmlInclude(typeof(CircleItem))]
     [XmlInclude(typeof(PathItem))]
-    public partial class Item
+    public abstract partial class Item
     {
         /// <summary>
         /// The name of this item.
@@ -245,6 +251,8 @@ namespace Game1
         public virtual void draw(SpriteBatch sb)
         {
         }
+
+        public abstract Rectangle getBoundingBox();
     }
 
 
@@ -334,6 +342,11 @@ namespace Game1
             if (FlipVertically) effects |= SpriteEffects.FlipVertically;
             sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
         }
+
+        public override Rectangle getBoundingBox()
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)(texture.Width * Scale.X), (int)(texture.Height * Scale.Y));
+        }
     }
 
 
@@ -346,6 +359,11 @@ namespace Game1
         public RectangleItem()
         {
         }
+
+        public override Rectangle getBoundingBox()
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
+        }
     }
 
 
@@ -356,6 +374,11 @@ namespace Game1
 
         public CircleItem()
         {
+        }
+
+        public override Rectangle getBoundingBox()
+        {
+            return new Rectangle((int)(Position.X-0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
         }
     }
 
@@ -370,6 +393,16 @@ namespace Game1
 
         public PathItem()
         {
+        }
+
+        public override Rectangle getBoundingBox()
+        {
+            var minX = WorldPoints.Min(min => min.X);
+            var maxX = WorldPoints.Max(max => max.X);
+            var minY = WorldPoints.Min(min => min.Y);
+            var maxY = WorldPoints.Max(max => max.Y);
+
+            return new Rectangle((int)minX, (int)minY, (int)(maxX-minX), (int)(maxY-minY));
         }
     }
 

@@ -1,51 +1,20 @@
-﻿using System;
-using Game1.CollisionDetection.Base;
+﻿using Game1.CollisionDetection.Base;
 using Game1.CollisionDetection.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Game1.CollisionDetection
 {
-        /// <summary>
-        /// Represents a physical body in the world.
-        /// </summary>
-        public interface IBox : IShape
+    public interface IPolyLine : IShape
     {
-        #region Properties
-        RectangleF Bounds { get; }
-        /// <summary>
-        /// Gets the top left corner X coordinate of the box.
-        /// </summary>
-        /// <value>The x.</value>
-        float X { get; }
-
-        /// <summary>
-        /// Gets the top left corner Y coordinate of the box.
-        /// </summary>
-        /// <value>The y.</value>
-        float Y { get; }
-
-        /// <summary>
-        /// Gets the width of the box.
-        /// </summary>
-        /// <value>The width.</value>
-        float Width { get; }
-
-        /// <summary>
-        /// Gets the height of the box.
-        /// </summary>
-        /// <value>The height.</value>
-        float Height { get; }
-
-        /// <summary>
-        /// Gets the bounds of the box.
-        /// </summary>
-        /// <value>The bounds.</value>
-
-
-
-        #endregion
-
+        Vector2[] Points  { get; }
 
         #region Movements
+
+        RectangleF getPolylineBB();
 
         /// <summary>
         /// Tries to move the box to specified coordinates with collisition detection.
@@ -82,8 +51,5 @@ namespace Game1.CollisionDetection
         IMovement Simulate(float x, float y, Func<ICollision, CollisionResponses> filter);
 
         #endregion
-
-
     }
 }
-

@@ -3,225 +3,232 @@ using System.Collections.Generic;
 using System.Linq;
 using Game1.CollisionDetection.Base;
 using Game1.CollisionDetection.Responses;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.CollisionDetection
 {
-	public class World : IWorld
-	{
-        public RectangleF Bounds;
-
-        public World(Microsoft.Xna.Framework.Rectangle rec, float cellSize = 64)
+        public class World : IWorld
+    {
+        public World(float width, float height, float cellSize = 64)
         {
-            var iwidth = (int)Math.Ceiling(rec.Width / cellSize);
-            var iheight = (int)Math.Ceiling(rec.Height / cellSize);
+            var iwidth = (int)Math.Ceiling(width / cellSize);
+            var iheight = (int)Math.Ceiling(height / cellSize);
 
             this.grid = new Grid(iwidth, iheight, cellSize);
-
-            Bounds = new RectangleF(rec.X, rec.Y, rec.Width, rec.Height);
         }
 
-		public World(float width, float height, float cellSize = 64)
-		{
-			var iwidth = (int)Math.Ceiling(width / cellSize);
-			var iheight = (int)Math.Ceiling(height / cellSize);
+        public RectangleF Bounds => new RectangleF(0, 0, this.grid.Width, this.grid.Height);
 
-			this.grid = new Grid(iwidth, iheight, cellSize);
+        #region Boxes
 
-            Bounds = new RectangleF(0, 0, width, height);
+        private Grid grid;
 
-
+        public IBox CreateRectangle(float x, float y, float width, float height)
+        {
+            var box = new Box(this, x, y, width, height);
+            this.grid.Add(box);
+            return box;
         }
 
-		//public RectangleF Bounds => new RectangleF(0, 0, this.grid.Width , this.grid.Height);
+        public IPolyLine CreatePolyLine(Vector2[] points)
+        {
+            var box = new PolyLine(this, points);
+            this.grid.Add(box);
+            return box;
+        }
 
-		#region Boxes
+        public IEnumerable<IShape> Find(float x, float y, float w, float h)
+        {
+            x = Math.Max(0, Math.Min(x, this.Bounds.Right - w));
+            y = Math.Max(0, Math.Min(y, this.Bounds.Bottom - h));
 
-		private Grid grid;
+            return this.grid.QueryBoxes(x, y, w, h);
+        }
 
-		public IBox Create(float x, float y, float width, float height)
-		{
-			var box = new Box(this, x, y, width, height);
-			this.grid.Add(box);
-			return box;
-		}
+        public IEnumerable<IShape> Find(RectangleF area)
+        {
+            return this.Find(area.X, area.Y, area.Width, area.Height);
+        }
 
-		public IEnumerable<IBox> Find(float x, float y, float w, float h)
-		{
-			x = Math.Max(0, Math.Min(x, this.Bounds.Right - w));
-			y = Math.Max(0, Math.Min(y, this.Bounds.Bottom - h));
+        public bool Remove(IBox box)
+        {
+            return this.grid.Remove(box);
+        }
 
-			return this.grid.QueryBoxes(x, y, w, h);
-		}
+        public bool Remove(IPolyLine box)
+        {
+            return this.grid.Remove(box);
+        }
 
-		public IEnumerable<IBox> Find(RectangleF area)
-		{
-			return this.Find(area.X, area.Y, area.Width, area.Height);
-		}
+        public void Update(IShape box, RectangleF from)
+        {
+            this.grid.Update(box, from);
+        }
 
-		public bool Remove(IBox box)
-		{
-			return this.grid.Remove(box);
-		}
+        #endregion
 
-		public void Update(IBox box, RectangleF from)
-		{
-			this.grid.Update(box, from);
-		}
+        #region Hits
 
-		#endregion
+        public IHit Hit(Vector2 point, IEnumerable<IShape> ignoring = null)
+        {
+            var boxes = this.Find(point.X, point.Y, 0, 0);
 
-		#region Hits
+            if (ignoring != null)
+            {
+                boxes = boxes.Except(ignoring);
+            }
 
-		public IHit Hit(Vector2 point, IEnumerable<IBox> ignoring = null)
-		{
-			var boxes = this.Find(point.X, point.Y, 0, 0);
+            foreach (var other in boxes)
+            {
+                var hit = other.Resolve(point);
+                //var hit = Humper.Hit.Resolve(point, other);
 
-			if (ignoring != null)
-			{
-				boxes = boxes.Except(ignoring);
-			}
+                if (hit != null)
+                {
+                    return hit;
+                }
+            }
 
-			foreach (var other in boxes)
-			{
-                
-                var hit = CollisionDetection.Hit.Resolve(point, other);
+            return null;
+        }
 
-				if (hit != null)
-				{
-					return hit;
-				}
-			}
+        public IHit Hit(Vector2 origin, Vector2 destination, IEnumerable<IShape> ignoring = null)
+        {
+            var min = Vector2.Min(origin, destination);
+            var max = Vector2.Max(origin, destination);
 
-			return null;
-		}
+            var wrap = new RectangleF(min, max - min);
+            var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
 
-		public IHit Hit(Vector2 origin, Vector2 destination, IEnumerable<IBox> ignoring = null)
-		{
-			var min = Vector2.Min(origin, destination);
-			var max = Vector2.Max(origin, destination);
+            if (ignoring != null)
+            {
+                boxes = boxes.Except(ignoring);
+            }
 
-			var wrap = new RectangleF(min, max - min);
-			var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
+            IHit nearest = null;
 
-			if (ignoring != null)
-			{
-				boxes = boxes.Except(ignoring);
-			}
+            foreach (var other in boxes)
+            {
+                var hit = other.Resolve(origin, destination);
+                //var hit = Humper.Hit.Resolve(origin, destination, other);
 
-			IHit nearest = null;
+                if (hit != null && (nearest == null || hit.IsNearest(nearest, origin)))
+                {
+                    nearest = hit;
+                }
+            }
 
-			foreach (var other in boxes)
-			{
-                
-                var hit = CollisionDetection.Hit.Resolve(origin, destination, other);
+            return nearest;
+        }
 
-				if (hit != null && (nearest == null || hit.IsNearest(nearest,origin)))
-				{
-					nearest = hit;
-				}
-			}
+        public IHit Hit(RectangleF origin, RectangleF destination, IEnumerable<IShape> ignoring = null)
+        {
+            var wrap = new RectangleF(origin, destination);
+            var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
 
-			return nearest;
-		}
 
-		public IHit Hit(RectangleF origin, RectangleF destination, IEnumerable<IBox> ignoring = null)
-		{
-			var wrap = new RectangleF(origin, destination);
-			var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
 
-			if (ignoring != null)
-			{
-				boxes = boxes.Except(ignoring);
-			}
+            if (ignoring != null)
+            {
+                boxes = boxes.Except(ignoring);
+            }
 
-			IHit nearest = null;
+            IHit nearest = null;
+            foreach (var other in boxes)
+            {
+                var hit = other.Resolve(origin, destination);
+                //var hit = Humper.Hit.Resolve(origin, destination, other);
 
-			foreach (var other in boxes)
-			{
-				var hit = CollisionDetection.Hit.Resolve(origin, destination, other);
+                if (hit != null && (nearest == null || hit.IsNearest(nearest, origin.Location)))
+                {
+                    nearest = hit;
+                }
+            }
 
-				if (hit != null && (nearest == null || hit.IsNearest(nearest, origin.Location)))
-				{
-					nearest = hit;
-				}
-			}
+            return nearest;
+        }
 
-			return nearest;
-		}
+        #endregion
 
-		#endregion
+        #region Movements
 
-		#region Movements
+        public IMovement Simulate(Box box, float x, float y, Func<ICollision, ICollisionResponse> filter)
+        {
+            var origin = box.Bounds;
+            var destination = new RectangleF(x, y, box.Width, box.Height);
 
-		public IMovement Simulate(Box box, float x, float y, Func<ICollision, ICollisionResponse> filter)
-		{
-			var origin = box.Bounds;
-			var destination = new RectangleF(x, y, box.Width, box.Height);
+            var hits = new List<IHit>();
 
-			var hits = new List<IHit>();
+            var result = new Movement()
+            {
+                Origin = origin,
+                Goal = destination,
+                Destination = this.Simulate(hits, new List<IShape>() { box }, box, origin, destination, filter),
+                Hits = hits,
+            };
 
-			var result = new Movement()
-			{
-				Origin = origin,
-				Goal = destination,
-				Destination = this.Simulate(hits, new List<IBox>() { box }, box, origin, destination, filter),
-				Hits = hits,
-			};
+            return result;
+        }
 
-			return result;
-		}
+        private RectangleF Simulate(List<IHit> hits, List<IShape> ignoring, Box box, RectangleF origin, RectangleF destination, Func<ICollision, ICollisionResponse> filter)
+        {
+            var nearest = this.Hit(origin, destination, ignoring);
 
-		private RectangleF Simulate(List<IHit> hits, List<IBox> ignoring, Box box, RectangleF origin, RectangleF destination, Func<ICollision, ICollisionResponse> filter)
-		{
-			var nearest = this.Hit(origin, destination, ignoring);
-				
-			if (nearest != null)
-			{
-				hits.Add(nearest);
+            if (nearest != null)
+            {
+                hits.Add(nearest);
 
-				var impact = new RectangleF(nearest.Position, origin.Size);
-				var collision = new Collision() { Box = box, Hit = nearest, Goal = destination, Origin = origin };
-				var response = filter(collision);
+                var impact = new RectangleF(nearest.Position, origin.Size);
+                var collision = new Collision() { Box = box, Hit = nearest, Goal = destination, Origin = origin };
+                var response = filter(collision);
 
-				if (response != null && destination != response.Destination)
-				{
-					ignoring.Add(nearest.Box);
-					return this.Simulate(hits, ignoring, box, impact, response.Destination, filter);
-				}
-			}
+                if (response != null && destination != response.Destination)
+                {
+                    ignoring.Add(nearest.Box);
+                    return this.Simulate(hits, ignoring, box, impact, response.Destination, filter);
+                }
+            }
 
-			return destination;
-		}
+            return destination;
+        }
 
-		#endregion
+        #endregion
 
-		#region Diagnostics
+        #region Diagnostics
 
-		public void DrawDebug(SpriteBatch spriteBatch,int x, int y, int w, int h)
-		{
-			// Drawing boxes
-			var boxes = this.grid.QueryBoxes(x, y, w, h);
-			foreach (var box in boxes)
-			{
+        public void DrawDebug(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, int x, int y, int w, int h)
+        {
+           
+                // Drawing boxes
+                var boxes = this.grid.QueryBoxes(x, y, w, h);
                 var color = new Microsoft.Xna.Framework.Color(165, 155, 250);
-                spriteBatch.DrawRectangle(box.Bounds, color, 0.3f);
-                
-			}
+                foreach (var box in boxes)
+                {
+                    if (box is IBox)
+                        spriteBatch.DrawRectangle((box as Box).Bounds, color, 0.3f);
+                    else if (box is IPolyLine)
+                    {
+                        var p = (box as IPolyLine).Points;
+                        var points = new Microsoft.Xna.Framework.Vector2[p.Length];
+                        for (var idx = 0; idx < p.Length; idx++)
+                            points[idx] = new Microsoft.Xna.Framework.Vector2(p[idx].X, p[idx].Y);
+                        spriteBatch.DrawPolyline(color, points);
+                    }
+                }
 
-			// Drawing cells
-			var cells = this.grid.QueryCells(x, y, w, h);
-			foreach (var cell in cells)
-			{
-				var count = cell.Count();
-				var alpha = count > 0 ? 1f : 0.4f;
-                var rec = new Microsoft.Xna.Framework.Rectangle((int)cell.Bounds.X, (int)cell.Bounds.Y, (int)cell.Bounds.Width, (int)cell.Bounds.Height);
-                spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
-				spriteBatch.DrawString(count.ToString(), (int)cell.Bounds.Center.X, (int)cell.Bounds.Center.Y, Microsoft.Xna.Framework.Color.White,alpha);
-			}
-		}
+                // Drawing cells
+                var cells = this.grid.QueryCells(x, y, w, h);
+                foreach (var cell in cells)
+                {
+                    var count = cell.Count();
+                    var alpha = count > 0 ? 1f : 0.4f;
+                    var rec = new Microsoft.Xna.Framework.Rectangle((int)cell.Bounds.X, (int)cell.Bounds.Y, (int)cell.Bounds.Width, (int)cell.Bounds.Height);
+                    spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
+                    spriteBatch.DrawString(count.ToString(), (int)cell.Bounds.Center.X, (int)cell.Bounds.Center.Y, Microsoft.Xna.Framework.Color.White, alpha);
+                }
+            
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
 

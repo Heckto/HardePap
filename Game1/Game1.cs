@@ -19,13 +19,14 @@ namespace Game1
         SpriteBatch spriteBatch;
         Level lvl;
         bool debug = true;
+        FpsMonitor monitor;
         Player player;
         KeyboardState pState;
 
         public static DebugMonitor DebugMonitor = new DebugMonitor();
         public static ContentManager ContentManager;
-        
 
+        public Vector2 spawnLocation = new Vector2(4800, 0);
         
 
         public PartyGame()
@@ -33,8 +34,8 @@ namespace Game1
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             ContentManager = this.Content;
-
-            
+            monitor = new FpsMonitor();
+            DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
 
         }
 
@@ -71,13 +72,29 @@ namespace Game1
             var path = Path.Combine(Path.GetDirectoryName(a), "Content");
             lvl = Level.FromFile($"{path}\\ass.xml", Content);
 
-            player = new Player(new Vector2(700, 1300),lvl.CollisionWorld);
-            player.LoadContent(Content);          
-            
+            player = new Player(spawnLocation, lvl.CollisionWorld);
+            player.LoadContent(Content);
+
+            SpawnPlayer();
+
             camera = new Camera(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)
             {
                 Position = new Vector2(100, 1200)
             };           
+        }
+
+        public void SpawnPlayer()
+        {
+            if (player != null)
+            {
+                lvl.HandlePlayerDraw -= player.Draw;
+                lvl.CollisionWorld.Remove(player.playerCol);               
+                
+            }
+
+            player = new Player(spawnLocation, lvl.CollisionWorld);
+            player.LoadContent(Content);
+            lvl.HandlePlayerDraw += player.Draw;
         }
 
         /// <summary>
@@ -103,9 +120,13 @@ namespace Game1
 
             if (currentState.IsKeyUp(Keys.D) && pState.IsKeyDown(Keys.D))
                 debug = !debug;
+            if (currentState.IsKeyUp(Keys.S) && pState.IsKeyDown(Keys.S))
+                SpawnPlayer();
 
             player.Update(gameTime,camera);
 
+
+            monitor.Update();
             DebugMonitor.Update(gameTime);
 
             base.Update(gameTime);
@@ -123,10 +144,10 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);            
             lvl.draw(spriteBatch,camera,debug);
-            player.Draw(spriteBatch,camera);
+            //player.Draw(spriteBatch,camera);
 
             if(debug)
-                DebugMonitor.Draw(spriteBatch, camera);
+                DebugMonitor.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

@@ -15,6 +15,7 @@ namespace Game1
 {
     public class Player
     {
+        public const float acc = -30f;
         public const float gravity = 0.001f;
         public const float friction = 0.001f;
 
@@ -24,15 +25,16 @@ namespace Game1
         public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
         Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
         private string current_animation;
-
-        IBox playerCol;
+        private KeyboardState p_state;
+        public IBox playerCol;
 
         private FaceDirection dir = FaceDirection.Right;
 
         public Player(Vector2 loc, World world)
         {
             current_animation = "Jump";
-            playerCol = world.Create(loc.X, loc.Y, 110, 200);
+            playerCol = world.CreateRectangle(loc.X, loc.Y, 110, 200);
+            (playerCol as IBox).AddTags(CollisionTag.Player);
 
             Game1.PartyGame.DebugMonitor.AddDebugValue(this,"current_animation");
             Game1.PartyGame.DebugMonitor.AddDebugValue(this,"trajectory");
@@ -77,8 +79,11 @@ namespace Game1
             var keyJump = kstate.IsKeyDown(Keys.Space);
             #endregion
 
-            trajectory.Y += delta * 0.001f;
             trajectory.X = 0;
+            // kijk of valt ???
+            //trajectory.Y += delta * 0.001f;
+            
+            
             #region Key input            
             if (keyLeft)
             {
@@ -87,8 +92,8 @@ namespace Game1
                 if (trajectory.X > 0)
                     trajectory.X = 0;
                 else
-                    trajectory.X =  -0.1f;
-                    trajectory.X -= friction * delta;
+                    
+                    trajectory.X = acc * friction * delta;
                 dir = FaceDirection.Left;
             }
             else if (keyRight)
@@ -97,17 +102,20 @@ namespace Game1
                 if (trajectory.X < 0)
                     trajectory.X = 0;
                 else
-                    trajectory.X += friction * delta;
+                {
+                    trajectory.X = -acc * friction * delta;
+
+                }
                 dir = FaceDirection.Right;
             }
             else if (!keyLeft && !keyRight && mCurrentState == CharState.Grounded)
             {
                 setAnimation("Idle");
             }
-            if (keyJump & mCurrentState == CharState.Grounded)
+            if (keyJump && p_state.IsKeyUp(Keys.Space) && mCurrentState == CharState.Grounded)
             {
                 setAnimation("Jump");
-                trajectory.Y -= 0.75f;
+                trajectory.Y -= 1.0f;
                 mCurrentState = CharState.Air;
             }
 
@@ -119,24 +127,43 @@ namespace Game1
 
 
             #region Collision
-            var move = playerCol.Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
+            var move = (playerCol).Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
             {
+                if (collision.Other.HasTag(CollisionTag.Trigger))
+                {
+                    return CollisionResponses.Cross;
+                }
+                if (collision.Hit.Normal.Y < 0)
+                {
+                    return CollisionResponses.Slide;
+                }
+                if (collision.Hit.Normal.Y > 0)
+                {
+                    trajectory.Y = -trajectory.Y;
+                    return CollisionResponses.Touch;
+                }
                 return CollisionResponses.Slide;
             });
 
-            if (move.Hits.Any((c) => (c.Normal.Y < 0)))
+            if (move.Hits.Any((c) => c.Box.HasTag(CollisionTag.PolyLine, CollisionTag.StaticBlock) && (c.Normal.Y < 0)))
             {
                 if (mCurrentState != CharState.Grounded)
-                    setAnimation("Idle");
-                mCurrentState = CharState.Grounded;
+                  setAnimation("Idle");
+                mCurrentState = CharState.Grounded;                
                 trajectory.Y = 0;
-
             }
+            else
+                trajectory.Y += delta * 0.001f;
+
+
+
 
             #endregion
             animations[current_animation].Update(gameTime);
 
             camera.Position = new Vector2(playerCol.X-600, playerCol.Y-100);
+
+            p_state = kstate;
         }      
 
         public void Draw(SpriteBatch spriteBatch,Camera camera)
@@ -146,14 +173,9 @@ namespace Game1
 
             var tex = animations[current_animation].frames[animations[current_animation].frame_idx];
             var Origin = Vector2.Zero;
-
-            
             var dRect = new Rectangle((int)playerCol.Bounds.X, (int)playerCol.Bounds.Y, (int)playerCol.Width, (int)playerCol.Height);
             spriteBatch.Draw(tex, dRect, null,Color.White, 0.0f, Origin, (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
-           
-            //LineBatch.DrawPoint(spriteBatch, Color.Blue, location - 0.5f * Origin);
-            //LineBatch.DrawPoint(spriteBatch, Color.Purple, checkLocation);
-            //LineBatch.DrawEmptyRectangle(spriteBatch, Color.Red, currentRect);
+          
             spriteBatch.End();
         }
     }

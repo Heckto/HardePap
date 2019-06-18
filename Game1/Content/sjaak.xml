@@ -696,6 +696,33 @@
         </Layer>
         <Layer Name="main" Visible="true">
             <Items>
+                <Item xsi:type="TextureItem" Name="Texture_0156" Visible="true">
+                    <Position>
+                        <X>5440</X>
+                        <Y>512</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_1.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_1</asset_name>
+                    <Origin>
+                        <X>31</X>
+                        <Y>32</Y>
+                    </Origin>
+                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0155" Visible="true">
                     <Position>
                         <X>5440</X>
@@ -2505,6 +2532,87 @@
                         <Y>64</Y>
                     </Origin>
                 </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0017" Visible="true">
+                    <Position>
+                        <X>4032</X>
+                        <Y>1536</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Mushroom_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Mushroom_2</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>20</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0018" Visible="true">
+                    <Position>
+                        <X>4288</X>
+                        <Y>1536</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Mushroom_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Mushroom_2</asset_name>
+                    <Origin>
+                        <X>25</X>
+                        <Y>20</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0020" Visible="true">
+                    <Position>
+                        <X>4416</X>
+                        <Y>1536</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_2</asset_name>
+                    <Origin>
+                        <X>31</X>
+                        <Y>32</Y>
+                    </Origin>
+                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0036" Visible="true">
                     <Position>
                         <X>4736</X>
@@ -2989,6 +3097,87 @@
                     <Origin>
                         <X>64</X>
                         <Y>64</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0069" Visible="true">
+                    <Position>
+                        <X>5248</X>
+                        <Y>1408</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_2</asset_name>
+                    <Origin>
+                        <X>31</X>
+                        <Y>32</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0071" Visible="true">
+                    <Position>
+                        <X>5440</X>
+                        <Y>1280</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Tree_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Tree_2</asset_name>
+                    <Origin>
+                        <X>141</X>
+                        <Y>150</Y>
+                    </Origin>
+                </Item>
+                <Item xsi:type="TextureItem" Name="Texture_0072" Visible="true">
+                    <Position>
+                        <X>4160</X>
+                        <Y>1408</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Tree_2.png</texture_filename>
+                    <asset_name>Users\Heckto\Desktop\freetileset\png\Tree_2</asset_name>
+                    <Origin>
+                        <X>141</X>
+                        <Y>150</Y>
                     </Origin>
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0075" Visible="true">
@@ -4665,96 +4854,7 @@
                         <Y>46</Y>
                     </Origin>
                 </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0250" Visible="true">
-                    <Position>
-                        <X>4992</X>
-                        <Y>192</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\testGame\Game1\Content\Level\13.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\testGame\Game1\Content\Level\13</asset_name>
-                    <Origin>
-                        <X>64</X>
-                        <Y>46</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0251" Visible="true">
-                    <Position>
-                        <X>5120</X>
-                        <Y>192</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\testGame\Game1\Content\Level\14.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\testGame\Game1\Content\Level\14</asset_name>
-                    <Origin>
-                        <X>64</X>
-                        <Y>46</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0252" Visible="true">
-                    <Position>
-                        <X>5248</X>
-                        <Y>192</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\testGame\Game1\Content\Level\15.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\testGame\Game1\Content\Level\15</asset_name>
-                    <Origin>
-                        <X>64</X>
-                        <Y>46</Y>
-                    </Origin>
-                </Item>
             </Items>
-            <ScrollSpeed>
-                <X>1</X>
-                <Y>1</Y>
-            </ScrollSpeed>
-            <CustomProperties />
-        </Layer>
-        <Layer Name="player" Visible="true">
-            <Items />
             <ScrollSpeed>
                 <X>1</X>
                 <Y>1</Y>
@@ -4763,222 +4863,6 @@
         </Layer>
         <Layer Name="foreground" Visible="true">
             <Items>
-                <Item xsi:type="TextureItem" Name="Texture_0069" Visible="true">
-                    <Position>
-                        <X>5248</X>
-                        <Y>1408</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_2</asset_name>
-                    <Origin>
-                        <X>31</X>
-                        <Y>32</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0020" Visible="true">
-                    <Position>
-                        <X>4416</X>
-                        <Y>1536</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_2</asset_name>
-                    <Origin>
-                        <X>31</X>
-                        <Y>32</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0017" Visible="true">
-                    <Position>
-                        <X>4032</X>
-                        <Y>1536</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Mushroom_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Mushroom_2</asset_name>
-                    <Origin>
-                        <X>25</X>
-                        <Y>20</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0018" Visible="true">
-                    <Position>
-                        <X>4288</X>
-                        <Y>1536</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Mushroom_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Mushroom_2</asset_name>
-                    <Origin>
-                        <X>25</X>
-                        <Y>20</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0072" Visible="true">
-                    <Position>
-                        <X>4160</X>
-                        <Y>1408</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Tree_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Tree_2</asset_name>
-                    <Origin>
-                        <X>141</X>
-                        <Y>150</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0071" Visible="true">
-                    <Position>
-                        <X>5440</X>
-                        <Y>1280</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Tree_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Tree_2</asset_name>
-                    <Origin>
-                        <X>141</X>
-                        <Y>150</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0254" Visible="true">
-                    <Position>
-                        <X>5248</X>
-                        <Y>1408</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_2.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_2</asset_name>
-                    <Origin>
-                        <X>31</X>
-                        <Y>32</Y>
-                    </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0156" Visible="true">
-                    <Position>
-                        <X>5440</X>
-                        <Y>512</Y>
-                    </Position>
-                    <CustomProperties />
-                    <Rotation>0</Rotation>
-                    <Scale>
-                        <X>1</X>
-                        <Y>1</Y>
-                    </Scale>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <texture_filename>Users\Heckto\Desktop\freetileset\png\Sign_1.png</texture_filename>
-                    <asset_name>Users\Heckto\Desktop\freetileset\png\Sign_1</asset_name>
-                    <Origin>
-                        <X>31</X>
-                        <Y>32</Y>
-                    </Origin>
-                </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0078" Visible="true">
                     <Position>
                         <X>4864</X>
@@ -5627,42 +5511,6 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                 </Item>
-                <Item xsi:type="PathItem" Name="Path_0253" Visible="true">
-                    <Position>
-                        <X>4933</X>
-                        <Y>157</Y>
-                    </Position>
-                    <CustomProperties />
-                    <LocalPoints>
-                        <Vector2>
-                            <X>0</X>
-                            <Y>0</Y>
-                        </Vector2>
-                        <Vector2>
-                            <X>373</X>
-                            <Y>1</Y>
-                        </Vector2>
-                    </LocalPoints>
-                    <WorldPoints>
-                        <Vector2>
-                            <X>4933</X>
-                            <Y>157</Y>
-                        </Vector2>
-                        <Vector2>
-                            <X>5306</X>
-                            <Y>158</Y>
-                        </Vector2>
-                    </WorldPoints>
-                    <IsPolygon>false</IsPolygon>
-                    <LineWidth>4</LineWidth>
-                    <LineColor>
-                        <B>192</B>
-                        <G>0</G>
-                        <R>192</R>
-                        <A>145</A>
-                        <PackedValue>2445279424</PackedValue>
-                    </LineColor>
-                </Item>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -5673,11 +5521,11 @@
     </Layers>
     <CustomProperties />
     <EditorRelated>
-        <NextItemNumber>254</NextItemNumber>
+        <NextItemNumber>249</NextItemNumber>
         <ContentRootFolder>C:\</ContentRootFolder>
         <CameraPosition>
-            <X>5251.17871</X>
-            <Y>972.8071</Y>
+            <X>5227.17871</X>
+            <Y>817.473755</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>
