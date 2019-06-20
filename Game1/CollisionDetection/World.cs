@@ -7,7 +7,10 @@ using Game1.CollisionDetection.Responses;
 namespace Game1.CollisionDetection
 {
         public class World : IWorld
-    {
+        {
+
+        public bool isGrounded = false;
+
         public World(float width, float height, float cellSize = 64)
         {
             var iwidth = (int)Math.Ceiling(width / cellSize);
@@ -32,6 +35,13 @@ namespace Game1.CollisionDetection
         public IPolyLine CreatePolyLine(Vector2[] points)
         {
             var box = new PolyLine(this, points);
+            this.grid.Add(box);
+            return box;
+        }
+
+        public IMoveableBody CreateMoveableBody(float x, float y, float width, float height, bool grounded = true)
+        {
+            var box = new MoveableBody(this, x, y, width, height, grounded);
             this.grid.Add(box);
             return box;
         }

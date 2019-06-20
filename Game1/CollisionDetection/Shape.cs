@@ -9,6 +9,7 @@ namespace Game1.CollisionDetection
 {
     public abstract class Shape : IShape
     {
+        protected World world;
         public object Data { get; set; }
 
         #region Tags

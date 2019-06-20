@@ -8,48 +8,24 @@ using Game1.CollisionDetection.Responses;
 
 namespace Game1.CollisionDetection
 {
-    public class PolyLine : Shape,IPolyLine
+    public class PolyLine : Shape, IPolyLine
     {
         #region Constructors 
 
         public PolyLine(World world, Vector2[] points)
         {
             this.world = world;
-            this.points = points;            
+            this.points = points;
         }
 
         #endregion
 
-        #region Fields
-
-        private World world;
+        #region Fields        
 
         private Vector2[] points;
         #endregion
 
         public Vector2[] Points => points;
-      
-
-        public IMovement Move(float x, float y, Func<ICollision, ICollisionResponse> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IMovement Move(float x, float y, Func<ICollision, CollisionResponses> filter)
-        {
-            throw new NotImplementedException();
-        }        
-
-        public IMovement Simulate(float x, float y, Func<ICollision, ICollisionResponse> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IMovement Simulate(float x, float y, Func<ICollision, CollisionResponses> filter)
-        {
-            throw new NotImplementedException();
-        }
-
 
         #region Resolves
 
@@ -89,17 +65,9 @@ namespace Game1.CollisionDetection
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
-        private RectangleF getLineSegmentBB(Vector2 from,Vector2 to)
-        {
-            var minX = Math.Min(from.X,to.X);
-            var minY = Math.Min(from.Y, to.Y);
-            var maxX = Math.Max(from.X, to.X);
-            var maxY = Math.Max(from.Y, to.Y);
-            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
-        }
         public Hit Resolve(RectangleF origin, RectangleF destination, Vector2[] points)
         {
-            var broadphaseArea = RectangleF.Union(origin, destination);            
+            var broadphaseArea = RectangleF.Union(origin, destination);
             if (broadphaseArea.Intersects(getPolylineBB()))
             {
                 return ResolveNarrow(origin, destination, points);
@@ -112,7 +80,6 @@ namespace Game1.CollisionDetection
             var min = Vector2.Min(origin, destination);
             var size = Vector2.Max(origin, destination) - min;
             var broadphaseArea = new RectangleF(min, size);
-
             if (broadphaseArea.Intersects(getPolylineBB()))
             {
                 return ResolveNarrow(origin, destination, points);
@@ -123,22 +90,9 @@ namespace Game1.CollisionDetection
 
         public override IHit Resolve(Vector2 point)
         {
-            //if (this.Bounds.Contains(point))
-            //{
-            //    var outside = PushOutside(point, this.Bounds);
-            //    return new Hit()
-            //    {
-            //        Amount = 0,
-            //        Box = this,
-            //        Position = outside.Item1,
-            //        Normal = outside.Item2,
-            //    };
-            //}
-
             return null;
         }
-
-        public static bool IsOnPolyLine(Vector2 point, Vector2[] Points, out float height, out Vector2 segmentVector)
+        public bool IsOnPolyLine(Vector2 point, Vector2[] Points, out float height, out Vector2 segmentVector)
         {
             if (!(point.X < Points[0].X || point.X > Points[Points.Length - 1].X))
             {
@@ -158,7 +112,7 @@ namespace Game1.CollisionDetection
             return false;
         }
 
-        private static Hit ResolveNarrow(RectangleF origin, RectangleF destination, Vector2[] points)
+        private Hit ResolveNarrow(RectangleF origin, RectangleF destination, Vector2[] points)
         {
             var velocity = (destination.Location - origin.Location);
             if (velocity == Vector2.Zero)
@@ -173,9 +127,8 @@ namespace Game1.CollisionDetection
 
             Hit result = null;
 
-            if (dest_on_line && velocity.Y > 0 && bottom_origin_Offset.Y >= h && destination.Y <= new_h)
+            if (dest_on_line && velocity.Y > 0 && (bottom_origin_Offset.Y <= h || world.isGrounded) && /*destination.Y <= new_h &&*/ bottom_destination_Offset.Y >= new_h)
             {
-                velocity.Y = 0f;
                 result = new Hit()
                 {
                     Amount = 1f,
@@ -184,10 +137,12 @@ namespace Game1.CollisionDetection
 
                 };
             }
+            //System.Diagnostics.Debug.WriteLine($"grounded {world.isGrounded} dest on line {dest_on_line} vel : {velocity} boo {bottom_origin_Offset.Y} booh {h} bdo {bottom_destination_Offset.Y} bdoh {new_h}");
             return result;
+
         }
 
-        private static Hit ResolveNarrow(Vector2 origin, Vector2 destination, Vector2[] points)
+        private Hit ResolveNarrow(Vector2 origin, Vector2 destination, Vector2[] points)
         {
             var velocity = (destination - origin);
             if (velocity == Vector2.Zero)
@@ -211,83 +166,6 @@ namespace Game1.CollisionDetection
                 };
             }
             return result;
-        }
-
-        private static Vector2 GetNormal(Vector2 v)
-        {
-            return new Vector2(-v.Y, v.X);
-        }
-
-        private static Tuple<Vector2, Vector2> PushOutside(Vector2 origin, RectangleF other)
-        {
-            var position = origin;
-            var normal = Vector2.Zero;
-
-            var top = origin.Y - other.Top;
-            var bottom = other.Bottom - origin.Y;
-            var left = origin.X - other.Left;
-            var right = other.Right - origin.X;
-
-            var min = Math.Min(top, Math.Min(bottom, Math.Min(right, left)));
-
-            if (Math.Abs(min - top) < Constants.Threshold)
-            {
-                normal = -Vector2.UnitY;
-                position = new Vector2(position.X, other.Top);
-            }
-            else if (Math.Abs(min - bottom) < Constants.Threshold)
-            {
-                normal = Vector2.UnitY;
-                position = new Vector2(position.X, other.Bottom);
-            }
-            else if (Math.Abs(min - left) < Constants.Threshold)
-            {
-                normal = -Vector2.UnitX;
-                position = new Vector2(other.Left, position.Y);
-            }
-            else if (Math.Abs(min - right) < Constants.Threshold)
-            {
-                normal = Vector2.UnitX;
-                position = new Vector2(other.Right, position.Y);
-            }
-
-            return new Tuple<Vector2, Vector2>(position, normal);
-        }
-
-        private static Tuple<RectangleF, Vector2> PushOutside(RectangleF origin, RectangleF other)
-        {
-            var position = origin;
-            var normal = Vector2.Zero;
-
-            var top = origin.Center.Y - other.Top;
-            var bottom = other.Bottom - origin.Center.Y;
-            var left = origin.Center.X - other.Left;
-            var right = other.Right - origin.Center.X;
-
-            var min = Math.Min(top, Math.Min(bottom, Math.Min(right, left)));
-
-            if (Math.Abs(min - top) < Constants.Threshold)
-            {
-                normal = -Vector2.UnitY;
-                position.Location = new Vector2(position.Location.X, other.Top - position.Height);
-            }
-            else if (Math.Abs(min - bottom) < Constants.Threshold)
-            {
-                normal = Vector2.UnitY;
-                position.Location = new Vector2(position.Location.X, other.Bottom);
-            }
-            else if (Math.Abs(min - left) < Constants.Threshold)
-            {
-                normal = -Vector2.UnitX;
-                position.Location = new Vector2(other.Left - position.Width, position.Location.Y);
-            }
-            else if (Math.Abs(min - right) < Constants.Threshold)
-            {
-                normal = Vector2.UnitX;
-                position.Location = new Vector2(other.Right, position.Location.Y);
-            }
-
-            return new Tuple<RectangleF, Vector2>(position, normal);
         }
 
         #endregion

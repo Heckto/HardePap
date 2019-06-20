@@ -54,10 +54,12 @@
     <Compile Include="CollisionDetection\IBox.cs" />
     <Compile Include="CollisionDetection\ICollision.cs" />
     <Compile Include="CollisionDetection\IHit.cs" />
+    <Compile Include="CollisionDetection\IMoveableBody.cs" />
     <Compile Include="CollisionDetection\IMovement.cs" />
     <Compile Include="CollisionDetection\IPolyLine.cs" />
     <Compile Include="CollisionDetection\IShape.cs" />
     <Compile Include="CollisionDetection\IWorld.cs" />
+    <Compile Include="CollisionDetection\MoveableBody.cs" />
     <Compile Include="CollisionDetection\Movement.cs" />
     <Compile Include="CollisionDetection\PolyLine.cs" />
     <Compile Include="CollisionDetection\Responoses\BounceResponse.cs" />

@@ -26,14 +26,14 @@ namespace Game1
         Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
         private string current_animation;
         private KeyboardState p_state;
-        public IBox playerCol;
+        public MoveableBody playerCol;
 
         private FaceDirection dir = FaceDirection.Right;
 
         public Player(Vector2 loc, World world)
         {
             current_animation = "Jump";
-            playerCol = world.CreateRectangle(loc.X, loc.Y, 110, 200);
+            playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, 110, 200);
             (playerCol as IBox).AddTags(CollisionTag.Player);
 
             Game1.PartyGame.DebugMonitor.AddDebugValue(this,"current_animation");
@@ -117,6 +117,7 @@ namespace Game1
                 setAnimation("Jump");
                 trajectory.Y -= 1.0f;
                 mCurrentState = CharState.Air;
+                playerCol.Grounded = false;
             }
 
             if (mCurrentState == CharState.Air)
@@ -148,12 +149,16 @@ namespace Game1
             if (move.Hits.Any((c) => c.Box.HasTag(CollisionTag.PolyLine, CollisionTag.StaticBlock) && (c.Normal.Y < 0)))
             {
                 if (mCurrentState != CharState.Grounded)
-                  setAnimation("Idle");
-                mCurrentState = CharState.Grounded;                
-                trajectory.Y = 0;
+                    setAnimation("Idle");
+                mCurrentState = CharState.Grounded;
+                playerCol.Grounded = true;
+                trajectory.Y = delta * 0.001f;
             }
             else
+            {
                 trajectory.Y += delta * 0.001f;
+                playerCol.Grounded = false;
+            }
 
 
 

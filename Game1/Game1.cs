@@ -75,6 +75,8 @@ namespace Game1
             player = new Player(spawnLocation, lvl.CollisionWorld);
             player.LoadContent(Content);
 
+            
+
             SpawnPlayer();
 
             camera = new Camera(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)
@@ -126,6 +128,7 @@ namespace Game1
             player.Update(gameTime,camera);
 
 
+            Console.WriteLine(player.playerCol.Grounded);
             monitor.Update();
             DebugMonitor.Update(gameTime);
 
