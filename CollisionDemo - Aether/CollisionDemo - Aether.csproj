@@ -6,15 +6,17 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C073E6EB-A7C0-436E-AF19-95F3CB616084}</ProjectGuid>
+    <ProjectGuid>{80A829A1-0950-4BF8-856E-2C225A6CFA93}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game1</RootNamespace>
-    <AssemblyName>Game1</AssemblyName>
+    <RootNamespace>Game666</RootNamespace>
+    <AssemblyName>GameTest</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,60 +43,48 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Game666.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CollisionDetection\Box.cs" />
-    <Compile Include="CollisionDetection\Collision.cs" />
-    <Compile Include="CollisionDetection\Grid.cs" />
-    <Compile Include="CollisionDetection\Hit.cs" />
-    <Compile Include="CollisionDetection\IBox.cs" />
-    <Compile Include="CollisionDetection\ICollision.cs" />
-    <Compile Include="CollisionDetection\IHit.cs" />
-    <Compile Include="CollisionDetection\IMoveableBody.cs" />
-    <Compile Include="CollisionDetection\IMovement.cs" />
-    <Compile Include="CollisionDetection\IPolyLine.cs" />
-    <Compile Include="CollisionDetection\IShape.cs" />
-    <Compile Include="CollisionDetection\IWorld.cs" />
-    <Compile Include="CollisionDetection\MoveableBody.cs" />
-    <Compile Include="CollisionDetection\Movement.cs" />
-    <Compile Include="CollisionDetection\PolyLine.cs" />
-    <Compile Include="CollisionDetection\Responoses\BounceResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\CollisionResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\CollisionResponses.cs" />
-    <Compile Include="CollisionDetection\Responoses\CrossResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\ICollisionResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\SlideResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\TouchResponse.cs" />
-    <Compile Include="CollisionDetection\Shape.cs" />
-    <Compile Include="CollisionDetection\World.cs" />
-    <Compile Include="DemoGame.cs" />
-    <Compile Include="Level\CollisionEnum.cs" />
-    <Compile Include="Level\Level.cs" />
-    <Compile Include="Player\Player.cs" />
+    <Compile Include="Game1.cs" />
+    <Compile Include="IScene.cs" />
+    <Compile Include="PlatformerScene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="WorldScene.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Aether.Physics2D, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aether.Physics2D.1.4.0\lib\net40\Aether.Physics2D.dll</HintPath>
+    </Reference>
+    <Reference Include="Aether.Physics2D.Diagnostics, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aether.Physics2D.Diagnostics.1.4.0\lib\net40\Aether.Physics2D.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.3.6.0-beta0001\lib\netstandard2.0\MonoGame.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ass.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </MonoGameContentReference>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="Content\DiagnosticsFont.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

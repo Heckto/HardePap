@@ -136,7 +136,7 @@ namespace Game1
             player.Update(gameTime,camera);
 
 
-            Console.WriteLine(player.playerCol.Grounded);
+            //Console.WriteLine(player.playerCol.Grounded);
             monitor.Update();
             DebugMonitor.Update(gameTime);
 
