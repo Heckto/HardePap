@@ -11,17 +11,25 @@ using Microsoft.Xna.Framework.Input;
 using Game1.CollisionDetection;
 using Game1.CollisionDetection.Responses;
 using AuxLib;
+using Game1.Screens;
+using AuxLib.Input;
+using AuxLib.Camera;
 
 namespace Game1
 {
     public class Player
     {
-        public const float acc = -30f;
-        public const float gravity = 0.001f;
+        private float scale = 0.5f;
+        public const float acc = -35f;
+        public const float gravity = 0.0012f;
         public const float friction = 0.001f;
+        public const float jumpForce = 1.0f;
+        private int JumpCnt = 0;
+        private int MaxJumpCount = 2;
 
         public CharState mCurrentState = CharState.Air;
         Vector2 trajectory = Vector2.Zero;
+        Vector2 hitBoxSize = new Vector2(220, 400);
 
         public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
         Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
@@ -31,14 +39,19 @@ namespace Game1
 
         private FaceDirection dir = FaceDirection.Right;
 
+        public Vector2 Position { get { return new Vector2(playerCol.X, playerCol.Y) + 0.5f * scale * hitBoxSize; } }
+        private Vector2 colBodySize;
+
         public Player(Vector2 loc, World world)
         {
+            colBodySize = scale * hitBoxSize;
             current_animation = "Jump";
-            playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, 110, 200);
+            playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            
             (playerCol as IBox).AddTags(CollisionTag.Player);
 
-            Game1.DemoGame.DebugMonitor.AddDebugValue(this,"current_animation");
-            Game1.DemoGame.DebugMonitor.AddDebugValue(this,"trajectory");
+            PlayState.DebugMonitor.AddDebugValue(this,"current_animation");
+            PlayState.DebugMonitor.AddDebugValue(this,"trajectory");
         }
 
         public FaceDirection Direction
@@ -68,16 +81,17 @@ namespace Game1
 
         
 
-        public void Update(GameTime gameTime,Camera camera)
+        public void Update(GameTime gameTime, IInputHandler Input)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             KeyboardState kstate;
             kstate = Keyboard.GetState();
 
             #region Update Location By Trajectory
-            var keyLeft = kstate.IsKeyDown(Keys.Left);
-            var keyRight = kstate.IsKeyDown(Keys.Right);
-            var keyJump = kstate.IsKeyDown(Keys.Space);
+            
+            var keyLeft = Input.IsPressed(0,Buttons.LeftThumbstickLeft,Keys.Left);
+            var keyRight = Input.IsPressed(0, Buttons.LeftThumbstickRight, Keys.Right);
+            var keyJump = Input.IsPressed(0,Buttons.A,Keys.Space);
             #endregion
 
             trajectory.X = 0;
@@ -86,9 +100,10 @@ namespace Game1
             
             
             #region Key input            
-            if (keyLeft)
+            if (keyLeft )
             {
-                setAnimation("Run");
+                if (mCurrentState == CharState.Grounded)
+                    setAnimation("Run");
 
                 if (trajectory.X > 0)
                     trajectory.X = 0;
@@ -99,7 +114,8 @@ namespace Game1
             }
             else if (keyRight)
             {
-                setAnimation("Run");
+                if (mCurrentState == CharState.Grounded)
+                    setAnimation("Run");
                 if (trajectory.X < 0)
                     trajectory.X = 0;
                 else
@@ -116,9 +132,16 @@ namespace Game1
             if (keyJump && p_state.IsKeyUp(Keys.Space) && mCurrentState == CharState.Grounded)
             {
                 setAnimation("Jump");
-                trajectory.Y -= 1.0f;
+                trajectory.Y -= jumpForce;
                 mCurrentState = CharState.Air;
                 playerCol.Grounded = false;
+                JumpCnt++;
+            }
+            else if (keyJump && p_state.IsKeyUp(Keys.Space) && mCurrentState == CharState.Air && trajectory.Y >= 0 && JumpCnt == 1 && JumpCnt < MaxJumpCount)
+            {
+                setAnimation("Jump");
+                trajectory.Y -= jumpForce;
+                JumpCnt++;
             }
 
             if (mCurrentState == CharState.Air)
@@ -149,16 +172,16 @@ namespace Game1
 
             if (move.Hits.Any((c) => c.Box.HasTag(CollisionTag.PolyLine, CollisionTag.StaticBlock) && (c.Normal.Y < 0)))
             {
-                if (mCurrentState != CharState.Grounded)
-                    setAnimation("Idle");
                 mCurrentState = CharState.Grounded;
                 playerCol.Grounded = true;
                 trajectory.Y = delta * 0.001f;
+                JumpCnt = 0;
             }
             else
             {
                 trajectory.Y += delta * 0.001f;
                 playerCol.Grounded = false;
+                setAnimation("Jump");
             }
 
 
@@ -166,21 +189,19 @@ namespace Game1
 
             #endregion
             animations[current_animation].Update(gameTime);
-
-            camera.Position = new Vector2(playerCol.X-600, playerCol.Y-100);
-
             p_state = kstate;
         }      
 
-        public void Draw(SpriteBatch spriteBatch,Camera camera)
+        public void Draw(SpriteBatch spriteBatch,BoundedCamera camera)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
-            bool flip = (dir == FaceDirection.Right);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
+            var flip = (dir == FaceDirection.Right);
 
             var tex = animations[current_animation].frames[animations[current_animation].frame_idx];
-            var Origin = Vector2.Zero;
-            var dRect = new Rectangle((int)playerCol.Bounds.X, (int)playerCol.Bounds.Y, (int)playerCol.Width, (int)playerCol.Height);
-            spriteBatch.Draw(tex, dRect, null,Color.White, 0.0f, Origin, (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
+            var Origin = new Vector2(tex.Width / 2,tex.Height /2);
+            var ass = scale * colBodySize;
+            var dRect = new Rectangle((int)(playerCol.Bounds.X), (int)(playerCol.Bounds.Y), (int)(tex.Width), (int)(tex.Height));
+            spriteBatch.Draw(tex, Position, null,Color.White, 0.0f, Origin, scale, (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
           
             spriteBatch.End();
         }

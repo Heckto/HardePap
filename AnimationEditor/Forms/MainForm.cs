@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using AuxLib;
+using AuxLib.Logging;
 
 namespace AnimationEditor
 {

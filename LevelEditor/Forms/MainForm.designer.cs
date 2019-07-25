@@ -126,24 +126,11 @@
             this.buttonMoveDown = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.picturebox = new LevelEditor.EditorControl();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.imageList96 = new System.Windows.Forms.ImageList(this.components);
-            this.chooseFolder = new System.Windows.Forms.Button();
-            this.buttonFolderUp = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView2 = new System.Windows.Forms.ListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.imageList48 = new System.Windows.Forms.ImageList(this.components);
-            this.imageList64 = new System.Windows.Forms.ImageList(this.components);
-            this.imageList128 = new System.Windows.Forms.ImageList(this.components);
-            this.imageList256 = new System.Windows.Forms.ImageList(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.LevelContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.centerViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -173,8 +160,8 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.LevelContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -1102,7 +1089,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer2.Panel2.Controls.Add(this.panel2);
             this.splitContainer2.Size = new System.Drawing.Size(755, 645);
             this.splitContainer2.SplitterDistance = 444;
             this.splitContainer2.TabIndex = 0;
@@ -1115,12 +1102,20 @@
             this.picturebox.SelectedLayer = null;
             this.picturebox.Size = new System.Drawing.Size(751, 440);
             this.picturebox.state = LevelEditor.EditorState.idle;
-            this.picturebox.TabIndex = 1;
+            this.picturebox.TabIndex = 0;
             this.picturebox.Text = "editorControl1";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.tabControl1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(751, 193);
+            this.panel2.TabIndex = 1;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.HotTrack = true;
@@ -1128,114 +1123,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(751, 193);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.listView1);
-            this.tabPage1.Controls.Add(this.chooseFolder);
-            this.tabPage1.Controls.Add(this.buttonFolderUp);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.comboBox1);
-            this.tabPage1.Controls.Add(this.textBox1);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(743, 167);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Textures";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
-            this.listView1.AllowDrop = true;
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.HideSelection = false;
-            this.listView1.LargeImageList = this.imageList96;
-            this.listView1.Location = new System.Drawing.Point(9, 34);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(748, 127);
-            this.listView1.TabIndex = 6;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView1_ItemDrag);
-            this.listView1.Click += new System.EventHandler(this.listView1_Click);
-            this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
-            this.listView1.DragOver += new System.Windows.Forms.DragEventHandler(this.listView1_DragOver);
-            this.listView1.GiveFeedback += new System.Windows.Forms.GiveFeedbackEventHandler(this.listView1_GiveFeedback);
-            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
-            // 
-            // imageList96
-            // 
-            this.imageList96.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList96.ImageSize = new System.Drawing.Size(96, 96);
-            this.imageList96.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // chooseFolder
-            // 
-            this.chooseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chooseFolder.Location = new System.Drawing.Point(545, 6);
-            this.chooseFolder.Name = "chooseFolder";
-            this.chooseFolder.Size = new System.Drawing.Size(60, 23);
-            this.chooseFolder.TabIndex = 5;
-            this.chooseFolder.Text = "Choose...";
-            this.chooseFolder.UseVisualStyleBackColor = true;
-            this.chooseFolder.Click += new System.EventHandler(this.chooseFolder_Click);
-            // 
-            // buttonFolderUp
-            // 
-            this.buttonFolderUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonFolderUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonFolderUp.Image")));
-            this.buttonFolderUp.Location = new System.Drawing.Point(507, 6);
-            this.buttonFolderUp.Name = "buttonFolderUp";
-            this.buttonFolderUp.Size = new System.Drawing.Size(32, 23);
-            this.buttonFolderUp.TabIndex = 4;
-            this.buttonFolderUp.UseVisualStyleBackColor = true;
-            this.buttonFolderUp.Click += new System.EventHandler(this.buttonFolderUp_Click);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(653, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Size:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(683, 8);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(74, 21);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboSize_SelectedIndexChanged);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(51, 8);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(450, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Folder:";
+            this.tabControl1.TabIndex = 1;
             // 
             // tabPage2
             // 
@@ -1243,7 +1131,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(739, 167);
+            this.tabPage2.Size = new System.Drawing.Size(743, 167);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Primitives";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1266,10 +1154,10 @@
             this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
             this.listView2.ShowItemToolTips = true;
-            this.listView2.Size = new System.Drawing.Size(733, 161);
+            this.listView2.Size = new System.Drawing.Size(737, 161);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView2_MouseDoubleClick);
+            this.listView2.DoubleClick += new System.EventHandler(this.listView2_MouseDoubleClick);
             // 
             // imageList1
             // 
@@ -1278,38 +1166,6 @@
             this.imageList1.Images.SetKeyName(0, "primitive_rectangle.png");
             this.imageList1.Images.SetKeyName(1, "primitive_circle.png");
             this.imageList1.Images.SetKeyName(2, "primitive_path.png");
-            // 
-            // imageList48
-            // 
-            this.imageList48.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList48.ImageSize = new System.Drawing.Size(48, 48);
-            this.imageList48.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // imageList64
-            // 
-            this.imageList64.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList64.ImageSize = new System.Drawing.Size(64, 64);
-            this.imageList64.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // imageList128
-            // 
-            this.imageList128.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList128.ImageSize = new System.Drawing.Size(128, 128);
-            this.imageList128.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // imageList256
-            // 
-            this.imageList256.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList256.ImageSize = new System.Drawing.Size(256, 256);
-            this.imageList256.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // LevelContextMenu
             // 
@@ -1409,9 +1265,8 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.LevelContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1489,23 +1344,6 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem addCustomPropertyToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button chooseFolder;
-        private System.Windows.Forms.Button buttonFolderUp;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ImageList imageList48;
-        private System.Windows.Forms.ImageList imageList96;
-        private System.Windows.Forms.ImageList imageList64;
-        private System.Windows.Forms.ImageList imageList128;
-        private System.Windows.Forms.ImageList imageList256;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TabPage tabPage2;
-        public System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
@@ -1538,6 +1376,10 @@
         public System.Windows.Forms.ToolStripMenuItem ViewSnapToGrid;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        public System.Windows.Forms.ListView listView2;
         public EditorControl picturebox;
     }
 }

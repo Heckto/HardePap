@@ -61,7 +61,13 @@ namespace LevelEditor
                 cp.type = typeof(Item);
                 cp.value = null;
             }
-            
+            if (radioButton6.Checked)
+            {
+                cp.type = typeof(Rectangle);
+                cp.value = new Rectangle();
+            }
+
+
             customproperties[cp.name] = cp;
             this.Close();
         }

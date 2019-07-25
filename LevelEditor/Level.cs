@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-
+using System.ComponentModel;
 
 namespace LevelEditor
 {
@@ -26,12 +26,14 @@ namespace LevelEditor
         /// </summary>
         public List<Layer> Layers;
 
+
+
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
         public SerializableDictionary CustomProperties;
 
-
+        public String ContentPath { get; set; } = String.Empty;
         public Level()
         {
             Visible = true;
@@ -119,6 +121,7 @@ namespace LevelEditor
         /// </summary>
         public SerializableDictionary CustomProperties;
 
+        
 
         public Layer()
         {
@@ -221,13 +224,15 @@ namespace LevelEditor
         /// </summary>
         public String asset_name;
 
+
+        public Rectangle srcRectangle;
         /// <summary>
         /// The XNA texture to be drawn. Can be loaded either from file (using "texture_filename") 
         /// or via the Content Pipeline (using "asset_name") - then you must ensure that the texture
         /// exists as an asset in your project.
         /// Loading is done in the Item's load() method.
         /// </summary>
-        Texture2D texture;
+        //Texture2D texture;
 
         /// <summary>
         /// The item's origin relative to the upper left corner of the texture. Usually the middle of the texture.
@@ -266,7 +271,9 @@ namespace LevelEditor
             SpriteEffects effects = SpriteEffects.None;
             if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
             if (FlipVertically) effects |= SpriteEffects.FlipVertically;
-            sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
+            sb.Draw(MainForm.Instance.spriteSheets[texture_filename].Texture, Position, srcRectangle, TintColor, Rotation, Origin, Scale, effects, 0);
+
+            
         }
     }
 
@@ -389,6 +396,7 @@ namespace LevelEditor
                 if (type == "Vector2") cp.type = typeof(Vector2);
                 if (type == "Color") cp.type = typeof(Color);
                 if (type == "Item") cp.type = typeof(Item);
+                if (type == "Rectangle") cp.type = typeof(Rectangle);
 
                 if (cp.type == typeof(Item))
                 {
@@ -421,6 +429,7 @@ namespace LevelEditor
                 if (this[key].type == typeof(Vector2)) writer.WriteAttributeString("Type", "Vector2");
                 if (this[key].type == typeof(Color)) writer.WriteAttributeString("Type", "Color");
                 if (this[key].type == typeof(Item)) writer.WriteAttributeString("Type", "Item");
+                if (this[key].type == typeof(Rectangle)) writer.WriteAttributeString("Type", "Rectangle");
                 writer.WriteAttributeString("Description", this[key].description);
 
                 if (this[key].type == typeof(Item))

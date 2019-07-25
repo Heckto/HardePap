@@ -74,4 +74,15 @@ namespace LevelEditor
             Origin = org;
         }
     }
+
+    public class SpriteSheetDef
+    {
+        public string spriteSheet { get; set; }
+        public string spriteItem { get; set; }
+        public SpriteSheetDef(string sheet,string item)
+        {
+            spriteSheet = sheet;
+            spriteItem = item;
+        }
+    }
 }

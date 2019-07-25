@@ -50,6 +50,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CustomUITypeEditors\ItemSelector.Designer.cs" />
+    <Compile Include="CustomUITypeEditors\RectangleUITypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CustomUITypeEditors\Vector2UITypeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,7 +125,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SpriteSheet.cs" />
+    <Compile Include="SpriteSheetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SpriteSheetControl.Designer.cs">
+      <DependentUpon>SpriteSheetControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TextureLoader.cs" />
+    <Compile Include="TypeConverters\ValueTypeTypeConverter.cs" />
     <Compile Include="Vertices.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CustomUITypeEditors\ItemSelector.resx" />
+    <EmbeddedResource Include="CustomUITypeEditors\RectangleUITypeEditor.resx">
+      <DependentUpon>RectangleUITypeEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomUITypeEditors\Vector2UITypeEditor.resx" />
     <EmbeddedResource Include="Forms\AddCustomProperty.resx">
       <DependentUpon>AddCustomProperty.cs</DependentUpon>
@@ -199,6 +212,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpriteSheetControl.resx">
+      <DependentUpon>SpriteSheetControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

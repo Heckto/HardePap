@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Forms = System.Windows.Forms;
 using CustomUITypeEditors;
 using System.Windows.Forms;
 using System.IO;
 
 namespace LevelEditor
 {
-    
+
     public partial class TextureItem
     {
         //for per-pixel-collision
@@ -29,9 +18,6 @@ namespace LevelEditor
         Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
         
         Vector2[] polygon;              //selection box: drawn when selected
-
-        [XmlIgnore()]
-        public string texture_fullpath;
 
         [XmlIgnore()]
         [DisplayName("Origin"), Category(" General")]
@@ -113,52 +99,23 @@ namespace LevelEditor
             set { FlipVertically = value; }
         }
 
-        public TextureItem(String fullpath, Vector2 position) : base()
+        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect) : base()
         {
-            this.texture_fullpath = fullpath;
+            this.texture_filename = fullpath;
+            this.asset_name = Path.GetFileNameWithoutExtension(fullpath);
             this.Position = position;
             this.Rotation = 0;
             this.Scale = Vector2.One;
-            this.TintColor = Microsoft.Xna.Framework.Color.White;
+            this.TintColor = Color.White;
             FlipHorizontally = FlipVertically = false;
-            //loadIntoEditor();
-            this.Origin = getTextureOrigin(texture);
+            this.srcRectangle = srcRect;
+            this.Origin = getTextureOrigin(srcRect);
 
             //compensate for origins that are not at the center of the texture
-            Vector2 center = new Vector2(texture.Width / 2, texture.Height / 2);
+            Vector2 center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
             this.Position -= (center - Origin);
 
-
             OnTransformed();
-        }
-
-        public override bool loadIntoEditor()
-        {
-            if (layer != null) this.texture_fullpath = System.IO.Path.Combine(layer.level.ContentRootFolder + "\\", texture_filename);
-
-            if (!File.Exists(texture_fullpath))
-            {
-                DialogResult dr = Forms.MessageBox.Show("The file \"" + texture_fullpath + "\" doesn't exist!\n"
-                    + "The texture path is a combination of the Level's ContentRootFolder and the TextureItem's relative path.\n"
-                    + "Please adjust the XML file before trying to load this level again.\n"
-                    + "For now, a dummy texture will be used. Continue loading the level?", "Error loading texture file",
-                    MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Error);
-                if (dr == DialogResult.No) return false;
-                texture = MainForm.Instance.picturebox.dummytexture;
-            }
-            else
-            {
-                texture = TextureLoader.Instance.FromFile(MainForm.Instance.picturebox.GraphicsDevice, texture_fullpath);
-            }
-            
-            //for per-pixel-collision
-            coldata = new Color[texture.Width * texture.Height];
-            texture.GetData(coldata);
-
-            polygon = new Vector2[4];
-
-            OnTransformed();
-            return true;
         }
 
         public override Item clone()
@@ -177,6 +134,13 @@ namespace LevelEditor
 
         public override void OnTransformed()
         {
+            
+            coldata = new Color[srcRectangle.Width * srcRectangle.Height];
+            MainForm.Instance.spriteSheets[texture_filename].Texture.GetData<Color>(0, srcRectangle, coldata, 0, srcRectangle.Width * srcRectangle.Height);
+
+            polygon = new Vector2[4];
+
+
             transform =
                 Matrix.CreateTranslation(new Vector3(-Origin.X, -Origin.Y, 0.0f)) *
                 Matrix.CreateScale(Scale.X, Scale.Y, 1) *
@@ -184,15 +148,18 @@ namespace LevelEditor
                 Matrix.CreateTranslation(new Vector3(Position, 0.0f));
 
             Vector2 leftTop = new Vector2(0, 0);
-            Vector2 rightTop = new Vector2(texture.Width, 0);
-            Vector2 leftBottom = new Vector2(0, texture.Height);
-            Vector2 rightBottom = new Vector2(texture.Width, texture.Height);
+            Vector2 rightTop = new Vector2(srcRectangle.Width, 0);
+            Vector2 leftBottom = new Vector2(0, srcRectangle.Height);
+            Vector2 rightBottom = new Vector2(srcRectangle.Width, srcRectangle.Height);
 
             // Transform all four corners into work space
             Vector2.Transform(ref leftTop, ref transform, out leftTop);
             Vector2.Transform(ref rightTop, ref transform, out rightTop);
             Vector2.Transform(ref leftBottom, ref transform, out leftBottom);
             Vector2.Transform(ref rightBottom, ref transform, out rightBottom);
+
+            //if (polygon == null)
+            //    polygon = new Vector2[4];
 
             polygon[0] = leftTop;
             polygon[1] = rightTop;
@@ -260,7 +227,7 @@ namespace LevelEditor
             if (pFlipVertically) se |= SpriteEffects.FlipVertically;
             Color c = TintColor;
             if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
-            sb.Draw(texture, Position, null, c, Rotation, Origin, Scale, se, 0);
+            sb.Draw(MainForm.Instance.spriteSheets[texture_filename].Texture, Position, srcRectangle, c, Rotation, Origin, Scale, se, 0);
         }
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
@@ -292,13 +259,13 @@ namespace LevelEditor
             int xB = (int)Math.Round(positionInB.X);
             int yB = (int)Math.Round(positionInB.Y);
 
-            if (FlipHorizontally) xB = texture.Width - xB;
-            if (FlipVertically) yB = texture.Height - yB;
+            if (FlipHorizontally) xB = srcRectangle.Width - xB;
+            if (FlipVertically) yB = srcRectangle.Height - yB;
 
             // If the pixel lies within the bounds of B
-            if (0 <= xB && xB < texture.Width && 0 <= yB && yB < texture.Height)
+            if (0 <= xB && xB < srcRectangle.Width && 0 <= yB && yB < srcRectangle.Height)
             {
-                Color colorB = coldata[xB + yB * texture.Width];
+                Color colorB = coldata[xB + yB * srcRectangle.Width];
                 if (colorB.A != 0)
                 {
                     return true;
@@ -309,25 +276,20 @@ namespace LevelEditor
 
 
 
-        public Vector2 getTextureOrigin(Texture2D texture)
+        public Vector2 getTextureOrigin(Rectangle srcRect)
         {
             switch (Constants.Instance.DefaultTextureOriginMethod)
             {
                 case TextureOriginMethodEnum.TextureCenter:
-                    return new Vector2(texture.Width / 2, texture.Height / 2);
-                case TextureOriginMethodEnum.Centroid:
-                    uint[] data = new uint[texture.Width * texture.Height];
-                    texture.GetData(data);
-                    Vertices verts = Vertices.CreatePolygon(data, texture.Width, texture.Height);
-                    return verts.GetCentroid();
+                    return new Vector2(srcRect.Width / 2, srcRect.Height / 2);
                 case TextureOriginMethodEnum.TopLeft:
                     return new Vector2(0, 0);
                 case TextureOriginMethodEnum.TopRight:
-                    return new Vector2(texture.Width, 0);
+                    return new Vector2(srcRect.Width, 0);
                 case TextureOriginMethodEnum.BottomLeft:
-                    return new Vector2(0, texture.Height);
+                    return new Vector2(0, srcRect.Height);
                 case TextureOriginMethodEnum.BottomRight:
-                    return new Vector2(texture.Width, texture.Height);
+                    return new Vector2(srcRect.Width, srcRect.Height);
             }
             return Vector2.Zero;
         }

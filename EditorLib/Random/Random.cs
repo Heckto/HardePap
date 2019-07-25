@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorLib.Rand
+namespace AuxLib.Rand
 {
     public static class Rand
     {

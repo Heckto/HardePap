@@ -1,11 +1,11 @@
 ﻿using System;
 using Game1.CollisionDetection;
-//using Game1.CollisionDetection.Sample.Basic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Humper.Sample.Basic;
+using AuxLib.Debug;
 using AuxLib;
 
 namespace Game666

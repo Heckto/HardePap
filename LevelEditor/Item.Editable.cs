@@ -67,6 +67,7 @@ namespace LevelEditor
 
         public virtual bool loadIntoEditor()
         {
+
             OnTransformed();
             return true;
         }

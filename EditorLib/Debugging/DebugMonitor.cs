@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AuxLib;
 
-namespace Game1.Helpers
+namespace AuxLib.Debug
 {
     public class DebugMonitor
     {

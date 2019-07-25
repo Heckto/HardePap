@@ -5,8 +5,13 @@ using System.Linq;
 using System.IO;
 using System;
 using Microsoft.Xna.Framework.Content;
-using Game1.Helpers;
-using AuxLib;
+using AuxLib.Debug;
+using AuxLib.Camera;
+using AuxLib.Input;
+using AuxLib.Sound;
+using AuxLib.ScreenManagement;
+using Game1.Screens;
+using Game1.Settings;
 
 namespace Game1
 {
@@ -15,33 +20,36 @@ namespace Game1
     /// </summary>
     public class DemoGame : Game
     {
-        Camera camera;
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Level lvl;
-        bool debug = true;
-        FpsMonitor monitor;
-        Player player;
-        KeyboardState pState;
-        SpriteFont font;
-
-        public static DebugMonitor DebugMonitor = new DebugMonitor();
+        BoundedCamera camera;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private GameStateManager gameManager;
+        private InputHandler inputHandler;
+        private SoundManager soundManager;
         public static ContentManager ContentManager;
 
-        public Vector2 spawnLocation = new Vector2(4800, 0);
-        
+        public string commandParam = string.Empty;
 
-        public DemoGame()
+
+        public DemoGame(string param = "")
         {
             graphics = new GraphicsDeviceManager(this);
-            
-            ContentManager = this.Content;            
-            Content.RootDirectory = "Content";
-            monitor = new FpsMonitor();
-            
-            
-            DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
+            Services.AddService(graphics);
+            gameManager = new GameStateManager(this);
+            Services.AddService(gameManager);
+            soundManager = new SoundManager();
+            Services.AddService(soundManager);
 
+
+            inputHandler = new InputHandler(this);
+            Components.Add(inputHandler);
+            Components.Add(gameManager);
+
+            
+            var settings = GameSettings.LoadFromFile();
+            Services.AddService(settings);
+
+            commandParam = param;
         }
 
         /// <summary>
@@ -54,15 +62,29 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             
-            base.Initialize();
+            
 
+            
 
-            //graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
-            //graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;            
+            Content.RootDirectory = "Content";
+            ContentManager = Content;
+            Services.AddService(Content);
+
             graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
             graphics.ApplyChanges();
             Window.IsBorderless = true;
+
+            camera = new BoundedCamera(GraphicsDevice.Viewport);
+
+            Services.AddService(camera);
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(spriteBatch);
+
+            
+
+            base.Initialize();
         }
 
         /// <summary>
@@ -71,41 +93,15 @@ namespace Game1
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = this.Content.Load<SpriteFont>("DiagnosticsFont");
-            DebugMonitor.Initialize(font);
-            var a = System.Reflection.Assembly.GetEntryAssembly().Location;
-            var path = Path.Combine(Path.GetDirectoryName(a), "Content");
-            lvl = Level.FromFile($"{path}\\ass.xml", Content);
-
-            player = new Player(spawnLocation, lvl.CollisionWorld);
-            player.LoadContent(Content);
-
-            
-
-            SpawnPlayer();
-
-            camera = new Camera(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)
-            {
-                Position = new Vector2(100, 1200)
-            };           
+            if (!String.IsNullOrEmpty(commandParam))
+                gameManager.ChangeState(new PlayState(this,commandParam));
+            else
+                gameManager.ChangeState(new TitleIntroState(this));
+            // Create a new SpriteBatch, which can be used to draw textures.            
+            base.LoadContent();
         }
 
-        public void SpawnPlayer()
-        {
-            if (player != null)
-            {
-                lvl.HandlePlayerDraw -= player.Draw;
-                lvl.CollisionWorld.Remove(player.playerCol);               
-                
-            }
-
-            player = new Player(spawnLocation, lvl.CollisionWorld);
-            player.LoadContent(Content);
-            lvl.HandlePlayerDraw += player.Draw;
-        }
+        
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -125,26 +121,7 @@ namespace Game1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            var currentState = Keyboard.GetState();
-
-            if (currentState.IsKeyUp(Keys.D) && pState.IsKeyDown(Keys.D))
-                debug = !debug;
-            if (currentState.IsKeyUp(Keys.S) && pState.IsKeyDown(Keys.S))
-                SpawnPlayer();
-
-            player.Update(gameTime,camera);
-
-
-            //Console.WriteLine(player.playerCol.Grounded);
-            monitor.Update();
-            DebugMonitor.Update(gameTime);
-
             base.Update(gameTime);
-
-
-
-            pState = currentState;
         }
 
         /// <summary>
@@ -153,13 +130,7 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);            
-            lvl.draw(spriteBatch, font,camera, debug);
-            //player.Draw(spriteBatch,camera);
-
-            if(debug)
-                DebugMonitor.Draw(spriteBatch);
-
+            GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
         }
     }

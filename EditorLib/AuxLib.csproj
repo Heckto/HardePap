@@ -7,8 +7,8 @@
     <ProjectGuid>{3CDEC9B0-7B51-43A2-8DCA-5BC7F5D96CB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EditorLib</RootNamespace>
-    <AssemblyName>EditorLib</AssemblyName>
+    <RootNamespace>AuxLib</RootNamespace>
+    <AssemblyName>AuxLib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\BoundedCamera.cs" />
     <Compile Include="Debugging\DebugMonitor.cs" />
     <Compile Include="Debugging\FPSMonitor.cs" />
+    <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Math\Constants.cs" />
     <Compile Include="Debugging\Debug.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -58,6 +60,12 @@
     <Compile Include="Math\RectangleF.cs" />
     <Compile Include="Math\Vector2.cs" />
     <Compile Include="Random\Random.cs" />
+    <Compile Include="ScreenManagement\GameState.cs" />
+    <Compile Include="ScreenManagement\GameStateManager.cs" />
+    <Compile Include="ScreenManagement\IGameStateManager.cs" />
+    <Compile Include="ScreenManagement\MenuComponent.cs" />
+    <Compile Include="Serialization\XMLFileLoader.cs" />
+    <Compile Include="Sound\SoundManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

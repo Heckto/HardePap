@@ -155,6 +155,7 @@ namespace LevelEditor
         public override object GetEditor(Type editorBaseType)
         {
             if (sdict[key].type == typeof(Vector2)) return new Vector2UITypeEditor();
+            if (sdict[key].type == typeof(Rectangle)) return new RectangleUITypeEditor();
             if (sdict[key].type == typeof(Color)) return  new XNAColorUITypeEditor();
             if (sdict[key].type == typeof(Item)) return new ItemUITypeEditor();
             

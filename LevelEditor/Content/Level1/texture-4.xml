@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="texture-4.png" width="1157" height="1146" scale="1" format="RGBA8888">
+  <sprite n="Tree_2.png" x="0" y="0" w="505" h="1146" pX="0.5" pY="0.5" oX="42" oY="42" oW="585" oH="1238"/>
+  <sprite n="Tree_Big_1.png" x="505" y="0" w="652" h="1036" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+</TextureAtlas>

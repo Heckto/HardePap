@@ -1,14 +1,12 @@
 ﻿using System;
-//using RectangleF = Game1.CollisionDetection.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AuxLib
+namespace AuxLib.Debug
 {
     public static class Debug
     {
         private static Texture2D pixel;
-        private static SpriteFont font;
 
         //Draw rectangle
         public static void DrawRectangle(this SpriteBatch spriteBatch, RectangleF rect, Color color)

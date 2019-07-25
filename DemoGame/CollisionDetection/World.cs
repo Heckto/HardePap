@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using AuxLib.Debug;
 using AuxLib;
 using Game1.CollisionDetection.Responses;
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="texture-0.png" width="2048" height="2046" scale="1" format="RGBA8888">
+  <sprite n="Shadowed_Area_2.png" x="0" y="0" w="1870" h="1336" pX="0.5" pY="0.5" oX="65" oY="45" oW="1980" oH="1440"/>
+  <sprite n="Rocktower_1.png" x="0" y="1336" w="478" h="710" pX="0.5" pY="0.5" oX="47" oY="48" oW="585" oH="810"/>
+  <sprite n="Tree_1.png" x="478" y="1336" w="291" h="706" pX="0.5" pY="0.5" oX="40" oY="37" oW="360" oH="788"/>
+  <sprite n="Cloud_1.png" x="769" y="1336" w="1279" h="85" pX="0.5" pY="0.5" oX="36" oY="45" oW="1350" oH="180"/>
+  <sprite n="Grass_2.png" x="1870" y="0" w="166" h="181" pX="0.5" pY="0.5" oX="29" oY="18" oW="225" oH="225"/>
+  <sprite n="Grass_3.png" x="1870" y="181" w="128" h="133" pX="0.5" pY="0.5" oX="27" oY="22" oW="180" oH="180"/>
+  <sprite n="Cloud_2.png" x="769" y="1421" w="1227" h="257" pX="0.5" pY="0.5" oX="10" oY="26" oW="1260" oH="315"/>
+  <sprite n="Dead_Tree_4.png" x="769" y="1678" w="387" h="362" pX="0.5" pY="0.5" oX="22" oY="21" oW="428" oH="405"/>
+  <sprite n="Ground_Grass.png" x="1156" y="1678" w="874" h="123" pX="0.5" pY="0.5" oX="50" oY="37" oW="968" oH="203"/>
+  <sprite n="Dead_Tree_6.png" x="1156" y="1801" w="456" h="242" pX="0.5" pY="0.5" oX="31" oY="24" oW="518" oH="293"/>
+  <sprite n="Platform_sml_2.png" x="1612" y="1801" w="331" h="212" pX="0.5" pY="0.5" oX="26" oY="28" oW="383" oH="270"/>
+</TextureAtlas>

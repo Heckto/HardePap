@@ -11,7 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Forms = System.Windows.Forms;
-using AuxLib;
+using AuxLib.Logging;
+using AuxLib.Camera;
 
 namespace LevelEditor
 {
@@ -904,7 +905,7 @@ namespace LevelEditor
                 destroyTextureBrush();
                 return;
             }
-            Item i = new TextureItem(currentbrush.spriteName, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));
+            Item i = new TextureItem(currentbrush.spriteSheet, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y), MainForm.Instance.spriteSheets[currentbrush.spriteSheet].SpriteDef[currentbrush.spriteName].SrcRectangle);
             i.Name = i.getNamePrefix() + level.getNextItemNumber();
             i.layer = SelectedLayer;
             beginCommand("Add Item \"" + i.Name + "\"");
@@ -1027,7 +1028,7 @@ namespace LevelEditor
             return null;*/
         }
 
-        public void loadLevel(Level l)
+        public async void loadLevel(Level l)
         {
             if (l.ContentRootFolder == null)
             {
@@ -1066,19 +1067,19 @@ namespace LevelEditor
                 }
             }
 
-            level = l;
-            MainForm.Instance.loadfolder(level.ContentRootFolder);
-            if (level.Name == null) level.Name = "Level_01";
+            
+            MainForm.Instance.LoadFolderContent(l.ContentRootFolder);
+            if (l.Name == null) l.Name = "Level_01";
 
 
             SelectedLayer = null;
-            if (level.Layers.Count > 0) SelectedLayer = level.Layers[0];
+            if (l.Layers.Count > 0) SelectedLayer = l.Layers[0];
             SelectedItems.Clear();
 
 
 
             camera = new Camera(MainForm.Instance.picturebox.Width, MainForm.Instance.picturebox.Height);
-            camera.Position = level.EditorRelated.CameraPosition;
+            camera.Position = l.EditorRelated.CameraPosition;
             MainForm.Instance.zoomcombo.Text = "100%";
             undoBuffer.Clear();
             redoBuffer.Clear();
@@ -1088,7 +1089,11 @@ namespace LevelEditor
             MainForm.Instance.redoButton.Enabled = MainForm.Instance.redoMenuItem.Enabled = redoBuffer.Count > 0;
             commandInProgress = false;
 
+            level = l;
+
             updatetreeview();
+
+            
         }
 
         public void updatetreeview()

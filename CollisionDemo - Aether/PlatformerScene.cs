@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using AuxLib;
+using AuxLib.Debug;
 using System.Diagnostics;
 using tainicom.Aether.Physics2D;
 using tainicom.Aether.Physics2D.Common;
@@ -31,19 +32,19 @@ namespace Game666
     public enum Activity { None,Idle, Jumping, Running };
 
     public class PlatformerScene : WorldScene
-	{
+    {
 
         protected KeyboardState keyState;
         protected KeyboardState oldState;
 
         private const int MaxJump = 2;
-        private int JumpCnt = 0;
+        //private int JumpCnt = 0;
         private DebugView _debugView;
 
         private Vector2 playerSize = new Vector2(20, 48);
-		public PlatformerScene()
-		{
-            
+        public PlatformerScene()
+        {
+
 
         }
 
@@ -58,32 +59,32 @@ namespace Game666
         private Vector2 jumpForce;
         private float jumpDelayTime;
 
-        private const float nextJumpDelayTime = 0f;
-        private const float runSpeed = 40;
+        private const float nextJumpDelayTime = 0.5f;
+        private const float runSpeed = 25;
         private const float jumpImpulse = -20;
         private const float restitution = 0.0f;
         private const float friction = 0.1f;
 
-        public void LoadContent(GraphicsDevice graphics,ContentManager content)
+        public void LoadContent(GraphicsDevice graphics, ContentManager content)
         {
             _debugView.LoadContent(graphics, content);
         }
         public override void Initialize()
-		{
-            
-            
+        {
+
+
             this.World = new World();
             _debugView = new DebugView(World);
-            
+
             World.Gravity = new Vector2(0, 10f);
 
-			this.SpawnPlayer(playerSize.X,playerSize.Y,new Vector2(400,75));
+            this.SpawnPlayer(playerSize.X, playerSize.Y, new Vector2(400, 75));
 
             // Map
-            rectangleList.Add(new Rectangle(0,0, 20, 300));
+            rectangleList.Add(new Rectangle(0, 0, 20, 300));
             rectangleList.Add(new Rectangle(120, 200, 50, 20));
 
-            polyLineList.Add( new Vector2[] {
+            polyLineList.Add(new Vector2[] {
                          new Vector2(170,200),
                          new Vector2(230, 175),
                          new Vector2(270, 200),
@@ -123,7 +124,7 @@ namespace Game666
             rectangleList.Add(new Rectangle(900, 80, 220, 20));
             rectangleList.Add(new Rectangle(900, 280, 200, 20));
 
-            
+
             polyLineList.Add(new Vector2[] {
                          new Vector2(900,280),
                          new Vector2(920, 260),
@@ -144,11 +145,11 @@ namespace Game666
             foreach (var r in rectangleList)
             {
                 var origin = new Vector2(r.Width / 2, r.Height / 2);
-                var b = World.CreateRectangle(ConvertUnits.ToSimUnits(r.Width), ConvertUnits.ToSimUnits(r.Height), 1f, new Vector2(ConvertUnits.ToSimUnits(r.X+origin.X), ConvertUnits.ToSimUnits(r.Y+origin.Y)));
+                var b = World.CreateRectangle(ConvertUnits.ToSimUnits(r.Width), ConvertUnits.ToSimUnits(r.Height), 1f, new Vector2(ConvertUnits.ToSimUnits(r.X + origin.X), ConvertUnits.ToSimUnits(r.Y + origin.Y)));
                 b.BodyType = BodyType.Static;
                 b.SetCollisionCategories(Category.Cat2);
             }
-            foreach(var polyLine in polyLineList)
+            foreach (var polyLine in polyLineList)
             {
                 for (var pIdx = 0; pIdx < polyLine.Length - 1; pIdx++)
                 {
@@ -156,13 +157,13 @@ namespace Game666
                     e.SetCollisionCategories(Category.Cat3);
                 }
             }
-            
+
         }
 
-		private void SpawnPlayer(float width,float height,Vector2 position)
-		{
+        private void SpawnPlayer(float width, float height, Vector2 position)
+        {
             float upperBodyHeight = height - (width / 2);
-            var mass = 80;            
+            var mass = 80;
             upperBody = World.CreateRectangle((float)ConvertUnits.ToSimUnits(width), (float)ConvertUnits.ToSimUnits(upperBodyHeight), mass / 2);
             upperBody.BodyType = BodyType.Dynamic;
             upperBody.SetRestitution(restitution);
@@ -174,7 +175,7 @@ namespace Game666
             upperBody.FixedRotation = true;
             upperBody.SetCollisionCategories(Category.Cat1);
 
-            upperBody.OnCollision += UpperBody_OnCollision;
+            upperBody.OnCollision += OnCollision;
             //Create a wheel as wide as the whole object
             var wheel = World.CreateCircle((float)ConvertUnits.ToSimUnits(width / 2), mass / 2);
             //And position its center at the bottom of the upper body
@@ -185,62 +186,50 @@ namespace Game666
 
             //These two bodies together are width wide and height high :)
             //So lets connect them together
-            
+
             motor = JointFactory.CreateRevoluteJoint(World, upperBody, wheel, Vector2.Zero);
             motor.MotorEnabled = true;
             motor.MaxMotorTorque = 10000f; //set this higher for some more juice
-            motor.MotorSpeed = 0;           
-
-            //Make sure the two fixtures don't collide with each other
-            //wheel.CollisionFilter.IgnoreCollisionWith(fixture);
-            //fixture.CollisionFilter.IgnoreCollisionWith(wheel);
+            motor.MotorSpeed = 0;
 
             //Set the friction of the wheel to float.MaxValue for fast stopping/starting
             //or set it higher to make the character slip.
             wheel.SetFriction(float.MaxValue);
             wheel.SetCollisionCategories(Category.Cat1);
-            wheel.OnCollision += Wheel_OnCollision;
+            wheel.OnCollision += OnCollision;
         }
 
-        private bool UpperBody_OnCollision(Fixture sender, Fixture other, tainicom.Aether.Physics2D.Dynamics.Contacts.Contact contact)
+
+        private bool OnCollision(Fixture sender, Fixture other, tainicom.Aether.Physics2D.Dynamics.Contacts.Contact contact)
         {
-            
-            //if (other.CollisionCategories.HasFlag(Category.Cat3) && sender.Body.LinearVelocity.Y <= 0)
-              //  return false;                
-            return true;
-        }
 
-        private bool Wheel_OnCollision(Fixture sender, Fixture other, tainicom.Aether.Physics2D.Dynamics.Contacts.Contact contact)
-        {            
-                //Check if we are both jumping this frame and last frame
-                //so that we ignore the initial collision from jumping away from 
-                //the ground
-            if (activity == Activity.Jumping && oldActivity == Activity.Jumping)
+            if (activity == Activity.Jumping && oldActivity == Activity.Jumping && sender.Body != upperBody)
             {
                 activity = Activity.None;
+                return true;
             }
             return true;
-        
+
         }
 
         public override void Update(GameTime time)
-		{
+        {
             World.Step((float)(time.ElapsedGameTime.TotalMilliseconds * 0.001));
             HandleInput(time);
         }
 
-		private Vector2 velocity = Vector2.Zero;
-		private KeyboardState state;
+        private Vector2 velocity = Vector2.Zero;
+        private KeyboardState state;
 
         public override void Draw(SpriteBatch sb, SpriteFont font)
         {
-            foreach(var r in rectangleList)
+            foreach (var r in rectangleList)
             {
                 var o = new Vector2(r.Width / 2, r.Height / 2);
                 sb.DrawRectangle(r, Color.Blue);
             }
 
-            var projection = Matrix.CreateOrthographicOffCenter(0f,ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Width),ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Height), 0f, 0f,1f);
+            var projection = Matrix.CreateOrthographicOffCenter(0f, ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Width), ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Height), 0f, 0f, 1f);
             _debugView.RenderDebugData(ref projection);
 
         }
@@ -276,8 +265,7 @@ namespace Game666
             {
                 if (jumpDelayTime >= 0)
                 {
-                    //motor.MotorSpeed = 0;
-                    jumpForce.X = upperBody.LinearVelocity.X;
+                    motor.MotorSpeed = 0;
                     jumpForce.Y = jumpImpulse;
                     upperBody.ApplyLinearImpulse(jumpForce, upperBody.Position);
                     jumpDelayTime = -nextJumpDelayTime;
@@ -291,19 +279,23 @@ namespace Game666
                 {
                     if (upperBody.LinearVelocity.X < 0)
                     {
-                        upperBody.LinearVelocity = new Vector2(-upperBody.LinearVelocity.X * 5, upperBody.LinearVelocity.Y);
+                        upperBody.LinearVelocity = new Vector2(-upperBody.LinearVelocity.X, upperBody.LinearVelocity.Y);
                     }
-                    else
-                        upperBody.LinearVelocity = new Vector2(-1, upperBody.LinearVelocity.Y);
+                    if (upperBody.LinearVelocity.X > 0)
+                    {
+                        upperBody.LinearVelocity = new Vector2(3, upperBody.LinearVelocity.Y);
+                    }
                 }
                 else if (keyState.IsKeyDown(Keys.Left))
                 {
                     if (upperBody.LinearVelocity.X > 0)
                     {
-                        upperBody.LinearVelocity = new Vector2(-upperBody.LinearVelocity.X * 5, upperBody.LinearVelocity.Y);
+                        upperBody.LinearVelocity = new Vector2(-upperBody.LinearVelocity.X, upperBody.LinearVelocity.Y);
                     }
-                    else
-                        upperBody.LinearVelocity = new Vector2(1, upperBody.LinearVelocity.Y);
+                    if (upperBody.LinearVelocity.X < 0)
+                    {
+                        upperBody.LinearVelocity = new Vector2(-3, upperBody.LinearVelocity.Y);
+                    }
                 }
             }
 

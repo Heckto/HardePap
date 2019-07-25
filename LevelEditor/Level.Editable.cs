@@ -10,6 +10,7 @@ using System.Drawing.Design;
 using System.Windows.Forms;
 using CustomUITypeEditors;
 using Microsoft.Xna.Framework;
+using System.Threading.Tasks;
 
 namespace LevelEditor
 {
@@ -19,6 +20,9 @@ namespace LevelEditor
         public string selectedlayers;
         [XmlIgnore()]
         public string selecteditems;
+
+        public delegate void onContentDirectorySelect(string folder);
+        public event onContentDirectorySelect onContentDirectorySelected;
 
         public class EditorVars
         {
@@ -42,8 +46,11 @@ namespace LevelEditor
             set
             {
                 EditorRelated.ContentRootFolder = value;
+                onContentDirectorySelected?.Invoke(value);
             }
         }
+
+
 
         EditorVars editorrelated = new EditorVars();
         [Browsable(false)]
@@ -78,7 +85,7 @@ namespace LevelEditor
                     if (i is TextureItem)
                     {
                         TextureItem ti = (TextureItem)i;
-                        ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_fullpath);
+                        ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_filename);
                         ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
                     }
                 }

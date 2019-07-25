@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace AuxLib
+namespace AuxLib.Logging
 {
     public class Logger
     {

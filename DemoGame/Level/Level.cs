@@ -9,13 +9,13 @@ using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
-
+using AuxLib.Camera;
 
 namespace Game1
 {
     public partial class Level
     {
-        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb,Camera camera);
+        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb,BoundedCamera camera);
         public event HandlePlayerDrawDelegate HandlePlayerDraw;
 
 
@@ -36,11 +36,17 @@ namespace Game1
         [XmlIgnore]
         public World CollisionWorld;
 
+        [XmlIgnore]
+        public Dictionary<string, Texture2D> spritesheets;
+
+        [XmlIgnore]
+        public Rectangle Bounds;
+
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
         public SerializableDictionary CustomProperties;
-
+        public String ContentPath { get; set; } = String.Empty;
 
         public Level()
         {
@@ -50,7 +56,7 @@ namespace Game1
             
         }
 
-        public static Level FromFile(string filename, ContentManager cm)
+        public static Level FromFile(string filename)
         {
             var stream = File.Open(filename, FileMode.Open);
             var serializer = new XmlSerializer(typeof(Level));
@@ -61,32 +67,58 @@ namespace Game1
             {
                 foreach (var item in layer.Items)
                 {
-                    item.CustomProperties.RestoreItemAssociations(level);
-                    item.load(cm);
+                    item.CustomProperties.RestoreItemAssociations(level);                 
                 }
             }
 
+            
+            return level;
+        }
 
-            var bounds = level.getLevelBounds();
-            level.CollisionWorld = new World(bounds.Width, bounds.Height);
+        public void LoadContent(ContentManager cm)
+        {
+            spritesheets = new Dictionary<string, Texture2D>();
+            foreach (var layer in Layers)
+            {
+                foreach (var item in layer.Items)
+                {
+                    if (item is TextureItem)
+                    {
+                        var asset = (item as TextureItem).asset_name;
+                        var assetName = ContentPath + "/" + asset;
+                        if (!spritesheets.ContainsKey(asset))
+                        {
+                            var texture = cm.Load<Texture2D>(assetName);
+                            spritesheets.Add(asset, texture);
+                        }
+                    }
+                    
+                }
+            }
 
-            var l = level.Layers.FirstOrDefault(elem => elem.Name == "collision");
+            Bounds = (Rectangle)CustomProperties["bounds"].value;
+        }
+
+        public void GenerateCollision()
+        {
+            var bounds = getLevelBounds();
+            CollisionWorld = new World(bounds.Width, bounds.Height);
+
+            var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
                 {
                     var rec = elem as RectangleItem;
-                    level.CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(CollisionTag.StaticBlock);
+                    CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(CollisionTag.StaticBlock);
                 }
                 else if (elem is PathItem)
                 {
                     var path = elem as PathItem;
                     var newList = path.WorldPoints.Select(v => new Vector2f(v.X, v.Y));
-                    level.CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(CollisionTag.PolyLine);
+                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(CollisionTag.PolyLine);
                 }
             }
-
-            return level;
         }
 
         public Item getItemByName(string name)
@@ -103,38 +135,48 @@ namespace Game1
 
         public Layer getLayerByName(string name)
         {
-            foreach (Layer layer in Layers)
+            foreach (var layer in Layers)
             {
                 if (layer.Name == name) return layer;
             }
             return null;
         }
 
-        public void draw(SpriteBatch sb,SpriteFont font,Camera camera, bool debug=false)
+        public void draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
         {
-            foreach (Layer layer in Layers)
+            foreach (var layer in Layers)
             {
-
-
-
                 if (layer.Name == "player")
                 {
                     HandlePlayerDraw?.Invoke(sb, camera);
                 }
                 else
                 {
-                    var maincameraposition = camera.Position;
-                    camera.Position *= layer.ScrollSpeed;
-                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
-                    layer.draw(sb);
-                    camera.Position = maincameraposition;
-                    sb.End();
+                    if (layer.Visible)
+                    { 
+                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
+                        {
+                            foreach (Item item in layer.Items)
+                            {
+                                if (item.Visible && item is TextureItem)
+                                {
+                                    var texItem = item as TextureItem;
+                                    SpriteEffects effects = SpriteEffects.None;
+                                    if (texItem.FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
+                                    if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
+                                    sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
+                                }
+                                
+                            }
+                        }
+                        sb.End();
+                    }
                 }
             }
 
             if (debug)
             {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix); ;
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
                 var b = CollisionWorld.Bounds;
                 CollisionWorld.DrawDebug(sb,font,(int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
                 sb.End();
@@ -144,11 +186,14 @@ namespace Game1
         public Rectangle getLevelBounds()
         {
             var worldBounds = Rectangle.Empty;
-            foreach(var l in Layers)
+            foreach (var l in Layers)
             {
-                foreach (var item in l.Items)
+                if (l.Name != "collision" && l.Name != "background")
                 {
-                    worldBounds = Rectangle.Union(worldBounds,item.getBoundingBox());
+                    foreach (var item in l.Items)
+                    {
+                        worldBounds = Rectangle.Union(worldBounds, item.getBoundingBox());
+                    }
                 }
             }
             return worldBounds;
@@ -197,8 +242,8 @@ namespace Game1
 
         public void draw(SpriteBatch sb)
         {
-            if (!Visible) return;
-            foreach (Item item in Items) item.draw(sb);
+            //if (!Visible) return;
+            //foreach (Item item in Items) item.draw(sb);
 
             
         }
@@ -248,7 +293,7 @@ namespace Game1
         {
         }
 
-        public virtual void draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb)
         {
         }
 
@@ -299,7 +344,7 @@ namespace Game1
         /// exists as an asset in your project.
         /// Loading is done in the Item's load() method.
         /// </summary>
-        Texture2D texture;
+        public Rectangle srcRectangle;
 
         /// <summary>
         /// The item's origin relative to the upper left corner of the texture. Usually the middle of the texture.
@@ -327,25 +372,25 @@ namespace Game1
             //..this.texture = Texture2D.FromFile(, texture_filename);
             //or by using the Content Pipeline:
 
-            var ass = Path.GetFileNameWithoutExtension(asset_name);
-            this.texture = cm.Load<Texture2D>("Level/" + ass);
+            //var ass = Path.GetFileNameWithoutExtension(asset_name);
+            //this.texture = cm.Load<Texture2D>("Level/" + ass);
 
         }
 
         
 
-        public override void draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
-            if (!Visible) return;
-            SpriteEffects effects = SpriteEffects.None;
-            if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
-            if (FlipVertically) effects |= SpriteEffects.FlipVertically;
-            sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
+            //if (!Visible) return;
+            //SpriteEffects effects = SpriteEffects.None;
+            //if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
+            //if (FlipVertically) effects |= SpriteEffects.FlipVertically;
+            //sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
         }
 
         public override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)Position.X, (int)Position.Y, (int)(texture.Width * Scale.X), (int)(texture.Height * Scale.Y));
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)(srcRectangle.Width * Scale.X), (int)(srcRectangle.Height * Scale.Y));
         }
     }
 
@@ -488,7 +533,7 @@ namespace Game1
                 if (type == "Vector2") cp.type = typeof(Vector2);
                 if (type == "Color") cp.type = typeof(Color);
                 if (type == "Item") cp.type = typeof(Item);
-
+                if (type == "Rectangle") cp.type = typeof(Rectangle);
                 if (cp.type == typeof(Item))
                 {
                     cp.value = reader.ReadInnerXml();

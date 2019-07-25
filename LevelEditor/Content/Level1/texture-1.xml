@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="texture-1.png" width="2034" height="2037" scale="1" format="RGBA8888">
+  <sprite n="Mountain.png" x="0" y="0" w="1785" h="324" pX="0.5" pY="0.5" oX="51" oY="36" oW="1890" oH="405"/>
+  <sprite n="Shrub_3.png" x="1785" y="0" w="249" h="324" pX="0.5" pY="0.5" oX="22" oY="21" oW="293" oH="360"/>
+  <sprite n="Shadowed_Area_3.png" x="0" y="324" w="1746" h="1358" pX="0.5" pY="0.5" oX="67" oY="38" oW="1868" oH="1463"/>
+  <sprite n="TreeLines.png" x="0" y="1682" w="909" h="355" pX="0.5" pY="0.5" oX="40" oY="27" oW="990" oH="428"/>
+  <sprite n="Shrub_4.png" x="909" y="1682" w="214" h="341" pX="0.5" pY="0.5" oX="29" oY="20" oW="270" oH="383"/>
+  <sprite n="Platform_End.png" x="1746" y="324" w="267" h="319" pX="0.5" pY="0.5" oX="41" oY="35" oW="338" oH="360"/>
+  <sprite n="Shrub_5.png" x="1746" y="643" w="267" h="312" pX="0.5" pY="0.5" oX="24" oY="23" oW="315" oH="360"/>
+  <sprite n="Platform_3.png" x="1123" y="1682" w="813" h="329" pX="0.5" pY="0.5" oX="43" oY="22" oW="900" oH="383"/>
+  <sprite n="Shrub_1.png" x="1746" y="955" w="243" h="194" pX="0.5" pY="0.5" oX="25" oY="25" oW="293" oH="248"/>
+  <sprite n="Platform_Slope.png" x="1746" y="1149" w="207" h="480" pX="0.5" pY="0.5" oX="43" oY="32" oW="293" oH="540"/>
+</TextureAtlas>

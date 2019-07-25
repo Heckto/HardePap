@@ -230,4 +230,21 @@ namespace LevelEditor
         }
 
     }
+
+    public class BoundedRectangle
+    {
+        public BoundedRectangle() { }
+        public BoundedRectangle(int x,int y,int w,int h)
+        {
+            X = x;
+            Y = y;
+            Width = w;
+            Height = h;
+        }
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
 }

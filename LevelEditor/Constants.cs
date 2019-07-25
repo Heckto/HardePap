@@ -8,7 +8,7 @@ namespace LevelEditor
 {
     public enum TextureOriginMethodEnum
     {
-        TextureCenter, Centroid, TopLeft, TopRight, BottomLeft, BottomRight
+        TextureCenter, TopLeft, TopRight, BottomLeft, BottomRight
     }
 
     public class Constants

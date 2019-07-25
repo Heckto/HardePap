@@ -11,9 +11,13 @@ namespace Game1
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            using (var game = new DemoGame())
+            if (args.Length > 0)
+                using (var game = new DemoGame(args[0]))
+                    game.Run();
+            else
+                using (var game = new DemoGame())
                 game.Run();
         }
     }
