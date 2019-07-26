@@ -37,6 +37,9 @@ namespace Game1
         private KeyboardState p_state;
         public MoveableBody playerCol;
 
+        public delegate void onTransitionDelegate(Player sender, string level);
+        public event onTransitionDelegate onTransition;
+
         private FaceDirection dir = FaceDirection.Right;
 
         public Vector2 Position { get { return new Vector2(playerCol.X, playerCol.Y) + 0.5f * scale * hitBoxSize; } }
@@ -48,7 +51,7 @@ namespace Game1
             current_animation = "Jump";
             playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
             
-            (playerCol as IBox).AddTags(CollisionTag.Player);
+            (playerCol as IBox).AddTags(ItemTypes.Player);
 
             PlayState.DebugMonitor.AddDebugValue(this,"current_animation");
             PlayState.DebugMonitor.AddDebugValue(this,"trajectory");
@@ -154,9 +157,11 @@ namespace Game1
             #region Collision
             var move = (playerCol).Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
             {
-                if (collision.Other.HasTag(CollisionTag.Trigger))
+                if (collision.Other.HasTag(ItemTypes.Transition))
                 {
-                    return CollisionResponses.Cross;
+                    
+                    onTransition?.Invoke(this,"Level1.xml");
+                    return CollisionResponses.Slide;
                 }
                 if (collision.Hit.Normal.Y < 0)
                 {
@@ -170,7 +175,7 @@ namespace Game1
                 return CollisionResponses.Slide;
             });
 
-            if (move.Hits.Any((c) => c.Box.HasTag(CollisionTag.PolyLine, CollisionTag.StaticBlock) && (c.Normal.Y < 0)))
+            if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
                 mCurrentState = CharState.Grounded;
                 playerCol.Grounded = true;

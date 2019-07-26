@@ -809,13 +809,6 @@ namespace LevelEditor
             }
         }
 
-        private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-           
-
-        }
-
-
 
         private void RunLevel(object sender, EventArgs e)
         {

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using CustomUITypeEditors;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using AuxLib;
 
 namespace LevelEditor
 {
@@ -55,6 +56,8 @@ namespace LevelEditor
         [Editor(typeof(XNAColorUITypeEditor), typeof(UITypeEditor))]
         [XmlIgnore()]
         public Color pFillColor { get { return FillColor; } set { FillColor = value; } }
+
+        public ItemTypes ItemType { get; set; }
 
         Rectangle Rectangle;
         int initialwidth, initialheight;

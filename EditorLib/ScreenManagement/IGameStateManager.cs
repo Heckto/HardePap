@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuxLib.ScreenManagement.Transitions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,9 @@ namespace AuxLib.ScreenManagement
         GameState State { get; }
         void PopState();
         void PushState(GameState state);
+        void PushState(GameState newState, Transition transition);
         bool ContainsState(GameState state);
         void ChangeState(GameState newState);
+        void ChangeState(GameState newState, Transition transition);
     }    
 }

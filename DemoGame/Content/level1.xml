@@ -3806,6 +3806,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
+                    <ItemType>PolyLine</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0048" Visible="true">
                     <Position>
@@ -3822,6 +3823,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
+                    <ItemType>StaticBlock</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0049" Visible="true">
                     <Position>
@@ -3838,6 +3840,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
+                    <ItemType>StaticBlock</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0050" Visible="true">
                     <Position>
@@ -3854,6 +3857,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
+                    <ItemType>StaticBlock</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0051" Visible="true">
                     <Position>
@@ -3870,6 +3874,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
+                    <ItemType>StaticBlock</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0054" Visible="true">
                     <Position>
@@ -3994,6 +3999,41 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
+                    <ItemType>PolyLine</ItemType>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0184" Visible="true">
+                    <Position>
+                        <X>3241</X>
+                        <Y>3415</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>112</Width>
+                    <Height>483</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>Transition</ItemType>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0185" Visible="true">
+                    <Position>
+                        <X>14738</X>
+                        <Y>3038</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>128</Width>
+                    <Height>582</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>Transition</ItemType>
                 </Item>
             </Items>
             <ScrollSpeed>
@@ -4457,8 +4497,8 @@
                 </Item>
                 <Item xsi:type="TextureItem" Name="Texture_0181" Visible="true">
                     <Position>
-                        <X>9929</X>
-                        <Y>2885</Y>
+                        <X>9921</X>
+                        <Y>2899</Y>
                     </Position>
                     <CustomProperties />
                     <Rotation>0</Rotation>
@@ -4861,11 +4901,11 @@
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>181</NextItemNumber>
+        <NextItemNumber>185</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>11185.9766</X>
-            <Y>2745.99341</Y>
+            <X>5262.92871</X>
+            <Y>3290.418</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

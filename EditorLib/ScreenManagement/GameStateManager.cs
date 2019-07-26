@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using AuxLib.ScreenManagement.Transitions;
 
 namespace AuxLib.ScreenManagement
 {
@@ -12,6 +13,7 @@ namespace AuxLib.ScreenManagement
         private int initialDrawOrder = 1000;
         private int drawOrder;
         public GameStateManager(Game game) : base(game) { }
+        private Transition activeTransition;
 
         public void PopState()
         {
@@ -38,6 +40,30 @@ namespace AuxLib.ScreenManagement
             //Let everyone know we just changed states
             OnStateChange?.Invoke(this, null);
         }
+
+        public void PushState(GameState newState,Transition transition)
+        {
+            drawOrder += 100;
+            newState.DrawOrder = drawOrder;
+
+            if (activeTransition != null)
+                return;
+
+            activeTransition = transition;
+            activeTransition.StateChanged += (sender, args) =>
+            {
+
+                ChangeState(newState);
+                //Let everyone know we just changed states
+                OnStateChange?.Invoke(this, null);
+            };
+            activeTransition.Completed += (sender, args) =>
+            {
+                activeTransition.Dispose();
+                activeTransition = null;
+            };
+        }
+
         private void AddState(GameState state)
         {
             state.Initialize();
@@ -49,16 +75,31 @@ namespace AuxLib.ScreenManagement
 
         public void ChangeState(GameState newState)
         {
-            //We are changing states, so pop everything ...
-            //if we don’t want to really change states but just modify,
-            //we should call PushState and PopState
             while (states.Count > 0)
                 RemoveState();
-            //changing state, reset our draw order
             newState.DrawOrder = drawOrder = initialDrawOrder;
             AddState(newState);
-            //Let everyone know we just changed states
             OnStateChange?.Invoke(this, null);
+        }
+
+        public void ChangeState(GameState newState, Transition transition)
+        {
+            while (states.Count > 0)
+                RemoveState();
+            newState.DrawOrder = drawOrder = initialDrawOrder;
+            activeTransition = transition;
+            activeTransition.StateChanged += (sender, args) =>
+            {
+                AddState(newState);
+                //Let everyone know we just changed states
+                OnStateChange?.Invoke(this, null);
+            };
+            activeTransition.Completed += (sender, args) =>
+            {
+                activeTransition.Dispose();
+                activeTransition = null;
+            };
+            
         }
 
         public bool ContainsState(GameState state)
@@ -73,6 +114,7 @@ namespace AuxLib.ScreenManagement
 
         public override void Draw(GameTime gameTime)
         {
+            
             var statesList = states.ToArray();
             for(var i=statesList.Length-1;i >= 0; i--)
             {
@@ -81,11 +123,14 @@ namespace AuxLib.ScreenManagement
                 if (statesList[i].BlockDrawing)
                     break;
             }
+            activeTransition?.Draw(gameTime);
             base.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
+            activeTransition?.Update(gameTime);
+        
             var statesList = states.ToArray();
             foreach (var state in statesList)
             {

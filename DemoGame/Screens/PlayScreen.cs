@@ -12,6 +12,7 @@ using System.IO;
 using Game1.Settings;
 using Microsoft.Xna.Framework.Content;
 using AuxLib.Camera;
+using AuxLib.ScreenManagement.Transitions;
 
 namespace Game1.Screens
 {
@@ -45,6 +46,17 @@ namespace Game1.Screens
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
 
             lvlFile = LevelFile;
+
+            
+        }
+
+        private void Player_onTransition(Player sender,string level)
+        {
+            sender.onTransition -= Player_onTransition;
+            var levelfile = Path.Combine(Content.RootDirectory, "Level1.xml");
+            // push our start menu onto the stack
+            GameManager.PushState(new PlayState(OurGame, levelfile), new FadeTransition(graphics.GraphicsDevice, Color.Black,2.0f));
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -127,6 +139,7 @@ namespace Game1.Screens
 
             player = new Player(spawnLocation, lvl.CollisionWorld);
             player.LoadContent(Content);
+            player.onTransition += Player_onTransition;
             lvl.HandlePlayerDraw += player.Draw;
         }
 

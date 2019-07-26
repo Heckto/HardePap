@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 using System;
+using AuxLib;
 
 namespace LevelEditor
 {
@@ -27,7 +28,7 @@ namespace LevelEditor
         [XmlIgnore()]
         public Color pLineColor { get { return LineColor; } set { LineColor = value; } }
 
-
+        public ItemTypes ItemType { get; set; }
 
         int pointundermouse = -1;
         int pointgrabbed = -1;

@@ -10,6 +10,7 @@ using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
 using AuxLib.Camera;
+using Microsoft.Xna.Framework.Media;
 
 namespace Game1
 {
@@ -41,6 +42,9 @@ namespace Game1
 
         [XmlIgnore]
         public Rectangle Bounds;
+
+        [XmlIgnore]
+        public Song bgTheme;
 
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
@@ -96,6 +100,14 @@ namespace Game1
                 }
             }
 
+            bgTheme = cm.Load<Song>(@"sfx\Level1");
+            MediaPlayer.Play(bgTheme);
+            MediaPlayer.Volume = 0.3f;
+
+            //  Uncomment the following line will also loop the song
+            //  MediaPlayer.IsRepeating = true;
+            MediaPlayer.IsRepeating = true;
+
             Bounds = (Rectangle)CustomProperties["bounds"].value;
         }
 
@@ -108,15 +120,15 @@ namespace Game1
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
-                {
-                    var rec = elem as RectangleItem;
-                    CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(CollisionTag.StaticBlock);
+                {                    
+                    var rec = elem as RectangleItem;                    
+                    CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
                 }
                 else if (elem is PathItem)
                 {
                     var path = elem as PathItem;
                     var newList = path.WorldPoints.Select(v => new Vector2f(v.X, v.Y));
-                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(CollisionTag.PolyLine);
+                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(ItemTypes.PolyLine);
                 }
             }
         }
@@ -400,6 +412,7 @@ namespace Game1
         public float Width;
         public float Height;
         public Color FillColor;
+        public ItemTypes ItemType { get; set; }
 
         public RectangleItem()
         {
@@ -416,6 +429,7 @@ namespace Game1
     {
         public float Radius;
         public Color FillColor;
+        public ItemTypes ItemType { get; set; }
 
         public CircleItem()
         {
@@ -435,6 +449,7 @@ namespace Game1
         public bool IsPolygon;
         public int LineWidth;
         public Color LineColor;
+        public ItemTypes ItemType { get; set; }
 
         public PathItem()
         {

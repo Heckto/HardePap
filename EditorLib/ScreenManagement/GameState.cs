@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AuxLib.Input;
 
+
 namespace AuxLib.ScreenManagement
 {
     public abstract partial class GameState : DrawableGameComponent, IGameState
@@ -15,6 +16,7 @@ namespace AuxLib.ScreenManagement
         protected IGameStateManager GameManager;
         protected IInputHandler Input;
         protected Rectangle TitleSafeArea;
+        
 
         public GameState(Game game) : base(game)
         {

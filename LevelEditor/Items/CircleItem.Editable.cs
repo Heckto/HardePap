@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Windows.Forms;
+using AuxLib;
 
 namespace LevelEditor
 {
@@ -20,7 +21,7 @@ namespace LevelEditor
         [Editor(typeof(XNAColorUITypeEditor), typeof(UITypeEditor))]
         [XmlIgnore()]
         public Color pFillColor { get { return FillColor; } set { FillColor = value; } }
-
+        public ItemTypes ItemType { get; set; }
 
         public CircleItem(Vector2 startpos, float radius)
             : base()
