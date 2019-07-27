@@ -101,11 +101,9 @@ namespace Game1
             }
 
             bgTheme = cm.Load<Song>(@"sfx\Level1");
-            MediaPlayer.Play(bgTheme);
+            if (MediaPlayer.State != MediaState.Playing)
+                MediaPlayer.Play(bgTheme);
             MediaPlayer.Volume = 0.3f;
-
-            //  Uncomment the following line will also loop the song
-            //  MediaPlayer.IsRepeating = true;
             MediaPlayer.IsRepeating = true;
 
             Bounds = (Rectangle)CustomProperties["bounds"].value;
@@ -113,7 +111,11 @@ namespace Game1
 
         public void GenerateCollision()
         {
-            var bounds = getLevelBounds();
+            var bounds = Rectangle.Empty;
+            if (Name == "Level_01")
+                bounds = getLevelBounds();
+            else if (Name == "Level_02")
+                bounds = Bounds;
             CollisionWorld = new World(bounds.Width, bounds.Height);
 
             var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
@@ -122,7 +124,13 @@ namespace Game1
                 if (elem is RectangleItem)
                 {                    
                     var rec = elem as RectangleItem;                    
-                    CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
+                    var box = CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
+                    if (rec.ItemType == ItemTypes.Transition)
+                    {
+                        box.Data = rec;
+                    }
+                    
+
                 }
                 else if (elem is PathItem)
                 {
@@ -158,7 +166,7 @@ namespace Game1
         {
             foreach (var layer in Layers)
             {
-                if (layer.Name == "player")
+                if (layer.Name == "collision")
                 {
                     HandlePlayerDraw?.Invoke(sb, camera);
                 }

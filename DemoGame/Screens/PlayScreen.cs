@@ -30,18 +30,16 @@ namespace Game1.Screens
 
         public static DebugMonitor DebugMonitor = new DebugMonitor();
 
-        public Vector2 spawnLocation = new Vector2(3500, 3300);
-        
+        //public Vector2 spawnLocation = new Vector2(3500, 3300);
+        //public Vector2 spawnLocation = new Vector2(300, 1200);
+
 
         public PlayState(DemoGame game,string LevelFile) : base(game)
         {            
             graphics = game.Services.GetService<GraphicsDeviceManager>();
             spriteBatch = game.Services.GetService<SpriteBatch>();
-
             camera = game.Services.GetService<BoundedCamera>();
-
             settings = game.Services.GetService<GameSettings>();
-
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
 
@@ -53,7 +51,7 @@ namespace Game1.Screens
         private void Player_onTransition(Player sender,string level)
         {
             sender.onTransition -= Player_onTransition;
-            var levelfile = Path.Combine(Content.RootDirectory, "Level1.xml");
+            var levelfile = Path.Combine(Content.RootDirectory, level);
             // push our start menu onto the stack
             GameManager.PushState(new PlayState(OurGame, levelfile), new FadeTransition(graphics.GraphicsDevice, Color.Black,2.0f));
             
@@ -112,7 +110,7 @@ namespace Game1.Screens
                 var bounds = (Rectangle)lvl.CustomProperties["bounds"].value;
 
                 lvl.GenerateCollision();
-
+                var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
                 player = new Player(spawnLocation, lvl.CollisionWorld);
                 player.LoadContent(Content);
 
@@ -137,6 +135,7 @@ namespace Game1.Screens
 
             }
 
+            var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
             player = new Player(spawnLocation, lvl.CollisionWorld);
             player.LoadContent(Content);
             player.onTransition += Player_onTransition;

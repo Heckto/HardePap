@@ -1055,6 +1055,8 @@ namespace LevelEditor
                 }
             }
 
+            
+
             TextureLoader.Instance.Clear();
 
             foreach (var layer in l.Layers)
@@ -1067,8 +1069,8 @@ namespace LevelEditor
                 }
             }
 
-            
             MainForm.Instance.LoadFolderContent(l.ContentRootFolder);
+
             if (l.Name == null) l.Name = "Level_01";
 
 

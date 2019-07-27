@@ -33,10 +33,10 @@ namespace AuxLib.ScreenManagement.Transitions
             var y = halfHeight * (1.0f - Value);
             var width = _graphicsDevice.Viewport.Width * Value;
             var height = _graphicsDevice.Viewport.Height * Value;
-            var rectangle = new RectangleF(x, y, width, height);
+            var rectangle = new Rectangle((int)x,(int) y, (int)width, (int)height);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.DrawFill(_graphicsDevice.Viewport.Bounds, Color * Value);
+            _spriteBatch.DrawFill(rectangle, Color);
             _spriteBatch.End();
         }
     }

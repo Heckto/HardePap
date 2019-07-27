@@ -159,8 +159,10 @@ namespace Game1
             {
                 if (collision.Other.HasTag(ItemTypes.Transition))
                 {
-                    
-                    onTransition?.Invoke(this,"Level1.xml");
+                    var item = collision.Other.Data as RectangleItem;
+                    var lvl = item.CustomProperties["map"].value.ToString();
+                    var f = Path.ChangeExtension(lvl, ".xml");
+                    onTransition?.Invoke(this, f);
                     return CollisionResponses.Slide;
                 }
                 if (collision.Hit.Normal.Y < 0)

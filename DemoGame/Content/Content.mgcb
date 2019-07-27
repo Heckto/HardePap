@@ -99,6 +99,9 @@
 #begin Level1/texture-4.xml
 /copy:Level1/texture-4.xml
 
+#begin level2.xml
+/copy:level2.xml
+
 #begin Misc/logo.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

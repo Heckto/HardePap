@@ -4006,7 +4006,11 @@
                         <X>3241</X>
                         <Y>3415</Y>
                     </Position>
-                    <CustomProperties />
+                    <CustomProperties>
+                        <Property Name="map" Type="string" Description="">
+                            <string>level2</string>
+                        </Property>
+                    </CustomProperties>
                     <Width>112</Width>
                     <Height>483</Height>
                     <FillColor>
@@ -4023,7 +4027,11 @@
                         <X>14738</X>
                         <Y>3038</Y>
                     </Position>
-                    <CustomProperties />
+                    <CustomProperties>
+                        <Property Name="map" Type="string" Description="Level2">
+                            <string>level2</string>
+                        </Property>
+                    </CustomProperties>
                     <Width>128</Width>
                     <Height>582</Height>
                     <FillColor>
@@ -4898,14 +4906,20 @@
                 </Size>
             </Rectangle>
         </Property>
+        <Property Name="spawnVector" Type="Vector2" Description="">
+            <Vector2>
+                <X>3500</X>
+                <Y>3300</Y>
+            </Vector2>
+        </Property>
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
         <NextItemNumber>185</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>5262.92871</X>
-            <Y>3290.418</Y>
+            <X>7307.92969</X>
+            <Y>2515.418</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

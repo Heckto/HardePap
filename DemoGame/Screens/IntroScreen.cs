@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AuxLib.Input;
 using System.IO;
+using AuxLib.ScreenManagement.Transitions;
 
 namespace Game1.Screens
 {
@@ -41,9 +42,7 @@ namespace Game1.Screens
                 sound.Play();
                 var levelfile = Path.Combine(Content.RootDirectory, "Level1.xml");
                 // push our start menu onto the stack
-                GameManager.ChangeState(new PlayState(OurGame, levelfile));
-                //GameManager.ChangeState(new FadingState(OurGame));
-
+                GameManager.PushState(new PlayState(OurGame, levelfile), new ExpandTransition(graphics.GraphicsDevice,Color.Black, 2.0f));
             }
             base.Update(gameTime);
         }
