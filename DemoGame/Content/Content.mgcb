@@ -126,6 +126,9 @@
 /processorParam:TextureFormat=Color
 /build:Misc/unmunnielogo.png
 
+#begin PlayerSprite.xml
+/copy:PlayerSprite.xml
+
 #begin Player/Attack__000.png
 /importer:TextureImporter
 /processor:TextureProcessor

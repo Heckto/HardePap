@@ -14,77 +14,52 @@ using AuxLib;
 using Game1.Screens;
 using AuxLib.Input;
 using AuxLib.Camera;
+using Game1.Sprite;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Game1
 {
-    public class Player
+    public class Player : SpriteObject
     {
-        private float scale = 0.5f;
-        public const float acc = -35f;
-        public const float gravity = 0.0012f;
-        public const float friction = 0.001f;
-        public const float jumpForce = 1.0f;
         private int JumpCnt = 0;
         private int MaxJumpCount = 2;
 
-        public CharState mCurrentState = CharState.Air;
-        Vector2 trajectory = Vector2.Zero;
-        Vector2 hitBoxSize = new Vector2(220, 400);
-
-        public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
-        Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
-        private string current_animation;
         private KeyboardState p_state;
         public MoveableBody playerCol;
+
+        public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
 
         public delegate void onTransitionDelegate(Player sender, string level);
         public event onTransitionDelegate onTransition;
 
-        private FaceDirection dir = FaceDirection.Right;
-
-        public Vector2 Position { get { return new Vector2(playerCol.X, playerCol.Y) + 0.5f * scale * hitBoxSize; } }
-        private Vector2 colBodySize;
+        public override Vector2 Position { get { return new Vector2(playerCol.X, playerCol.Y) + 0.5f * scale * hitBoxSize; } }
 
         public Player(Vector2 loc, World world)
         {
             colBodySize = scale * hitBoxSize;
-            current_animation = "Jump";
             playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
             
             (playerCol as IBox).AddTags(ItemTypes.Player);
 
-            PlayState.DebugMonitor.AddDebugValue(this,"current_animation");
+            //PlayState.DebugMonitor.AddDebugValue(this,"current_animation");
             PlayState.DebugMonitor.AddDebugValue(this,"trajectory");
         }
 
-        public FaceDirection Direction
+        public override void LoadContent(ContentManager cm)
         {
-            get { return dir; }
-            set
-            {
-                if (dir != value)
-                    dir = value;
-            }
-        }
+            LoadFromFile(cm, @"Content\PlayerSprite.xml");
 
-        public void LoadContent(ContentManager cm)
-        {
-            for (var idx=0;idx < animation_name.Length;idx++)
-            {
-                animations.Add(animation_name[idx], new Animation(animation_name[idx],cm));
-
-            }
+            CurrentAnimation = Animations["Jump"];
         }
 
         public void setAnimation(string name)
         {
-            if (animations.ContainsKey(name))
-                current_animation = name;
+            if (Animations.ContainsKey(name))
+                CurrentAnimation = Animations[name];
         }
 
-        
-
-        public void Update(GameTime gameTime, IInputHandler Input)
+        public override void Update(GameTime gameTime, IInputHandler Input)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             KeyboardState kstate;
@@ -113,7 +88,7 @@ namespace Game1
                 else
                     
                     trajectory.X = acc * friction * delta;
-                dir = FaceDirection.Left;
+                Direction = FaceDirection.Left;
             }
             else if (keyRight)
             {
@@ -126,7 +101,7 @@ namespace Game1
                     trajectory.X = -acc * friction * delta;
 
                 }
-                dir = FaceDirection.Right;
+                Direction = FaceDirection.Right;
             }
             else if (!keyLeft && !keyRight && mCurrentState == CharState.Grounded)
             {
@@ -191,66 +166,12 @@ namespace Game1
                 setAnimation("Jump");
             }
 
-
-
-
             #endregion
-            animations[current_animation].Update(gameTime);
+            CurrentAnimation.Update(gameTime);
             p_state = kstate;
         }      
-
-        public void Draw(SpriteBatch spriteBatch,BoundedCamera camera)
-        {
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
-            var flip = (dir == FaceDirection.Right);
-
-            var tex = animations[current_animation].frames[animations[current_animation].frame_idx];
-            var Origin = new Vector2(tex.Width / 2,tex.Height /2);
-            var ass = scale * colBodySize;
-            var dRect = new Rectangle((int)(playerCol.Bounds.X), (int)(playerCol.Bounds.Y), (int)(tex.Width), (int)(tex.Height));
-            spriteBatch.Draw(tex, Position, null,Color.White, 0.0f, Origin, scale, (flip ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 1.0f);
-          
-            spriteBatch.End();
-        }
     }
 
-    public class Animation
-    {
-        public Texture2D[] frames = new Texture2D[10];
-        public int frame_idx = 0;
-        float frameTime = 0.05f;
-        float timeout = 0f;
-
-        public Animation(string name, ContentManager cm)
-        {
-            for (var idx = 0; idx < 10; idx++)
-            {
-                var asset_name = "Player/" + name + $"__00{idx}";                
-                frames[idx] = cm.Load<Texture2D>(asset_name);
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            float et = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timeout += et;
-
-            if (timeout > (float)frameTime)
-            {
-                frame_idx++;
-                if (frame_idx >= frames.Length)
-                    frame_idx = 0;
-                timeout = 0.0f;
-            }
-
-        }
-    }
-
-    public enum FaceDirection
-    {
-        Left,
-        Right
-    };
 
     public enum CharState
     {
