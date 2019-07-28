@@ -39,11 +39,10 @@ namespace Game1
         {
             colBodySize = scale * hitBoxSize;
             playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
-            
+
             (playerCol as IBox).AddTags(ItemTypes.Player);
 
-            //PlayState.DebugMonitor.AddDebugValue(this,"current_animation");
-            PlayState.DebugMonitor.AddDebugValue(this,"trajectory");
+            PlayState.DebugMonitor.AddDebugValue(this, "trajectory");
         }
 
         public override void LoadContent(ContentManager cm)
@@ -51,9 +50,12 @@ namespace Game1
             LoadFromFile(cm, @"Content\PlayerSprite.xml");
 
             CurrentAnimation = Animations["Jump"];
+            SaveToXml();
         }
 
-        public void setAnimation(string name)
+
+
+        public void SetAnimation(string name)
         {
             if (Animations.ContainsKey(name))
                 CurrentAnimation = Animations[name];
@@ -62,74 +64,91 @@ namespace Game1
         public override void Update(GameTime gameTime, IInputHandler Input)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            KeyboardState kstate;
-            kstate = Keyboard.GetState();
 
-            #region Update Location By Trajectory
-            
-            var keyLeft = Input.IsPressed(0,Buttons.LeftThumbstickLeft,Keys.Left);
-            var keyRight = Input.IsPressed(0, Buttons.LeftThumbstickRight, Keys.Right);
-            var keyJump = Input.IsPressed(0,Buttons.A,Keys.Space);
-            #endregion
-
-            trajectory.X = 0;
             // kijk of valt ???
             //trajectory.Y += delta * 0.001f;
-            
-            
-            #region Key input            
-            if (keyLeft )
-            {
-                if (mCurrentState == CharState.Grounded)
-                    setAnimation("Run");
 
+
+            HandleKeyInput(delta, Input);
+
+            HandleCollision(delta);
+
+            UpdateAnimation();
+
+            CurrentAnimation.Update(gameTime);
+
+        }
+
+        private void HandleKeyInput(float delta, IInputHandler Input)
+        {
+            var keyLeft = Input.IsPressed(0, Buttons.LeftThumbstickLeft, Keys.Left);
+            var keyRight = Input.IsPressed(0, Buttons.LeftThumbstickRight, Keys.Right);
+
+            var isKeyJump = Input.IsPressed(0, Buttons.A, Keys.Space);
+            var wasKeyJump = Input.WasPressed(0, Buttons.A, Keys.Space);
+
+            if (keyLeft)
+            {
                 if (trajectory.X > 0)
                     trajectory.X = 0;
                 else
-                    
                     trajectory.X = acc * friction * delta;
+
                 Direction = FaceDirection.Left;
             }
             else if (keyRight)
             {
-                if (mCurrentState == CharState.Grounded)
-                    setAnimation("Run");
                 if (trajectory.X < 0)
                     trajectory.X = 0;
                 else
-                {
                     trajectory.X = -acc * friction * delta;
 
-                }
                 Direction = FaceDirection.Right;
             }
-            else if (!keyLeft && !keyRight && mCurrentState == CharState.Grounded)
+            else if (trajectory.X != 0)
             {
-                setAnimation("Idle");
-            }
-            if (keyJump && p_state.IsKeyUp(Keys.Space) && mCurrentState == CharState.Grounded)
-            {
-                setAnimation("Jump");
-                trajectory.Y -= jumpForce;
-                mCurrentState = CharState.Air;
-                playerCol.Grounded = false;
-                JumpCnt++;
-            }
-            else if (keyJump && p_state.IsKeyUp(Keys.Space) && mCurrentState == CharState.Air && trajectory.Y >= 0 && JumpCnt == 1 && JumpCnt < MaxJumpCount)
-            {
-                setAnimation("Jump");
-                trajectory.Y -= jumpForce;
-                JumpCnt++;
+                trajectory.X = 0;
             }
 
-            if (mCurrentState == CharState.Air)
+            if(wasKeyJump)
             {
-                trajectory.Y += delta * gravity;
+                if (mCurrentState == CharState.Grounded)
+                {
+                    trajectory.Y -= jumpForce;
+                    mCurrentState = CharState.Air;
+                    playerCol.Grounded = false;
+                    JumpCnt++;
+                }
+                else if (mCurrentState == CharState.Air && JumpCnt > 0 && JumpCnt < MaxJumpCount)
+                {
+                    if (trajectory.Y < 0)
+                        trajectory.Y = -1 * jumpForce;
+                    else
+                        trajectory.Y -= jumpForce;
+                    JumpCnt++;
+                }
             }
-            #endregion
+            else if(isKeyJump)
+            {
+                if(mCurrentState == CharState.Air && trajectory.Y > 0)
+                {
+                    mCurrentState = CharState.Glide;
+                }
+            }
 
+            if (mCurrentState == CharState.Air || mCurrentState == CharState.Glide)
+            {
+                if (mCurrentState == CharState.Glide && !isKeyJump)
+                    mCurrentState = CharState.Air;
 
-            #region Collision
+                var multiplier = mCurrentState == CharState.Air ? 1f : 0.00001f;
+
+                trajectory.Y += delta * gravity * multiplier;
+            }
+        }
+
+        private void HandleCollision(float delta)
+        {
             var move = (playerCol).Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
             {
                 if (collision.Other.HasTag(ItemTypes.Transition))
@@ -163,19 +182,60 @@ namespace Game1
             {
                 trajectory.Y += delta * 0.001f;
                 playerCol.Grounded = false;
-                setAnimation("Jump");
+            }
+        }
+
+        private void UpdateAnimation()
+        {
+            switch (mCurrentState)
+            {
+                case CharState.Grounded:
+                    if (trajectory.X == 0)
+                        SetAnimation("Idle");
+                    else
+                        SetAnimation("Run");
+                    break;
+                case CharState.Air:
+                    SetAnimation("Jump");
+                    break;
+                case CharState.Glide:
+                    SetAnimation("Glide");
+                    break;
+            }
+        }
+
+        private void SaveToXml()
+        {
+            var xmlObject = new SpriteConfig();
+            xmlObject.SpriteName = "Player";
+            foreach (var animation in Animations)
+            {
+                var xmlAnimation = new SpriteAnimationConfig();
+
+                xmlAnimation.AnimationName = animation.Key;
+                xmlAnimation.Loop = true;
+
+                for (var idx = 0; idx < 10; idx++)
+                {
+                    var xmlFrame = new SpriteAnimationFrameConfig();
+
+                    xmlFrame.AssetName = "Player/" + xmlAnimation.AnimationName + $"__00{idx}";
+                    xmlFrame.FrameTime = 0.05f;
+
+                    xmlAnimation.Frames.Add(xmlFrame);
+                }
+
+                xmlObject.Animations.Add(xmlAnimation);
             }
 
-            #endregion
-            CurrentAnimation.Update(gameTime);
-            p_state = kstate;
-        }      
+            xmlObject.Serialize(Path.Combine(Directory.GetCurrentDirectory(), "PlayerSprite.xml"));
+        }
     }
-
 
     public enum CharState
     {
-        Grounded = 0,
-        Air = 1
+        Grounded    = 0x00,
+        Air         = 0x01,
+        Glide       = 0x02
     };
 }

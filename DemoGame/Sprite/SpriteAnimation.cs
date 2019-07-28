@@ -16,8 +16,11 @@ namespace Game1.Sprite
         public Texture2D[] Frames { get; set; } = new Texture2D[10];
         public int Frame_idx { get; set; } = 0;
 
-        private float frameTime = 0.05f;
-        private float timeout = 0f;
+        private float frameTime = 0.05f; // Total time a frame should be visible
+        private float frameRunTime = 0f; // Active time spent executing the current frame
+
+        private bool loop;
+
 
         public SpriteAnimation(string name, ContentManager cm)
         {
@@ -32,8 +35,8 @@ namespace Game1.Sprite
         public SpriteAnimation(ContentManager cm, SpriteAnimationConfig config)
         {
             AnimationName = config.AnimationName;
-            timeout = config.Timeout;
             frameTime = config.Frames.First().FrameTime;
+            loop = config.Loop;
 
             var frames = new List<Texture2D>();
             foreach (var frame in config.Frames)
@@ -44,14 +47,15 @@ namespace Game1.Sprite
         public void Update(GameTime gameTime)
         {
             float et = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            timeout += et;
+            frameRunTime += et;
 
-            if (timeout > (float)frameTime)
+            if (frameRunTime > (float)frameTime)
             {
-                Frame_idx++;
-                if (Frame_idx >= Frames.Length)
+                if (Frame_idx < Frames.Length -1)
+                    Frame_idx++;
+                else if (loop)
                     Frame_idx = 0;
-                timeout = 0.0f;
+                frameRunTime = 0.0f;
             }
         }
 

@@ -10,8 +10,9 @@ namespace Game1.Sprite
     {
         public string AnimationName { get; set; }
 
+        public bool Loop { get; set; }
+
         public List<SpriteAnimationFrameConfig> Frames { get; set; } = new List<SpriteAnimationFrameConfig>();
         
-        public float Timeout { get; set; }
     }
 }

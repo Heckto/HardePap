@@ -4,6 +4,7 @@
   <Animations>
     <SpriteAnimationConfig>
       <AnimationName>Idle</AnimationName>
+      <Loop>true</Loop>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Idle__000</AssetName>
@@ -46,10 +47,10 @@
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
-      <Timeout>0</Timeout>
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
       <AnimationName>Run</AnimationName>
+      <Loop>true</Loop>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Run__000</AssetName>
@@ -92,10 +93,10 @@
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
-      <Timeout>0</Timeout>
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
       <AnimationName>Attack</AnimationName>
+      <Loop>true</Loop>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Attack__000</AssetName>
@@ -138,10 +139,10 @@
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
-      <Timeout>0</Timeout>
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
       <AnimationName>Jump</AnimationName>
+      <Loop>true</Loop>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Jump__000</AssetName>
@@ -184,7 +185,52 @@
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
-      <Timeout>0</Timeout>
+    </SpriteAnimationConfig>
+	<SpriteAnimationConfig>
+      <AnimationName>Glide</AnimationName>
+      <Loop>true</Loop>
+      <Frames>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_000</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_001</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_002</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_003</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_004</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_005</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_006</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_007</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_008</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Player/Glide_009</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+      </Frames>
     </SpriteAnimationConfig>
   </Animations>
 </SpriteConfig>
