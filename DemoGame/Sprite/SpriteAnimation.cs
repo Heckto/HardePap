@@ -13,62 +13,86 @@ namespace Game1.Sprite
     public class SpriteAnimation
     {
         public string AnimationName { get; set; }
-        public Texture2D[] Frames { get; set; } = new Texture2D[10];
-        public int Frame_idx { get; set; } = 0;
+        public List<Texture2D> Frames { get; set; } = new List<Texture2D>();
 
+        public bool Loop { get; private set; }
+        public AnimationState AnimationState { get; private set; }
+
+        private int currentFrame = 0;
         private float frameTime = 0.05f; // Total time a frame should be visible
         private float frameRunTime = 0f; // Active time spent executing the current frame
 
-        private bool loop;
-
-
-        public SpriteAnimation(string name, ContentManager cm)
-        {
-            AnimationName = name;
-            for (var idx = 0; idx < 10; idx++)
-            {
-                var asset_name = "Player/" + name + $"__00{idx}";
-                Frames[idx] = cm.Load<Texture2D>(asset_name);
-            }
-        }
+        private Vector2 Offset;
 
         public SpriteAnimation(ContentManager cm, SpriteAnimationConfig config)
         {
             AnimationName = config.AnimationName;
             frameTime = config.Frames.First().FrameTime;
-            loop = config.Loop;
+            Loop = config.Loop;
+            Offset = new Vector2(config.OffsetX, config.OffsetY);
 
-            var frames = new List<Texture2D>();
+            Frames = new List<Texture2D>();
             foreach (var frame in config.Frames)
-                frames.Add(cm.Load<Texture2D>(frame.AssetName));
-            Frames = frames.ToArray();
+                Frames.Add(LoadTexture(cm, frame.AssetName));
+
+            AnimationState = AnimationState.Loaded;
+        }
+
+        private Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
+        private Texture2D LoadTexture(ContentManager cm, string assetName)
+        {
+            if (loadedTextures.ContainsKey(assetName))
+                return loadedTextures[assetName];
+            else
+                return cm.Load<Texture2D>(assetName);
+        }
+
+        public void Reset()
+        {
+            currentFrame = 0;
+            AnimationState = AnimationState.Loaded;
         }
 
         public void Update(GameTime gameTime)
         {
-            float et = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var et = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameRunTime += et;
 
-            if (frameRunTime > (float)frameTime)
+            if (frameRunTime > frameTime)
             {
-                if (Frame_idx < Frames.Length -1)
-                    Frame_idx++;
-                else if (loop)
-                    Frame_idx = 0;
+                AnimationState = AnimationState.Running;
+
+                if (currentFrame < Frames.Count() - 1)
+                    currentFrame++;
+                else if (Loop)
+                    currentFrame = 0;
+                else
+                    AnimationState = AnimationState.Finished;
                 frameRunTime = 0.0f;
             }
+
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, BoundedCamera camera, SpriteEffects flipEffects, Vector2 position, float scale)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
 
-            var tex = Frames[Frame_idx];
+            var tex = Frames[currentFrame];
             var Origin = new Vector2(tex.Width / 2, tex.Height / 2);
 
-            spriteBatch.Draw(tex, position, null, Color.White, 0.0f, Origin, scale, flipEffects, 1.0f);
+            var actualX = flipEffects == SpriteEffects.FlipHorizontally ? position.X - Offset.X : position.X + Offset.X;
+            var actualY = flipEffects == SpriteEffects.FlipVertically ? position.Y - Offset.Y : position.Y + Offset.Y; // TODO: Test this, no vertical flip yet
+
+            var actualPosition = new Vector2(actualX, actualY);
+            spriteBatch.Draw(tex, actualPosition, null, Color.White, 0.0f, Origin, scale, flipEffects, 1.0f);
 
             spriteBatch.End();
         }
+
+        public override string ToString() => $"{AnimationName}-{AnimationState}";
     }
+    
+    public enum AnimationState
+    { None, Loaded, Running, Finished}
 }

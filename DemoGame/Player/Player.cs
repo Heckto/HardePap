@@ -25,10 +25,7 @@ namespace Game1
         private int JumpCnt = 0;
         private int MaxJumpCount = 2;
 
-        private KeyboardState p_state;
         public MoveableBody playerCol;
-
-        public string[] animation_name = { "Idle", "Run", "Attack", "Jump" };
 
         public delegate void onTransitionDelegate(Player sender, string level);
         public event onTransitionDelegate onTransition;
@@ -42,6 +39,8 @@ namespace Game1
 
             (playerCol as IBox).AddTags(ItemTypes.Player);
 
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(mCurrentState));
             PlayState.DebugMonitor.AddDebugValue(this, "trajectory");
         }
 
@@ -53,12 +52,17 @@ namespace Game1
             SaveToXml();
         }
 
-
-
         public void SetAnimation(string name)
         {
             if (Animations.ContainsKey(name))
-                CurrentAnimation = Animations[name];
+            {
+                var animation = Animations[name];
+                if(CurrentAnimation != animation)
+                {
+                    animation.Reset();
+                    CurrentAnimation = animation;
+                }
+            }
         }
 
         public override void Update(GameTime gameTime, IInputHandler Input)
@@ -73,10 +77,7 @@ namespace Game1
 
             HandleCollision(delta);
 
-            UpdateAnimation();
-
-            CurrentAnimation.Update(gameTime);
-
+            UpdateAnimation(gameTime);
         }
 
         private void HandleKeyInput(float delta, IInputHandler Input)
@@ -87,6 +88,17 @@ namespace Game1
             var isKeyJump = Input.IsPressed(0, Buttons.A, Keys.Space);
             var wasKeyJump = Input.WasPressed(0, Buttons.A, Keys.Space);
 
+            var isKeyAttack = Input.IsPressed(0, Buttons.X, Keys.LeftControl);
+            var wasKeyAttack = Input.WasPressed(0, Buttons.X, Keys.LeftControl); //Charge Attacks?
+
+            if (mCurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
+            {
+                if (CurrentAnimation.AnimationState == AnimationState.Running)
+                    return;
+                else
+                    mCurrentState = CharState.Grounded;
+            }
+            
             if (keyLeft)
             {
                 if (trajectory.X > 0)
@@ -145,6 +157,12 @@ namespace Game1
 
                 trajectory.Y += delta * gravity * multiplier;
             }
+            else if (mCurrentState == CharState.Grounded && isKeyAttack)
+            {
+                trajectory.X = 0;
+                mCurrentState = CharState.GroundAttack;
+            }
+
         }
 
         private void HandleCollision(float delta)
@@ -173,7 +191,8 @@ namespace Game1
 
             if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
-                mCurrentState = CharState.Grounded;
+                if(mCurrentState != CharState.Grounded && mCurrentState != CharState.GroundAttack)
+                    mCurrentState = CharState.Grounded;
                 playerCol.Grounded = true;
                 trajectory.Y = delta * 0.001f;
                 JumpCnt = 0;
@@ -185,10 +204,13 @@ namespace Game1
             }
         }
 
-        private void UpdateAnimation()
+        private void UpdateAnimation(GameTime gameTime)
         {
             switch (mCurrentState)
             {
+                case CharState.GroundAttack:
+                    SetAnimation("Attack");
+                    break;
                 case CharState.Grounded:
                     if (trajectory.X == 0)
                         SetAnimation("Idle");
@@ -202,6 +224,8 @@ namespace Game1
                     SetAnimation("Glide");
                     break;
             }
+
+            CurrentAnimation.Update(gameTime);
         }
 
         private void SaveToXml()
@@ -214,6 +238,8 @@ namespace Game1
 
                 xmlAnimation.AnimationName = animation.Key;
                 xmlAnimation.Loop = true;
+                xmlAnimation.OffsetX = 0.0f;
+                xmlAnimation.OffsetY = 0.0f;
 
                 for (var idx = 0; idx < 10; idx++)
                 {
@@ -234,8 +260,9 @@ namespace Game1
 
     public enum CharState
     {
-        Grounded    = 0x00,
-        Air         = 0x01,
-        Glide       = 0x02
+        Grounded        = 0x01,
+        Air             = 0x02,
+        Glide           = 0x04,
+        GroundAttack    = 0x08,
     };
 }

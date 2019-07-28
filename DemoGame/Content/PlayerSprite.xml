@@ -5,6 +5,8 @@
     <SpriteAnimationConfig>
       <AnimationName>Idle</AnimationName>
       <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Idle__000</AssetName>
@@ -51,6 +53,8 @@
     <SpriteAnimationConfig>
       <AnimationName>Run</AnimationName>
       <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Run__000</AssetName>
@@ -96,7 +100,9 @@
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
       <AnimationName>Attack</AnimationName>
-      <Loop>true</Loop>
+      <Loop>false</Loop>
+      <OffsetX>50</OffsetX>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Attack__000</AssetName>
@@ -143,6 +149,8 @@
     <SpriteAnimationConfig>
       <AnimationName>Jump</AnimationName>
       <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Jump__000</AssetName>
@@ -186,9 +194,11 @@
         </SpriteAnimationFrameConfig>
       </Frames>
     </SpriteAnimationConfig>
-	<SpriteAnimationConfig>
+    <SpriteAnimationConfig>
       <AnimationName>Glide</AnimationName>
       <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
           <AssetName>Player/Glide_000</AssetName>
