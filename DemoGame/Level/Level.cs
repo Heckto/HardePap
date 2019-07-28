@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
+using AuxLib.Rand;
 using AuxLib.Camera;
 using Microsoft.Xna.Framework.Media;
 
@@ -100,7 +101,8 @@ namespace Game1
                 }
             }
 
-            bgTheme = cm.Load<Song>(@"sfx\Level1");
+            var song = Rand.GetRandomInt(1, 3);
+            bgTheme = cm.Load<Song>($"sfx\\Level{song}");
             if (MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(bgTheme);
             MediaPlayer.Volume = 0.3f;

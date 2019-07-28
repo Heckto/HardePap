@@ -15,7 +15,7 @@ namespace Game1.Sprite
     public abstract class SpriteObject
     {
         protected float scale = 0.5f;
-        public const float acc = -35f;
+        public const float acc = -45f;
         public const float gravity = 0.0012f;
         public const float friction = 0.001f;
         public const float jumpForce = 1.0f;
