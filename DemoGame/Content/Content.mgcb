@@ -21,6 +21,12 @@
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont;DiagnosticsFont
 
+#begin GFX/Water.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:GFX/Water.fx
+
 #begin level1.xml
 /copy:level1.xml
 
@@ -125,9 +131,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Misc/unmunnielogo.png
-
-#begin PlayerSprite.xml
-/copy:PlayerSprite.xml
 
 #begin Player/Attack__000.png
 /importer:TextureImporter
@@ -1460,6 +1463,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/Throw__009.png
+
+#begin PlayerSprite.xml
+/copy:PlayerSprite.xml
 
 #begin SFX/level1.mp3
 /importer:Mp3Importer

@@ -53,6 +53,12 @@ namespace Game1
         public SerializableDictionary CustomProperties;
         public String ContentPath { get; set; } = String.Empty;
 
+        private Effect waterEffect;
+        RenderTarget2D mainTarget;
+        RenderTarget2D waterTarget;
+        float waterDelta = 0.8f;
+        float waterTheta = 1.0f;
+
         public Level()
         {
             Visible = true;
@@ -80,7 +86,7 @@ namespace Game1
             return level;
         }
 
-        public void LoadContent(ContentManager cm)
+        public void LoadContent(ContentManager cm,GraphicsDevice device)
         {
             spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
@@ -100,6 +106,10 @@ namespace Game1
                     
                 }
             }
+
+            waterEffect = cm.Load<Effect>(@"GFX/Water");
+            mainTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
+            waterTarget = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
 
             var song = Rand.GetRandomInt(1, 3);
             bgTheme = cm.Load<Song>($"sfx\\Level{song}");
@@ -164,21 +174,57 @@ namespace Game1
             return null;
         }
 
-        public void draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
+        public void update(GameTime gameTime)
         {
-            foreach (var layer in Layers)
+            waterDelta += (float)(gameTime.ElapsedGameTime.TotalSeconds * 8f % (2 * Math.PI));
+            waterTheta += (float)(gameTime.ElapsedGameTime.TotalSeconds * 10f % (2 * Math.PI));
+        }
+
+        public void draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, GraphicsDevice device, bool debug=false)
+        {
+            if (Name == "Level_01")
             {
-                if (layer.Name == "collision")
+                foreach (var layer in Layers)
                 {
-                    HandlePlayerDraw?.Invoke(sb, camera);
-                }
-                else
-                {
-                    if (layer.Visible)
-                    { 
-                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
+                    if (layer.Name == "collision")
+                    {
+                        HandlePlayerDraw?.Invoke(sb, camera);
+                    }
+                    else
+                    {
+                        if (layer.Visible)
                         {
-                            foreach (Item item in layer.Items)
+                            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
+                            {
+                                foreach (Item item in layer.Items)
+                                {
+                                    if (item.Visible && item is TextureItem)
+                                    {
+                                        var texItem = item as TextureItem;
+                                        SpriteEffects effects = SpriteEffects.None;
+                                        if (texItem.FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
+                                        if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
+                                        sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
+                                    }
+
+                                }
+                            }
+                            sb.End();
+                        }
+                    }
+                }
+            }
+            else if (Name == "Level_02")
+            {                
+                device.SetRenderTarget(mainTarget);
+
+                for(var idx=0; idx < 4; idx++)
+                {
+                    if (Layers[idx].Visible)
+                    {
+                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(Layers[idx].ScrollSpeed));
+                        {
+                            foreach (Item item in Layers[idx].Items)
                             {
                                 if (item.Visible && item is TextureItem)
                                 {
@@ -188,13 +234,73 @@ namespace Game1
                                     if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
                                     sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
                                 }
-                                
+
                             }
                         }
                         sb.End();
                     }
                 }
+
+                device.SetRenderTarget(waterTarget);
+
+                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+                //float waterLevel = map.water - (.2f * screenSize.Y);
+                //float wLev = (GraphicsDevice.PresentationParameters.BackBufferHeight / 2f + waterLevel) / GraphicsDevice.PresentationParameters.BackBufferHeight;
+                float waterLevel = 2000; //- (.2f * device.PresentationParameters.BackBufferHeight);
+                float wLev = (device.PresentationParameters.BackBufferHeight / 2f + waterLevel - camera.Position.Y) / device.PresentationParameters.BackBufferHeight;
+                waterEffect.Parameters["delta"].SetValue(waterDelta);
+                waterEffect.Parameters["theta"].SetValue(waterTheta);
+                waterEffect.Parameters["horizon"].SetValue(0.4f);
+
+                waterEffect.CurrentTechnique.Passes[0].Apply();
+
+                sb.Draw(mainTarget, new Rectangle(0, 0, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight), Color.White);
+
+                sb.End();
+
+                device.SetRenderTarget(null);
+
+                
+                
+
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(mainTarget, new Vector2(),Color.White);
+                sb.Draw(waterTarget, new Rectangle(0,(int)(waterLevel - camera.Position.Y), device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight), Color.White);
+                sb.End();
+
+
+                for (var idx = 4; idx < Layers.Count; idx++)
+                {
+                    if (Layers[idx].Visible)
+                    {
+                        if (Layers[idx].Name == "collision")
+                        {
+                            HandlePlayerDraw?.Invoke(sb, camera);
+                        }
+
+                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(Layers[idx].ScrollSpeed));
+                        {
+                            foreach (Item item in Layers[idx].Items)
+                            {
+                                if (item.Visible && item is TextureItem)
+                                {
+                                    var texItem = item as TextureItem;
+                                    SpriteEffects effects = SpriteEffects.None;
+                                    if (texItem.FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
+                                    if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
+                                    sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
+                                }
+
+                            }
+                        }
+                        sb.End();
+                    }
+                }
+
             }
+
+
 
             if (debug)
             {

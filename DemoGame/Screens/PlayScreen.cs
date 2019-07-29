@@ -30,9 +30,6 @@ namespace Game1.Screens
 
         public static DebugMonitor DebugMonitor = new DebugMonitor();
 
-        //public Vector2 spawnLocation = new Vector2(3500, 3300);
-        //public Vector2 spawnLocation = new Vector2(300, 1200);
-
 
         public PlayState(DemoGame game,string LevelFile) : base(game)
         {            
@@ -75,6 +72,8 @@ namespace Game1.Screens
             if (!lvl.Bounds.Contains(player.Position))
                 SpawnPlayer();
 
+            lvl.update(gameTime);
+
             camera.LookAt(player.Position);
 
             monitor.Update();
@@ -88,7 +87,7 @@ namespace Game1.Screens
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            lvl.draw(spriteBatch, font, camera, settings.debugMode);
+            lvl.draw(spriteBatch, font, camera, graphics.GraphicsDevice, settings.debugMode);
 
             if (settings.debugMode)
                 DebugMonitor.Draw(spriteBatch);
@@ -105,7 +104,7 @@ namespace Game1.Screens
             {
                 lvl = Level.FromFile(lvlFile);
 
-                lvl.LoadContent(Content);
+                lvl.LoadContent(Content, graphics.GraphicsDevice);
 
                 var bounds = (Rectangle)lvl.CustomProperties["bounds"].value;
 
