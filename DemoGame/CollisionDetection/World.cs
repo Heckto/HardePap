@@ -13,15 +13,18 @@ namespace Game1.CollisionDetection
 
         public bool isGrounded = false;
 
-        public World(float width, float height, float cellSize = 64)
+        public World(Microsoft.Xna.Framework.Rectangle rect, float cellSize = 256)
         {
-            var iwidth = (int)Math.Ceiling(width / cellSize);
-            var iheight = (int)Math.Ceiling(height / cellSize);
+            var iwidth = (int)Math.Ceiling(rect.Width / cellSize);
+            var iheight = (int)Math.Ceiling(rect.Height / cellSize);
 
-            this.grid = new Grid(iwidth, iheight, cellSize);
+            var origin = new Microsoft.Xna.Framework.Vector2(rect.X, rect.Y);
+
+            grid = new Grid(origin,iwidth, iheight, cellSize);
+            
         }
 
-        public RectangleF Bounds => new RectangleF(0, 0, this.grid.Width, this.grid.Height);
+        public RectangleF Bounds => new RectangleF(grid.origin.X, grid.origin.Y, grid.Width, grid.Height);
 
         #region Boxes
 
@@ -30,50 +33,50 @@ namespace Game1.CollisionDetection
         public IBox CreateRectangle(float x, float y, float width, float height)
         {
             var box = new Box(this, x, y, width, height);
-            this.grid.Add(box);
+            grid.Add(box);
             return box;
         }
 
         public IPolyLine CreatePolyLine(Vector2f[] points)
         {
             var box = new PolyLine(this, points);
-            this.grid.Add(box);
+            grid.Add(box);
             return box;
         }
 
         public IMoveableBody CreateMoveableBody(float x, float y, float width, float height, bool grounded = true)
         {
             var box = new MoveableBody(this, x, y, width, height, grounded);
-            this.grid.Add(box);
+            grid.Add(box);
             return box;
         }
 
         public IEnumerable<IShape> Find(float x, float y, float w, float h)
         {
-            x = Math.Max(0, Math.Min(x, this.Bounds.Right - w));
-            y = Math.Max(0, Math.Min(y, this.Bounds.Bottom - h));
+            x = Math.Max(0, Math.Min(x, Bounds.Right - w));
+            y = Math.Max(0, Math.Min(y, Bounds.Bottom - h));
 
-            return this.grid.QueryBoxes(x, y, w, h);
+            return grid.QueryBoxes(x, y, w, h);
         }
 
         public IEnumerable<IShape> Find(RectangleF area)
         {
-            return this.Find(area.X, area.Y, area.Width, area.Height);
+            return Find(area.X, area.Y, area.Width, area.Height);
         }
 
         public bool Remove(IBox box)
         {
-            return this.grid.Remove(box);
+            return grid.Remove(box);
         }
 
         public bool Remove(IPolyLine box)
         {
-            return this.grid.Remove(box);
+            return grid.Remove(box);
         }
 
         public void Update(IShape box, RectangleF from)
         {
-            this.grid.Update(box, from);
+            grid.Update(box, from);
         }
 
         #endregion
@@ -82,7 +85,7 @@ namespace Game1.CollisionDetection
 
         public IHit Hit(Vector2f point, IEnumerable<IShape> ignoring = null)
         {
-            var boxes = this.Find(point.X, point.Y, 0, 0);
+            var boxes = Find(point.X, point.Y, 0, 0);
 
             if (ignoring != null)
             {
@@ -109,7 +112,7 @@ namespace Game1.CollisionDetection
             var max = Vector2f.Max(origin, destination);
 
             var wrap = new RectangleF(min, max - min);
-            var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
+            var boxes = Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
 
             if (ignoring != null)
             {
@@ -135,7 +138,7 @@ namespace Game1.CollisionDetection
         public IHit Hit(RectangleF origin, RectangleF destination, IEnumerable<IShape> ignoring = null)
         {
             var wrap = new RectangleF(origin, destination);
-            var boxes = this.Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
+            var boxes = Find(wrap.X, wrap.Y, wrap.Width, wrap.Height);
 
 
 
@@ -175,7 +178,7 @@ namespace Game1.CollisionDetection
             {
                 Origin = origin,
                 Goal = destination,
-                Destination = this.Simulate(hits, new List<IShape>() { box }, box, origin, destination, filter),
+                Destination = Simulate(hits, new List<IShape>() { box }, box, origin, destination, filter),
                 Hits = hits,
             };
 
@@ -184,7 +187,7 @@ namespace Game1.CollisionDetection
 
         private RectangleF Simulate(List<IHit> hits, List<IShape> ignoring, Box box, RectangleF origin, RectangleF destination, Func<ICollision, ICollisionResponse> filter)
         {
-            var nearest = this.Hit(origin, destination, ignoring);
+            var nearest = Hit(origin, destination, ignoring);
 
             if (nearest != null)
             {
@@ -197,7 +200,7 @@ namespace Game1.CollisionDetection
                 if (response != null && destination != response.Destination)
                 {
                     ignoring.Add(nearest.Box);
-                    return this.Simulate(hits, ignoring, box, impact, response.Destination, filter);
+                    return Simulate(hits, ignoring, box, impact, response.Destination, filter);
                 }
             }
 
@@ -212,7 +215,7 @@ namespace Game1.CollisionDetection
         {
            
                 // Drawing boxes
-                var boxes = this.grid.QueryBoxes(x, y, w, h);
+                var boxes = grid.QueryBoxes(x, y, w, h);
                 var color = new Microsoft.Xna.Framework.Color(165, 155, 250);
                 foreach (var box in boxes)
                 {
@@ -230,14 +233,14 @@ namespace Game1.CollisionDetection
                 }
 
                 // Drawing cells
-                var cells = this.grid.QueryCells(x, y, w, h);
+                var cells = grid.QueryCells(x, y, w, h);
                 foreach (var cell in cells)
                 {
                     var count = cell.Count();
                     var alpha = count > 0 ? 1f : 0.4f;
-                    var rec = new Microsoft.Xna.Framework.Rectangle((int)cell.Bounds.X, (int)cell.Bounds.Y, (int)cell.Bounds.Width, (int)cell.Bounds.Height);
+                    var rec = new Microsoft.Xna.Framework.Rectangle((int)(cell.Bounds.X + grid.origin.X), (int)(cell.Bounds.Y + grid.origin.Y), (int)cell.Bounds.Width, (int)cell.Bounds.Height);
                     spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
-                    spriteBatch.DrawString(font,count.ToString(), (int)cell.Bounds.Center.X, (int)cell.Bounds.Center.Y, Microsoft.Xna.Framework.Color.White, alpha);
+                    spriteBatch.DrawString(font,count.ToString(), (int)(cell.Bounds.Center.X + grid.origin.X), (int)(cell.Bounds.Center.Y + grid.origin.Y), Microsoft.Xna.Framework.Color.White, alpha);
                 }
             
         }

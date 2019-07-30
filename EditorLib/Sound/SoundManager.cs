@@ -1,238 +1,183 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-//using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.Content;
-
 using Microsoft.Xna.Framework.Media;
 
 namespace AuxLib.Sound
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Component that manages audio playback for all sound effects.
     /// </summary>
-    public class SoundManager //: Microsoft.Xna.Framework.GameComponent
+    public class AudioManager : GameComponent
     {
-        public bool RepeatPlayList = true;
+        #region Singleton
 
-        private Song[] playList;
-        private int currentSong;
 
-        //private float soundVolume = 1f;
+        /// <summary>
+        /// The singleton for this type
+        /// </summary>
+        private static AudioManager audioManager = null;
 
-       // public SoundManager(Game game)
-       //     : base(game) { }
-        /*
-        public override void Initialize()
+
+        #endregion
+
+
+        #region Audio Data
+
+        /// <summary>
+        /// File list of all wav audio files
+        /// </summary>
+        private FileInfo[] audioFileList;
+        private FileInfo[] musicFileList;
+
+        /// <summary>
+        /// Content folder containing audio files
+        /// </summary>
+        private DirectoryInfo audioFolder;
+        private DirectoryInfo musicFolder;
+
+        /// <summary>
+        /// Collection of all loaded sound effects
+        /// </summary>
+        private static Dictionary<string, SoundEffect> soundList;
+        public static float EffectVolume { get; set; }
+
+        /// <summary>
+        /// Looping song used as the in-game soundtrack
+        /// </summary>
+        private static Dictionary<string, Song> musicList;
+        public static float MusicVolume { set { MediaPlayer.Volume = value; } }
+
+        #endregion
+
+
+        #region Initialization Methods
+
+        /// <summary>
+        /// Constructs the manager for audio playback of all sound effects.
+        /// </summary>
+        /// <param name="game">The game that this component will be attached to.</param>
+        /// <param name="audioFolder">The directory containing audio files.</param>
+        private AudioManager(Game game, DirectoryInfo audioDirectory, DirectoryInfo songDirectory)
+            : base(game)
         {
-            //MediaPlayer.ActiveSongChanged += new EventHandler(MediaPlayer_ActiveSongChanged);
-
-            base.Initialize();
-        }
-        */
-        //override
-        public void Update()//GameTime gameTime)
-        {
-            if (playList.Length > 0) //are we playing a list?
+            try
             {
-                //check current cue to see if it is playing
-                //if not, go to next cue in list
-                if (MediaPlayer.State != MediaState.Playing)
+                audioFolder = audioDirectory;
+                audioFileList = audioFolder.GetFiles("*.xnb");
+                soundList = new Dictionary<string, SoundEffect>();
+
+                for (var i = 0; i < audioFileList.Length; i++)
                 {
-                    currentSong++;
-
-                    if (currentSong == playList.Length)
-                    {
-                        if (RepeatPlayList)
-                            currentSong = 0;
-                        else
-                            return;
-                    }
-
-                    if (MediaPlayer.State != MediaState.Playing)
-                        MediaPlayer.Play(playList[currentSong]);
-
+                    var fn = Path.GetFileNameWithoutExtension(audioFileList[i].Name);
+                    soundList[fn] = game.Content.Load<SoundEffect>("SFX\\" + fn);
+                    soundList[fn].Name = fn;
                 }
+
+                musicFolder = songDirectory;
+                musicFileList = musicFolder.GetFiles("*.xnb");
+                musicList = new Dictionary<string, Song>();
+
+                for (var i = 0; i < musicFileList.Length; i++)
+                {
+                    var fn = Path.GetFileNameWithoutExtension(musicFileList[i].Name);
+                    musicList[fn] = game.Content.Load<Song>("Music\\" + fn);                    
+                }
+
+
             }
-
-            //base.Update(gameTime);
+            catch (NoAudioHardwareException)
+            {
+                // silently fall back to silence
+            }
         }
 
-        public void StartPlayList(Song[] playList)
+        public static void Initialize(Game game, DirectoryInfo audioDirectory, DirectoryInfo songDirectory)
         {
-            StartPlayList(playList, 0);
-        }
-
-        public void StartPlayList(Song[] playList, int startIndex)
-        {
-            if (playList.Length == 0)
+            if (game == null)
                 return;
 
-            this.playList = playList;
-
-            if (startIndex > playList.Length)
-                startIndex = 0;
-
-            StartPlayList(startIndex);
+            audioManager = new AudioManager(game, audioDirectory, songDirectory);
+            game.Components.Add(audioManager);
         }
 
-        public void StartPlayList(int startIndex)
+        public static void PlaySoundTrack(string name, bool repeat = true, bool overwrite = false)
         {
-            if (playList.Length == 0)
+            
+            if (!musicList.ContainsKey(name))
                 return;
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.Play(musicList[name]);
+                
+            }
+            else if (MediaPlayer.State == MediaState.Playing && overwrite)
+            {
+                MediaPlayer.Play(musicList[name]);
+            }
+            MediaPlayer.IsRepeating = repeat;
+            return;
 
-            currentSong = startIndex;
-            MediaPlayer.Play(playList[currentSong]);
-            MediaPlayer.IsRepeating = false;
         }
 
-        public void StopPlayList()
+        public static void StopSoundTrack()
         {
             MediaPlayer.Stop();
         }
+
+        #endregion
+
+
+        #region Sound Play Methods
+
+        /// <summary>
+        /// Plays a fire-and-forget sound effect by name.
+        /// </summary>
+        /// <param name="soundName">The name of the sound to play.</param>
+        public static void PlaySoundEffect(string soundName)
+        {
+            if (audioManager == null || soundList == null)
+                return;
+
+            if (soundList.ContainsKey(soundName))
+            {
+                soundList[soundName].Play();
+            }
+        }
+
+        /// <summary>
+        /// Plays a sound effect by name and returns an instance of that sound.
+        /// </summary>
+        /// <param name="soundName">The name of the sound to play.</param>
+        /// <param name="looped">True if sound effect should loop.</param>
+        /// <param name="instance">The SoundEffectInstance created for this sound effect.</param>
+        public static void PlaySoundEffect(string soundName, bool looped, out SoundEffectInstance instance)
+        {
+            instance = null;
+            if (audioManager == null || soundList == null)
+                return;
+
+            if (soundList.ContainsKey(soundName))
+            {
+                try
+                {
+                    instance = soundList[soundName].CreateInstance();
+                    if (instance != null)
+                    {
+                        instance.IsLooped = looped;
+                        instance.Play();
+                    }
+                }
+                catch (InstancePlayLimitException)
+                {
+                    // silently fail (returns null instance) if instance limit reached
+                }
+            }
+        }
+
+        #endregion
+
     }
 }
-
-
-    /*
-    
-        void MediaPlayer_ActiveSongChanged(object sender, EventArgs e)
-        {
-            currentSong++;
-
-            if (currentSong == playList.Length)
-            {
-                if (RepeatPlayList)
-                    currentSong = 0;
-                else
-                    return;
-            }
-
-            if (MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(playList[currentSong]);
-        }
-     
-    public void SetVolume(string categoryName, float volumeAmount)
-    {
-        if (categoryName.ToLower() == "music")
-            MediaPlayer.Volume = volumeAmount;
-        else
-            soundVolume = volumeAmount;
-
-        CheckCategory(categoryName);
-
-        categories[categoryName].SetVolume(volumeAmount);
-    }
-
-    public void PauseCategory(string categoryName)
-    {
-        CheckCategory(categoryName);
-
-        categories[categoryName].Pause();
-    }
-
-    public void ResumeCategory(string categoryName)
-    {
-        CheckCategory(categoryName);
-
-        categories[categoryName].Resume();
-    }
-
-    public bool IsPlaying(string cueName)
-    {
-        if (cues.ContainsKey(cueName))
-            return (cues[cueName].IsPlaying);
-
-        return (false);
-    }
-
-    public void Play(string cueName)
-    {
-        Cue prevCue = null;
-
-        if (!cues.ContainsKey(cueName))
-            cues.Add(cueName, soundBank.GetCue(cueName));
-        else
-        {
-            //store our cue if we were playing
-            if (cues[cueName].IsPlaying)
-                prevCue = cues[cueName];
-
-            cues[cueName] = soundBank.GetCue(cueName);
-        }
-
-        //if we weren’t playing, set previous to our current cue name
-        if (prevCue == null)
-            prevCue = cues[cueName];
-
-        try
-        {
-            cues[cueName].Play();
-        }
-        catch (InstancePlayLimitException)
-        {
-            //hit limit exception, set our cue to the previous
-            //and let’s stop it and then start it up again ...
-            cues[cueName] = prevCue;
-
-            if (cues[cueName].IsPlaying)
-                cues[cueName].Stop(AudioStopOptions.AsAuthored);
-
-            Toggle(cueName);
-        }
-    }
-
-    public void Pause(string cueName)
-    {
-        if (cues.ContainsKey(cueName))
-            cues[cueName].Pause();
-    }
-
-    public void Resume(string cueName)
-    {
-        if (cues.ContainsKey(cueName))
-            cues[cueName].Resume();
-    }
-
-    public void Toggle(string cueName)
-    {
-        if (cues.ContainsKey(cueName))
-        {
-            Cue cue = cues[cueName];
-
-            if (cue.IsPaused)
-            {
-                cue.Resume();
-            }
-            else if (cue.IsPlaying)
-            {
-                cue.Pause();
-            }
-            else //played but stopped 
-            {
-                //need to reget cue if stopped
-                Play(cueName);
-            }
-        }
-        else //never played, need to reget cue
-            Play(cueName);
-    }
-
-    public void StopAll()
-    {
-        foreach (Cue cue in cues.Values)
-            cue.Stop(AudioStopOptions.Immediate);
-    }
-
-    public void Stop(string cueName)
-    {
-        if (cues.ContainsKey(cueName))
-            cues[cueName].Stop(AudioStopOptions.Immediate);
-        cues.Remove(cueName);
-    }
-
-
-     */

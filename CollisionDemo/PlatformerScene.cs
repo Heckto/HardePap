@@ -39,7 +39,8 @@ namespace Game666
 
 		public override void Initialize()
 		{
-			this.World = new World(1200, 800);
+            var rect = new Rectangle(0, 0, 1200, 800);
+			this.World = new World(rect);
 
 			this.SpawnPlayer();
 
