@@ -247,8 +247,8 @@ namespace Game1
 
                 //float waterLevel = map.water - (.2f * screenSize.Y);
                 //float wLev = (GraphicsDevice.PresentationParameters.BackBufferHeight / 2f + waterLevel) / GraphicsDevice.PresentationParameters.BackBufferHeight;
-                float waterLevel = 2000; //- (.2f * device.PresentationParameters.BackBufferHeight);
-                float wLev = (device.PresentationParameters.BackBufferHeight / 2f + waterLevel - camera.Position.Y) / device.PresentationParameters.BackBufferHeight;
+                float waterLevel = 1900; //- (.2f * device.PresentationParameters.BackBufferHeight);
+                float wLev = (device.PresentationParameters.BackBufferHeight / 2f + waterLevel) / device.PresentationParameters.BackBufferHeight;
                 waterEffect.Parameters["delta"].SetValue(waterDelta);
                 waterEffect.Parameters["theta"].SetValue(waterTheta);
                 waterEffect.Parameters["horizon"].SetValue(0.4f);
@@ -266,9 +266,11 @@ namespace Game1
 
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 sb.Draw(mainTarget, new Vector2(),Color.White);
-                sb.Draw(waterTarget, new Rectangle(0,(int)(waterLevel - camera.Position.Y), device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight), Color.White);
+                //sb.Draw(waterTarget, new Rectangle(0,(int)(waterLevel - camera.Position.Y), device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight), Color.White);
+                sb.Draw(waterTarget, new Rectangle(0, (int)(1900 - camera.Position.Y), device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight), Color.White);
                 sb.End();
 
+                Console.WriteLine(camera.Position);
 
                 for (var idx = 4; idx < Layers.Count; idx++)
                 {

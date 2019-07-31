@@ -39,6 +39,7 @@ namespace Game1.Screens
             settings = game.Services.GetService<GameSettings>();
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
+            
 
             lvlFile = LevelFile;
 
