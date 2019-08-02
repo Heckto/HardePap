@@ -25,7 +25,7 @@ namespace Game1
         private SpriteBatch spriteBatch;
         private GameStateManager gameManager;
         private InputHandler inputHandler;
-        private SoundManager soundManager;
+        
         public static ContentManager ContentManager;
 
         public string commandParam = string.Empty;
@@ -33,22 +33,8 @@ namespace Game1
 
         public DemoGame(string param = "")
         {
+
             graphics = new GraphicsDeviceManager(this);
-            Services.AddService(graphics);
-            gameManager = new GameStateManager(this);
-            Services.AddService(gameManager);
-            soundManager = new SoundManager();
-            Services.AddService(soundManager);
-
-
-            inputHandler = InputHandler.InitializeSingleton(this);
-            Components.Add(inputHandler);
-            Components.Add(gameManager);
-
-            
-            var settings = GameSettings.LoadFromFile();
-            Services.AddService(settings);
-
             commandParam = param;
         }
 
@@ -65,6 +51,26 @@ namespace Game1
             Content.RootDirectory = "Content";
             ContentManager = Content;
             Services.AddService(Content);
+
+            
+            Services.AddService(graphics);
+
+            gameManager = new GameStateManager(this);
+            Services.AddService(gameManager);
+
+            
+            var soundDir = new DirectoryInfo(Path.Combine(Content.RootDirectory,"SFX"));
+            var musicDir = new DirectoryInfo(Path.Combine(Content.RootDirectory, "Music"));
+            AudioManager.Initialize(this, soundDir,musicDir);           
+
+
+            inputHandler = InputHandler.InitializeSingleton(this);
+            Components.Add(inputHandler);
+            Components.Add(gameManager);
+
+
+            var settings = GameSettings.LoadFromFile();
+            Services.AddService(settings);
 
             graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;

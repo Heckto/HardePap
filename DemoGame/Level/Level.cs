@@ -10,6 +10,7 @@ using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
 using AuxLib.Rand;
+using AuxLib.Sound;
 using AuxLib.Camera;
 using Microsoft.Xna.Framework.Media;
 using Game1.Sprite;
@@ -52,6 +53,7 @@ namespace Game1
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
         public SerializableDictionary CustomProperties;
+
         public String ContentPath { get; set; } = String.Empty;
 
         public Level()
@@ -75,9 +77,7 @@ namespace Game1
                 {
                     item.CustomProperties.RestoreItemAssociations(level);                 
                 }
-            }
-
-            
+            }            
             return level;
         }
 
@@ -102,12 +102,13 @@ namespace Game1
                 }
             }
 
-            var song = Rand.GetRandomInt(1, 3);
-            bgTheme = cm.Load<Song>($"sfx\\Level{song}");
-            if (MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(bgTheme);
-            MediaPlayer.Volume = 0.3f;
-            MediaPlayer.IsRepeating = true;
+            var song = "level" + Rand.GetRandomInt(1, 3);
+            AudioManager.PlaySoundTrack(song,true,false);
+            AudioManager.MusicVolume = 0.1f;
+            
+
+
+            
 
             Bounds = (Rectangle)CustomProperties["bounds"].value;
 
@@ -116,12 +117,7 @@ namespace Game1
 
         public void GenerateCollision()
         {
-            var bounds = Rectangle.Empty;
-            if (Name == "Level_01")
-                bounds = GetLevelBounds();
-            else if (Name == "Level_02")
-                bounds = Bounds;
-            CollisionWorld = new World(bounds.Width, bounds.Height);
+            CollisionWorld = new World(Bounds);
 
             var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
             foreach (var elem in l.Items)
@@ -148,11 +144,12 @@ namespace Game1
 
         public Item GetItemByName(string name)
         {
-            foreach (Layer layer in Layers)
+            foreach (var layer in Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (var item in layer.Items)
                 {
-                    if (item.Name == name) return item;
+                    if (item.Name == name)
+                        return item;
                 }
             }
             return null;
@@ -162,7 +159,8 @@ namespace Game1
         {
             foreach (var layer in Layers)
             {
-                if (layer.Name == name) return layer;
+                if (layer.Name == name)
+                    return layer;
             }
             return null;
         }
@@ -182,12 +180,12 @@ namespace Game1
                     { 
                         sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
                         {
-                            foreach (Item item in layer.Items)
+                            foreach (var item in layer.Items)
                             {
                                 if (item.Visible && item is TextureItem)
                                 {
                                     var texItem = item as TextureItem;
-                                    SpriteEffects effects = SpriteEffects.None;
+                                    var effects = SpriteEffects.None;
                                     if (texItem.FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
                                     if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
                                     sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
@@ -293,15 +291,6 @@ namespace Game1
             ScrollSpeed = Vector2.One;
             CustomProperties = new SerializableDictionary();
         }
-
-        public void draw(SpriteBatch sb)
-        {
-            //if (!Visible) return;
-            //foreach (Item item in Items) item.draw(sb);
-
-            
-        }
-
     }
 
 
@@ -337,18 +326,6 @@ namespace Game1
         public Item()
         {
             CustomProperties = new SerializableDictionary();
-        }
-
-        /// <summary>
-        /// Called by Level.FromFile(filename) on each Item after the deserialization process.
-        /// Should be overriden and can be used to load anything needed by the Item (e.g. a texture).
-        /// </summary>
-        public virtual void load(ContentManager cm)
-        {
-        }
-
-        public virtual void Draw(SpriteBatch sb)
-        {
         }
 
         public abstract Rectangle getBoundingBox();
@@ -407,40 +384,7 @@ namespace Game1
         public Vector2 Origin;
 
 
-        public TextureItem()
-        {
-        }
-
-        /// <summary>
-        /// Called by Level.FromFile(filename) on each Item after the deserialization process.
-        /// Loads all assets needed by the TextureItem, especially the Texture2D.
-        /// You must provide your own implementation. However, you can rely on all public fields being
-        /// filled by the level deserialization process.
-        /// </summary>
-        public override void load(ContentManager cm)
-        {
-            //throw new NotImplementedException();
-
-            //TODO: provide your own implementation of how a TextureItem loads its assets
-            //for example:
-            //..this.texture = Texture2D.FromFile(, texture_filename);
-            //or by using the Content Pipeline:
-
-            //var ass = Path.GetFileNameWithoutExtension(asset_name);
-            //this.texture = cm.Load<Texture2D>("Level/" + ass);
-
-        }
-
-        
-
-        public override void Draw(SpriteBatch sb)
-        {
-            //if (!Visible) return;
-            //SpriteEffects effects = SpriteEffects.None;
-            //if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
-            //if (FlipVertically) effects |= SpriteEffects.FlipVertically;
-            //sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
-        }
+        public TextureItem() {}
 
         public override Rectangle getBoundingBox()
         {
@@ -539,7 +483,7 @@ namespace Game1
 
         public CustomProperty clone()
         {
-            CustomProperty result = new CustomProperty(name, value, type, description);
+            var result = new CustomProperty(name, value, type, description);
             return result;
         }
     }
@@ -548,18 +492,13 @@ namespace Game1
     public class SerializableDictionary : Dictionary<String, CustomProperty>, IXmlSerializable
     {
 
-        public SerializableDictionary()
-            : base()
-        {
+        public SerializableDictionary() : base() {}
 
-        }
-
-        public SerializableDictionary(SerializableDictionary copyfrom)
-            : base(copyfrom)
+        public SerializableDictionary(SerializableDictionary copyfrom) : base(copyfrom)
         {
-            string[] keyscopy = new string[Keys.Count];
+            var keyscopy = new string[Keys.Count];
             Keys.CopyTo(keyscopy, 0);
-            foreach (string key in keyscopy)
+            foreach (var key in keyscopy)
             {
                 this[key] = this[key].clone();
             }
@@ -570,21 +509,21 @@ namespace Game1
             return null;
         }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
 
-            bool wasEmpty = reader.IsEmptyElement;
+            var wasEmpty = reader.IsEmptyElement;
             reader.Read();
 
             if (wasEmpty) return;
 
-            while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
+            while (reader.NodeType != XmlNodeType.EndElement)
             {
-                CustomProperty cp = new CustomProperty();
+                var cp = new CustomProperty();
                 cp.name = reader.GetAttribute("Name");
                 cp.description = reader.GetAttribute("Description");
 
-                string type = reader.GetAttribute("Type");
+                var type = reader.GetAttribute("Type");
                 if (type == "string") cp.type = typeof(string);
                 if (type == "bool") cp.type = typeof(bool);
                 if (type == "Vector2") cp.type = typeof(Vector2);
@@ -594,15 +533,15 @@ namespace Game1
                 if (cp.type == typeof(Item))
                 {
                     cp.value = reader.ReadInnerXml();
-                    this.Add(cp.name, cp);
+                    Add(cp.name, cp);
                 }
                 else
                 {
                     reader.ReadStartElement("Property");
-                    XmlSerializer valueSerializer = new XmlSerializer(cp.type);
-                    object obj = valueSerializer.Deserialize(reader);
+                    var valueSerializer = new XmlSerializer(cp.type);
+                    var obj = valueSerializer.Deserialize(reader);
                     cp.value = Convert.ChangeType(obj, cp.type);
-                    this.Add(cp.name, cp);
+                    Add(cp.name, cp);
                     reader.ReadEndElement();
                 }
 
@@ -611,9 +550,9 @@ namespace Game1
             reader.ReadEndElement();
         }
 
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
-            foreach (String key in this.Keys)
+            foreach (var key in Keys)
             {
                 writer.WriteStartElement("Property");
                 writer.WriteAttributeString("Name", this[key].name);
@@ -626,13 +565,13 @@ namespace Game1
 
                 if (this[key].type == typeof(Item))
                 {
-                    Item item = (Item)this[key].value;
+                    var item = (Item)this[key].value;
                     if (item != null) writer.WriteString(item.Name);
                     else writer.WriteString("$null$");
                 }
                 else
                 {
-                    XmlSerializer valueSerializer = new XmlSerializer(this[key].type);
+                    var valueSerializer = new XmlSerializer(this[key].type);
                     valueSerializer.Serialize(writer, this[key].value);
                 }
                 writer.WriteEndElement();
@@ -645,7 +584,7 @@ namespace Game1
         /// </summary>
         public void RestoreItemAssociations(Level level)
         {
-            foreach (CustomProperty cp in Values)
+            foreach (var cp in Values)
             {
                 if (cp.type == typeof(Item)) cp.value = level.GetItemByName((string)cp.value);
             }

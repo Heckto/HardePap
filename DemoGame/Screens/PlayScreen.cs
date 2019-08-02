@@ -28,11 +28,9 @@ namespace Game1.Screens
         FpsMonitor monitor;
         Player player;
         SpriteFont font;
+        bool transitioning = false;
 
         public static DebugMonitor DebugMonitor = new DebugMonitor();
-
-        //public Vector2 spawnLocation = new Vector2(3500, 3300);
-        //public Vector2 spawnLocation = new Vector2(300, 1200);
 
 
         public PlayState(DemoGame game,string LevelFile) : base(game)
@@ -45,8 +43,9 @@ namespace Game1.Screens
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
 
             lvlFile = LevelFile;
+            transitioning = false;
 
-            
+
         }
 
         private void Player_onTransition(Player sender,string level)
@@ -55,7 +54,7 @@ namespace Game1.Screens
             var levelfile = Path.Combine(Content.RootDirectory, level);
             // push our start menu onto the stack
             GameManager.PushState(new PlayState(OurGame, levelfile), new FadeTransition(graphics.GraphicsDevice, Color.Black,2.0f));
-            
+            transitioning = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -73,7 +72,7 @@ namespace Game1.Screens
             if(lvl != null)
                 lvl.Update(gameTime);
 
-            if (!lvl.Bounds.Contains(player.Position))
+            if (!lvl.Bounds.Contains(player.Position) && !transitioning)
                 SpawnPlayer();
 
             camera.LookAt(player.Position);

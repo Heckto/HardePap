@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AuxLib.Input;
 using System.IO;
 using AuxLib.ScreenManagement.Transitions;
+using AuxLib.Sound;
 
 namespace Game1.Screens
 {
@@ -20,7 +21,7 @@ namespace Game1.Screens
         private Rectangle r1, r2;
         private SpriteBatch spriteBatch;
         private GraphicsDeviceManager graphics;
-        private SoundEffectInstance sound;
+        
 
         public TitleIntroState(DemoGame game) : base(game)
         {
@@ -36,10 +37,7 @@ namespace Game1.Screens
         {
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
             {
-
-
-
-                sound.Play();
+                AudioManager.PlaySoundEffect("no munney");
                 var levelfile = Path.Combine(Content.RootDirectory, "Level1.xml");
                 // push our start menu onto the stack
                 GameManager.PushState(new PlayState(OurGame, levelfile), new ExpandTransition(graphics.GraphicsDevice,Color.Black, 2.0f));
@@ -62,8 +60,6 @@ namespace Game1.Screens
             graphics = OurGame.Services.GetService<GraphicsDeviceManager>();
             texture = Content.Load<Texture2D>(@"Misc\logo");
             logo_texture = Content.Load<Texture2D>(@"Misc\unmunnielogo");
-            var effect = Content.Load<SoundEffect>(@"sfx\no munney");
-            sound = effect.CreateInstance();
             var x1 = (graphics.GraphicsDevice.DisplayMode.Width - texture.Width) / 2;
             var y1 = (graphics.GraphicsDevice.DisplayMode.Height - texture.Height) / 2;
             r1 = new Rectangle(x1, y1 - 150, texture.Width, texture.Height);

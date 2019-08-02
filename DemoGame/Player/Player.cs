@@ -179,7 +179,7 @@ namespace Game1
                     var lvl = item.CustomProperties["map"].value.ToString();
                     var f = Path.ChangeExtension(lvl, ".xml");
                     onTransition?.Invoke(this, f);
-                    return CollisionResponses.Slide;
+                    return CollisionResponses.Cross;
                 }
                 if (collision.Hit.Normal.Y < 0)
                 {

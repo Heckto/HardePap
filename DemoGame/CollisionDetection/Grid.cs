@@ -9,8 +9,10 @@ namespace Game1.CollisionDetection
         /// Basic spacial hashing of world's boxes.
         /// </summary>
         public class Grid
-    {
-        public class Cell
+        {
+        public Microsoft.Xna.Framework.Vector2 origin;    
+
+            public class Cell
         {
             public Cell(int x, int y, float cellSize)
             {
@@ -44,10 +46,11 @@ namespace Game1.CollisionDetection
             }
         }
 
-        public Grid(int width, int height, float cellSize)
+        public Grid(Microsoft.Xna.Framework.Vector2 origin,int width, int height, float cellSize)
         {
             this.Cells = new Cell[width, height];
             this.CellSize = cellSize;
+            this.origin = origin;
         }
 
         public float CellSize { get; set; }
@@ -68,6 +71,8 @@ namespace Game1.CollisionDetection
 
         public IEnumerable<Cell> QueryCells(float x, float y, float w, float h)
         {
+            x = x - origin.X;
+            y = y - origin.Y;
             var minX = (int)(x / this.CellSize);
             var minY = (int)(y / this.CellSize);
             var maxX = (int)((x + w - 1) / this.CellSize) + 1;

@@ -126,8 +126,17 @@
 /processorParam:TextureFormat=Color
 /build:Misc/unmunnielogo.png
 
-#begin PlayerSprite.xml
-/copy:PlayerSprite.xml
+#begin Music/level1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/level1.mp3
+
+#begin Music/level2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/level2.mp3
 
 #begin Player/Attack__000.png
 /importer:TextureImporter
@@ -1416,17 +1425,8 @@
 #begin EnemySprite.xml
 /copy:EnemySprite.xml
 
-#begin SFX/level1.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:SFX/level1.mp3
-
-#begin SFX/level2.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:SFX/level2.mp3
+#begin PlayerSprite.xml
+/copy:PlayerSprite.xml
 
 #begin SFX/no munney.mp3
 /importer:Mp3Importer
