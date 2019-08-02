@@ -67,6 +67,7 @@
     <Compile Include="CollisionDetection\Shape.cs" />
     <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="DemoGame.cs" />
+    <Compile Include="Enemies\Enemy1.cs" />
     <Compile Include="Level\Level.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />

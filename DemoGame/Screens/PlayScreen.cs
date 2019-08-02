@@ -13,6 +13,7 @@ using Game1.Settings;
 using Microsoft.Xna.Framework.Content;
 using AuxLib.Camera;
 using AuxLib.ScreenManagement.Transitions;
+using Game1.Sprite;
 
 namespace Game1.Screens
 {
@@ -69,8 +70,8 @@ namespace Game1.Screens
             if (Input.WasPressed(0,Buttons.DPadRight,Keys.S))
                 SpawnPlayer();
             
-
-            player.Update(gameTime,Input);
+            if(lvl != null)
+                lvl.Update(gameTime);
 
             if (!lvl.Bounds.Contains(player.Position))
                 SpawnPlayer();
@@ -88,7 +89,7 @@ namespace Game1.Screens
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            lvl.draw(spriteBatch, font, camera, settings.debugMode);
+            lvl.Draw(spriteBatch, font, camera, settings.debugMode);
 
             if (settings.debugMode)
                 DebugMonitor.Draw(spriteBatch);
@@ -111,8 +112,7 @@ namespace Game1.Screens
 
                 lvl.GenerateCollision();
                 var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
-                player = new Player(spawnLocation, lvl.CollisionWorld);
-                player.LoadContent(Content);
+                player = new Player(spawnLocation, lvl.CollisionWorld, Content);
 
                 SpawnPlayer();
 
@@ -128,18 +128,25 @@ namespace Game1.Screens
 
         public void SpawnPlayer()
         {
+            //Shouldn't Level handle the Spawn?
+
             if (player != null)
             {
-                lvl.HandlePlayerDraw -= player.Draw;
-                lvl.CollisionWorld.Remove(player.playerCol);
-
+                lvl.CollisionWorld.Remove(player.CollisionBox);
             }
 
             var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
-            player = new Player(spawnLocation, lvl.CollisionWorld);
-            player.LoadContent(Content);
+            lvl.RemoveSprite("Player");
+            player = new Player(spawnLocation, lvl.CollisionWorld, Content);
             player.onTransition += Player_onTransition;
-            lvl.HandlePlayerDraw += player.Draw;
+            lvl.AddSprite("Player", player);
+
+            for(int i = 1; i < 5; i++)
+            {
+                lvl.RemoveSprite("Enemy"+i);
+                var enemy = new Enemies.Enemy1(new Vector2(spawnLocation.X - 500 + (500 * i), spawnLocation.Y), lvl.CollisionWorld, player, Content);
+                lvl.AddSprite("Enemy"+i, enemy);
+            }
         }
 
     }

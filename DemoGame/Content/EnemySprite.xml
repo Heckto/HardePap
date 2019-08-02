@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SpriteConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SpriteName>Player</SpriteName>
-  <ColorR>255</ColorR>
-  <ColorG>255</ColorG>
-  <ColorB>255</ColorB>
+  <SpriteName>Enemy</SpriteName>
+  <ColorR>100</ColorR>
+  <ColorG>100</ColorG>
+  <ColorB>100</ColorB>
   <ColorA>255</ColorA>
   <Animations>
     <SpriteAnimationConfig>

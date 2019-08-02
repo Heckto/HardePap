@@ -10,6 +10,12 @@ namespace Game1.Sprite
     public class SpriteConfig
     {
         public string SpriteName { get; set; }
+
+        public int ColorR { get; set; }
+        public int ColorG { get; set; }
+        public int ColorB { get; set; }
+        public int ColorA { get; set; }
+
         public List<SpriteAnimationConfig> Animations { get; set; } = new List<SpriteAnimationConfig>();
 
         public void Serialize(string fileLocation)

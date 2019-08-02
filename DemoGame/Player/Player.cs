@@ -25,23 +25,27 @@ namespace Game1
         private int JumpCnt = 0;
         private int MaxJumpCount = 2;
 
-        public MoveableBody playerCol;
+        private const float acc = -45f;
+        private const float gravity = 0.0012f;
+        private const float friction = 0.001f;
+        public const float jumpForce = 1.0f;
 
         public delegate void onTransitionDelegate(Player sender, string level);
         public event onTransitionDelegate onTransition;
 
-        public override Vector2 Position { get { return new Vector2(playerCol.X, playerCol.Y) + 0.5f * scale * hitBoxSize; } }
+        public override Vector2 Position { get { return new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize; } }
 
-        public Player(Vector2 loc, World world)
+        public Player(Vector2 loc, World world, ContentManager cm) : base(cm)
         {
             colBodySize = scale * hitBoxSize;
-            playerCol = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            CollisionBox = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
-            (playerCol as IBox).AddTags(ItemTypes.Player);
+            (CollisionBox as IBox).AddTags(ItemTypes.Player);
 
             PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
             PlayState.DebugMonitor.AddDebugValue(this, nameof(mCurrentState));
-            PlayState.DebugMonitor.AddDebugValue(this, "trajectory");
+            //PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(trajectory));
         }
 
         public override void LoadContent(ContentManager cm)
@@ -65,7 +69,7 @@ namespace Game1
             }
         }
 
-        public override void Update(GameTime gameTime, IInputHandler Input)
+        public override void Update(GameTime gameTime)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -73,7 +77,7 @@ namespace Game1
             //trajectory.Y += delta * 0.001f;
 
 
-            HandleKeyInput(delta, Input);
+            HandleKeyInput(delta, InputHandler.Instance);
 
             HandleCollision(delta);
 
@@ -128,7 +132,7 @@ namespace Game1
                 {
                     trajectory.Y -= jumpForce;
                     mCurrentState = CharState.Air;
-                    playerCol.Grounded = false;
+                    CollisionBox.Grounded = false;
                     JumpCnt++;
                 }
                 else if (mCurrentState == CharState.Air && JumpCnt > 0 && JumpCnt < MaxJumpCount)
@@ -167,7 +171,7 @@ namespace Game1
 
         private void HandleCollision(float delta)
         {
-            var move = (playerCol).Move(playerCol.X + delta * trajectory.X, playerCol.Y + delta * trajectory.Y, (collision) =>
+            var move = (CollisionBox).Move(CollisionBox.X + delta * trajectory.X, CollisionBox.Y + delta * trajectory.Y, (collision) =>
             {
                 if (collision.Other.HasTag(ItemTypes.Transition))
                 {
@@ -193,14 +197,14 @@ namespace Game1
             {
                 if(mCurrentState != CharState.Grounded && mCurrentState != CharState.GroundAttack)
                     mCurrentState = CharState.Grounded;
-                playerCol.Grounded = true;
+                CollisionBox.Grounded = true;
                 trajectory.Y = delta * 0.001f;
                 JumpCnt = 0;
             }
             else
             {
                 trajectory.Y += delta * 0.001f;
-                playerCol.Grounded = false;
+                CollisionBox.Grounded = false;
             }
         }
 

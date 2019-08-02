@@ -41,7 +41,7 @@ namespace Game1
             Services.AddService(soundManager);
 
 
-            inputHandler = new InputHandler(this);
+            inputHandler = InputHandler.InitializeSingleton(this);
             Components.Add(inputHandler);
             Components.Add(gameManager);
 
@@ -61,10 +61,6 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
-            
-
-            
 
             Content.RootDirectory = "Content";
             ContentManager = Content;

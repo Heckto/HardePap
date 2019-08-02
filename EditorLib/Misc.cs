@@ -12,6 +12,7 @@ namespace AuxLib
         StaticBlock = 1,
         PolyLine = 2,
         Player = 4,
-        Transition = 8
+        Transition = 8,
+        Enemy = 16
     }
 }

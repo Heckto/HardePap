@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace AuxLib.Input
 {
@@ -34,6 +35,24 @@ namespace AuxLib.Input
 #endif
 
         private bool allowsExiting;
+
+        private static InputHandler instance;
+        public static InputHandler Instance
+        {
+            get
+            {
+                if (instance == null)
+                    throw new InvalidOperationException();
+                else
+                    return instance;
+            }
+        }
+
+        public static InputHandler InitializeSingleton(Game game)
+        {
+            instance = new InputHandler(game);
+            return instance;
+        }
 
         public InputHandler(Game game) : this(game, false) { }
         public InputHandler(Game game, bool allowsExiting)

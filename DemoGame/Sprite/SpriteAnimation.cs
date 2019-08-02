@@ -74,7 +74,7 @@ namespace Game1.Sprite
             
         }
 
-        public void Draw(SpriteBatch spriteBatch, BoundedCamera camera, SpriteEffects flipEffects, Vector2 position, float scale)
+        public void Draw(SpriteBatch spriteBatch, BoundedCamera camera, SpriteEffects flipEffects, Vector2 position, float scale, Color color)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
 
@@ -85,7 +85,7 @@ namespace Game1.Sprite
             var actualY = flipEffects == SpriteEffects.FlipVertically ? position.Y - Offset.Y : position.Y + Offset.Y; // TODO: Test this, no vertical flip yet
 
             var actualPosition = new Vector2(actualX, actualY);
-            spriteBatch.Draw(tex, actualPosition, null, Color.White, 0.0f, Origin, scale, flipEffects, 1.0f);
+            spriteBatch.Draw(tex, actualPosition, null, color, 0.0f, Origin, scale, flipEffects, 1.0f);
 
             spriteBatch.End();
         }

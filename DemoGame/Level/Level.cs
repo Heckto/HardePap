@@ -12,13 +12,14 @@ using AuxLib;
 using AuxLib.Rand;
 using AuxLib.Camera;
 using Microsoft.Xna.Framework.Media;
+using Game1.Sprite;
 
 namespace Game1
 {
     public partial class Level
     {
-        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb,BoundedCamera camera);
-        public event HandlePlayerDrawDelegate HandlePlayerDraw;
+        [XmlIgnore]
+        public readonly Dictionary<string, SpriteObject> Sprites = new Dictionary<string, SpriteObject>();
 
 
         /// <summary>
@@ -109,13 +110,15 @@ namespace Game1
             MediaPlayer.IsRepeating = true;
 
             Bounds = (Rectangle)CustomProperties["bounds"].value;
+
+            
         }
 
         public void GenerateCollision()
         {
             var bounds = Rectangle.Empty;
             if (Name == "Level_01")
-                bounds = getLevelBounds();
+                bounds = GetLevelBounds();
             else if (Name == "Level_02")
                 bounds = Bounds;
             CollisionWorld = new World(bounds.Width, bounds.Height);
@@ -143,7 +146,7 @@ namespace Game1
             }
         }
 
-        public Item getItemByName(string name)
+        public Item GetItemByName(string name)
         {
             foreach (Layer layer in Layers)
             {
@@ -155,7 +158,7 @@ namespace Game1
             return null;
         }
 
-        public Layer getLayerByName(string name)
+        public Layer GetLayerByName(string name)
         {
             foreach (var layer in Layers)
             {
@@ -164,13 +167,14 @@ namespace Game1
             return null;
         }
 
-        public void draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
+        public void Draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
         {
             foreach (var layer in Layers)
             {
                 if (layer.Name == "collision")
                 {
-                    HandlePlayerDraw?.Invoke(sb, camera);
+                    foreach (var sprite in Sprites)
+                        sprite.Value.Draw(sb, camera);
                 }
                 else
                 {
@@ -205,7 +209,35 @@ namespace Game1
             }
         }
 
-        public Rectangle getLevelBounds()
+        public void Update(GameTime gameTime)
+        {
+            foreach(var sprite in Sprites)
+                sprite.Value.Update(gameTime);
+        }
+
+        public void AddSprite(string spriteName, SpriteObject sprite)
+        {
+            Sprites.Add(spriteName, sprite);
+        }
+
+        public void RemoveSprite(string spriteName)
+        {
+            if (Sprites.ContainsKey(spriteName))
+            {
+                CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
+                Sprites.Remove(spriteName);
+            }
+        }
+
+        public void RemoveSprite(SpriteObject sprite)
+        {
+            foreach (var item in Sprites.Where(kvp => kvp.Value == sprite))
+            {
+                RemoveSprite(item.Key);
+            }
+        }
+
+        public Rectangle GetLevelBounds()
         {
             var worldBounds = Rectangle.Empty;
             foreach (var l in Layers)
@@ -615,7 +647,7 @@ namespace Game1
         {
             foreach (CustomProperty cp in Values)
             {
-                if (cp.type == typeof(Item)) cp.value = level.getItemByName((string)cp.value);
+                if (cp.type == typeof(Item)) cp.value = level.GetItemByName((string)cp.value);
             }
         }
 
