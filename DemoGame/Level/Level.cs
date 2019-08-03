@@ -265,28 +265,27 @@ namespace Game1
 
         public override void Update(GameTime gameTime, Level lvl,BoundedCamera cam)
         {
-            var mat = Matrix.Invert(cam.GetViewMatrix(ScrollSpeed));
+            //var mat = Matrix.Invert(cam.GetViewMatrix(ScrollSpeed));            
             var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
             foreach (var Item in Items)
             {
-                var scrollVector = new Vector2(-20,0);
+                var scrollVector = new Vector2(20,0);
                 
                 var scrollAss = scrollVector;
                 scrollAss.Normalize();                
                 Item.Position += scrollVector;
                 var itemBox = Item.getBoundingBox();
 
-                var pos = Vector2.Transform(Item.Position, mat);
+
+                //var pos = Vector2.Transform(Item.Position, *);
+                var pos = Item.Position * ScrollSpeed;
+            
                 var rect = new Rectangle((int)pos.X, (int)pos.Y, (int)(itemBox.Width), (int)(itemBox.Height));
-                //var pos = Item.Position
-                //itemBox.X = (int)(itemBox.X * ScrollSpeed.X);
-                //itemBox.Y = (int)(itemBox.Y * ScrollSpeed.Y);
-                if (!rect.Intersects(lvl.Bounds))
-                {                    
+            
+                if (!lvl.Bounds.Intersects(rect))
+                {                       
                     var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
-                    var u = Vector2.Transform(posVector, mat);
-                    
-                    Item.Position -= (u);
+                    Item.Position -= (posVector);
                 }
             }
         }
