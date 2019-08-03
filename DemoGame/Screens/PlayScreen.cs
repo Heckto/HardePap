@@ -138,11 +138,11 @@ namespace Game1.Screens
             player.onTransition += Player_onTransition;
             lvl.AddSprite("Player", player);
 
-            for(int i = 1; i < 5; i++)
+            for (int i = 1; i < 5; i++)
             {
-                lvl.RemoveSprite("Enemy"+i);
+                lvl.RemoveSprite("Enemy" + i);
                 var enemy = new Enemies.Enemy1(new Vector2(spawnLocation.X - 500 + (500 * i), spawnLocation.Y), lvl.CollisionWorld, player, Content);
-                lvl.AddSprite("Enemy"+i, enemy);
+                lvl.AddSprite("Enemy" + i, enemy);
             }
         }
 

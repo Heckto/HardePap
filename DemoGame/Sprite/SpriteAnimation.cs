@@ -26,12 +26,8 @@ namespace Game1.Sprite
 
         public SpriteAnimation(ContentManager contentManager, SpriteAnimationConfig config)
         {
-            AnimationName = config.AnimationName;
-            frameTime = config.Frames.First().FrameTime;
-            Loop = config.Loop;
-            Offset = new Vector2(config.OffsetX, config.OffsetY);
+            LoadBasicConfigInfo(config);
 
-            Frames = new List<ISpriteAnimationFrame>();
             foreach (var frame in config.Frames)
                 Frames.Add(new SpriteAnimationFrameTexture(frame.AssetName, contentManager));
 
@@ -40,16 +36,20 @@ namespace Game1.Sprite
 
         public SpriteAnimation(SpriteAnimationConfig config, Dictionary<string, SpriteAnimationFrameSpriteSheet> framesDictionary)
         {
-            AnimationName = config.AnimationName;
-            frameTime = config.Frames.First().FrameTime;
-            Loop = config.Loop;
-            Offset = new Vector2(config.OffsetX, config.OffsetY);
+            LoadBasicConfigInfo(config);
 
-            Frames = new List<ISpriteAnimationFrame>();
             foreach (var frame in config.Frames)
                 Frames.Add(framesDictionary[frame.AssetName]);
 
             AnimationState = AnimationState.Loaded;
+        }
+
+        private void LoadBasicConfigInfo(SpriteAnimationConfig config)
+        {
+            AnimationName = config.AnimationName;
+            frameTime = config.Frames.First().FrameTime;
+            Loop = config.Loop;
+            Offset = new Vector2(config.OffsetX, config.OffsetY);
         }
 
         private Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();

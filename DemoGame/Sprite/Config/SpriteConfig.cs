@@ -15,7 +15,7 @@ namespace Game1.Sprite
         public int ColorG { get; set; }
         public int ColorB { get; set; }
         public int ColorA { get; set; }
-
+        public float SpriteSheetScale { get; set; }
         public string SpritesheetDefinitionFile { get; set; }
 
         public List<SpriteAnimationConfig> Animations { get; set; } = new List<SpriteAnimationConfig>();

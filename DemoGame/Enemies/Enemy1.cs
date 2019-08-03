@@ -81,6 +81,7 @@ namespace Game1.Enemies
             {
                 trajectory.X = 0;
                 mCurrentState = CharState.GroundAttack;
+                return;
             }
 
             if (player1.Position.X < Position.X)

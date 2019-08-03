@@ -66,7 +66,7 @@ namespace Game1.Sprite
             Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
 
             var sheetDef = config.SpritesheetDefinitionFile;
-            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, contentManager);
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale, contentManager);
 
             foreach (var animation in config.Animations)
             {

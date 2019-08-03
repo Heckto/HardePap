@@ -5,6 +5,7 @@
   <ColorG>255</ColorG>
   <ColorB>255</ColorB>
   <ColorA>255</ColorA>
+  <SpriteSheetScale>0.54</SpriteSheetScale>
   <SpritesheetDefinitionFile>Player/player.xml</SpritesheetDefinitionFile>
   <Animations>
     <SpriteAnimationConfig>

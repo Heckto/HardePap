@@ -14,20 +14,24 @@ namespace Game1.Sprite
         Texture2D spriteSheet;
         SpriteSheetImageDefinition definition;
 
-        public SpriteAnimationFrameSpriteSheet(Texture2D spriteSheet, SpriteSheetImageDefinition definition)
+        private float spriteSheetScale = 1.0f;
+
+        public SpriteAnimationFrameSpriteSheet(Texture2D spriteSheet, SpriteSheetImageDefinition definition, float scale)
         {
             this.spriteSheet = spriteSheet;
             this.definition = definition;
+
+            if(scale > 0)
+                spriteSheetScale = scale;
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset)
         {
             var tex = spriteSheet;
-            var actualPosition = CalcActualPosition();
 
             var dimensions = new Point(
-                (definition.Rotated ? definition.Dimensions.Y : definition.Dimensions.X) - 1,
-                (definition.Rotated ? definition.Dimensions.X : definition.Dimensions.Y) - 1
+                (definition.Rotated ? definition.Dimensions.Y : definition.Dimensions.X),
+                (definition.Rotated ? definition.Dimensions.X : definition.Dimensions.Y) 
                 );
             var rectangle = new Rectangle(definition.Position, dimensions);
 
@@ -36,20 +40,14 @@ namespace Game1.Sprite
 
             var origin = CalcOrigin();
 
-            spriteBatch.Draw(tex, actualPosition, rectangle, color, rotation, origin, scale * 1.85f, flipEffects, 1.0f);
+            var actualPosition = CalcActualPosition();
 
-            Vector2 CalcActualPosition()
-            {
-                var actualX = flipEffects.HasFlag(SpriteEffects.FlipHorizontally) ? position.X - Offset.X : position.X + Offset.X;
-                var actualY = flipEffects.HasFlag(SpriteEffects.FlipVertically) ? position.Y - Offset.Y : position.Y + Offset.Y; // TODO: Test this, no vertical flip yet
-
-                return new Vector2(actualX, actualY);
-            }
+            spriteBatch.Draw(tex, actualPosition, rectangle, color, rotation, origin, scale / spriteSheetScale, flipEffects, 1.0f);
 
             float CalcRotation()
             {
                 if (!definition.Rotated)
-                    return 0;
+                    return 0f;
                 if (flipEffects.HasFlag(SpriteEffects.FlipHorizontally))
                     return MathHelper.Pi / 2.0f;
                 return MathHelper.Pi / -2.0f;
@@ -57,34 +55,43 @@ namespace Game1.Sprite
 
             Vector2 CalcOrigin()
             {
-                //return new Vector2((dimensions.X) * 0.5f, (dimensions.Y) * 0.5f);
+                return new Vector2((dimensions.X) * 0.5f, (dimensions.Y) * 0.5f);
+            }
+
+            Vector2 CalcActualPosition()
+            {
+                var flipXValue = flipEffects.HasFlag(SpriteEffects.FlipHorizontally) ? -1 : 1;
+                var flipYValue = flipEffects.HasFlag(SpriteEffects.FlipVertically) ? -1 : 1;
 
                 var originalOriginX = definition.OriginalDimensions.X * 0.5f;
                 var originalOriginY = definition.OriginalDimensions.Y * 0.5f;
 
-                var newOriginX = originalOriginX - definition.Offset.X;
-                var newOriginY = originalOriginY - definition.Offset.Y;
+                var fauxOriginX = (definition.Dimensions.X * 0.5f) + definition.Offset.X;
+                var fauxOriginY = (definition.Dimensions.Y * 0.5f) + definition.Offset.Y;
 
-                return new Vector2(
-                    definition.Rotated ? newOriginY : newOriginX,
-                    definition.Rotated ? newOriginX : newOriginY
-                    );
+                var originDifferenceX = fauxOriginX - originalOriginX;
+                var originDifferenceY = fauxOriginY - originalOriginY;
+
+                var actualX = position.X + flipXValue * (Offset.X + originDifferenceX);
+                var actualY = position.Y + flipYValue * (Offset.Y + originDifferenceY);
+
+                return new Vector2(actualX, actualY);
             }
         }
 
-        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(string definitionLocation, ContentManager contentManager)
+        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(string definitionLocation, float scale, ContentManager contentManager)
         {
             var definition = SpriteSheetDefinition.LoadFromFile(definitionLocation);
-            return FromDefinitionFile(definition, contentManager);
+            return FromDefinitionFile(definition, scale, contentManager);
         }
 
-        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(SpriteSheetDefinition definition, ContentManager contentManager)
+        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(SpriteSheetDefinition definition, float scale, ContentManager contentManager)
         {
             var spriteSheet = contentManager.Load<Texture2D>(definition.PresumedAssetLocation);
             var result = new Dictionary<string, SpriteAnimationFrameSpriteSheet>();
             foreach (var imageDefinition in definition.ImageDefinitions)
             {
-                result.Add(imageDefinition.Key, new SpriteAnimationFrameSpriteSheet(spriteSheet, imageDefinition.Value));
+                result.Add(imageDefinition.Key, new SpriteAnimationFrameSpriteSheet(spriteSheet, imageDefinition.Value, scale));
             }
 
             return result;
