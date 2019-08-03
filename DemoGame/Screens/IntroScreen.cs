@@ -38,7 +38,7 @@ namespace Game1.Screens
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
             {
                 AudioManager.PlaySoundEffect("no munney");
-                var levelfile = Path.Combine(Content.RootDirectory, "Level1.xml");
+                var levelfile = Path.Combine(Content.RootDirectory, "Level2.xml");
                 // push our start menu onto the stack
                 GameManager.PushState(new PlayState(OurGame, levelfile), new ExpandTransition(graphics.GraphicsDevice,Color.Black, 2.0f));
             }

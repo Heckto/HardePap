@@ -26,7 +26,12 @@ namespace LevelEditor
                 MessageBox.Show("A layer or item with the name \"" + textBox1.Text + "\" already exists in the level. Please use another name!");
                 return;
             }
-            var l = new Layer(textBox1.Text);
+
+            Layer l = null;
+            if (radioButton1.Checked)
+                l = new Layer(textBox1.Text);
+            else
+                l = new MovingLayer(textBox1.Text);
             MainForm.Instance.picturebox.beginCommand("Add Layer \"" + l.Name + "\"");
             MainForm.Instance.picturebox.addLayer(l);
             MainForm.Instance.picturebox.endCommand();

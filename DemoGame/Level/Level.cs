@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
+using AuxLib.Debug;
 using AuxLib.Rand;
 using AuxLib.Sound;
 using AuxLib.Camera;
@@ -18,7 +19,7 @@ namespace Game1
 {
     public partial class Level
     {
-        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb,BoundedCamera camera);
+        public delegate void HandlePlayerDrawDelegate(SpriteBatch sb, BoundedCamera camera);
         public event HandlePlayerDrawDelegate HandlePlayerDraw;
 
 
@@ -45,9 +46,6 @@ namespace Game1
         [XmlIgnore]
         public Rectangle Bounds;
 
-        [XmlIgnore]
-        public Song bgTheme;
-
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
@@ -60,7 +58,7 @@ namespace Game1
             Visible = true;
             Layers = new List<Layer>();
             CustomProperties = new SerializableDictionary();
-            
+
         }
 
         public static Level FromFile(string filename)
@@ -74,9 +72,9 @@ namespace Game1
             {
                 foreach (var item in layer.Items)
                 {
-                    item.CustomProperties.RestoreItemAssociations(level);                 
+                    item.CustomProperties.RestoreItemAssociations(level);
                 }
-            }            
+            }
             return level;
         }
 
@@ -97,19 +95,16 @@ namespace Game1
                             spritesheets.Add(asset, texture);
                         }
                     }
-                    
+
                 }
             }
 
-            var song = "level" + Rand.GetRandomInt(1, 3);
-            AudioManager.PlaySoundTrack(song,true,false);
-            AudioManager.MusicVolume = 0.1f;
-            
-
-
-            
-
             Bounds = (Rectangle)CustomProperties["bounds"].value;
+
+            var song = "level" + Rand.GetRandomInt(1, 3);
+            AudioManager.PlaySoundTrack(song, true, false);
+            AudioManager.MusicVolume = 0.1f;
+
         }
 
         public void GenerateCollision()
@@ -120,15 +115,13 @@ namespace Game1
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
-                {                    
-                    var rec = elem as RectangleItem;                    
+                {
+                    var rec = elem as RectangleItem;
                     var box = CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
                     if (rec.ItemType == ItemTypes.Transition)
                     {
                         box.Data = rec;
                     }
-                    
-
                 }
                 else if (elem is PathItem)
                 {
@@ -162,7 +155,15 @@ namespace Game1
             return null;
         }
 
-        public void draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
+        public void Update(GameTime gameTime,BoundedCamera cam)
+        {
+            foreach (var layer in Layers)
+            {
+                layer.Update(gameTime,this,cam);
+            }
+        }
+
+        public void Draw(SpriteBatch sb, BoundedCamera camera)
         {
             foreach (var layer in Layers)
             {
@@ -173,7 +174,7 @@ namespace Game1
                 else
                 {
                     if (layer.Visible)
-                    { 
+                    {
                         sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
                         {
                             foreach (var item in layer.Items)
@@ -186,7 +187,7 @@ namespace Game1
                                     if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
                                     sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
                                 }
-                                
+
                             }
                         }
                         sb.End();
@@ -194,33 +195,20 @@ namespace Game1
                 }
             }
 
-            if (debug)
-            {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
-                var b = CollisionWorld.Bounds;
-                CollisionWorld.DrawDebug(sb,font,(int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
-                sb.End();
-            }
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
+            sb.DrawStroke(Bounds,Color.Black);
+            sb.End();
         }
 
-        public Rectangle getLevelBounds()
+        public void DrawDebug(SpriteBatch sb, SpriteFont font, BoundedCamera camera)
         {
-            var worldBounds = Rectangle.Empty;
-            foreach (var l in Layers)
-            {
-                if (l.Name != "collision" && l.Name != "background")
-                {
-                    foreach (var item in l.Items)
-                    {
-                        worldBounds = Rectangle.Union(worldBounds, item.getBoundingBox());
-                    }
-                }
-            }
-            return worldBounds;
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
+            CollisionWorld.DrawDebug(sb, font, Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height);
+            sb.End();
         }
     }
 
-
+    [XmlInclude(typeof(MovingLayer))]
     public partial class Layer
     {
         /// <summary>
@@ -247,6 +235,7 @@ namespace Game1
         /// </summary>
         public Vector2 ScrollSpeed;
 
+        
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
@@ -258,6 +247,48 @@ namespace Game1
             Items = new List<Item>();
             ScrollSpeed = Vector2.One;
             CustomProperties = new SerializableDictionary();
+        }
+
+        public virtual void Update(GameTime gameTime,Level lvl,BoundedCamera cam)
+        {
+            foreach (var item in Items)
+            {
+                item.Update(gameTime);
+            }
+
+        }
+    }
+
+    public class MovingLayer : Layer
+    {
+        public Vector2 ScrollVector { get; set; }
+
+        public override void Update(GameTime gameTime, Level lvl,BoundedCamera cam)
+        {
+            var mat = Matrix.Invert(cam.GetViewMatrix(ScrollSpeed));
+            var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
+            foreach (var Item in Items)
+            {
+                var scrollVector = new Vector2(-20,0);
+                
+                var scrollAss = scrollVector;
+                scrollAss.Normalize();                
+                Item.Position += scrollVector;
+                var itemBox = Item.getBoundingBox();
+
+                var pos = Vector2.Transform(Item.Position, mat);
+                var rect = new Rectangle((int)pos.X, (int)pos.Y, (int)(itemBox.Width), (int)(itemBox.Height));
+                //var pos = Item.Position
+                //itemBox.X = (int)(itemBox.X * ScrollSpeed.X);
+                //itemBox.Y = (int)(itemBox.Y * ScrollSpeed.Y);
+                if (!rect.Intersects(lvl.Bounds))
+                {                    
+                    var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
+                    var u = Vector2.Transform(posVector, mat);
+                    
+                    Item.Position -= (u);
+                }
+            }
         }
     }
 
@@ -297,6 +328,7 @@ namespace Game1
         }
 
         public abstract Rectangle getBoundingBox();
+        public abstract void Update(GameTime gameTime);
     }
 
 
@@ -352,11 +384,18 @@ namespace Game1
         public Vector2 Origin;
 
 
-        public TextureItem() {}
+        public TextureItem() { }
 
         public override Rectangle getBoundingBox()
         {
             return new Rectangle((int)Position.X, (int)Position.Y, (int)(srcRectangle.Width * Scale.X), (int)(srcRectangle.Height * Scale.Y));
+        }
+        
+            
+
+        public override void Update(GameTime gameTime)
+        {
+            
         }
     }
 
@@ -368,9 +407,9 @@ namespace Game1
         public Color FillColor;
         public ItemTypes ItemType { get; set; }
 
-        public RectangleItem()
-        {
-        }
+        public RectangleItem() {}
+
+        public override void Update(GameTime gameTime) {}
 
         public override Rectangle getBoundingBox()
         {
@@ -385,13 +424,15 @@ namespace Game1
         public Color FillColor;
         public ItemTypes ItemType { get; set; }
 
-        public CircleItem()
-        {
+        public CircleItem() {}
+
+        public override void Update(GameTime gameTime)
+        {            
         }
 
         public override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)(Position.X-0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
+            return new Rectangle((int)(Position.X - 0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
         }
     }
 
@@ -405,8 +446,11 @@ namespace Game1
         public Color LineColor;
         public ItemTypes ItemType { get; set; }
 
-        public PathItem()
+        public PathItem() {}
+
+        public override void Update(GameTime gameTime)
         {
+            
         }
 
         public override Rectangle getBoundingBox()
@@ -416,7 +460,7 @@ namespace Game1
             var minY = WorldPoints.Min(min => min.Y);
             var maxY = WorldPoints.Max(max => max.Y);
 
-            return new Rectangle((int)minX, (int)minY, (int)(maxX-minX), (int)(maxY-minY));
+            return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
         }
     }
 

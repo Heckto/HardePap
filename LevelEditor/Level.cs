@@ -89,7 +89,7 @@ namespace LevelEditor
 
     }
 
-
+    [XmlInclude(typeof(MovingLayer))]
     public partial class Layer
     {
         /// <summary>
@@ -136,6 +136,13 @@ namespace LevelEditor
             foreach (Item item in Items) item.draw(sb);
         }
 
+    }
+
+    public partial class MovingLayer : Layer
+    {
+        public Vector2 ScrollVector { get; set; }
+
+        public MovingLayer() : base() {}
     }
 
 
