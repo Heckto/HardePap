@@ -13,7 +13,7 @@ namespace Game1.Sprite
     public class SpriteAnimation
     {
         public string AnimationName { get; set; }
-        public List<Texture2D> Frames { get; set; } = new List<Texture2D>();
+        public List<ISpriteAnimationFrame> Frames { get; set; } = new List<ISpriteAnimationFrame>();
 
         public bool Loop { get; private set; }
         public AnimationState AnimationState { get; private set; }
@@ -24,16 +24,30 @@ namespace Game1.Sprite
 
         private Vector2 Offset;
 
-        public SpriteAnimation(ContentManager cm, SpriteAnimationConfig config)
+        public SpriteAnimation(ContentManager contentManager, SpriteAnimationConfig config)
         {
             AnimationName = config.AnimationName;
             frameTime = config.Frames.First().FrameTime;
             Loop = config.Loop;
             Offset = new Vector2(config.OffsetX, config.OffsetY);
 
-            Frames = new List<Texture2D>();
+            Frames = new List<ISpriteAnimationFrame>();
             foreach (var frame in config.Frames)
-                Frames.Add(LoadTexture(cm, frame.AssetName));
+                Frames.Add(new SpriteAnimationFrameTexture(frame.AssetName, contentManager));
+
+            AnimationState = AnimationState.Loaded;
+        }
+
+        public SpriteAnimation(SpriteAnimationConfig config, Dictionary<string, SpriteAnimationFrameSpriteSheet> framesDictionary)
+        {
+            AnimationName = config.AnimationName;
+            frameTime = config.Frames.First().FrameTime;
+            Loop = config.Loop;
+            Offset = new Vector2(config.OffsetX, config.OffsetY);
+
+            Frames = new List<ISpriteAnimationFrame>();
+            foreach (var frame in config.Frames)
+                Frames.Add(framesDictionary[frame.AssetName]);
 
             AnimationState = AnimationState.Loaded;
         }
@@ -70,24 +84,11 @@ namespace Game1.Sprite
                     AnimationState = AnimationState.Finished;
                 frameRunTime = 0.0f;
             }
-
-            
         }
 
-        public void Draw(SpriteBatch spriteBatch, BoundedCamera camera, SpriteEffects flipEffects, Vector2 position, float scale, Color color)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
-
-            var tex = Frames[currentFrame];
-            var Origin = new Vector2(tex.Width / 2, tex.Height / 2);
-
-            var actualX = flipEffects == SpriteEffects.FlipHorizontally ? position.X - Offset.X : position.X + Offset.X;
-            var actualY = flipEffects == SpriteEffects.FlipVertically ? position.Y - Offset.Y : position.Y + Offset.Y; // TODO: Test this, no vertical flip yet
-
-            var actualPosition = new Vector2(actualX, actualY);
-            spriteBatch.Draw(tex, actualPosition, null, color, 0.0f, Origin, scale, flipEffects, 1.0f);
-
-            spriteBatch.End();
+            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, scale, color, Offset);
         }
 
         public override string ToString() => $"{AnimationName}-{AnimationState}";

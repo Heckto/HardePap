@@ -79,8 +79,6 @@ namespace Game1.Screens
 
             monitor.Update();
             DebugMonitor.Update(gameTime);
-
-            
         }
 
 

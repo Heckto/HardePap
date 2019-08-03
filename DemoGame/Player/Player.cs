@@ -50,7 +50,7 @@ namespace Game1
 
         public override void LoadContent(ContentManager cm)
         {
-            LoadFromFile(cm, @"Content\PlayerSprite.xml");
+            LoadFromSheet(cm, @"Content\PlayerSprite.xml");
 
             CurrentAnimation = Animations["Jump"];
             SaveToXml();

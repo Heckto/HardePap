@@ -16,6 +16,8 @@ namespace Game1.Sprite
         public int ColorB { get; set; }
         public int ColorA { get; set; }
 
+        public string SpritesheetDefinitionFile { get; set; }
+
         public List<SpriteAnimationConfig> Animations { get; set; } = new List<SpriteAnimationConfig>();
 
         public void Serialize(string fileLocation)

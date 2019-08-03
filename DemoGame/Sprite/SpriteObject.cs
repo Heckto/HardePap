@@ -47,7 +47,7 @@ namespace Game1.Sprite
             LoadContent(contentManager);
         }
 
-        public virtual void LoadFromFile(ContentManager cm, string fileLocation)
+        public virtual void LoadFromFile(ContentManager contentManager, string fileLocation)
         {
             var config = SpriteConfig.Deserialize(fileLocation);
 
@@ -55,7 +55,22 @@ namespace Game1.Sprite
 
             foreach(var animation in config.Animations)
             {
-                Animations.Add(animation.AnimationName, new SpriteAnimation(cm, animation));
+                Animations.Add(animation.AnimationName, new SpriteAnimation(contentManager, animation));
+            }
+        }
+
+        public virtual void LoadFromSheet(ContentManager contentManager, string fileLocation)
+        {
+            var config = SpriteConfig.Deserialize(fileLocation);
+
+            Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
+
+            var sheetDef = config.SpritesheetDefinitionFile;
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, contentManager);
+
+            foreach (var animation in config.Animations)
+            {
+                Animations.Add(animation.AnimationName, new SpriteAnimation(animation, frameDictionary));
             }
         }
 
@@ -68,12 +83,12 @@ namespace Game1.Sprite
 
         public abstract void Update(GameTime gameTime);
 
-        public virtual void Draw(SpriteBatch spriteBatch, BoundedCamera camera)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             var flip = (Direction == FaceDirection.Left);
 
             if(CurrentAnimation != null)
-                CurrentAnimation.Draw(spriteBatch, camera, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color);
+                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color);
         }
 
         public enum FaceDirection

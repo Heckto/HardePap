@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Free texture packer v0.6.0 http://free-tex-packer.com
+Format:
+n  => name
+x  => x pos
+y  => y pos
+w  => width
+h  => height
+pX => x pos of the pivot point
+pY => y pos of the pivot point
+oX => x-corner offset
+oY => y-corner offset
+oW => original width
+oH => original height
+r => 'y' if sprite is rotated-->
+<TextureAtlas imagePath="player" width="2048" height="1991" scale="1" format="RGBA8888">
+  <sprite n="Kunai" x="0" y="0" w="17" h="86" pX="0.5" pY="0.5" r="y"/>
+  <sprite n="Idle__005" x="86" y="0" w="122" h="235" pX="0.5" pY="0.5" oX="3" oY="2" oW="125" oH="237" r="y"/>
+  <sprite n="Idle__003" x="321" y="0" w="123" h="236" pX="0.5" pY="0.5" oX="2" oY="1" oW="125" oH="237" r="y"/>
+  <sprite n="Idle__004" x="557" y="0" w="123" h="236" pX="0.5" pY="0.5" oX="2" oY="1" oW="125" oH="237" r="y"/>
+  <sprite n="Idle__002" x="793" y="0" w="124" h="237" pX="0.5" pY="0.5" oX="1" oY="0" oW="125" oH="237" r="y"/>
+  <sprite n="Dead__000" x="1030" y="0" w="125" h="244" pX="0.5" pY="0.5" oX="11" oY="9" oW="260" oH="269" r="y"/>
+  <sprite n="Idle__000" x="1274" y="0" w="125" h="237" pX="0.5" pY="0.5" r="y"/>
+  <sprite n="Idle__001" x="1511" y="0" w="125" h="237" pX="0.5" pY="0.5" r="y"/>
+  <sprite n="Climb_000" x="1748" y="0" w="126" h="248" pX="0.5" pY="0.5" oX="4" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_005" x="0" y="122" w="126" h="249" pX="0.5" pY="0.5" oX="16" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Throw__001" x="249" y="123" w="130" h="237" pX="0.5" pY="0.5" oX="51" oY="6" oW="204" oH="244" r="y"/>
+  <sprite n="Throw__009" x="486" y="123" w="131" h="237" pX="0.5" pY="0.5" oX="52" oY="7" oW="204" oH="244" r="y"/>
+  <sprite n="Climb_001" x="723" y="124" w="137" h="246" pX="0.5" pY="0.5" oX="2" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_004" x="969" y="125" w="137" h="245" pX="0.5" pY="0.5" oX="11" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_006" x="1214" y="125" w="137" h="245" pX="0.5" pY="0.5" oX="11" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_009" x="1459" y="125" w="137" h="246" pX="0.5" pY="0.5" oX="2" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Jump__002" x="1705" y="126" w="137" h="234" pX="0.5" pY="0.5" oX="23" oY="11" oW="195" oH="261" r="y"/>
+  <sprite n="Jump__003" x="0" y="248" w="137" h="233" pX="0.5" pY="0.5" oX="23" oY="11" oW="195" oH="261" r="y"/>
+  <sprite n="Dead__006" x="233" y="253" w="237" h="140" pX="0.5" pY="0.5" oX="5" oY="120" oW="260" oH="269"/>
+  <sprite n="Throw__000" x="470" y="254" w="140" h="230" pX="0.5" pY="0.5" oX="52" oY="12" oW="204" oH="244" r="y"/>
+  <sprite n="Dead__001" x="700" y="261" w="143" h="235" pX="0.5" pY="0.5" oX="4" oY="23" oW="260" oH="269" r="y"/>
+  <sprite n="Jump__001" x="935" y="262" w="144" h="249" pX="0.5" pY="0.5" oX="29" oY="12" oW="195" oH="261" r="y"/>
+  <sprite n="Climb_002" x="1184" y="262" w="145" h="242" pX="0.5" pY="0.5" oX="1" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_003" x="1426" y="262" w="145" h="240" pX="0.5" pY="0.5" oX="4" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Climb_007" x="1666" y="263" w="145" h="240" pX="0.5" pY="0.5" oX="4" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Jump__006" x="0" y="385" w="148" h="229" pX="0.5" pY="0.5" oX="22" oY="11" oW="195" oH="261" r="y"/>
+  <sprite n="Climb_008" x="229" y="394" w="145" h="242" pX="0.5" pY="0.5" oX="1" oY="2" oW="152" oH="251" r="y"/>
+  <sprite n="Attack__001" x="471" y="404" w="149" h="237" pX="0.5" pY="0.5" oX="25" oY="8" oW="289" oH="267" r="y"/>
+  <sprite n="Dead__005" x="708" y="406" w="235" h="152" pX="0.5" pY="0.5" oX="8" oY="109" oW="260" oH="269"/>
+  <sprite n="Jump__000" x="943" y="406" w="152" h="236" pX="0.5" pY="0.5" oX="34" oY="17" oW="195" oH="261" r="y"/>
+  <sprite n="Attack__000" x="1179" y="407" w="155" h="236" pX="0.5" pY="0.5" oX="25" oY="10" oW="289" oH="267" r="y"/>
+  <sprite n="Throw__008" x="1415" y="407" w="159" h="240" pX="0.5" pY="0.5" oX="40" oY="4" oW="204" oH="244" r="y"/>
+  <sprite n="Attack__002" x="1655" y="408" w="160" h="238" pX="0.5" pY="0.5" oX="9" oY="7" oW="289" oH="267" r="y"/>
+  <sprite n="Jump_Attack__000" x="0" y="533" w="160" h="224" pX="0.5" pY="0.5" oX="18" oY="9" oW="272" oH="282" r="y"/>
+  <sprite n="Jump_Attack__001" x="224" y="539" w="160" h="224" pX="0.5" pY="0.5" oX="18" oY="9" oW="272" oH="282" r="y"/>
+  <sprite n="Jump_Throw__000" x="448" y="553" w="160" h="224" pX="0.5" pY="0.5" oX="27" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Throw__006" x="672" y="558" w="160" h="240" pX="0.5" pY="0.5" oX="9" oY="2" oW="204" oH="244" r="y"/>
+  <sprite n="Throw__005" x="912" y="558" w="161" h="240" pX="0.5" pY="0.5" oX="7" oY="3" oW="204" oH="244" r="y"/>
+  <sprite n="Dead__004" x="1152" y="562" w="225" h="162" pX="0.5" pY="0.5" oX="10" oY="97" oW="260" oH="269"/>
+  <sprite n="Jump_Attack__002" x="1377" y="566" w="162" h="222" pX="0.5" pY="0.5" oX="16" oY="11" oW="272" oH="282" r="y"/>
+  <sprite n="Jump_Throw__001" x="1599" y="568" w="162" h="220" pX="0.5" pY="0.5" oX="27" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Jump_Throw__009" x="1819" y="568" w="162" h="222" pX="0.5" pY="0.5" oX="27" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Jump_Throw__008" x="0" y="693" w="163" h="219" pX="0.5" pY="0.5" oX="27" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Jump__007" x="219" y="699" w="163" h="226" pX="0.5" pY="0.5" oX="11" oY="10" oW="195" oH="261" r="y"/>
+  <sprite n="Jump_Throw__002" x="445" y="713" w="166" h="217" pX="0.5" pY="0.5" oX="26" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Throw__004" x="662" y="718" w="162" h="240" pX="0.5" pY="0.5" oX="6" oY="3" oW="204" oH="244" r="y"/>
+  <sprite n="Throw__003" x="902" y="719" w="165" h="240" pX="0.5" pY="0.5" oX="4" oY="3" oW="204" oH="244" r="y"/>
+  <sprite n="Run__007" x="1142" y="724" w="169" h="232" pX="0.5" pY="0.5" oX="16" oY="2" oW="196" oH="247" r="y"/>
+  <sprite n="Run__008" x="1374" y="728" w="171" h="217" pX="0.5" pY="0.5" oX="16" oY="4" oW="196" oH="247" r="y"/>
+  <sprite n="Throw__002" x="1591" y="730" w="171" h="240" pX="0.5" pY="0.5" oX="26" oY="3" oW="204" oH="244" r="y"/>
+  <sprite n="Jump_Throw__007" x="1831" y="730" w="173" h="217" pX="0.5" pY="0.5" oX="19" oY="9" oW="194" oH="233" r="y"/>
+  <sprite n="Run__002" x="0" y="862" w="173" h="240" pX="0.5" pY="0.5" oX="15" oY="2" oW="196" oH="247" r="y"/>
+  <sprite n="Slide__000" x="240" y="862" w="197" h="185" pX="0.5" pY="0.5" oX="4" oY="2" oW="201" oH="190"/>
+  <sprite n="Run__006" x="437" y="880" w="173" h="240" pX="0.5" pY="0.5" oX="17" oY="5" oW="196" oH="247" r="y"/>
+  <sprite n="Jump__008" x="677" y="880" w="177" h="223" pX="0.5" pY="0.5" oX="3" oY="9" oW="195" oH="261" r="y"/>
+  <sprite n="Run__001" x="900" y="884" w="174" h="242" pX="0.5" pY="0.5" oX="17" oY="5" oW="196" oH="247" r="y"/>
+  <sprite n="Run__000" x="1142" y="893" w="176" h="232" pX="0.5" pY="0.5" oX="19" oY="8" oW="196" oH="247" r="y"/>
+  <sprite n="Throw__007" x="1374" y="901" w="175" h="242" pX="0.5" pY="0.5" oX="24" oY="2" oW="204" oH="244" r="y"/>
+  <sprite n="Run__005" x="1616" y="903" w="176" h="230" pX="0.5" pY="0.5" oX="19" oY="8" oW="196" oH="247" r="y"/>
+  <sprite n="Slide__001" x="1846" y="903" w="196" h="186" pX="0.5" pY="0.5" oX="5" oY="2" oW="201" oH="190"/>
+  <sprite n="Run__009" x="0" y="1035" w="176" h="227" pX="0.5" pY="0.5" oX="19" oY="8" oW="196" oH="247" r="y"/>
+  <sprite n="Dead__002" x="227" y="1053" w="180" h="233" pX="0.5" pY="0.5" oX="6" oY="36" oW="260" oH="269" r="y"/>
+  <sprite n="Jump_Throw__003" x="460" y="1053" w="182" h="215" pX="0.5" pY="0.5" oX="12" oY="10" oW="194" oH="233" r="y"/>
+  <sprite n="Jump_Attack__008" x="675" y="1058" w="183" h="250" pX="0.5" pY="0.5" oX="7" oY="13" oW="272" oH="282" r="y"/>
+  <sprite n="Jump_Throw__004" x="925" y="1058" w="186" h="215" pX="0.5" pY="0.5" oX="8" oY="10" oW="194" oH="233" r="y"/>
+  <sprite n="Slide__002" x="1140" y="1069" w="195" h="187" pX="0.5" pY="0.5" oX="6" oY="1" oW="201" oH="190"/>
+  <sprite n="Slide__003" x="1335" y="1076" w="194" h="187" pX="0.5" pY="0.5" oX="7" oY="1" oW="201" oH="190"/>
+  <sprite n="Slide__004" x="1529" y="1079" w="193" h="187" pX="0.5" pY="0.5" oX="8" oY="1" oW="201" oH="190"/>
+  <sprite n="Slide__005" x="1722" y="1089" w="192" h="187" pX="0.5" pY="0.5" oX="9" oY="1" oW="201" oH="190"/>
+  <sprite n="Jump_Throw__006" x="0" y="1211" w="188" h="215" pX="0.5" pY="0.5" oX="5" oY="10" oW="194" oH="233" r="y"/>
+  <sprite n="Jump_Throw__005" x="215" y="1233" w="190" h="215" pX="0.5" pY="0.5" oX="4" oY="10" oW="194" oH="233" r="y"/>
+  <sprite n="Run__003" x="430" y="1235" w="190" h="227" pX="0.5" pY="0.5" oX="0" oY="4" oW="196" oH="247" r="y"/>
+  <sprite n="Run__004" x="657" y="1241" w="191" h="230" pX="0.5" pY="0.5" oX="4" oY="8" oW="196" oH="247" r="y"/>
+  <sprite n="Dead__003" x="887" y="1244" w="203" h="199" pX="0.5" pY="0.5" oX="14" oY="65" oW="260" oH="269"/>
+  <sprite n="Jump_Attack__009" x="1090" y="1256" w="202" h="222" pX="0.5" pY="0.5" oX="18" oY="11" oW="272" oH="282" r="y"/>
+  <sprite n="Attack__009" x="1312" y="1266" w="206" h="233" pX="0.5" pY="0.5" oX="22" oY="13" oW="289" oH="267" r="y"/>
+  <sprite n="Glide_003" x="1545" y="1276" w="221" h="231" pX="0.5" pY="0.5" oX="0" oY="8" oW="239" oH="245" r="y"/>
+  <sprite n="Glide_004" x="1776" y="1276" w="221" h="231" pX="0.5" pY="0.5" oX="0" oY="7" oW="239" oH="245" r="y"/>
+  <sprite n="Glide_005" x="0" y="1423" w="221" h="230" pX="0.5" pY="0.5" oX="0" oY="7" oW="239" oH="245" r="y"/>
+  <sprite n="Glide_000" x="230" y="1425" w="222" h="233" pX="0.5" pY="0.5" oX="1" oY="10" oW="239" oH="245" r="y"/>
+  <sprite n="Glide_002" x="463" y="1432" w="222" h="231" pX="0.5" pY="0.5" oX="0" oY="9" oW="239" oH="245" r="y"/>
+  <sprite n="Glide_001" x="694" y="1443" w="223" h="231" pX="0.5" pY="0.5" oX="0" oY="10" oW="239" oH="245" r="y"/>
+  <sprite n="Attack__008" x="925" y="1458" w="225" h="229" pX="0.5" pY="0.5" oX="7" oY="16" oW="289" oH="267" r="y"/>
+  <sprite n="Attack__005" x="1154" y="1472" w="284" h="228" pX="0.5" pY="0.5" oX="5" oY="18" oW="289" oH="267"/>
+  <sprite n="Attack__006" x="1438" y="1497" w="284" h="229" pX="0.5" pY="0.5" oX="5" oY="19" oW="289" oH="267"/>
+  <sprite n="Attack__007" x="1722" y="1497" w="284" h="229" pX="0.5" pY="0.5" oX="5" oY="19" oW="289" oH="267"/>
+  <sprite n="Attack__004" x="0" y="1647" w="266" h="233" pX="0.5" pY="0.5" oX="23" oY="12" oW="289" oH="267"/>
+  <sprite n="Attack__003" x="266" y="1654" w="264" h="237" pX="0.5" pY="0.5" oX="25" oY="8" oW="289" oH="267"/>
+  <sprite n="Jump_Attack__004" x="530" y="1666" w="254" h="248" pX="0.5" pY="0.5" oX="18" oY="14" oW="272" oH="282"/>
+  <sprite n="Jump_Attack__003" x="784" y="1683" w="254" h="250" pX="0.5" pY="0.5" oX="18" oY="12" oW="272" oH="282"/>
+  <sprite n="Jump_Attack__005" x="1038" y="1700" w="264" h="265" pX="0.5" pY="0.5" oX="8" oY="16" oW="272" oH="282" r="y"/>
+  <sprite n="Jump_Attack__006" x="1303" y="1726" w="267" h="265" pX="0.5" pY="0.5" oX="5" oY="16" oW="272" oH="282"/>
+  <sprite n="Jump_Attack__007" x="1570" y="1726" w="268" h="265" pX="0.5" pY="0.5" oX="4" oY="16" oW="272" oH="282"/>
+  <sprite n="Jump__004" x="0" y="248" w="137" h="233" pX="0.5" pY="0.5" oX="23" oY="11" oW="195" oH="261" r="y"/>
+  <sprite n="Jump__005" x="0" y="248" w="137" h="233" pX="0.5" pY="0.5" oX="23" oY="11" oW="195" oH="261" r="y"/>
+  <sprite n="Jump__009" x="677" y="880" w="177" h="223" pX="0.5" pY="0.5" oX="3" oY="9" oW="195" oH="261" r="y"/>
+</TextureAtlas>

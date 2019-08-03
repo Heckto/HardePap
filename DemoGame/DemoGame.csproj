@@ -77,11 +77,15 @@
     <Compile Include="Screens\OptionScreen.cs" />
     <Compile Include="Screens\ScreenStates.cs" />
     <Compile Include="Settings\GameSettings.cs" />
+    <Compile Include="Sprite\ISpriteAnimationFrame.cs" />
     <Compile Include="Sprite\SpriteAnimation.cs" />
     <Compile Include="Sprite\Config\SpriteAnimationConfig.cs" />
     <Compile Include="Sprite\Config\SpriteAnimationFrameConfig.cs" />
     <Compile Include="Sprite\Config\SpriteConfig.cs" />
+    <Compile Include="Sprite\SpriteAnimationFrameSpriteSheet.cs" />
+    <Compile Include="Sprite\SpriteAnimationFrameTexture.cs" />
     <Compile Include="Sprite\SpriteObject.cs" />
+    <Compile Include="Sprite\SpriteSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -5,6 +5,7 @@
   <ColorG>255</ColorG>
   <ColorB>255</ColorB>
   <ColorA>255</ColorA>
+  <SpritesheetDefinitionFile>Player/player.xml</SpritesheetDefinitionFile>
   <Animations>
     <SpriteAnimationConfig>
       <AnimationName>Idle</AnimationName>
@@ -13,43 +14,43 @@
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__000</AssetName>
+          <AssetName>Idle__000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__001</AssetName>
+          <AssetName>Idle__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__002</AssetName>
+          <AssetName>Idle__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__003</AssetName>
+          <AssetName>Idle__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__004</AssetName>
+          <AssetName>Idle__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__005</AssetName>
+          <AssetName>Idle__005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__006</AssetName>
+          <AssetName>Idle__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__007</AssetName>
+          <AssetName>Idle__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__008</AssetName>
+          <AssetName>Idle__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Idle__009</AssetName>
+          <AssetName>Idle__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -61,43 +62,43 @@
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__000</AssetName>
+          <AssetName>Run__000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__001</AssetName>
+          <AssetName>Run__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__002</AssetName>
+          <AssetName>Run__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__003</AssetName>
+          <AssetName>Run__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__004</AssetName>
+          <AssetName>Run__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__005</AssetName>
+          <AssetName>Run__005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__006</AssetName>
+          <AssetName>Run__006</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__007</AssetName>
+          <AssetName>Run__007</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__008</AssetName>
+          <AssetName>Run__008</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Run__009</AssetName>
+          <AssetName>Run__009</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -109,43 +110,43 @@
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__000</AssetName>
+          <AssetName>Attack__000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__001</AssetName>
+          <AssetName>Attack__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__002</AssetName>
+          <AssetName>Attack__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__003</AssetName>
+          <AssetName>Attack__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__004</AssetName>
+          <AssetName>Attack__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__005</AssetName>
+          <AssetName>Attack__005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__006</AssetName>
+          <AssetName>Attack__006</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__007</AssetName>
+          <AssetName>Attack__007</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__008</AssetName>
+          <AssetName>Attack__008</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Attack__009</AssetName>
+          <AssetName>Attack__009</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -157,43 +158,43 @@
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__000</AssetName>
+          <AssetName>Jump__000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__001</AssetName>
+          <AssetName>Jump__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__002</AssetName>
+          <AssetName>Jump__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__003</AssetName>
+          <AssetName>Jump__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__004</AssetName>
+          <AssetName>Jump__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__005</AssetName>
+          <AssetName>Jump__005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__006</AssetName>
+          <AssetName>Jump__006</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__007</AssetName>
+          <AssetName>Jump__007</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__008</AssetName>
+          <AssetName>Jump__008</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Jump__009</AssetName>
+          <AssetName>Jump__009</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -205,43 +206,43 @@
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_000</AssetName>
+          <AssetName>Glide_000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_001</AssetName>
+          <AssetName>Glide_001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_002</AssetName>
+          <AssetName>Glide_002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_003</AssetName>
+          <AssetName>Glide_003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_004</AssetName>
+          <AssetName>Glide_004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_005</AssetName>
+          <AssetName>Glide_005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_004</AssetName>
+          <AssetName>Glide_004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_003</AssetName>
+          <AssetName>Glide_003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_002</AssetName>
+          <AssetName>Glide_002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Player/Glide_001</AssetName>
+          <AssetName>Glide_001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>

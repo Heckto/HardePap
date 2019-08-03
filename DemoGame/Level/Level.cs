@@ -171,8 +171,10 @@ namespace Game1
             {
                 if (layer.Name == "collision")
                 {
+                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
                     foreach (var sprite in Sprites)
-                        sprite.Value.Draw(sb, camera);
+                        sprite.Value.Draw(sb);
+                    sb.End();
                 }
                 else
                 {
