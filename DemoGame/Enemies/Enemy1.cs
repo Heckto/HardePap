@@ -15,15 +15,16 @@ using System.Threading.Tasks;
 
 namespace Game1.Enemies
 {
-    class Enemy1 : SpriteObject
+    class Enemy1 : LivingSpriteObject
     {
-
         private const float acc = -25f;
         private const float gravity = 0.0012f;
         private const float friction = 0.001f;
         public const float jumpForce = 1.0f;
 
         public override Vector2 Position { get { return new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize; } }
+
+        public override int MaxHealth => 100;
 
         private Player player1;
 
@@ -39,22 +40,9 @@ namespace Game1.Enemies
 
         public override void LoadContent(ContentManager cm)
         {
-            LoadFromFile(cm, @"Content\EnemySprite.xml");
+            LoadFromSheet(cm, @"Content\EnemySprite.xml");
 
             CurrentAnimation = Animations["Jump"];
-        }
-
-        public void SetAnimation(string name)
-        {
-            if (Animations.ContainsKey(name))
-            {
-                var animation = Animations[name];
-                if (CurrentAnimation != animation)
-                {
-                    animation.Reset();
-                    CurrentAnimation = animation;
-                }
-            }
         }
 
         public override void Update(GameTime gameTime)
@@ -126,6 +114,7 @@ namespace Game1.Enemies
                 {
                     //throw new NotImplementedException();
                 }
+                
                 if (collision.Hit.Normal.Y < 0)
                 {
                     return CollisionResponses.Slide;

@@ -91,6 +91,19 @@ namespace Game1.Sprite
                 CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color);
         }
 
+        public void SetAnimation(string name)
+        {
+            if (Animations.ContainsKey(name))
+            {
+                var animation = Animations[name];
+                if (CurrentAnimation != animation)
+                {
+                    animation.Reset();
+                    CurrentAnimation = animation;
+                }
+            }
+        }
+
         public enum FaceDirection
         {
             Left,

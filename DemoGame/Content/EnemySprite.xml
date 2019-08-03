@@ -5,6 +5,8 @@
   <ColorG>100</ColorG>
   <ColorB>100</ColorB>
   <ColorA>255</ColorA>
+  <SpriteSheetScale>0.54</SpriteSheetScale>
+  <SpritesheetDefinitionFile>Player/player.xml</SpritesheetDefinitionFile>
   <Animations>
     <SpriteAnimationConfig>
       <AnimationName>Idle</AnimationName>

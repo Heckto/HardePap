@@ -78,6 +78,7 @@
     <Compile Include="Screens\ScreenStates.cs" />
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Sprite\ISpriteAnimationFrame.cs" />
+    <Compile Include="Sprite\LivingSpriteObject.cs" />
     <Compile Include="Sprite\SpriteAnimation.cs" />
     <Compile Include="Sprite\Config\SpriteAnimationConfig.cs" />
     <Compile Include="Sprite\Config\SpriteAnimationFrameConfig.cs" />

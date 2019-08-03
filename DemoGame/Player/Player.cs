@@ -41,6 +41,7 @@ namespace Game1
             CollisionBox = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Player);
+            CollisionBox.Data = this;
 
             PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
             PlayState.DebugMonitor.AddDebugValue(this, nameof(mCurrentState));
@@ -56,18 +57,7 @@ namespace Game1
             SaveToXml();
         }
 
-        public void SetAnimation(string name)
-        {
-            if (Animations.ContainsKey(name))
-            {
-                var animation = Animations[name];
-                if(CurrentAnimation != animation)
-                {
-                    animation.Reset();
-                    CurrentAnimation = animation;
-                }
-            }
-        }
+        
 
         public override void Update(GameTime gameTime)
         {
