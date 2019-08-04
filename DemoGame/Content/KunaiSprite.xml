@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SpriteConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SpriteName>Kunai</SpriteName>
+  <ColorR>255</ColorR>
+  <ColorG>255</ColorG>
+  <ColorB>255</ColorB>
+  <ColorA>255</ColorA>
+  <SpriteSheetScale>0.54</SpriteSheetScale>
+  <SpritesheetDefinitionFile>Player/player.xml</SpritesheetDefinitionFile>
+  <Animations>
+    <SpriteAnimationConfig>
+      <AnimationName>Kunai</AnimationName>
+      <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <Frames>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Kunai</AssetName>
+          <FrameTime>1.00</FrameTime>
+        </SpriteAnimationFrameConfig>
+      </Frames>
+    </SpriteAnimationConfig>
+  </Animations>
+</SpriteConfig>

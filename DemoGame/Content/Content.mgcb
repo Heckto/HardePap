@@ -159,6 +159,9 @@
 #begin PlayerSprite.xml
 /copy:PlayerSprite.xml
 
+#begin KunaiSprite.xml
+/copy:KunaiSprite.xml
+
 #begin SFX/no munney.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

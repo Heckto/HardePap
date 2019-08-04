@@ -93,7 +93,7 @@ namespace Game1.Sprite
             }
             else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
             {
-                World.Remove(CollisionBox);
+                Level.CollisionWorld.Remove(CollisionBox);
                 IsAlive = false;
             }
         }

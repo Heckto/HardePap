@@ -13,7 +13,8 @@ namespace Game1.Sprite
 {
     public interface ISpriteAnimationFrame
     {
+        Vector2 Size { get; }
         void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect);
+        void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float rotation, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect);
     }
 }

@@ -18,6 +18,8 @@ namespace Game1.Sprite
 
         private float spriteSheetScale = 1.0f;
 
+        public Vector2 Size => new Vector2(definition.Dimensions.X, definition.Dimensions.Y);
+
         public SpriteAnimationFrameSpriteSheet(Texture2D spriteSheet, SpriteSheetImageDefinition definition, float scale)
         {
             this.spriteSheet = spriteSheet;
@@ -33,7 +35,7 @@ namespace Game1.Sprite
             
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float rotation, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect)
         {
             var tex = spriteSheet;
 
@@ -44,13 +46,13 @@ namespace Game1.Sprite
             var rectangle = new Rectangle(definition.Position, dimensions);
 
             //if rotated, rotate an additional 90 degrees
-            var rotation = CalcRotation();
+            var spriteRotation = CalcRotation();
 
             var origin = CalcOrigin();
 
             var actualPosition = CalcActualPosition();
 
-            animationEffect.Draw(spriteBatch, tex, actualPosition, rectangle, color, rotation, origin, scale / spriteSheetScale, flipEffects, 1.0f);
+            animationEffect.Draw(spriteBatch, tex, actualPosition, rectangle, color, spriteRotation + rotation, origin, scale / spriteSheetScale, flipEffects, 1.0f);
 
             float CalcRotation()
             {
@@ -95,7 +97,7 @@ namespace Game1.Sprite
 
         public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(SpriteSheetDefinition definition, float scale, ContentManager contentManager)
         {
-            var spriteSheet = contentManager.Load<Texture2D>(definition.PresumedAssetLocation);
+            var spriteSheet = LoadTexture(contentManager, definition.PresumedAssetLocation);
             var result = new Dictionary<string, SpriteAnimationFrameSpriteSheet>();
             foreach (var imageDefinition in definition.ImageDefinitions)
             {
@@ -103,6 +105,18 @@ namespace Game1.Sprite
             }
 
             return result;
+        }
+
+
+        private static Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
+        private static Texture2D LoadTexture(ContentManager contentManager, string assetLocation)
+        {
+            if (loadedTextures.ContainsKey(assetLocation))
+                return loadedTextures[assetLocation];
+
+            var texture = contentManager.Load<Texture2D>(assetLocation);
+            loadedTextures.Add(assetLocation, texture);
+            return texture;
         }
     }
 }

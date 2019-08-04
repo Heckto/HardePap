@@ -40,20 +40,18 @@ namespace Game1
 
         public override int MaxHealth => 100;
 
-        public Player(Vector2 loc, World world, ContentManager cm) : base(cm)
+        private readonly List<SpriteObject> thrownObjects = new List<SpriteObject>();
+
+        public Player(Vector2 loc, Level level, ContentManager cm) : base(cm)
         {
+            Level = level;
             colBodySize = scale * hitBoxSize;
-            CollisionBox = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            CollisionBox = (MoveableBody)level.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Player);
             CollisionBox.Data = this;
 
-            World = world;
-
             PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
-
-
-            //TODO: Fix DebugMonitor to accept Properties instead of Fields
             PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentState));
             PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
             PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
@@ -64,7 +62,6 @@ namespace Game1
             LoadFromSheet(cm, @"Content\PlayerSprite.xml");
 
             CurrentAnimation = Animations["Jump"];
-            SaveToXml();
         }
 
         public override void ManagedUpdate(GameTime gameTime)
@@ -74,6 +71,17 @@ namespace Game1
             HandleKeyInput(delta, InputHandler.Instance);
             HandleCollision(delta);
             UpdateAnimation(gameTime);
+
+            var deadObjects = thrownObjects.Where(x => x.Trajectory.X == 0f).ToList();
+            foreach(var deadObject in deadObjects)
+            {
+                thrownObjects.Remove(deadObject);
+            }
+
+            foreach (var thrown in thrownObjects)
+            {
+                thrown.Update(gameTime);
+            }
         }
 
         private void HandleKeyInput(float delta, IInputHandler Input)
@@ -85,8 +93,10 @@ namespace Game1
             var wasKeyJump = Input.WasPressed(0, Buttons.A, Keys.Space);
 
             var isKeyAttack = Input.IsPressed(0, Buttons.X, Keys.LeftControl);
+            var isKeyThrow = Input.WasPressed(0, Buttons.Y, Keys.LeftShift);
 
-            if (CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
+            if ((CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack") ||
+                (CurrentState == CharState.GroundThrow && CurrentAnimation.AnimationName == "Throw"))
             {
                 if (CurrentAnimation.AnimationState == AnimationState.Running)
                     return;
@@ -108,7 +118,7 @@ namespace Game1
                 else
                     trajectoryX = acc * friction * delta;
 
-                if(CurrentState != CharState.JumpAttack)
+                if (CurrentState != CharState.JumpAttack)
                     Direction = FaceDirection.Left;
             }
             else if (keyRight)
@@ -175,6 +185,13 @@ namespace Game1
                     trajectoryX = 0;
                     CurrentState = CharState.GroundAttack;
                 }
+                else if (isKeyThrow)
+                {
+                    trajectoryX = 0;
+                    var location = new Vector2(Position.X, Position.Y);
+                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, Level, null)); // null shouldnt be a problem here since the texture should be loaded already
+                    CurrentState = CharState.GroundThrow;
+                }
                 else if (Math.Abs(Trajectory.Y) > 0.5)
                 {
                     CurrentState = CharState.Air;
@@ -210,7 +227,7 @@ namespace Game1
 
             if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
-                if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
+                if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack && CurrentState != CharState.GroundThrow)
                     CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
                 Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
@@ -233,25 +250,25 @@ namespace Game1
             var width = (int)CollisionBox.Width;
             var swordLength = width * 0.9f;
 
-            var xPos = Direction == FaceDirection.Right ?
+            var xPosition = Direction == FaceDirection.Right ?
                 CollisionBox.Bounds.Right + swordLength :
                 CollisionBox.X - swordLength;
 
-            var yPos = new List<float> {
+            var yPositions = new List<float> {
                 CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
                 CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
                 CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
             };
 
-            var collisions = yPos
-                            .Select(y => World.Hit(new Vector2f(xPos, y)))
-                            .Where(col => col != null && col.Box.HasTag(ItemTypes.Enemy))
-                            .Select(col => col.Box)
+            var collisions = yPositions
+                            .Select(yPosition => Level.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
+                            .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Enemy))
+                            .Select(collision => collision.Box)
                             .Distinct();
 
             foreach (var collision in collisions)
             {
-                    ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
+                ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
             }
         }
 
@@ -264,6 +281,9 @@ namespace Game1
                     break;
                 case CharState.JumpAttack:
                     SetAnimation("JumpAttack");
+                    break;
+                case CharState.GroundThrow:
+                    SetAnimation("Throw");
                     break;
                 case CharState.Grounded:
                     if (Trajectory.X == 0)
@@ -280,33 +300,11 @@ namespace Game1
             }
         }
 
-        private void SaveToXml()
+        protected override void ManagedDraw(SpriteBatch spriteBatch)
         {
-            var xmlObject = new SpriteConfig();
-            xmlObject.SpriteName = "Player";
-            foreach (var animation in Animations)
-            {
-                var xmlAnimation = new SpriteAnimationConfig();
-
-                xmlAnimation.AnimationName = animation.Key;
-                xmlAnimation.Loop = true;
-                xmlAnimation.OffsetX = 0.0f;
-                xmlAnimation.OffsetY = 0.0f;
-
-                for (var idx = 0; idx < 10; idx++)
-                {
-                    var xmlFrame = new SpriteAnimationFrameConfig();
-
-                    xmlFrame.AssetName = "Player/" + xmlAnimation.AnimationName + $"__00{idx}";
-                    xmlFrame.FrameTime = 0.05f;
-
-                    xmlAnimation.Frames.Add(xmlFrame);
-                }
-
-                xmlObject.Animations.Add(xmlAnimation);
-            }
-
-            xmlObject.Serialize(Path.Combine(Directory.GetCurrentDirectory(), "PlayerSprite.xml"));
+            base.ManagedDraw(spriteBatch);
+            foreach (var thrown in thrownObjects)
+                thrown.Draw(spriteBatch);
         }
     }
 
@@ -316,6 +314,7 @@ namespace Game1
         Air = 0x02,
         Glide = 0x04,
         GroundAttack = 0x08,
-        JumpAttack = 0x10
+        JumpAttack = 0x10,
+        GroundThrow = 0x20
     };
 }

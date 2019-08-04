@@ -69,6 +69,7 @@
     <Compile Include="DemoGame.cs" />
     <Compile Include="Enemies\Enemy1.cs" />
     <Compile Include="Level\Level.cs" />
+    <Compile Include="Obstacles\Kunai.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

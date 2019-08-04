@@ -87,10 +87,10 @@ namespace Game1.Sprite
             var et = (float)gameTime.ElapsedGameTime.TotalSeconds;
             frameRunTime += et;
 
+            AnimationState = AnimationState.Running;
+
             if (frameRunTime > frameTime)
             {
-                AnimationState = AnimationState.Running;
-
                 if (currentFrame < Frames.Count() - 1)
                     currentFrame++;
                 else if (Loop)
@@ -113,11 +113,11 @@ namespace Game1.Sprite
             currentEffect = animationEffect;
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, AnimationEffect animationEffect)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float rotation, float scale, Color color, AnimationEffect animationEffect)
         {
             SetAnimationEffect(animationEffect);
 
-            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, scale, color, Offset, animationEffects[currentEffect]);
+            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, rotation, scale, color, Offset, animationEffects[currentEffect]);
         }
 
         public override string ToString() => $"{AnimationName}-{AnimationState}";

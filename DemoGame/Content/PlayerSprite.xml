@@ -200,6 +200,54 @@
         </SpriteAnimationFrameConfig>
       </Frames>
     </SpriteAnimationConfig>
+	<SpriteAnimationConfig>
+      <AnimationName>Throw</AnimationName>
+      <Loop>false</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <Frames>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__000</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__001</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__002</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__003</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__004</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__005</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__006</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__007</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__008</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Throw__009</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+      </Frames>
+    </SpriteAnimationConfig>
     <SpriteAnimationConfig>
       <AnimationName>Jump</AnimationName>
       <Loop>true</Loop>

@@ -18,13 +18,13 @@ namespace Game1.Sprite
     {
         protected float scale = 0.5f;
         
-        public CharState CurrentState { get; set; } = CharState.Air;
-        protected Vector2 Trajectory { get; set; } = Vector2.Zero;
+        public CharState CurrentState { get; protected set; } = CharState.Air;
+        public Vector2 Trajectory { get; protected set; } = Vector2.Zero;
         
 
         public MoveableBody CollisionBox { get; set; }
 
-        protected World World { get; set; }
+        protected Level Level { get; set; }
 
         protected Color Color { get; set; }
 
@@ -41,6 +41,8 @@ namespace Game1.Sprite
                     dir = value;
             }
         }
+
+        public float Rotation { get; set; }
 
         public virtual Vector2 Position { get; protected set; }
         protected Vector2 colBodySize;
@@ -82,7 +84,7 @@ namespace Game1.Sprite
             throw new NotImplementedException();
         }
 
-        public abstract void LoadContent(ContentManager cm);
+        public abstract void LoadContent(ContentManager contentManager);
 
         public virtual void Update(GameTime gameTime)
         {
@@ -97,7 +99,7 @@ namespace Game1.Sprite
             var flip = (Direction == FaceDirection.Left);
 
             if(CurrentAnimation != null)
-                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color, animationEffect);
+                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, Rotation, scale, Color, animationEffect);
         }
 
         public void SetAnimation(string name)

@@ -31,15 +31,15 @@ namespace Game1.Enemies
 
         private Player player1;
 
-        public Enemy1(Vector2 loc, World world, Player player1, ContentManager cm) : base(cm)
+        public Enemy1(Vector2 loc, Level level, Player player1, ContentManager cm) : base(cm)
         {
+            Level = level;
+
             colBodySize = scale * hitBoxSize;
-            CollisionBox = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            CollisionBox = (MoveableBody)level.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Enemy);
             CollisionBox.Data = this;
-
-            World = world;
 
             this.player1 = player1;
         }
