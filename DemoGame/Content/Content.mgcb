@@ -159,6 +159,24 @@
 #begin PlayerSprite.xml
 /copy:PlayerSprite.xml
 
+#begin Player/player2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Player/player2.png
+
+#begin Player/player2.xml
+/copy:Player/player2.xml
+
+#begin Player2Sprite.xml
+/copy:Player2Sprite.xml
+
 #begin KunaiSprite.xml
 /copy:KunaiSprite.xml
 

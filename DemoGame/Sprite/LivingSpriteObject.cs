@@ -22,7 +22,7 @@ namespace Game1.Sprite
 
         public virtual bool ShouldDraw => IsAlive;
 
-        public virtual float InvulnerabilityTime => 1500f;
+        public virtual float InvulnerabilityTime => 1000f;
 
         public virtual float InvulnerabilityTimer { get; protected set; }
 

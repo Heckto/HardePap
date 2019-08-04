@@ -10,7 +10,7 @@ namespace Game1.Sprite.AnimationEffects
 {
     class FlashWhiteAnimationEffect : IAnimationEffect
     {
-        private const float effectTime = 150f;
+        private const float effectTime = 100f;
         private float effectTimer = 0f;
         private bool white = false;
 

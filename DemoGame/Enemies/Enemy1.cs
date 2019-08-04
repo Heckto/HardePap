@@ -21,7 +21,7 @@ namespace Game1.Enemies
         private const float acc = -25f;
         private const float gravity = 0.0012f;
         private const float friction = 0.001f;
-        public const float jumpForce = 1.0f;
+        public const float jumpForce = 0.8f;
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
@@ -105,7 +105,7 @@ namespace Game1.Enemies
             {
                 if (CurrentState == CharState.Grounded)
                 {
-                    trajectoryY = -1 * jumpForce;
+                    trajectoryY = -jumpForce;
                     CurrentState = CharState.Air;
                     CollisionBox.Grounded = false;
                 }
@@ -130,12 +130,18 @@ namespace Game1.Enemies
                 return CollisionResponses.Slide;
             });
 
-            if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
+            var hits = move.Hits.ToList();
+            if (hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
                 if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
                     CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
                 Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
+            }
+            else if ((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
+                    (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
+            {
+                Trajectory = new Vector2(Trajectory.X, 0);
             }
             else
             {

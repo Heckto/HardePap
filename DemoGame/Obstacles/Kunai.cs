@@ -12,8 +12,8 @@ namespace Game1.Obstacles
 {
     public class Kunai : SpriteObject
     {
-        const float movementSpeed = 1f; //pixels per ms
-        const float gravity = 0.1f;
+        const float movementSpeed = 1.5f; //pixels per ms
+        const float gravity = 0.0001f;
 
         private Vector2f kunaiPoint;
 
@@ -53,7 +53,7 @@ namespace Game1.Obstacles
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Trajectory = new Vector2(Trajectory.X, Trajectory.Y + (gravity * delta));
-            Position = new Vector2(Position.X + (delta * Trajectory.X), Position.Y);
+            Position = new Vector2(Position.X + (delta * Trajectory.X), Position.Y + (delta * Trajectory.Y));
 
             HandleCollision();
 

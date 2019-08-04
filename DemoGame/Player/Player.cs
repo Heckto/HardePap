@@ -57,9 +57,12 @@ namespace Game1
             PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
         }
 
-        public override void LoadContent(ContentManager cm)
+        public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(cm, @"Content\PlayerSprite.xml");
+            if (InputHandler.Instance != null && InputHandler.Instance.IsPressed(0, Buttons.LeftTrigger, Keys.P))
+                LoadFromSheet(contentManager, @"Content\Player2Sprite.xml");
+            else
+                LoadFromSheet(contentManager, @"Content\PlayerSprite.xml");
 
             CurrentAnimation = Animations["Jump"];
         }
@@ -141,7 +144,7 @@ namespace Game1
             {
                 if (CurrentState == CharState.Grounded)
                 {
-                    trajectoryY -= jumpForce;
+                    trajectoryY = -jumpForce;
                     CurrentState = CharState.Air;
                     CollisionBox.Grounded = false;
                     JumpCnt++;
@@ -171,7 +174,7 @@ namespace Game1
                 }
                 else if(isKeyThrow)
                 {
-                    var location = new Vector2(Position.X, Position.Y + (trajectoryY * 50));
+                    var location = new Vector2(Position.X, Position.Y + (trajectoryY * 50)); // Adding something since the kunai spawns before the animation
                     thrownObjects.Add(new Obstacles.Kunai(location, Direction, Level, null)); // null shouldnt be a problem here since the texture should be loaded already
                     CurrentState = CharState.JumpThrow;
                 }
@@ -232,13 +235,19 @@ namespace Game1
                 return CollisionResponses.Slide;
             });
 
-            if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
+            var hits = move.Hits.ToList();
+            if (hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
                 if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack && CurrentState != CharState.GroundThrow)
                     CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
                 Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
                 JumpCnt = 0;
+            }
+            else if((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
+                    (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
+            {
+                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
             }
             else
             {
