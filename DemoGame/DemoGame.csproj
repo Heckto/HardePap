@@ -77,6 +77,11 @@
     <Compile Include="Screens\OptionScreen.cs" />
     <Compile Include="Screens\ScreenStates.cs" />
     <Compile Include="Settings\GameSettings.cs" />
+    <Compile Include="Sprite\AnimationEffects\FlashWhiteAnimationEffect.cs" />
+    <Compile Include="Sprite\AnimationEffects\NoAnimationEffect.cs" />
+    <Compile Include="Sprite\Enums\AnimationEffect.cs" />
+    <Compile Include="Sprite\Enums\AnimationState.cs" />
+    <Compile Include="Sprite\AnimationEffects\IAnimationEffect.cs" />
     <Compile Include="Sprite\ISpriteAnimationFrame.cs" />
     <Compile Include="Sprite\LivingSpriteObject.cs" />
     <Compile Include="Sprite\SpriteAnimation.cs" />

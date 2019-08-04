@@ -3,6 +3,7 @@ using AuxLib.Input;
 using Game1.CollisionDetection;
 using Game1.CollisionDetection.Responses;
 using Game1.Sprite;
+using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
@@ -68,7 +69,6 @@ namespace Game1.Enemies
                 return;
             }
 
-
             var trajectoryX = Trajectory.X;
             var trajectoryY = Trajectory.Y;
             if (CurrentState == CharState.Grounded && Math.Abs(player1.Position.X - Position.X) < 150)
@@ -118,11 +118,6 @@ namespace Game1.Enemies
         {
             var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, (collision) =>
             {
-                if (collision.Other.HasTag(ItemTypes.Transition))
-                {
-                    //throw new NotImplementedException();
-                }
-                
                 if (collision.Hit.Normal.Y < 0)
                 {
                     return CollisionResponses.Slide;

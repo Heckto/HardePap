@@ -1,4 +1,6 @@
 ﻿using AuxLib.Camera;
+using Game1.Sprite.AnimationEffects;
+using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +27,13 @@ namespace Game1.Sprite
                 spriteSheetScale = scale;
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset)
+
+        public void Update(GameTime gameTime)
+        {
+            
+        }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect)
         {
             var tex = spriteSheet;
 
@@ -42,7 +50,7 @@ namespace Game1.Sprite
 
             var actualPosition = CalcActualPosition();
 
-            spriteBatch.Draw(tex, actualPosition, rectangle, color, rotation, origin, scale / spriteSheetScale, flipEffects, 1.0f);
+            animationEffect.Draw(spriteBatch, tex, actualPosition, rectangle, color, rotation, origin, scale / spriteSheetScale, flipEffects, 1.0f);
 
             float CalcRotation()
             {

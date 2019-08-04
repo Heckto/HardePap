@@ -1,4 +1,6 @@
 ﻿using AuxLib.Camera;
+using Game1.Sprite.AnimationEffects;
+using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,6 +13,7 @@ namespace Game1.Sprite
 {
     public interface ISpriteAnimationFrame
     {
-        void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset);
+        void Update(GameTime gameTime);
+        void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, Vector2 Offset, IAnimationEffect animationEffect);
     }
 }

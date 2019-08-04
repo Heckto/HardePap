@@ -18,8 +18,8 @@ namespace AuxLib.Debug
         public DebugMonitor()
         {
             debugMonitors = new Dictionary<string, MonitorItem>();
-            
-            
+
+
         }
 
         public void Initialize(SpriteFont font)
@@ -28,7 +28,7 @@ namespace AuxLib.Debug
             //font = Game1.DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
         }
 
-        public void AddDebugValue(object sender,string key,string alias = "")
+        public void AddDebugValue(object sender, string key, string alias = "")
         {
             var item = new MonitorItem()
             {
@@ -48,14 +48,20 @@ namespace AuxLib.Debug
         public void Update(GameTime gameTime)
         {
             foreach (var item in debugMonitors)
-            {                
+            {
                 var f = item.Value.t.GetField(item.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                item.Value.DebugValue = f.GetValue(item.Value.DebugObject);
+                if (f != null)
+                    item.Value.DebugValue = f.GetValue(item.Value.DebugObject);
+                else
+                {
+                    var p = item.Value.t.GetProperty(item.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    item.Value.DebugValue = p.GetValue(item.Value.DebugObject);
+                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
-        {            
+        {
             var itemCnt = debugMonitors.Count();
             if (itemCnt > 0)
             {
@@ -70,7 +76,7 @@ namespace AuxLib.Debug
                     else
                         itemText = $"{item.Key} : { item.Value.DebugValue}";
                     strings.Add(itemText);
-                    var textSize = spriteBatch.MeasureString(font,itemText);
+                    var textSize = spriteBatch.MeasureString(font, itemText);
 
                     maxLength = Math.Max(maxLength, textSize.X);
                     maxHeight = Math.Max(maxHeight, textSize.Y);
@@ -78,12 +84,12 @@ namespace AuxLib.Debug
 
                 var vectSize = itemCnt * maxHeight + 2f * maxHeight;
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                spriteBatch.DrawRectangle(new Rectangle(50, 50,400, (int)vectSize), Color.Black, 0.5f);
+                spriteBatch.DrawRectangle(new Rectangle(50, 50, 400, (int)vectSize), Color.Black, 0.5f);
                 var vertIdx = 70;
                 var idx = 0;
-                foreach(var item in strings)
+                foreach (var item in strings)
                 {
-                    spriteBatch.DrawString(font,item, 60, idx++ * itemSize + vertIdx, Color.White, 1.0f);                    
+                    spriteBatch.DrawString(font, item, 60, idx++ * itemSize + vertIdx, Color.White, 1.0f);
                 }
                 spriteBatch.End();
             }

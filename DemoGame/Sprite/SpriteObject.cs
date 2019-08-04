@@ -1,6 +1,7 @@
 ﻿using AuxLib.Camera;
 using AuxLib.Input;
 using Game1.CollisionDetection;
+using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -89,11 +90,14 @@ namespace Game1.Sprite
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
+            => Draw(spriteBatch, AnimationEffect.None);
+
+        public virtual void Draw(SpriteBatch spriteBatch, AnimationEffect animationEffect)
         {
             var flip = (Direction == FaceDirection.Left);
 
             if(CurrentAnimation != null)
-                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color);
+                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, scale, Color, animationEffect);
         }
 
         public void SetAnimation(string name)

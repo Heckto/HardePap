@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game1.Sprite.Enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -21,6 +22,10 @@ namespace Game1.Sprite
 
         public virtual bool ShouldDraw => IsAlive;
 
+        public virtual float InvulnerabilityTime => 1500f;
+
+        public virtual float InvulnerabilityTimer { get; protected set; }
+
         public LivingSpriteObject(ContentManager contentManager) : base(contentManager)
         {
             Initialize();
@@ -42,6 +47,12 @@ namespace Game1.Sprite
                 OnDeath();
             }
 
+            if (InvulnerabilityTimer > 0)
+            {
+                var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                InvulnerabilityTimer -= delta;
+            }
+
             base.Update(gameTime);
         }
 
@@ -57,12 +68,20 @@ namespace Game1.Sprite
 
         protected virtual void ManagedDraw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None);
         }
 
         public virtual void DealDamage(SpriteObject sender, int damage)
         {
+            if (InvulnerabilityTimer > 0)
+                return;
+
             CurrentHealth -= damage;
+
+            if(CurrentHealth > 0)
+            {
+                InvulnerabilityTimer = InvulnerabilityTime;
+            }
         }
 
         protected virtual void OnDeath()

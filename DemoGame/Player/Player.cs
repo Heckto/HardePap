@@ -17,6 +17,7 @@ using AuxLib.Camera;
 using Game1.Sprite;
 using System.Xml.Serialization;
 using System.Xml;
+using Game1.Sprite.Enums;
 
 namespace Game1
 {
@@ -53,9 +54,9 @@ namespace Game1
 
 
             //TODO: Fix DebugMonitor to accept Properties instead of Fields
-            //PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentState));
-            //PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
-            //PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentState));
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
+            PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
         }
 
         public override void LoadContent(ContentManager cm)
@@ -226,7 +227,7 @@ namespace Game1
             var collision = World.Hit(new Vector2f(xPos, CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height / 2)));
             if(collision != null && collision.Box.HasTag(ItemTypes.Enemy))
             {
-                ((LivingSpriteObject)collision.Box.Data).DealDamage(this, 100);
+                ((LivingSpriteObject)collision.Box.Data).DealDamage(this, 50);
             }
         }
 

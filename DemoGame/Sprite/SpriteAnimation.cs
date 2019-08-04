@@ -1,4 +1,6 @@
 ﻿using AuxLib.Camera;
+using Game1.Sprite.AnimationEffects;
+using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,6 +26,9 @@ namespace Game1.Sprite
 
         private Vector2 Offset;
 
+        private AnimationEffect currentEffect;
+        private Dictionary<AnimationEffect, IAnimationEffect> animationEffects;
+
         public SpriteAnimation(ContentManager contentManager, SpriteAnimationConfig config)
         {
             LoadBasicConfigInfo(config);
@@ -44,12 +49,22 @@ namespace Game1.Sprite
             AnimationState = AnimationState.Loaded;
         }
 
+
         private void LoadBasicConfigInfo(SpriteAnimationConfig config)
         {
             AnimationName = config.AnimationName;
             frameTime = config.Frames.First().FrameTime;
             Loop = config.Loop;
             Offset = new Vector2(config.OffsetX, config.OffsetY);
+
+            InitializeEffects();
+        }
+
+        private void InitializeEffects()
+        {
+            animationEffects = new Dictionary<AnimationEffect, IAnimationEffect>();
+            animationEffects.Add(AnimationEffect.None, new NoAnimationEffect());
+            animationEffects.Add(AnimationEffect.FlashWhite, new FlashWhiteAnimationEffect());
         }
 
         private Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
@@ -84,16 +99,31 @@ namespace Game1.Sprite
                     AnimationState = AnimationState.Finished;
                 frameRunTime = 0.0f;
             }
+
+            animationEffects[currentEffect].Update(gameTime);
+            Frames[currentFrame].Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color)
+        private void SetAnimationEffect(AnimationEffect animationEffect)
         {
-            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, scale, color, Offset);
+            if (currentEffect == animationEffect || !animationEffects.ContainsKey(animationEffect))
+                return;
+
+            animationEffects[animationEffect].Reset();
+            currentEffect = animationEffect;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float scale, Color color, AnimationEffect animationEffect)
+        {
+            SetAnimationEffect(animationEffect);
+
+            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, scale, color, Offset, animationEffects[currentEffect]);
         }
 
         public override string ToString() => $"{AnimationName}-{AnimationState}";
     }
     
-    public enum AnimationState
-    { None, Loaded, Running, Finished}
+    
+
+    
 }
