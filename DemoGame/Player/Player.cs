@@ -103,7 +103,8 @@ namespace Game1
                 else
                     CurrentState = CharState.Grounded;
             }
-            else if (CurrentState == CharState.JumpAttack && CurrentAnimation.AnimationName == "JumpAttack")
+            else if ((CurrentState == CharState.JumpAttack && CurrentAnimation.AnimationName == "JumpAttack") ||
+                (CurrentState == CharState.JumpThrow && CurrentAnimation.AnimationName == "JumpThrow"))
             {
                 if (CurrentAnimation.AnimationState == AnimationState.Finished)
                     CurrentState = CharState.Air;
@@ -118,7 +119,7 @@ namespace Game1
                 else
                     trajectoryX = acc * friction * delta;
 
-                if (CurrentState != CharState.JumpAttack)
+                if (CurrentState != CharState.JumpAttack && CurrentState != CharState.JumpThrow)
                     Direction = FaceDirection.Left;
             }
             else if (keyRight)
@@ -128,7 +129,7 @@ namespace Game1
                 else
                     trajectoryX = -acc * friction * delta;
 
-                if (CurrentState != CharState.JumpAttack)
+                if (CurrentState != CharState.JumpAttack && CurrentState != CharState.JumpThrow)
                     Direction = FaceDirection.Right;
             }
             else if (Trajectory.X != 0)
@@ -167,6 +168,12 @@ namespace Game1
                 if (isKeyAttack)
                 {
                     CurrentState = CharState.JumpAttack;
+                }
+                else if(isKeyThrow)
+                {
+                    var location = new Vector2(Position.X, Position.Y + (trajectoryY * 50));
+                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, Level, null)); // null shouldnt be a problem here since the texture should be loaded already
+                    CurrentState = CharState.JumpThrow;
                 }
                 else
                 {
@@ -285,6 +292,9 @@ namespace Game1
                 case CharState.GroundThrow:
                     SetAnimation("Throw");
                     break;
+                case CharState.JumpThrow:
+                    SetAnimation("JumpThrow");
+                    break;
                 case CharState.Grounded:
                     if (Trajectory.X == 0)
                         SetAnimation("Idle");
@@ -315,6 +325,7 @@ namespace Game1
         Glide = 0x04,
         GroundAttack = 0x08,
         JumpAttack = 0x10,
-        GroundThrow = 0x20
+        GroundThrow = 0x20,
+        JumpThrow = 0x40
     };
 }
