@@ -20,7 +20,7 @@ using System.Xml;
 
 namespace Game1
 {
-    public class Player : SpriteObject
+    public class Player : LivingSpriteObject
     {
         private int JumpCnt = 0;
         private int MaxJumpCount = 2;
@@ -30,10 +30,14 @@ namespace Game1
         private const float friction = 0.001f;
         public const float jumpForce = 1.0f;
 
+        private Vector2 hitBoxSize = new Vector2(220, 400);
+
         public delegate void onTransitionDelegate(Player sender, string level);
         public event onTransitionDelegate onTransition;
 
-        public override Vector2 Position { get { return new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize; } }
+        public override Vector2 Position => new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize;
+
+        public override int MaxHealth => 100;
 
         public Player(Vector2 loc, World world, ContentManager cm) : base(cm)
         {
@@ -43,10 +47,15 @@ namespace Game1
             (CollisionBox as IBox).AddTags(ItemTypes.Player);
             CollisionBox.Data = this;
 
+            World = world;
+
             PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(mCurrentState));
+
+
+            //TODO: Fix DebugMonitor to accept Properties instead of Fields
+            //PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentState));
             //PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(trajectory));
+            //PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
         }
 
         public override void LoadContent(ContentManager cm)
@@ -57,20 +66,12 @@ namespace Game1
             SaveToXml();
         }
 
-        
-
-        public override void Update(GameTime gameTime)
+        public override void ManagedUpdate(GameTime gameTime)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            // kijk of valt ???
-            //trajectory.Y += delta * 0.001f;
-
-
             HandleKeyInput(delta, InputHandler.Instance);
-
             HandleCollision(delta);
-
             UpdateAnimation(gameTime);
         }
 
@@ -85,83 +86,93 @@ namespace Game1
             var isKeyAttack = Input.IsPressed(0, Buttons.X, Keys.LeftControl);
             var wasKeyAttack = Input.WasPressed(0, Buttons.X, Keys.LeftControl); //Charge Attacks?
 
-            if (mCurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
+            if (CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
             {
                 if (CurrentAnimation.AnimationState == AnimationState.Running)
                     return;
                 else
-                    mCurrentState = CharState.Grounded;
+                    CurrentState = CharState.Grounded;
             }
-            
+
+            var trajectoryX = Trajectory.X;
+            var trajectoryY = Trajectory.Y;
             if (keyLeft)
             {
-                if (trajectory.X > 0)
-                    trajectory.X = 0;
+                if (Trajectory.X > 0)
+                    trajectoryX = 0;
                 else
-                    trajectory.X = acc * friction * delta;
+                    trajectoryX = acc * friction * delta;
 
                 Direction = FaceDirection.Left;
             }
             else if (keyRight)
             {
-                if (trajectory.X < 0)
-                    trajectory.X = 0;
+                if (Trajectory.X < 0)
+                    trajectoryX = 0;
                 else
-                    trajectory.X = -acc * friction * delta;
+                    trajectoryX = -acc * friction * delta;
 
                 Direction = FaceDirection.Right;
             }
-            else if (trajectory.X != 0)
+            else if (Trajectory.X != 0)
             {
-                trajectory.X = 0;
+                trajectoryX = 0;
             }
 
             if(wasKeyJump)
             {
-                if (mCurrentState == CharState.Grounded)
+                if (CurrentState == CharState.Grounded)
                 {
-                    trajectory.Y -= jumpForce;
-                    mCurrentState = CharState.Air;
+                    trajectoryY -= jumpForce;
+                    CurrentState = CharState.Air;
                     CollisionBox.Grounded = false;
                     JumpCnt++;
                 }
-                else if (mCurrentState == CharState.Air && JumpCnt > 0 && JumpCnt < MaxJumpCount)
+                else if (CurrentState == CharState.Air && JumpCnt > 0 && JumpCnt < MaxJumpCount)
                 {
-                    if (trajectory.Y < 0)
-                        trajectory.Y = -1 * jumpForce;
+                    if (Trajectory.Y < 0)
+                        trajectoryY = -1 * jumpForce;
                     else
-                        trajectory.Y -= jumpForce;
+                        trajectoryY -= jumpForce;
                     JumpCnt++;
                 }
             }
             else if(isKeyJump)
             {
-                if(mCurrentState == CharState.Air && trajectory.Y > 0)
+                if(CurrentState == CharState.Air && Trajectory.Y > 0)
                 {
-                    mCurrentState = CharState.Glide;
+                    CurrentState = CharState.Glide;
                 }
             }
 
-            if (mCurrentState == CharState.Air || mCurrentState == CharState.Glide)
+            if (CurrentState == CharState.Air || CurrentState == CharState.Glide)
             {
-                if (mCurrentState == CharState.Glide && !isKeyJump)
-                    mCurrentState = CharState.Air;
+                if (CurrentState == CharState.Glide && !isKeyJump)
+                    CurrentState = CharState.Air;
 
-                var multiplier = mCurrentState == CharState.Air ? 1f : 0.00001f;
+                var multiplier = CurrentState == CharState.Air ? 1f : 0.00001f;
 
-                trajectory.Y += delta * gravity * multiplier;
+                trajectoryY += delta * gravity * multiplier;
             }
-            else if (mCurrentState == CharState.Grounded && isKeyAttack)
+            else if (CurrentState == CharState.Grounded)
             {
-                trajectory.X = 0;
-                mCurrentState = CharState.GroundAttack;
+                if (isKeyAttack)
+                {
+                    trajectoryX = 0;
+                    CurrentState = CharState.GroundAttack;
+                }
+                else if(Math.Abs(Trajectory.Y) > 0.5)
+                {
+                    CurrentState = CharState.Air;
+                }
             }
 
+            Trajectory = new Vector2(trajectoryX, trajectoryY);
         }
 
         private void HandleCollision(float delta)
         {
-            var move = (CollisionBox).Move(CollisionBox.X + delta * trajectory.X, CollisionBox.Y + delta * trajectory.Y, (collision) =>
+            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, (collision) =>
             {
                 if (collision.Other.HasTag(ItemTypes.Transition))
                 {
@@ -177,7 +188,7 @@ namespace Game1
                 }
                 if (collision.Hit.Normal.Y > 0)
                 {
-                    trajectory.Y = -trajectory.Y;
+                    Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
                     return CollisionResponses.Touch;
                 }
                 return CollisionResponses.Slide;
@@ -185,28 +196,49 @@ namespace Game1
 
             if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
-                if(mCurrentState != CharState.Grounded && mCurrentState != CharState.GroundAttack)
-                    mCurrentState = CharState.Grounded;
+                if(CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
+                    CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
-                trajectory.Y = delta * 0.001f;
+                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
                 JumpCnt = 0;
             }
             else
             {
-                trajectory.Y += delta * 0.001f;
+                Trajectory = new Vector2(Trajectory.X, Trajectory.Y + delta * 0.001f);
                 CollisionBox.Grounded = false;
+            }
+
+            if(CurrentState == CharState.GroundAttack)
+            {
+                HandleAttackCollisions();
+            }
+        }
+
+        private void HandleAttackCollisions()
+        {
+            var width = (int)CollisionBox.Width;
+            var swordLength = width * 0.9f;
+
+            var xPos = Direction == FaceDirection.Right ?
+                CollisionBox.Bounds.Right + swordLength :
+                CollisionBox.X - swordLength;
+
+            var collision = World.Hit(new Vector2f(xPos, CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height / 2)));
+            if(collision != null && collision.Box.HasTag(ItemTypes.Enemy))
+            {
+                ((LivingSpriteObject)collision.Box.Data).DealDamage(this, 100);
             }
         }
 
         private void UpdateAnimation(GameTime gameTime)
         {
-            switch (mCurrentState)
+            switch (CurrentState)
             {
                 case CharState.GroundAttack:
                     SetAnimation("Attack");
                     break;
                 case CharState.Grounded:
-                    if (trajectory.X == 0)
+                    if (Trajectory.X == 0)
                         SetAnimation("Idle");
                     else
                         SetAnimation("Run");
@@ -218,8 +250,6 @@ namespace Game1
                     SetAnimation("Glide");
                     break;
             }
-
-            CurrentAnimation.Update(gameTime);
         }
 
         private void SaveToXml()

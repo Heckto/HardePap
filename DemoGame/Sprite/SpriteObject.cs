@@ -17,11 +17,13 @@ namespace Game1.Sprite
     {
         protected float scale = 0.5f;
         
-        public CharState mCurrentState = CharState.Air;
-        protected Vector2 trajectory = Vector2.Zero;
-        protected Vector2 hitBoxSize = new Vector2(220, 400);
+        public CharState CurrentState { get; set; } = CharState.Air;
+        protected Vector2 Trajectory { get; set; } = Vector2.Zero;
+        
 
         public MoveableBody CollisionBox { get; set; }
+
+        protected World World { get; set; }
 
         protected Color Color { get; set; }
 
@@ -81,7 +83,10 @@ namespace Game1.Sprite
 
         public abstract void LoadContent(ContentManager cm);
 
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            CurrentAnimation.Update(gameTime);
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

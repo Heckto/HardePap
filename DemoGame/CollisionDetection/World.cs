@@ -8,8 +8,8 @@ using Game1.CollisionDetection.Responses;
 
 namespace Game1.CollisionDetection
 {
-        public class World : IWorld
-        {
+    public class World : IWorld
+    {
 
         public bool isGrounded = false;
 
@@ -20,8 +20,8 @@ namespace Game1.CollisionDetection
 
             var origin = new Microsoft.Xna.Framework.Vector2(rect.X, rect.Y);
 
-            grid = new Grid(origin,iwidth, iheight, cellSize);
-            
+            grid = new Grid(origin, iwidth, iheight, cellSize);
+
         }
 
         public RectangleF Bounds => new RectangleF(grid.origin.X, grid.origin.Y, grid.Width, grid.Height);
@@ -211,38 +211,38 @@ namespace Game1.CollisionDetection
 
         #region Diagnostics
 
-        public void DrawDebug(SpriteBatch spriteBatch,SpriteFont font, int x, int y, int w, int h)
+        public void DrawDebug(SpriteBatch spriteBatch, SpriteFont font, int x, int y, int w, int h)
         {
-           
-                // Drawing boxes
-                var boxes = grid.QueryBoxes(x, y, w, h);
-                var color = new Microsoft.Xna.Framework.Color(165, 155, 250);
-                foreach (var box in boxes)
-                {
-                
-                    if (box is IBox)
-                        spriteBatch.DrawRectangle((box as Box).Bounds, color, 0.3f);
-                    else if (box is IPolyLine)
-                    {
-                        var p = (box as IPolyLine).Points;
-                        var points = new Microsoft.Xna.Framework.Vector2[p.Length];
-                        for (var idx = 0; idx < p.Length; idx++)
-                            points[idx] = new Microsoft.Xna.Framework.Vector2(p[idx].X, p[idx].Y);
-                        spriteBatch.DrawPolyline(color, points);
-                    }
-                }
 
-                // Drawing cells
-                var cells = grid.QueryCells(x, y, w, h);
-                foreach (var cell in cells)
+            // Drawing boxes
+            var boxes = grid.QueryBoxes(x, y, w, h);
+            var color = new Microsoft.Xna.Framework.Color(165, 155, 250);
+            foreach (var box in boxes)
+            {
+
+                if (box is IBox)
+                    spriteBatch.DrawRectangle((box as Box).Bounds, color, 0.3f);
+                else if (box is IPolyLine)
                 {
-                    var count = cell.Count();
-                    var alpha = count > 0 ? 1f : 0.4f;
-                    var rec = new Microsoft.Xna.Framework.Rectangle((int)(cell.Bounds.X + grid.origin.X), (int)(cell.Bounds.Y + grid.origin.Y), (int)cell.Bounds.Width, (int)cell.Bounds.Height);
-                    spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
-                    spriteBatch.DrawString(font,count.ToString(), (int)(cell.Bounds.Center.X + grid.origin.X), (int)(cell.Bounds.Center.Y + grid.origin.Y), Microsoft.Xna.Framework.Color.White, alpha);
+                    var p = (box as IPolyLine).Points;
+                    var points = new Microsoft.Xna.Framework.Vector2[p.Length];
+                    for (var idx = 0; idx < p.Length; idx++)
+                        points[idx] = new Microsoft.Xna.Framework.Vector2(p[idx].X, p[idx].Y);
+                    spriteBatch.DrawPolyline(color, points);
                 }
-            
+            }
+
+            // Drawing cells
+            var cells = grid.QueryCells(x, y, w, h);
+            foreach (var cell in cells)
+            {
+                var count = cell.Count();
+                var alpha = count > 0 ? 1f : 0.4f;
+                var rec = new Microsoft.Xna.Framework.Rectangle((int)(cell.Bounds.X + grid.origin.X), (int)(cell.Bounds.Y + grid.origin.Y), (int)cell.Bounds.Width, (int)cell.Bounds.Height);
+                spriteBatch.DrawStroke(rec, new Microsoft.Xna.Framework.Color(Microsoft.Xna.Framework.Color.White, alpha));
+                spriteBatch.DrawString(font, count.ToString(), (int)(cell.Bounds.Center.X + grid.origin.X), (int)(cell.Bounds.Center.Y + grid.origin.Y), Microsoft.Xna.Framework.Color.White, alpha);
+            }
+
         }
 
         #endregion

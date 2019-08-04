@@ -15,7 +15,9 @@ namespace Game1.Sprite
 
         public virtual int CurrentHealth { get; protected set; }
 
-        public virtual bool IsAlive => CurrentHealth > 0 && !(CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished);
+        public virtual bool IsAlive { get; protected set; }
+
+        public virtual bool Dying { get; protected set; }
 
         public virtual bool ShouldDraw => IsAlive;
 
@@ -27,20 +29,20 @@ namespace Game1.Sprite
         public virtual void Initialize()
         {
             CurrentHealth = MaxHealth;
+            IsAlive = true;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!IsAlive)
-                return;
+            if(IsAlive && (CurrentHealth > 0 && !Dying))
+                ManagedUpdate(gameTime);
 
-            if(CurrentHealth <= 0)
+            if(CurrentHealth <= 0 || Dying)
             {
-                SetAnimation("Dead");
-                return;
+                OnDeath();
             }
 
-            ManagedUpdate(gameTime);
+            base.Update(gameTime);
         }
 
         public virtual void ManagedUpdate(GameTime gameTime)
@@ -49,13 +51,32 @@ namespace Game1.Sprite
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (IsAlive)
+            if (ShouldDraw)
                 ManagedDraw(spriteBatch);
         }
 
         protected virtual void ManagedDraw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+        }
+
+        public virtual void DealDamage(SpriteObject sender, int damage)
+        {
+            CurrentHealth -= damage;
+        }
+
+        protected virtual void OnDeath()
+        {
+            if (!Dying)
+            {
+                Dying = true;
+                SetAnimation("Dead");
+            }
+            else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
+            {
+                World.Remove(CollisionBox);
+                IsAlive = false;
+            }
         }
     }
 }

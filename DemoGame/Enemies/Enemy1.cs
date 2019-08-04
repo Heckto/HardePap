@@ -22,7 +22,9 @@ namespace Game1.Enemies
         private const float friction = 0.001f;
         public const float jumpForce = 1.0f;
 
-        public override Vector2 Position { get { return new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize; } }
+        private Vector2 hitBoxSize = new Vector2(220, 400);
+
+        public override Vector2 Position => new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize;
 
         public override int MaxHealth => 100;
 
@@ -34,6 +36,9 @@ namespace Game1.Enemies
             CollisionBox = (MoveableBody)world.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Enemy);
+            CollisionBox.Data = this;
+
+            World = world;
 
             this.player1 = player1;
         }
@@ -45,70 +50,73 @@ namespace Game1.Enemies
             CurrentAnimation = Animations["Jump"];
         }
 
-        public override void Update(GameTime gameTime)
+        public override void ManagedUpdate(GameTime gameTime)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             HandleKeyInput(delta);
-
             HandleCollision(delta);
-
             UpdateAnimation(gameTime);
         }
 
         private void HandleKeyInput(float delta)
         {
-            if (mCurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
+            if (CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
             {
                 if (CurrentAnimation.AnimationState != AnimationState.Running)
-                    mCurrentState = CharState.Grounded;
+                    CurrentState = CharState.Grounded;
                 return;
             }
 
-            if (mCurrentState == CharState.Grounded && Math.Abs(player1.Position.X - Position.X) < 300)
+
+            var trajectoryX = Trajectory.X;
+            var trajectoryY = Trajectory.Y;
+            if (CurrentState == CharState.Grounded && Math.Abs(player1.Position.X - Position.X) < 150)
             {
-                trajectory.X = 0;
-                mCurrentState = CharState.GroundAttack;
+                Trajectory = new Vector2(0f, Trajectory.Y);
+                CurrentState = CharState.GroundAttack;
                 return;
             }
 
             if (player1.Position.X < Position.X)
             {
-                if (trajectory.X > 0)
-                    trajectory.X = 0;
+                if (Trajectory.X > 0)
+                    trajectoryX = 0;
                 else
-                    trajectory.X = acc * friction * delta;
+                    trajectoryX = acc * friction * delta;
 
                 Direction = FaceDirection.Left;
             }
             else if (player1.Position.X > Position.X)
             {
-                if (trajectory.X < 0)
-                    trajectory.X = 0;
+                if (Trajectory.X < 0)
+                    trajectoryX = 0;
                 else
-                    trajectory.X = -acc * friction * delta;
+                    trajectoryX = -acc * friction * delta;
 
                 Direction = FaceDirection.Right;
             }
-            else if (trajectory.X != 0)
+            else if (Trajectory.X != 0)
             {
-                trajectory.X = 0;
+                trajectoryX = 0;
             }
 
             if (Math.Abs(player1.Position.Y - Position.Y) > 300)
             {
-                if (mCurrentState == CharState.Grounded)
+                if (CurrentState == CharState.Grounded)
                 {
-                    trajectory.Y -= jumpForce;
-                    mCurrentState = CharState.Air;
+                    trajectoryY = -1 * jumpForce;
+                    CurrentState = CharState.Air;
                     CollisionBox.Grounded = false;
                 }
             }
+
+            Trajectory = new Vector2(trajectoryX, trajectoryY);
         }
 
         private void HandleCollision(float delta)
         {
-            var move = (CollisionBox).Move(CollisionBox.X + delta * trajectory.X, CollisionBox.Y + delta * trajectory.Y, (collision) =>
+            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, (collision) =>
             {
                 if (collision.Other.HasTag(ItemTypes.Transition))
                 {
@@ -121,7 +129,7 @@ namespace Game1.Enemies
                 }
                 if (collision.Hit.Normal.Y > 0)
                 {
-                    trajectory.Y = -trajectory.Y;
+                    Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
                     return CollisionResponses.Touch;
                 }
                 return CollisionResponses.Slide;
@@ -129,27 +137,27 @@ namespace Game1.Enemies
 
             if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
-                if (mCurrentState != CharState.Grounded && mCurrentState != CharState.GroundAttack)
-                    mCurrentState = CharState.Grounded;
+                if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
+                    CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
-                trajectory.Y = delta * 0.001f;
+                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
             }
             else
             {
-                trajectory.Y += delta * 0.001f;
+                Trajectory = new Vector2(Trajectory.X, Trajectory.Y + delta * 0.001f);
                 CollisionBox.Grounded = false;
             }
         }
 
         private void UpdateAnimation(GameTime gameTime)
         {
-            switch (mCurrentState)
+            switch (CurrentState)
             {
                 case CharState.GroundAttack:
                     SetAnimation("Attack");
                     break;
                 case CharState.Grounded:
-                    if (trajectory.X == 0)
+                    if (Trajectory.X == 0)
                         SetAnimation("Idle");
                     else
                         SetAnimation("Run");
@@ -161,8 +169,6 @@ namespace Game1.Enemies
                     SetAnimation("Glide");
                     break;
             }
-
-            CurrentAnimation.Update(gameTime);
         }
     }
 }
