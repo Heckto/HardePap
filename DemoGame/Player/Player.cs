@@ -85,7 +85,6 @@ namespace Game1
             var wasKeyJump = Input.WasPressed(0, Buttons.A, Keys.Space);
 
             var isKeyAttack = Input.IsPressed(0, Buttons.X, Keys.LeftControl);
-            var wasKeyAttack = Input.WasPressed(0, Buttons.X, Keys.LeftControl); //Charge Attacks?
 
             if (CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack")
             {
@@ -93,6 +92,11 @@ namespace Game1
                     return;
                 else
                     CurrentState = CharState.Grounded;
+            }
+            else if (CurrentState == CharState.JumpAttack && CurrentAnimation.AnimationName == "JumpAttack")
+            {
+                if (CurrentAnimation.AnimationState == AnimationState.Finished)
+                    CurrentState = CharState.Air;
             }
 
             var trajectoryX = Trajectory.X;
@@ -104,7 +108,8 @@ namespace Game1
                 else
                     trajectoryX = acc * friction * delta;
 
-                Direction = FaceDirection.Left;
+                if(CurrentState != CharState.JumpAttack)
+                    Direction = FaceDirection.Left;
             }
             else if (keyRight)
             {
@@ -113,14 +118,15 @@ namespace Game1
                 else
                     trajectoryX = -acc * friction * delta;
 
-                Direction = FaceDirection.Right;
+                if (CurrentState != CharState.JumpAttack)
+                    Direction = FaceDirection.Right;
             }
             else if (Trajectory.X != 0)
             {
                 trajectoryX = 0;
             }
 
-            if(wasKeyJump)
+            if (wasKeyJump)
             {
                 if (CurrentState == CharState.Grounded)
                 {
@@ -138,9 +144,9 @@ namespace Game1
                     JumpCnt++;
                 }
             }
-            else if(isKeyJump)
+            else if (isKeyJump)
             {
-                if(CurrentState == CharState.Air && Trajectory.Y > 0)
+                if (CurrentState == CharState.Air && Trajectory.Y > 0)
                 {
                     CurrentState = CharState.Glide;
                 }
@@ -148,12 +154,19 @@ namespace Game1
 
             if (CurrentState == CharState.Air || CurrentState == CharState.Glide)
             {
-                if (CurrentState == CharState.Glide && !isKeyJump)
-                    CurrentState = CharState.Air;
+                if (isKeyAttack)
+                {
+                    CurrentState = CharState.JumpAttack;
+                }
+                else
+                {
+                    if (CurrentState == CharState.Glide && !isKeyJump)
+                        CurrentState = CharState.Air;
 
-                var multiplier = CurrentState == CharState.Air ? 1f : 0.00001f;
+                    var multiplier = CurrentState == CharState.Air ? 1f : 0.00001f;
 
-                trajectoryY += delta * gravity * multiplier;
+                    trajectoryY += delta * gravity * multiplier;
+                }
             }
             else if (CurrentState == CharState.Grounded)
             {
@@ -162,7 +175,7 @@ namespace Game1
                     trajectoryX = 0;
                     CurrentState = CharState.GroundAttack;
                 }
-                else if(Math.Abs(Trajectory.Y) > 0.5)
+                else if (Math.Abs(Trajectory.Y) > 0.5)
                 {
                     CurrentState = CharState.Air;
                 }
@@ -197,7 +210,7 @@ namespace Game1
 
             if (move.Hits.Any((c) => c.Box.HasTag(ItemTypes.PolyLine, ItemTypes.StaticBlock) && (c.Normal.Y < 0)))
             {
-                if(CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
+                if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack)
                     CurrentState = CharState.Grounded;
                 CollisionBox.Grounded = true;
                 Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
@@ -209,7 +222,7 @@ namespace Game1
                 CollisionBox.Grounded = false;
             }
 
-            if(CurrentState == CharState.GroundAttack)
+            if (CurrentState == CharState.GroundAttack || CurrentState == CharState.JumpAttack)
             {
                 HandleAttackCollisions();
             }
@@ -224,10 +237,21 @@ namespace Game1
                 CollisionBox.Bounds.Right + swordLength :
                 CollisionBox.X - swordLength;
 
-            var collision = World.Hit(new Vector2f(xPos, CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height / 2)));
-            if(collision != null && collision.Box.HasTag(ItemTypes.Enemy))
+            var yPos = new List<float> {
+                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
+                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
+                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
+            };
+
+            var collisions = yPos
+                            .Select(y => World.Hit(new Vector2f(xPos, y)))
+                            .Where(col => col != null && col.Box.HasTag(ItemTypes.Enemy))
+                            .Select(col => col.Box)
+                            .Distinct();
+
+            foreach (var collision in collisions)
             {
-                ((LivingSpriteObject)collision.Box.Data).DealDamage(this, 50);
+                    ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
             }
         }
 
@@ -237,6 +261,9 @@ namespace Game1
             {
                 case CharState.GroundAttack:
                     SetAnimation("Attack");
+                    break;
+                case CharState.JumpAttack:
+                    SetAnimation("JumpAttack");
                     break;
                 case CharState.Grounded:
                     if (Trajectory.X == 0)
@@ -285,9 +312,10 @@ namespace Game1
 
     public enum CharState
     {
-        Grounded        = 0x01,
-        Air             = 0x02,
-        Glide           = 0x04,
-        GroundAttack    = 0x08,
+        Grounded = 0x01,
+        Air = 0x02,
+        Glide = 0x04,
+        GroundAttack = 0x08,
+        JumpAttack = 0x10
     };
 }

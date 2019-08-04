@@ -111,6 +111,10 @@ namespace Game1.Sprite
                     CurrentAnimation = animation;
                 }
             }
+            else
+            {
+                throw new InvalidOperationException($"Animation {name} not found");
+            }
         }
 
         public enum FaceDirection

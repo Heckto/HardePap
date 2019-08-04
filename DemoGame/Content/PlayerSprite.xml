@@ -104,7 +104,7 @@
         </SpriteAnimationFrameConfig>
       </Frames>
     </SpriteAnimationConfig>
-    <SpriteAnimationConfig>
+	<SpriteAnimationConfig>
       <AnimationName>Attack</AnimationName>
       <Loop>false</Loop>
       <OffsetX>50</OffsetX>
@@ -148,6 +148,54 @@
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
           <AssetName>Attack__009</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+      </Frames>
+    </SpriteAnimationConfig>
+	<SpriteAnimationConfig>
+      <AnimationName>JumpAttack</AnimationName>
+      <Loop>false</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <Frames>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__000</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__001</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__002</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__003</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__004</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__005</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__006</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__007</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__008</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Jump_Attack__009</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
