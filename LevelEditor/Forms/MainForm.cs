@@ -126,26 +126,26 @@ namespace LevelEditor
             if (e.Node.Tag is Level)
             {
                 var l = (Level)e.Node.Tag;
-                MainForm.Instance.picturebox.beginCommand("Rename Level (\"" + l.Name + "\" -> \"" + e.Label + "\")");
+                Instance.picturebox.beginCommand("Rename Level (\"" + l.Name + "\" -> \"" + e.Label + "\")");
                 l.Name = e.Label;
                 e.Node.Name = e.Label;
-                MainForm.Instance.picturebox.endCommand();
+                Instance.picturebox.endCommand();
             }
             if (e.Node.Tag is Layer)
             {
                 var l = (Layer)e.Node.Tag;
-                MainForm.Instance.picturebox.beginCommand("Rename Layer (\"" + l.Name + "\" -> \"" + e.Label + "\")");
+                Instance.picturebox.beginCommand("Rename Layer (\"" + l.Name + "\" -> \"" + e.Label + "\")");
                 l.Name = e.Label;
                 e.Node.Name = e.Label;
-                MainForm.Instance.picturebox.endCommand();
+                Instance.picturebox.endCommand();
             }
             if (e.Node.Tag is Item)
             {
                 var i = (Item)e.Node.Tag;
-                MainForm.Instance.picturebox.beginCommand("Rename Item (\"" + i.Name + "\" -> \"" + e.Label + "\")");
+                Instance.picturebox.beginCommand("Rename Item (\"" + i.Name + "\" -> \"" + e.Label + "\")");
                 i.Name = e.Label;
                 e.Node.Name = e.Label;
-                MainForm.Instance.picturebox.endCommand();
+                Instance.picturebox.endCommand();
             }
             propertyGrid1.Refresh();
             picturebox.Select();
@@ -195,7 +195,7 @@ namespace LevelEditor
         {
             if (((TreeNode)e.Item).Tag is Layer) return;
             if (((TreeNode)e.Item).Tag is Level) return;
-            MainForm.Instance.picturebox.beginCommand("Drag Item");
+            Instance.picturebox.beginCommand("Drag Item");
             DoDragDrop(e.Item, DragDropEffects.Move);
         }
         private void treeView1_DragOver(object sender, DragEventArgs e)
@@ -222,7 +222,7 @@ namespace LevelEditor
                 if (destnode.Tag is Item)
                 {
                     var i2 = (Item)destnode.Tag;
-                    MainForm.Instance.picturebox.moveItemToLayer(i1, i2.layer, i2);
+                    Instance.picturebox.moveItemToLayer(i1, i2.layer, i2);
                     int delta = 0;
                     if (destnode.Index > sourcenode.Index && i1.layer == i2.layer) delta = 1;
                     sourcenode.Remove();
@@ -231,19 +231,19 @@ namespace LevelEditor
                 if (destnode.Tag is Layer)
                 {
                     var l2 = (Layer)destnode.Tag;
-                    MainForm.Instance.picturebox.moveItemToLayer(i1, l2, null);
+                    Instance.picturebox.moveItemToLayer(i1, l2, null);
                     sourcenode.Remove();
                     destnode.Nodes.Insert(0, sourcenode);
                 }
-                MainForm.Instance.picturebox.selectitem(i1);
+                Instance.picturebox.selectitem(i1);
                 //MainForm.Instance.picturebox.Draw();
-                MainForm.Instance.picturebox.GraphicsDevice.Present();
+                Instance.picturebox.GraphicsDevice.Present();
                 Application.DoEvents();
             }
         }
         private void treeView1_DragDrop(object sender, DragEventArgs e)
         {
-            MainForm.Instance.picturebox.endCommand();
+            Instance.picturebox.endCommand();
         }
 
 
@@ -259,7 +259,7 @@ namespace LevelEditor
             Logger.Instance.log("pictureBox1_Resize().");
             
             //if (MainForm.Instance.picturebox != null) Game1.Instance.resizebackbuffer(picturebox.Width, picturebox.Height);
-            if (MainForm.Instance.picturebox != null) MainForm.Instance.picturebox.camera.updateviewport(picturebox.Width, picturebox.Height);
+            if (Instance.picturebox != null) Instance.picturebox.camera.updateviewport(picturebox.Width, picturebox.Height);
         }
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
@@ -277,22 +277,22 @@ namespace LevelEditor
 
             var spriteSheet = (SpriteSheet)lvi.ListView.Tag;
             var tex = GetBrushData(spriteSheet.SpriteDef[lvi.Name].SrcRectangle, spriteSheet.Texture);
-            MainForm.Instance.picturebox.createTextureBrush(tex,spriteSheet,lvi.Name);
+            Instance.picturebox.createTextureBrush(tex,spriteSheet,lvi.Name);
 
         }
         private void pictureBox1_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
             var p = picturebox.PointToClient(new Point(e.X, e.Y));
-            MainForm.Instance.picturebox.setmousepos(p.X, p.Y);
+            Instance.picturebox.setmousepos(p.X, p.Y);
             //MainForm.Instance.picturebox.Draw();
-            MainForm.Instance.picturebox.GraphicsDevice.Present();
+            Instance.picturebox.GraphicsDevice.Present();
         }
         private void pictureBox1_DragLeave(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.destroyTextureBrush();
+            Instance.picturebox.destroyTextureBrush();
             //MainForm.Instance.picturebox.Draw();
-            MainForm.Instance.picturebox.GraphicsDevice.Present();
+            Instance.picturebox.GraphicsDevice.Present();
         }
 
 
@@ -311,22 +311,22 @@ namespace LevelEditor
                 {
                     layercopy.Items[i].Name = getUniqueNameBasedOn(layercopy.Items[i].Name);
                 }
-                MainForm.Instance.picturebox.beginCommand("Duplicate Layer \"" + l.Name + "\"");
-                MainForm.Instance.picturebox.addLayer(layercopy);
-                MainForm.Instance.picturebox.endCommand();
-                MainForm.Instance.picturebox.updatetreeview();
+                Instance.picturebox.beginCommand("Duplicate Layer \"" + l.Name + "\"");
+                Instance.picturebox.addLayer(layercopy);
+                Instance.picturebox.endCommand();
+                Instance.picturebox.updatetreeview();
             }
         }
         private void ActionCenterView(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode.Tag is Level)
             {
-                MainForm.Instance.picturebox.camera.Position = Microsoft.Xna.Framework.Vector2.Zero;
+                Instance.picturebox.camera.Position = Microsoft.Xna.Framework.Vector2.Zero;
             }
             if (treeView1.SelectedNode.Tag is Item)
             {
                 var i = (Item)treeView1.SelectedNode.Tag;
-                MainForm.Instance.picturebox.camera.Position = i.pPosition;
+                Instance.picturebox.camera.Position = i.pPosition;
             }
         }
         private void ActionRename(object sender, EventArgs e)
@@ -335,20 +335,20 @@ namespace LevelEditor
         }
         private void ActionNewLayer(object sender, EventArgs e)
         {
-            var f = new AddLayer(this);
+            var layerType = (int)Convert.ToInt32(((ToolStripMenuItem)sender).Tag);
+            var f = new AddLayer(this,layerType);
             f.ShowDialog();
         }
         private void ActionDelete(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode == null) return;
-            if (treeView1.SelectedNode.Tag is Layer)
+            if (treeView1.SelectedNode.Tag is Layer l)
             {
-                var l = (Layer)treeView1.SelectedNode.Tag;
-                MainForm.Instance.picturebox.deleteLayer(l);
+                Instance.picturebox.deleteLayer(l);
             }
             else if (treeView1.SelectedNode.Tag is Item)
             {
-                MainForm.Instance.picturebox.deleteSelectedItems();
+                Instance.picturebox.deleteSelectedItems();
             }
         }
         private void ActionMoveUp(object sender, EventArgs e)
@@ -358,35 +358,33 @@ namespace LevelEditor
                 var l = (Layer)treeView1.SelectedNode.Tag;
                 if (l.level.Layers.IndexOf(l) > 0)
                 {
-                    MainForm.Instance.picturebox.beginCommand("Move Up Layer \"" + l.Name + "\"");
-                    MainForm.Instance.picturebox.moveLayerUp(l);
-                    MainForm.Instance.picturebox.endCommand();
-                    MainForm.Instance.picturebox.updatetreeview();
+                    Instance.picturebox.beginCommand("Move Up Layer \"" + l.Name + "\"");
+                    Instance.picturebox.moveLayerUp(l);
+                    Instance.picturebox.endCommand();
+                    Instance.picturebox.updatetreeview();
                 }
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is Item i)
             {
-                var i = (Item)treeView1.SelectedNode.Tag;
                 if (i.layer.Items.IndexOf(i) > 0)
                 {
-                    MainForm.Instance.picturebox.beginCommand("Move Up Item \"" + i.Name + "\"");
-                    MainForm.Instance.picturebox.moveItemUp(i);
-                    MainForm.Instance.picturebox.endCommand();
-                    MainForm.Instance.picturebox.updatetreeview();
+                    Instance.picturebox.beginCommand("Move Up Item \"" + i.Name + "\"");
+                    Instance.picturebox.moveItemUp(i);
+                    Instance.picturebox.endCommand();
+                    Instance.picturebox.updatetreeview();
                 }
             }
         }
         private void ActionMoveDown(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Tag is Layer)
+            if (treeView1.SelectedNode.Tag is Layer l)
             {
-                var l = (Layer)treeView1.SelectedNode.Tag;
                 if (l.level.Layers.IndexOf(l) < l.level.Layers.Count - 1)
                 {
-                    MainForm.Instance.picturebox.beginCommand("Move Down Layer \"" + l.Name + "\"");
-                    MainForm.Instance.picturebox.moveLayerDown(l);
-                    MainForm.Instance.picturebox.endCommand();
-                    MainForm.Instance.picturebox.updatetreeview();
+                    Instance.picturebox.beginCommand("Move Down Layer \"" + l.Name + "\"");
+                    Instance.picturebox.moveLayerDown(l);
+                    Instance.picturebox.endCommand();
+                    Instance.picturebox.updatetreeview();
                 }
             }
             if (treeView1.SelectedNode.Tag is Item)
@@ -394,10 +392,10 @@ namespace LevelEditor
                 var i = (Item)treeView1.SelectedNode.Tag;
                 if (i.layer.Items.IndexOf(i) < i.layer.Items.Count - 1)
                 {
-                    MainForm.Instance.picturebox.beginCommand("Move Down Item \"" + i.Name + "\"");
-                    MainForm.Instance.picturebox.moveItemDown(i);
-                    MainForm.Instance.picturebox.endCommand();
-                    MainForm.Instance.picturebox.updatetreeview();
+                    Instance.picturebox.beginCommand("Move Down Item \"" + i.Name + "\"");
+                    Instance.picturebox.moveItemDown(i);
+                    Instance.picturebox.endCommand();
+                    Instance.picturebox.updatetreeview();
                 }
             }
         }
@@ -446,7 +444,7 @@ namespace LevelEditor
         }
         public void saveLevel(String filename)
         {
-            MainForm.Instance.picturebox.saveLevel(filename);
+            Instance.picturebox.saveLevel(filename);
             levelfilename = filename;
             DirtyFlag = false;
 
@@ -472,8 +470,8 @@ namespace LevelEditor
         }
         public void loadLevel(String filename)
         {
-            var level = Level.FromFile(filename, Instance.picturebox.Editor.Content);          
-            MainForm.Instance.picturebox.loadLevel(level);
+            var level = Level.FromFile(filename, Instance.picturebox.Editor.Content);
+            Instance.picturebox.loadLevel(level);
             levelfilename = filename;
             DirtyFlag = false;
         }
@@ -535,26 +533,26 @@ namespace LevelEditor
 
         private void EditUndo(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.undo();
+            Instance.picturebox.undo();
         }
 
         private void EditRedo(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.redo();
+            Instance.picturebox.redo();
         }
 
         private void EditSelectAll(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.selectAll();
+            Instance.picturebox.selectAll();
         }
 
         private void zoomcombo_TextChanged(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = zoomcombo.SelectedText;
-            if (zoomcombo.Text.Length > 0 && MainForm.Instance.picturebox != null)
+            if (zoomcombo.Text.Length > 0 && Instance.picturebox != null)
             {
                 //float zoom = float.Parse(zoomcombo.Text.Substring(0, zoomcombo.Text.Length - 1));
-                MainForm.Instance.picturebox.camera.Scale = 100 / 100;
+                Instance.picturebox.camera.Scale = 100 / 100;
             }
         }
 
@@ -566,13 +564,13 @@ namespace LevelEditor
         private void ToolsMenu_MouseEnter(object sender, EventArgs e)
         {
             moveSelectedItemsToLayerToolStripMenuItem.Enabled =
-            copySelectedItemsToLayerToolStripMenuItem.Enabled = MainForm.Instance.picturebox.SelectedItems.Count > 0;
+            copySelectedItemsToLayerToolStripMenuItem.Enabled = Instance.picturebox.SelectedItems.Count > 0;
             alignHorizontallyToolStripMenuItem.Enabled =
             alignVerticallyToolStripMenuItem.Enabled =
             alignRotationToolStripMenuItem.Enabled =
-            alignScaleToolStripMenuItem.Enabled = MainForm.Instance.picturebox.SelectedItems.Count > 1;
+            alignScaleToolStripMenuItem.Enabled = Instance.picturebox.SelectedItems.Count > 1;
 
-            linkItemsByACustomPropertyToolStripMenuItem.Enabled = MainForm.Instance.picturebox.SelectedItems.Count == 2;
+            linkItemsByACustomPropertyToolStripMenuItem.Enabled = Instance.picturebox.SelectedItems.Count == 2;
 
         }
         private void ToolsMenu_Click(object sender, EventArgs e)
@@ -594,7 +592,7 @@ namespace LevelEditor
             if (f.ShowDialog() == DialogResult.OK)
             {
                 var chosenlayer = (Layer)f.treeView1.SelectedNode.Tag;
-                MainForm.Instance.picturebox.copySelectedItemsToLayer(chosenlayer);
+                Instance.picturebox.copySelectedItemsToLayer(chosenlayer);
             }
         }
         private void ToolsLinkItems(object sender, EventArgs e)
@@ -603,19 +601,19 @@ namespace LevelEditor
         }
         private void ToolsAlignHorizontally(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.alignHorizontally();
+            Instance.picturebox.alignHorizontally();
         }
         private void ToolsAlignVertically(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.alignVertically();
+            Instance.picturebox.alignVertically();
         }
         private void ToolsAlignRotation(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.alignRotation();
+            Instance.picturebox.alignRotation();
         }
         private void ToolsAlignScale(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.alignScale();
+            Instance.picturebox.alignScale();
         }
         private void ToolsSettings(object sender, EventArgs e)
         {
@@ -633,24 +631,24 @@ namespace LevelEditor
 
         private void propertyGrid1_Enter(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.beginCommand("Edit in PropertyGrid");
+            Instance.picturebox.beginCommand("Edit in PropertyGrid");
         }
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            MainForm.Instance.picturebox.endCommand();
-            MainForm.Instance.picturebox.beginCommand("Edit in PropertyGrid");
+            Instance.picturebox.endCommand();
+            Instance.picturebox.beginCommand("Edit in PropertyGrid");
         }
 
         public void UndoManyCommands(object sender, ToolStripItemClickedEventArgs e)
         {
             var c = (Command)e.ClickedItem.Tag;
-            MainForm.Instance.picturebox.undoMany(c);
+            Instance.picturebox.undoMany(c);
         }
 
         private void RedoManyCommands(object sender, ToolStripItemClickedEventArgs e)
         {
             var c = (Command)e.ClickedItem.Tag;
-            MainForm.Instance.picturebox.redoMany(c);
+            Instance.picturebox.redoMany(c);
         }
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -683,7 +681,7 @@ namespace LevelEditor
             int[] data = new int[tile.Width * tile.Height];
             tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
 
-            var texBrush = new Texture2D(MainForm.Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
+            var texBrush = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
             texBrush.SetData<int>(data);
 
             return texBrush;
@@ -709,8 +707,9 @@ namespace LevelEditor
             return bitmap;
         }
 
-        public void LoadFolderContent(string path)
+        public async void LoadFolderContent(string path)
         {
+            Instance.picturebox.canDraw = false;
             // Remove old tabpages
             for (var idx=tabControl1.TabPages.Count-1; idx > 0; idx--)
             {
@@ -726,7 +725,7 @@ namespace LevelEditor
             string[] extensions = filters.Split(new char[] { ';' },StringSplitOptions.RemoveEmptyEntries);
             foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
             FileInfo[] files = fileList.ToArray();
-
+            var taskList = new List<Task>();
             foreach (var file in files)
             {
                 var tp = new TabPage(Path.GetFileNameWithoutExtension(file.FullName));
@@ -742,8 +741,11 @@ namespace LevelEditor
                 
                 tabControl1.TabPages.Add(tp);
 
-                Task.Run(() => { LoadSpriteSheet(file, lv); });
+                taskList.Add(Task.Run(() => { LoadSpriteSheet(file, lv); }));
             }
+
+            await Task.WhenAll(taskList);
+            Instance.picturebox.canDraw = true;
         }
 
         private void LoadSpriteSheet(FileInfo file,ListView lv)
@@ -797,15 +799,15 @@ namespace LevelEditor
         {
             if (listView2.FocusedItem.Text == "Rectangle")
             {
-                MainForm.Instance.picturebox.createPrimitiveBrush(PrimitiveType.Rectangle);
+                Instance.picturebox.createPrimitiveBrush(PrimitiveType.Rectangle);
             }
             if (listView2.FocusedItem.Text == "Circle")
             {
-                MainForm.Instance.picturebox.createPrimitiveBrush(PrimitiveType.Circle);
+                Instance.picturebox.createPrimitiveBrush(PrimitiveType.Circle);
             }
             if (listView2.FocusedItem.Text == "Path")
             {
-                MainForm.Instance.picturebox.createPrimitiveBrush(PrimitiveType.Path);
+                Instance.picturebox.createPrimitiveBrush(PrimitiveType.Path);
             }
         }
 
@@ -814,7 +816,7 @@ namespace LevelEditor
         {
             if (Constants.Instance.RunLevelStartApplication)
             {
-                if (!System.IO.File.Exists(Constants.Instance.RunLevelApplicationToStart))
+                if (!File.Exists(Constants.Instance.RunLevelApplicationToStart))
                 {
                     MessageBox.Show("The file \"" + Constants.Instance.RunLevelApplicationToStart + "\" doesn't exist!\nPlease provide a valid application executable in Tools -> Settings -> Run Level!",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -843,11 +845,11 @@ namespace LevelEditor
 
         private void deleteCustomProperty(object sender, EventArgs e)
         {
-            MainForm.Instance.picturebox.beginCommand("Delete Custom Property");
+            Instance.picturebox.beginCommand("Delete Custom Property");
             var dpd = (DictionaryPropertyDescriptor)propertyGrid1.SelectedGridItem.PropertyDescriptor;
             dpd.sdict.Remove(dpd.Name);
             propertyGrid1.Refresh();
-            MainForm.Instance.picturebox.endCommand();
+            Instance.picturebox.endCommand();
         }
 
         private void ViewGrid_CheckedChanged(object sender, EventArgs e)

@@ -56,6 +56,7 @@
     <Compile Include="Math\Constants.cs" />
     <Compile Include="Debugging\Debug.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Math\LineRectangleIntersection.cs" />
     <Compile Include="Math\Maths.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

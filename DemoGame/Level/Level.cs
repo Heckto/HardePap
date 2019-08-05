@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using Game1.CollisionDetection;
 using AuxLib;
+using AuxLib.Debug;
 using AuxLib.Rand;
 using AuxLib.Sound;
 using AuxLib.Camera;
@@ -46,9 +47,6 @@ namespace Game1
         [XmlIgnore]
         public Rectangle Bounds;
 
-        [XmlIgnore]
-        public Song bgTheme;
-
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
@@ -61,7 +59,7 @@ namespace Game1
             Visible = true;
             Layers = new List<Layer>();
             CustomProperties = new SerializableDictionary();
-            
+
         }
 
         public static Level FromFile(string filename)
@@ -75,9 +73,9 @@ namespace Game1
             {
                 foreach (var item in layer.Items)
                 {
-                    item.CustomProperties.RestoreItemAssociations(level);                 
+                    item.CustomProperties.RestoreItemAssociations(level);
                 }
-            }            
+            }
             return level;
         }
 
@@ -98,12 +96,14 @@ namespace Game1
                             spritesheets.Add(asset, texture);
                         }
                     }
-                    
+
                 }
             }
 
+            Bounds = (Rectangle)CustomProperties["bounds"].value;
+
             var song = "level" + Rand.GetRandomInt(1, 3);
-            AudioManager.PlaySoundTrack(song,true,false);
+            AudioManager.PlaySoundTrack(song, true, false);
             AudioManager.MusicVolume = 0.1f;
             
 
@@ -111,8 +111,6 @@ namespace Game1
             
 
             Bounds = (Rectangle)CustomProperties["bounds"].value;
-
-            
         }
 
         public void GenerateCollision()
@@ -123,15 +121,13 @@ namespace Game1
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
-                {                    
-                    var rec = elem as RectangleItem;                    
+                {
+                    var rec = elem as RectangleItem;
                     var box = CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
                     if (rec.ItemType == ItemTypes.Transition)
                     {
                         box.Data = rec;
                     }
-                    
-
                 }
                 else if (elem is PathItem)
                 {
@@ -165,7 +161,23 @@ namespace Game1
             return null;
         }
 
+        public void Update(GameTime gameTime,BoundedCamera cam)
+        {
+            foreach (var layer in Layers)
+            {
+                layer.Update(gameTime, this);
+            }
+        }
+
         public void Draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
+        {
+            foreach (var layer in Layers)
+            {
+                layer.Update(gameTime,this);
+            }
+        }
+
+        public void Draw(SpriteBatch sb, BoundedCamera camera)
         {
             foreach (var layer in Layers)
             {
@@ -179,7 +191,7 @@ namespace Game1
                 else
                 {
                     if (layer.Visible)
-                    { 
+                    {
                         sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
                         {
                             foreach (var item in layer.Items)
@@ -192,7 +204,7 @@ namespace Game1
                                     if (texItem.FlipVertically) effects |= SpriteEffects.FlipVertically;
                                     sb.Draw(spritesheets[texItem.asset_name], item.Position, texItem.srcRectangle, texItem.TintColor, texItem.Rotation, texItem.Origin, texItem.Scale, effects, 0);
                                 }
-                                
+
                             }
                         }
                         sb.End();
@@ -254,7 +266,7 @@ namespace Game1
         }
     }
 
-
+    [XmlInclude(typeof(MovingLayer))]
     public partial class Layer
     {
         /// <summary>
@@ -281,6 +293,7 @@ namespace Game1
         /// </summary>
         public Vector2 ScrollSpeed;
 
+        
         /// <summary>
         /// A Dictionary containing any user-defined Properties.
         /// </summary>
@@ -292,6 +305,37 @@ namespace Game1
             Items = new List<Item>();
             ScrollSpeed = Vector2.One;
             CustomProperties = new SerializableDictionary();
+        }
+
+        public virtual void Update(GameTime gameTime,Level lvl)
+        {
+            foreach (var item in Items)
+            {
+                item.Update(gameTime);
+            }
+
+        }
+    }
+
+    public class MovingLayer : Layer
+    {
+        public Vector2 ScrollVector { get; set; }
+
+        public override void Update(GameTime gameTime, Level lvl)
+        {
+            var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
+            foreach (var Item in Items)
+            {              
+                var scrollAss = ScrollVector;
+                scrollAss.Normalize();                
+                Item.Position += ScrollVector;
+                var itemBox = Item.getBoundingBox();           
+                if (!lvl.Bounds.Intersects(itemBox))
+                {
+                    var posVector = Vector2.Min(scrollAss * mapSize, mapSize);                    
+                    Item.Position -= ( (Vector2.One - ScrollSpeed) * posVector);
+                }
+            }
         }
     }
 
@@ -331,6 +375,7 @@ namespace Game1
         }
 
         public abstract Rectangle getBoundingBox();
+        public abstract void Update(GameTime gameTime);
     }
 
 
@@ -386,11 +431,18 @@ namespace Game1
         public Vector2 Origin;
 
 
-        public TextureItem() {}
+        public TextureItem() { }
 
         public override Rectangle getBoundingBox()
         {
             return new Rectangle((int)Position.X, (int)Position.Y, (int)(srcRectangle.Width * Scale.X), (int)(srcRectangle.Height * Scale.Y));
+        }
+        
+            
+
+        public override void Update(GameTime gameTime)
+        {
+            
         }
     }
 
@@ -402,9 +454,9 @@ namespace Game1
         public Color FillColor;
         public ItemTypes ItemType { get; set; }
 
-        public RectangleItem()
-        {
-        }
+        public RectangleItem() {}
+
+        public override void Update(GameTime gameTime) {}
 
         public override Rectangle getBoundingBox()
         {
@@ -419,13 +471,15 @@ namespace Game1
         public Color FillColor;
         public ItemTypes ItemType { get; set; }
 
-        public CircleItem()
-        {
+        public CircleItem() {}
+
+        public override void Update(GameTime gameTime)
+        {            
         }
 
         public override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)(Position.X-0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
+            return new Rectangle((int)(Position.X - 0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
         }
     }
 
@@ -439,8 +493,11 @@ namespace Game1
         public Color LineColor;
         public ItemTypes ItemType { get; set; }
 
-        public PathItem()
+        public PathItem() {}
+
+        public override void Update(GameTime gameTime)
         {
+            
         }
 
         public override Rectangle getBoundingBox()
@@ -450,7 +507,7 @@ namespace Game1
             var minY = WorldPoints.Min(min => min.Y);
             var maxY = WorldPoints.Max(max => max.Y);
 
-            return new Rectangle((int)minX, (int)minY, (int)(maxX-minX), (int)(maxY-minY));
+            return new Rectangle((int)minX, (int)minY, (int)(maxX - minX), (int)(maxY - minY));
         }
     }
 

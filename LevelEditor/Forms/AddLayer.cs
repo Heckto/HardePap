@@ -11,10 +11,12 @@ namespace LevelEditor
 {
     public partial class AddLayer : Form
     {
+        public int layerType;
 
-        public AddLayer(MainForm main)
+        public AddLayer(MainForm main,int layerType)
         {
             InitializeComponent();
+            this.layerType = layerType;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -26,7 +28,12 @@ namespace LevelEditor
                 MessageBox.Show("A layer or item with the name \"" + textBox1.Text + "\" already exists in the level. Please use another name!");
                 return;
             }
-            var l = new Layer(textBox1.Text);
+
+            Layer l = null;
+            if (layerType == 0)
+                l = new Layer(textBox1.Text);
+            else
+                l = new MovingLayer(textBox1.Text);
             MainForm.Instance.picturebox.beginCommand("Add Layer \"" + l.Name + "\"");
             MainForm.Instance.picturebox.addLayer(l);
             MainForm.Instance.picturebox.endCommand();

@@ -68,9 +68,15 @@ namespace Game1.Screens
             }
             if (Input.WasPressed(0,Buttons.DPadRight,Keys.S))
                 SpawnPlayer();
-            
-            if(lvl != null)
-                lvl.Update(gameTime);
+            if (Input.WasPressed(0, Buttons.LeftShoulder, Keys.OemMinus))
+                camera.Zoom -= 0.2f;
+
+            if (Input.WasPressed(0, Buttons.RightShoulder, Keys.OemPlus))
+                camera.Zoom += 0.2f;
+
+            lvl.Update(gameTime,camera);
+            player.Update(gameTime,Input);
+
 
             if (!lvl.Bounds.Contains(player.Position) && !transitioning)
                 SpawnPlayer();
@@ -86,10 +92,13 @@ namespace Game1.Screens
         {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            lvl.Draw(spriteBatch, font, camera, settings.debugMode);
+            lvl.Draw(spriteBatch, camera);
 
             if (settings.debugMode)
+            {
+                lvl.DrawDebug(spriteBatch, font, camera);
                 DebugMonitor.Draw(spriteBatch);
+            }
 
             base.Draw(gameTime);
         }

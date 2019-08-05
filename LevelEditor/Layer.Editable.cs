@@ -73,4 +73,13 @@ namespace LevelEditor
 
 
     }
+
+    public partial class MovingLayer : Layer
+    {       
+        public MovingLayer(String name) : base(name)
+        {
+            this.Name = name;
+            this.Visible = true;
+        }
+    }
 }
