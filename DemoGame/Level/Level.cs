@@ -169,14 +169,6 @@ namespace Game1
             }
         }
 
-        public void Draw(SpriteBatch sb,SpriteFont font,BoundedCamera camera, bool debug=false)
-        {
-            foreach (var layer in Layers)
-            {
-                layer.Update(gameTime,this);
-            }
-        }
-
         public void Draw(SpriteBatch sb, BoundedCamera camera)
         {
             foreach (var layer in Layers)
@@ -212,13 +204,14 @@ namespace Game1
                 }
             }
 
-            if (debug)
-            {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
-                var b = CollisionWorld.Bounds;
-                CollisionWorld.DrawDebug(sb,font,(int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
-                sb.End();
-            }
+        }
+
+        public void DrawDebug(SpriteBatch sb, SpriteFont font, BoundedCamera camera)
+        {
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
+            var b = CollisionWorld.Bounds;
+            CollisionWorld.DrawDebug(sb, font, (int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
+            sb.End();
         }
 
         public void Update(GameTime gameTime)

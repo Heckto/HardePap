@@ -75,7 +75,7 @@ namespace Game1.Screens
                 camera.Zoom += 0.2f;
 
             lvl.Update(gameTime,camera);
-            player.Update(gameTime,Input);
+            player.Update(gameTime);
 
 
             if (!lvl.Bounds.Contains(player.Position) && !transitioning)
