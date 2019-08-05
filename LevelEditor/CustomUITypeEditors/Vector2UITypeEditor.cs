@@ -236,8 +236,8 @@ namespace CustomUITypeEditors
             // Vector2EditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackColor = drawing.SystemColors.Control;
             this.Controls.Add(this.tbAngle);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);

@@ -119,7 +119,9 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.treetools = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.normalLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.movingLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.butonMoveUp = new System.Windows.Forms.ToolStripButton();
@@ -1020,19 +1022,37 @@
             this.buttonMoveDown});
             this.treetools.Location = new System.Drawing.Point(3, 0);
             this.treetools.Name = "treetools";
-            this.treetools.Size = new System.Drawing.Size(101, 25);
+            this.treetools.Size = new System.Drawing.Size(107, 25);
             this.treetools.TabIndex = 0;
             // 
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.normalLayerToolStripMenuItem,
+            this.movingLayerToolStripMenuItem});
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 22);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "New Layer (N)";
-            this.toolStripButton1.Click += new System.EventHandler(this.ActionNewLayer);
+            // 
+            // normalLayerToolStripMenuItem
+            // 
+            this.normalLayerToolStripMenuItem.Name = "normalLayerToolStripMenuItem";
+            this.normalLayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.normalLayerToolStripMenuItem.Tag = "0";
+            this.normalLayerToolStripMenuItem.Text = "Normal Layer";
+            this.normalLayerToolStripMenuItem.Click += new System.EventHandler(this.ActionNewLayer);
+            // 
+            // movingLayerToolStripMenuItem
+            // 
+            this.movingLayerToolStripMenuItem.Name = "movingLayerToolStripMenuItem";
+            this.movingLayerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.movingLayerToolStripMenuItem.Tag = "1";
+            this.movingLayerToolStripMenuItem.Text = "Moving Layer";
+            this.movingLayerToolStripMenuItem.Click += new System.EventHandler(this.ActionNewLayer);
             // 
             // buttonDelete
             // 
@@ -1317,7 +1337,6 @@
         public System.Windows.Forms.ContextMenuStrip ItemContextMenu;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip treetools;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton buttonDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton butonMoveUp;
@@ -1381,5 +1400,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         public System.Windows.Forms.ListView listView2;
         public EditorControl picturebox;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripButton1;
+        private System.Windows.Forms.ToolStripMenuItem normalLayerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem movingLayerToolStripMenuItem;
     }
 }

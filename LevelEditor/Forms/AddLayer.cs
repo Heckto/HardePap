@@ -11,10 +11,12 @@ namespace LevelEditor
 {
     public partial class AddLayer : Form
     {
+        public int layerType;
 
-        public AddLayer(MainForm main)
+        public AddLayer(MainForm main,int layerType)
         {
             InitializeComponent();
+            this.layerType = layerType;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -28,7 +30,7 @@ namespace LevelEditor
             }
 
             Layer l = null;
-            if (radioButton1.Checked)
+            if (layerType == 0)
                 l = new Layer(textBox1.Text);
             else
                 l = new MovingLayer(textBox1.Text);

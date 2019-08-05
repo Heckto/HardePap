@@ -18,6 +18,8 @@ namespace LevelEditor
 {
     public class EditorControl : UpdateWindow
     {
+        public bool canDraw = false;
+
         private EditorState _state;
         public EditorState state
         {
@@ -120,7 +122,7 @@ namespace LevelEditor
 
         protected override void Draw()
         {
-            if (Editor == null)
+            if (Editor == null && !canDraw)
                 return;
             base.Draw();
 
@@ -901,7 +903,7 @@ namespace LevelEditor
         {
             if (SelectedLayer == null)
             {
-                System.Windows.Forms.MessageBox.Show(Resources.No_Layer);
+                Forms.MessageBox.Show(Resources.No_Layer);
                 destroyTextureBrush();
                 return;
             }
@@ -919,7 +921,7 @@ namespace LevelEditor
         {
             if (SelectedLayer == null)
             {
-                System.Windows.Forms.MessageBox.Show(Resources.No_Layer);
+                Forms.MessageBox.Show(Resources.No_Layer);
                 return;
             }
 

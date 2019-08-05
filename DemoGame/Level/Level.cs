@@ -159,7 +159,7 @@ namespace Game1
         {
             foreach (var layer in Layers)
             {
-                layer.Update(gameTime,this,cam);
+                layer.Update(gameTime,this);
             }
         }
 
@@ -249,7 +249,7 @@ namespace Game1
             CustomProperties = new SerializableDictionary();
         }
 
-        public virtual void Update(GameTime gameTime,Level lvl,BoundedCamera cam)
+        public virtual void Update(GameTime gameTime,Level lvl)
         {
             foreach (var item in Items)
             {
@@ -263,29 +263,19 @@ namespace Game1
     {
         public Vector2 ScrollVector { get; set; }
 
-        public override void Update(GameTime gameTime, Level lvl,BoundedCamera cam)
+        public override void Update(GameTime gameTime, Level lvl)
         {
-            //var mat = Matrix.Invert(cam.GetViewMatrix(ScrollSpeed));            
             var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
             foreach (var Item in Items)
-            {
-                var scrollVector = new Vector2(20,0);
-                
-                var scrollAss = scrollVector;
+            {              
+                var scrollAss = ScrollVector;
                 scrollAss.Normalize();                
-                Item.Position += scrollVector;
-                var itemBox = Item.getBoundingBox();
-
-
-                //var pos = Vector2.Transform(Item.Position, *);
-                var pos = Item.Position * ScrollSpeed;
-            
-                var rect = new Rectangle((int)pos.X, (int)pos.Y, (int)(itemBox.Width), (int)(itemBox.Height));
-            
-                if (!lvl.Bounds.Intersects(rect))
-                {                       
-                    var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
-                    Item.Position -= (posVector);
+                Item.Position += ScrollVector;
+                var itemBox = Item.getBoundingBox();           
+                if (!lvl.Bounds.Intersects(itemBox))
+                {
+                    var posVector = Vector2.Min(scrollAss * mapSize, mapSize);                    
+                    Item.Position -= ( (Vector2.One - ScrollSpeed) * posVector);
                 }
             }
         }

@@ -391,7 +391,7 @@ namespace LevelEditor
 
             if (wasEmpty) return;
 
-            while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
+            while (reader.NodeType != XmlNodeType.EndElement)
             {
                 CustomProperty cp = new CustomProperty();
                 cp.name = reader.GetAttribute("Name");
