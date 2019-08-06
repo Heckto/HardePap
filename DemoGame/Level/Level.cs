@@ -161,12 +161,15 @@ namespace Game1
             return null;
         }
 
-        public void Update(GameTime gameTime,BoundedCamera cam)
+        public void Update(GameTime gameTime)
         {
             foreach (var layer in Layers)
             {
                 layer.Update(gameTime, this);
             }
+
+            foreach (var sprite in Sprites)
+                sprite.Value.Update(gameTime);
         }
 
         public void Draw(SpriteBatch sb, BoundedCamera camera)
@@ -212,12 +215,6 @@ namespace Game1
             var b = CollisionWorld.Bounds;
             CollisionWorld.DrawDebug(sb, font, (int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
             sb.End();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            foreach(var sprite in Sprites)
-                sprite.Value.Update(gameTime);
         }
 
         public void AddSprite(string spriteName, SpriteObject sprite)

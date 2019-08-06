@@ -74,9 +74,7 @@ namespace Game1.Screens
             if (Input.WasPressed(0, Buttons.RightShoulder, Keys.OemPlus))
                 camera.Zoom += 0.2f;
 
-            lvl.Update(gameTime,camera);
-            player.Update(gameTime);
-
+            lvl.Update(gameTime);
 
             if (!lvl.Bounds.Contains(player.Position) && !transitioning)
                 SpawnPlayer();
