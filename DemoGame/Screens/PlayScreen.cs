@@ -74,6 +74,9 @@ namespace Game1.Screens
             if (Input.WasPressed(0, Buttons.RightShoulder, Keys.OemPlus))
                 camera.Zoom += 0.2f;
 
+            if (Input.WasPressed(0, Buttons.DPadLeft, Keys.I))
+                GameManager.PushState(new DialogState(OurGame));
+
             lvl.Update(gameTime,camera);
             player.Update(gameTime);
 
