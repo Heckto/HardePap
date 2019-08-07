@@ -77,7 +77,7 @@ namespace Game1.Screens
             if (Input.WasPressed(0, Buttons.DPadLeft, Keys.I))
                 GameManager.PushState(new DialogState(OurGame));
 
-            lvl.Update(gameTime,camera);
+            lvl.Update(gameTime);
  
 
             if (!lvl.Bounds.Contains(player.Position) && !transitioning)
