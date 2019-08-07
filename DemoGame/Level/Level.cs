@@ -104,13 +104,7 @@ namespace Game1
 
             var song = "level" + Rand.GetRandomInt(1, 3);
             AudioManager.PlaySoundTrack(song, true, false);
-            AudioManager.MusicVolume = 0.1f;
-            
-
-
-            
-
-            Bounds = (Rectangle)CustomProperties["bounds"].value;
+            AudioManager.MusicVolume = 0.1f;           
         }
 
         public void GenerateCollision()
@@ -313,17 +307,38 @@ namespace Game1
 
         public override void Update(GameTime gameTime, Level lvl)
         {
+ //           screen position x = (world position x *scroll factor) +
+ //   (camera width * (1 - scroll factor))
+
+ //screen position y = (world position y *scroll factor) +
+ //   (camera height * (1 - scroll factor))
+
+            
+
             var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
             foreach (var Item in Items)
-            {              
+            {
+                var cam = new Vector2(1920, 1080);
+                var screenPost = Item.Position * ScrollSpeed + (cam * (Vector2.One - ScrollSpeed));
+
+                var screenPost2 =  -((cam * (Vector2.One - ScrollSpeed)) - Item.Position) / ScrollSpeed;
+
+
                 var scrollAss = ScrollVector;
                 scrollAss.Normalize();                
                 Item.Position += ScrollVector;
-                var itemBox = Item.getBoundingBox();           
+                var itemBox = Item.getBoundingBox();
+                itemBox.X = (int)screenPost2.X;
+                itemBox.Y = (int)screenPost2.Y;
                 if (!lvl.Bounds.Intersects(itemBox))
                 {
                     var posVector = Vector2.Min(scrollAss * mapSize, mapSize);                    
-                    Item.Position -= ( (Vector2.One - ScrollSpeed) * posVector);
+                    
+                    Item.Position -= (posVector);
+
+                    var pos = ScrollSpeed * Item.Position + (cam + (Vector2.One - ScrollSpeed));
+
+                    Item.Position = pos;
                 }
             }
         }

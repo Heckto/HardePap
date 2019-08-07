@@ -14,6 +14,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin DialogFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:DialogFont.spritefont
+
 #begin EnemySprite.xml
 /copy:EnemySprite.xml
 
@@ -23,6 +30,9 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont;DiagnosticsFont
+
+#begin KunaiSprite.xml
+/copy:KunaiSprite.xml
 
 #begin level1.xml
 /copy:level1.xml
@@ -117,6 +127,18 @@
 /processorParam:TextureFormat=Color
 /build:Misc/logo.jpg
 
+#begin Misc/Macho.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Misc/Macho.jpg
+
 #begin Misc/unmunnielogo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -156,9 +178,6 @@
 #begin Player/player.xml
 /copy:Player/player.xml
 
-#begin PlayerSprite.xml
-/copy:PlayerSprite.xml
-
 #begin Player/player2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -177,12 +196,18 @@
 #begin Player2Sprite.xml
 /copy:Player2Sprite.xml
 
-#begin KunaiSprite.xml
-/copy:KunaiSprite.xml
+#begin PlayerSprite.xml
+/copy:PlayerSprite.xml
 
 #begin SFX/no munney.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SFX/no munney.mp3
+
+#begin SFX/typewriter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/typewriter.wav
 
