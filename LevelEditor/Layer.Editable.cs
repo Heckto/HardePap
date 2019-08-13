@@ -74,12 +74,21 @@ namespace LevelEditor
 
     }
 
-    public partial class MovingLayer : Layer
+    public partial class MovingLayer : Layer, IUpdateableItem
     {       
         public MovingLayer(String name) : base(name)
         {
             this.Name = name;
             this.Visible = true;
         }
+
+        public void Update(GameTime gameTime, Level lvl)
+        {         
+        }
+    }
+
+    public interface IUpdateableItem
+    {
+        void Update(GameTime gameTime, Level lvl);
     }
 }

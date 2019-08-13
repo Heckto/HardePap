@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Game1.Screens
 {
+
+    public interface IConsoleState : IGameState { }
     public interface IIntroState : IGameState { }
     public interface IPlayGameState : IGameState { }
     public interface IOptionsState : IGameState { }

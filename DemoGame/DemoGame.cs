@@ -12,6 +12,8 @@ using AuxLib.Sound;
 using AuxLib.ScreenManagement;
 using Game1.Screens;
 using Game1.Settings;
+using Game1.Scripting;
+using QuakeConsole;
 
 namespace Game1
 {
@@ -25,7 +27,9 @@ namespace Game1
         private SpriteBatch spriteBatch;
         private GameStateManager gameManager;
         private InputHandler inputHandler;
-        
+        private GameContext context;
+        private ScriptingManager scriptManager;
+
         public static ContentManager ContentManager;
 
         public string commandParam = string.Empty;
@@ -84,7 +88,17 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(spriteBatch);
 
-            
+            scriptManager = new ScriptingManager();
+            Services.AddService(scriptManager);
+           
+            context = new GameContext();
+            context.camera = camera;
+            Services.AddService(context);
+
+            var console = new ConsoleComponent(this);
+            console.Initialize();
+            console.TimeToToggleOpenClose = 1.0f;
+            Services.AddService(console);
 
             base.Initialize();
         }

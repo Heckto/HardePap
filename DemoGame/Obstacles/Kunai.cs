@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game1.Levels;
 using System.Text;
 using System.Threading.Tasks;
 

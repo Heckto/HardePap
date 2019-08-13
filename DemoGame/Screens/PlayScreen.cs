@@ -14,11 +14,14 @@ using Microsoft.Xna.Framework.Content;
 using AuxLib.Camera;
 using AuxLib.ScreenManagement.Transitions;
 using Game1.Sprite;
+using Game1.Levels;
+using Game1.Scripting;
 
 namespace Game1.Screens
 {
     public sealed class PlayState : BaseGameState, IIntroState
     {
+        private GameContext context;
         private BoundedCamera camera;
         private GraphicsDeviceManager graphics;
         private readonly SpriteBatch spriteBatch;
@@ -26,7 +29,7 @@ namespace Game1.Screens
         string lvlFile;
         GameSettings settings;
         FpsMonitor monitor;
-        Player player;
+        
         SpriteFont font;
         bool transitioning = false;
 
@@ -39,23 +42,17 @@ namespace Game1.Screens
             spriteBatch = game.Services.GetService<SpriteBatch>();
             camera = game.Services.GetService<BoundedCamera>();
             settings = game.Services.GetService<GameSettings>();
+
+            context = game.Services.GetService<GameContext>();
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
-
             lvlFile = LevelFile;
             transitioning = false;
 
 
         }
 
-        private void Player_onTransition(Player sender,string level)
-        {
-            sender.onTransition -= Player_onTransition;
-            var levelfile = Path.Combine(Content.RootDirectory, level);
-            // push our start menu onto the stack
-            GameManager.PushState(new PlayState(OurGame, levelfile), new FadeTransition(graphics.GraphicsDevice, Color.Black,2.0f));
-            transitioning = true;
-        }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -66,8 +63,8 @@ namespace Game1.Screens
                 // push our start menu onto the stack
                 GameManager.PushState(new OptionsMenuState(OurGame));
             }
-            if (Input.WasPressed(0,Buttons.DPadRight,Keys.S))
-                SpawnPlayer();
+            if (Input.WasPressed(0,Buttons.DPadRight,Keys.F1))
+                lvl.SpawnPlayer();
             if (Input.WasPressed(0, Buttons.LeftShoulder, Keys.OemMinus))
                 camera.Zoom -= 0.2f;
 
@@ -76,14 +73,17 @@ namespace Game1.Screens
 
             if (Input.WasPressed(0, Buttons.DPadLeft, Keys.I))
                 GameManager.PushState(new DialogState(OurGame));
-
+            if (Input.WasPressed(0, Buttons.LeftStick, Keys.OemTilde))
+            {
+                GameManager.PushState(new ConsoleScreen(OurGame));
+            }
             lvl.Update(gameTime);
  
 
-            if (!lvl.Bounds.Contains(player.Position) && !transitioning)
-                SpawnPlayer();
+            if (!lvl.Bounds.Contains(lvl.player.Position) && !transitioning)
+                lvl.SpawnPlayer();
 
-            camera.LookAt(player.Position);
+            camera.LookAt(lvl.player.Position);
 
             monitor.Update();
             DebugMonitor.Update(gameTime);
@@ -114,17 +114,19 @@ namespace Game1.Screens
             {
                 lvl = Level.FromFile(lvlFile);
 
+                context.lvl = lvl;
+
                 lvl.LoadContent(Content);
 
                 var bounds = (Rectangle)lvl.CustomProperties["bounds"].value;
 
                 lvl.GenerateCollision();
                 var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
-                player = new Player(spawnLocation, lvl, Content);
+                
+                lvl.SpawnPlayer();
+                lvl.player.onTransition += Player_onTransition;
 
-                SpawnPlayer();
-
-                camera.LookAt(player.Position);
+                camera.LookAt(lvl.player.Position);
                 camera.Limits = bounds;
             }
         }
@@ -134,27 +136,13 @@ namespace Game1.Screens
             base.UnloadContent();
         }
 
-        public void SpawnPlayer()
+        private void Player_onTransition(Player sender, string level)
         {
-            //Shouldn't Level handle the Spawn?
-
-            if (player != null)
-            {
-                lvl.CollisionWorld.Remove(player.CollisionBox);
-            }
-
-            var spawnLocation = (Vector2)lvl.CustomProperties["spawnVector"].value;
-            lvl.RemoveSprite("Player");
-            player = new Player(spawnLocation, lvl, Content);
-            player.onTransition += Player_onTransition;
-            lvl.AddSprite("Player", player);
-
-            for (int i = 1; i < 5; i++)
-            {
-                lvl.RemoveSprite("Enemy" + i);
-                var enemy = new Enemies.Enemy1(new Vector2(spawnLocation.X - 500 + (500 * i), spawnLocation.Y), lvl, player, Content);
-                lvl.AddSprite("Enemy" + i, enemy);
-            }
+            sender.onTransition -= Player_onTransition;
+            var levelfile = Path.Combine(Content.RootDirectory, level);
+            //// push our start menu onto the stack
+            GameManager.PushState(new PlayState(OurGame, levelfile), new FadeTransition(graphics.GraphicsDevice, Color.Black, 2.0f));
+            transitioning = true;
         }
 
     }

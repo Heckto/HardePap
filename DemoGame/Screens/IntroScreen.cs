@@ -30,7 +30,7 @@ namespace Game1.Screens
         {
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
             {
-                AudioManager.PlaySoundEffect("no munney");
+                AudioManager.PlaySoundEffect("why");
                 var levelfile = Path.Combine(Content.RootDirectory, "Level2.xml");
                 // push our start menu onto the stack
                 GameManager.PushState(new PlayState(OurGame, levelfile), new ExpandTransition(graphics.GraphicsDevice,Color.Black, 2.0f));
@@ -51,11 +51,12 @@ namespace Game1.Screens
         {
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
             graphics = OurGame.Services.GetService<GraphicsDeviceManager>();
-            texture = Content.Load<Texture2D>(@"Misc\logo");
+            texture = Content.Load<Texture2D>(@"Misc\why");
             logo_texture = Content.Load<Texture2D>(@"Misc\unmunnielogo");
             var x1 = (graphics.GraphicsDevice.DisplayMode.Width - texture.Width) / 2;
             var y1 = (graphics.GraphicsDevice.DisplayMode.Height - texture.Height) / 2;
-            r1 = new Rectangle(x1, y1 - 150, texture.Width, texture.Height);
+            var size = new Vector2(275, 183);
+            r1 = new Rectangle(x1, y1 -100, texture.Width, texture.Height);
 
             var x2 = (graphics.GraphicsDevice.DisplayMode.Width - logo_texture.Width) / 2;
             var y2 = r1.Y + texture.Height + 50;

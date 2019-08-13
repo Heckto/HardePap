@@ -5,18 +5,14 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Game1.CollisionDetection;
 using Game1.CollisionDetection.Responses;
 using AuxLib;
 using Game1.Screens;
 using AuxLib.Input;
-using AuxLib.Camera;
 using Game1.Sprite;
-using System.Xml.Serialization;
-using System.Xml;
+using Game1.Levels;
 using Game1.Sprite.Enums;
 
 namespace Game1

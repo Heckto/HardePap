@@ -1,18 +1,13 @@
 ﻿using AuxLib;
-using AuxLib.Input;
 using Game1.CollisionDetection;
 using Game1.CollisionDetection.Responses;
 using Game1.Sprite;
 using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Game1.Levels;
 
 namespace Game1.Enemies
 {
