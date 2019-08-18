@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+using Game1.DataContext;
 using System.IO;
+
 
 namespace Game1.Scripting
 {
@@ -41,10 +36,6 @@ namespace Game1.Scripting
                 }
             }
         }
-
-
-
-
 
         public void LoadScript(string scriptId, string code)
         {

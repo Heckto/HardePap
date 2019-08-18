@@ -91,7 +91,7 @@
     <Compile Include="Screens\IntroScreen.cs" />
     <Compile Include="Screens\OptionScreen.cs" />
     <Compile Include="Screens\ScreenStates.cs" />
-    <Compile Include="ScriptManager\GameContext.cs" />
+    <Compile Include="DataContext\GameContext.cs" />
     <Compile Include="ScriptManager\ScriptingEngine.cs" />
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Sprite\AnimationEffects\FlashWhiteAnimationEffect.cs" />

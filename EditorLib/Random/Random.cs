@@ -38,7 +38,7 @@ namespace AuxLib.Rand
 
         public static Color GetRandomColor(float alpha = 0.5f)
         {
-            return new Color(Random.Next(255), Random.Next(255), Random.Next(255),alpha);
+            return new Color(GetRandomFloat(0,255), GetRandomFloat(0, 255), GetRandomFloat(0, 255), alpha);
         }
 
     }

@@ -50,7 +50,7 @@ namespace AuxLib.ScreenManagement.Transitions
 
                     if (_currentSeconds <= 0.0f)
                     {
-                        Completed?.Invoke(this, EventArgs.Empty);
+                        Completed?.Invoke(this, EventArgs.Empty);                        
                     }
                     break;
                 default:

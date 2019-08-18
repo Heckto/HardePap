@@ -13,6 +13,7 @@ using AuxLib.Rand;
 using AuxLib.Sound;
 using AuxLib.Camera;
 using Game1.Sprite;
+using Game1.DataContext;
 
 namespace Game1.Levels
 {
@@ -46,6 +47,9 @@ namespace Game1.Levels
 
         [XmlIgnore]
         private ContentManager Content;
+
+        [XmlIgnore]
+        public GameContext context;
 
         public Level()
         {
@@ -264,7 +268,7 @@ namespace Game1.Levels
 
             var spawnLocation = (Vector2)CustomProperties["spawnVector"].value;
             RemoveSprite("Player");
-            player = new Player(spawnLocation, this, Content);
+            player = new Player(spawnLocation, context, Content);
 //            player.onTransition += Player_onTransition;
             AddSprite("Player", player);
         }
@@ -272,7 +276,7 @@ namespace Game1.Levels
         public void SpawnEnemy(string name, Vector2 location)
         {
             RemoveSprite(name);
-            var enemy = new Enemies.Enemy1(location, this, player, Content);
+            var enemy = new Enemies.Enemy1(location, context, player, Content);
             AddSprite(name, enemy);
         }
 

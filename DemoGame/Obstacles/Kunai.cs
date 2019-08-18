@@ -2,12 +2,9 @@
 using Game1.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game1.Levels;
-using System.Text;
-using System.Threading.Tasks;
+using Game1.DataContext;
 
 namespace Game1.Obstacles
 {
@@ -18,11 +15,10 @@ namespace Game1.Obstacles
 
         private Vector2f kunaiPoint;
 
-        public Kunai(Vector2 location, FaceDirection direction, Level level, ContentManager contentManager) : base(contentManager)
+        public Kunai(Vector2 location, FaceDirection direction, GameContext context, ContentManager contentManager) : base(contentManager,context)
         {
             Position = location;
             Direction = direction;
-            Level = level;
             Trajectory = new Vector2(movementSpeed, 0f);
 
             if (direction == FaceDirection.Right)
@@ -69,8 +65,10 @@ namespace Game1.Obstacles
                 Position.Y + kunaiPoint.Y
             };
 
+            
+
             var collisions = yPositions
-                            .Select(yPosition => Level.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
+                            .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
                             .Where(collision => collision != null)
                             .Select(collision => collision.Box)
                             .Distinct();

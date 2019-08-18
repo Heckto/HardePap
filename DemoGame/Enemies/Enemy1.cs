@@ -7,7 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Linq;
+using AuxLib.Rand;
 using Game1.Levels;
+using Game1.DataContext;
 
 namespace Game1.Enemies
 {
@@ -26,12 +28,11 @@ namespace Game1.Enemies
 
         private Player player1;
 
-        public Enemy1(Vector2 loc, Level level, Player player1, ContentManager cm) : base(cm)
+        public Enemy1(Vector2 loc, GameContext context, Player player1, ContentManager cm) : base(cm, context)
         {
-            Level = level;
-
+            
             colBodySize = scale * hitBoxSize;
-            CollisionBox = (MoveableBody)level.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Enemy);
             CollisionBox.Data = this;

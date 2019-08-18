@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Game1.DataContext;
 using System.Threading.Tasks;
 
 namespace Game1.Sprite
@@ -26,7 +27,7 @@ namespace Game1.Sprite
 
         public virtual float InvulnerabilityTimer { get; protected set; }
 
-        public LivingSpriteObject(ContentManager contentManager) : base(contentManager)
+        public LivingSpriteObject(ContentManager contentManager,GameContext context) : base(contentManager, context)
         {
             Initialize();
         }
@@ -93,7 +94,7 @@ namespace Game1.Sprite
             }
             else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
             {
-                Level.CollisionWorld.Remove(CollisionBox);
+                context.lvl.CollisionWorld.Remove(CollisionBox);
                 IsAlive = false;
             }
         }

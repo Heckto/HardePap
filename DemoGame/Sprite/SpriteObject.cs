@@ -1,17 +1,11 @@
-﻿using AuxLib.Camera;
-using AuxLib.Input;
-using Game1.CollisionDetection;
+﻿using Game1.CollisionDetection;
 using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Game1.Levels;
+using Game1.DataContext;
 
 namespace Game1.Sprite
 {
@@ -25,7 +19,7 @@ namespace Game1.Sprite
 
         public MoveableBody CollisionBox { get; set; }
 
-        protected Level Level { get; set; }
+        protected GameContext context { get; set; }
 
         protected Color Color { get; set; }
 
@@ -48,9 +42,10 @@ namespace Game1.Sprite
         public virtual Vector2 Position { get; protected set; }
         protected Vector2 colBodySize;
 
-        public SpriteObject(ContentManager contentManager)
+        public SpriteObject(ContentManager contentManager,GameContext context)
         {
             LoadContent(contentManager);
+            this.context = context;
         }
 
         public virtual void LoadFromFile(ContentManager contentManager, string fileLocation)

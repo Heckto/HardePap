@@ -14,6 +14,7 @@ using AuxLib.Input;
 using Game1.Sprite;
 using Game1.Levels;
 using Game1.Sprite.Enums;
+using Game1.DataContext;
 
 namespace Game1
 {
@@ -29,20 +30,17 @@ namespace Game1
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
-        public delegate void onTransitionDelegate(Player sender, string level);
-        public event onTransitionDelegate onTransition;
-
         public override Vector2 Position => new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize;
 
         public override int MaxHealth => 100;
 
         private readonly List<SpriteObject> thrownObjects = new List<SpriteObject>();
 
-        public Player(Vector2 loc, Level level, ContentManager cm) : base(cm)
+        public Player(Vector2 loc, GameContext context, ContentManager cm) : base(cm,context)
         {
-            Level = level;
             colBodySize = scale * hitBoxSize;
-            CollisionBox = (MoveableBody)level.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            
+            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
 
             (CollisionBox as IBox).AddTags(ItemTypes.Player);
             CollisionBox.Data = this;
@@ -61,6 +59,16 @@ namespace Game1
                 LoadFromSheet(contentManager, @"Content\PlayerSprite.xml");
 
             CurrentAnimation = Animations["Jump"];
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            
+            base.Update(gameTime);
+
+            if (!context.lvl.Bounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
+                context.lvl.SpawnPlayer();
+
         }
 
         public override void ManagedUpdate(GameTime gameTime)
@@ -171,7 +179,7 @@ namespace Game1
                 else if(isKeyThrow)
                 {
                     var location = new Vector2(Position.X, Position.Y + (trajectoryY * 50)); // Adding something since the kunai spawns before the animation
-                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, Level, null)); // null shouldnt be a problem here since the texture should be loaded already
+                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, context, null)); // null shouldnt be a problem here since the texture should be loaded already
                     CurrentState = CharState.JumpThrow;
                 }
                 else
@@ -195,7 +203,7 @@ namespace Game1
                 {
                     trajectoryX = 0;
                     var location = new Vector2(Position.X, Position.Y);
-                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, Level, null)); // null shouldnt be a problem here since the texture should be loaded already
+                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, context, null)); // null shouldnt be a problem here since the texture should be loaded already
                     CurrentState = CharState.GroundThrow;
                 }
                 else if (Math.Abs(Trajectory.Y) > 0.5)
@@ -211,12 +219,12 @@ namespace Game1
         {
             var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, (collision) =>
             {
-                if (collision.Other.HasTag(ItemTypes.Transition))
+                if (collision.Other.HasTag(ItemTypes.Transition) && !context.transitionManager.isTransitioning)
                 {
                     var item = collision.Other.Data as RectangleItem;
                     var lvl = item.CustomProperties["map"].value.ToString();
                     var f = Path.ChangeExtension(lvl, ".xml");
-                    onTransition?.Invoke(this, f);
+                    context.transitionManager.TransitionToMap(f);                    
                     return CollisionResponses.Cross;
                 }
                 if (collision.Hit.Normal.Y < 0)
@@ -273,7 +281,7 @@ namespace Game1
             };
 
             var collisions = yPositions
-                            .Select(yPosition => Level.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
+                            .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
                             .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Enemy))
                             .Select(collision => collision.Box)
                             .Distinct();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using QuakeConsole;
+using Game1.DataContext;
 using Game1.Scripting;
 
 namespace Game1.Screens
@@ -41,8 +42,6 @@ namespace Game1.Screens
             {                
                 console.Output.Append(ex.Message);
             }
-
-
         }
 
         public override void Update(GameTime gameTime)

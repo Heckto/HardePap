@@ -12,6 +12,7 @@ using AuxLib.Sound;
 using AuxLib.ScreenManagement;
 using Game1.Screens;
 using Game1.Settings;
+using Game1.DataContext;
 using Game1.Scripting;
 using QuakeConsole;
 
@@ -50,8 +51,6 @@ namespace Game1
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             Content.RootDirectory = "Content";
             ContentManager = Content;
             Services.AddService(Content);
@@ -90,9 +89,15 @@ namespace Game1
 
             scriptManager = new ScriptingManager();
             Services.AddService(scriptManager);
-           
-            context = new GameContext();
-            context.camera = camera;
+
+            var transMan = new TransitionManager(this, gameManager,ContentManager.RootDirectory);
+
+            context = new GameContext
+            {
+                camera = camera,
+                gameManager = gameManager,
+                transitionManager = transMan
+            };
             Services.AddService(context);
 
             var console = new ConsoleComponent(this);
