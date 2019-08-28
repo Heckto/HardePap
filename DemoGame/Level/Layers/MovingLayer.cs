@@ -25,7 +25,7 @@ namespace Game1.Levels
 
 
 
-            var mapSize = new Vector2(lvl.Bounds.Width, lvl.Bounds.Height);
+            var mapSize = new Vector2(lvl.CamBounds.Width, lvl.CamBounds.Height);
             foreach (var Item in Items)
             {
                 var cam = new Vector2(1920, 1080);
@@ -40,7 +40,7 @@ namespace Game1.Levels
                 var itemBox = Item.getBoundingBox();
                 itemBox.X = (int)screenPost2.X;
                 itemBox.Y = (int)screenPost2.Y;
-                if (!lvl.Bounds.Intersects(itemBox))
+                if (!lvl.CamBounds.Intersects(itemBox))
                 {
                     var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
 

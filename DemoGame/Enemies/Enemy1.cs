@@ -50,8 +50,8 @@ namespace Game1.Enemies
         public override void ManagedUpdate(GameTime gameTime)
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            HandleKeyInput(delta);
+            if (HandleInput)
+                HandleKeyInput(delta);
             HandleCollision(delta);
             UpdateAnimation(gameTime);
         }

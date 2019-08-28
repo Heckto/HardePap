@@ -139,6 +139,18 @@
 /processorParam:TextureFormat=Color
 /build:Misc/Macho.jpg
 
+#begin Misc/ninja.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Misc/ninja.jpg
+
 #begin Misc/unmunnielogo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -174,6 +186,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/level2.mp3
+
+#begin Music/level3.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/level3.mp3
 
 #begin Player/player.png
 /importer:TextureImporter
@@ -216,6 +234,12 @@
 
 #begin Scripts/TestScript2.csx
 /copy:Scripts/TestScript2.csx
+
+#begin SFX/kahn.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/kahn.wav
 
 #begin SFX/no munney.mp3
 /importer:Mp3Importer

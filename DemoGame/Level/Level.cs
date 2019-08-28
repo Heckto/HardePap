@@ -36,7 +36,10 @@ namespace Game1.Levels
         public Dictionary<string, Texture2D> spritesheets;
 
         [XmlIgnore]
-        public Rectangle Bounds;
+        public Rectangle CamBounds;
+
+        [XmlIgnore]
+        public Rectangle LevelBounds;
 
         public SerializableDictionary CustomProperties;
 
@@ -103,16 +106,18 @@ namespace Game1.Levels
                 }
             }
 
-            Bounds = (Rectangle)CustomProperties["bounds"].value;
+            CamBounds = (Rectangle)CustomProperties["bounds"].value;
 
-            var song = "level" + Rand.GetRandomInt(1, 3);
+            LevelBounds = (Rectangle)CustomProperties["bounds"].value;
+            LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
+            var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);
             AudioManager.MusicVolume = 0.1f;           
         }
 
         public void GenerateCollision()
         {
-            CollisionWorld = new World(Bounds);
+            CollisionWorld = new World(LevelBounds);
 
             var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
             foreach (var elem in l.Items)
@@ -164,9 +169,8 @@ namespace Game1.Levels
             {
                 updateItem.Update(gameTime, this);
             }
-
-            foreach (var sprite in Sprites)
-                sprite.Value.Update(gameTime);
+            foreach (var sprite in Sprites.ToList())
+                sprite.Value.Update(gameTime);            
         }
 
         public void Draw(SpriteBatch sb, BoundedCamera camera)
@@ -273,11 +277,12 @@ namespace Game1.Levels
             AddSprite("Player", player);
         }
 
-        public void SpawnEnemy(string name, Vector2 location)
+        public LivingSpriteObject SpawnEnemy(string name, Vector2 location)
         {
             RemoveSprite(name);
             var enemy = new Enemies.Enemy1(location, context, player, Content);
             AddSprite(name, enemy);
+            return enemy;
         }
 
         #endregion

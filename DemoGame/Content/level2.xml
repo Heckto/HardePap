@@ -14807,8 +14807,8 @@
             <Items>
                 <Item xsi:type="PathItem" Name="Path_0214" Visible="true">
                     <Position>
-                        <X>-11</X>
-                        <Y>1725</Y>
+                        <X>-1021</X>
+                        <Y>1721</Y>
                     </Position>
                     <CustomProperties />
                     <LocalPoints>
@@ -14817,30 +14817,30 @@
                             <Y>0</Y>
                         </Vector2>
                         <Vector2>
-                            <X>3245</X>
-                            <Y>-5</Y>
+                            <X>4255</X>
+                            <Y>-1</Y>
                         </Vector2>
                         <Vector2>
-                            <X>5035</X>
-                            <Y>-605</Y>
+                            <X>6045</X>
+                            <Y>-601</Y>
                         </Vector2>
                         <Vector2>
-                            <X>5820</X>
-                            <Y>-600</Y>
+                            <X>6830</X>
+                            <Y>-596</Y>
                         </Vector2>
                         <Vector2>
-                            <X>8263</X>
-                            <Y>240</Y>
+                            <X>9273</X>
+                            <Y>244</Y>
                         </Vector2>
                         <Vector2>
-                            <X>9259</X>
-                            <Y>235</Y>
+                            <X>10269</X>
+                            <Y>239</Y>
                         </Vector2>
                     </LocalPoints>
                     <WorldPoints>
                         <Vector2>
-                            <X>-11</X>
-                            <Y>1725</Y>
+                            <X>-1021</X>
+                            <Y>1721</Y>
                         </Vector2>
                         <Vector2>
                             <X>3234</X>
@@ -15922,8 +15922,8 @@
         <NextItemNumber>443</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>26770.45</X>
-            <Y>2341.76147</Y>
+            <X>438.449219</X>
+            <Y>1377.76147</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

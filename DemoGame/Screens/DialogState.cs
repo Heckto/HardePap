@@ -15,7 +15,7 @@ namespace Game1.Screens
 {
     public sealed class DialogState : BaseGameState, IIntroState
     {
-        
+        public TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
         private Rectangle dialogRect;
         private SpriteFont dialogFont;
         private Rectangle pictureRect;
@@ -27,7 +27,9 @@ namespace Game1.Screens
         private SoundEffect sound;
 
         private string CappedMsg;
-        private string Msg = "President MolenKampf has been kidnapped by the ninjas. Are you a bad enough dude to rescue him.\nWhat is a man? A miserable little pile of secrets. But enough talk... Have at you!";
+        
+        private string assetPic;
+        private readonly string dialog;
         private string wrappedMsg = String.Empty;
         private int lineCnt = 0;
         private string[] lines;
@@ -39,10 +41,12 @@ namespace Game1.Screens
         float timeSinceLastIncrement = 0;
 
 
-        public DialogState(DemoGame game) : base(game)
+        public DialogState(Game game,string msg,string pic, bool blockUpdating = true) : base(game)
         {
+            dialog = msg;
+            assetPic = pic;
             BlockDrawing = false;
-            BlockUpdating = true;
+            BlockUpdating = blockUpdating;
         }
 
         public override void Initialize()
@@ -52,16 +56,16 @@ namespace Game1.Screens
 
         private string[] WrapText(string text,float lineSize,int dialogHeigth)
         {
-            string[] words = text.Split(new char[] { ' '
+            var words = text.Split(new char[] { ' '
             });
-            StringBuilder sb = new StringBuilder();
-            float linewidth = 0f;
-            float spaceWidth = dialogFont.MeasureString(" ").X;
-            float fontHeight = dialogFont.MeasureString(" ").Y;
+            var sb = new StringBuilder();
+            var linewidth = 0f;
+            var spaceWidth = dialogFont.MeasureString(" ").X;
+            var fontHeight = dialogFont.MeasureString(" ").Y;
             lineCnt = (int)((dialogHeigth - 20) / fontHeight);
-            foreach (string word in words)
+            foreach (var word in words)
             {
-                Vector2 size = dialogFont.MeasureString(word);
+                var size = dialogFont.MeasureString(word);
                 if (linewidth + size.X < lineSize)
                 {
                     sb.Append(word + " ");
@@ -104,7 +108,9 @@ namespace Game1.Screens
 
             if (Input.WasPressed(0, Buttons.B, Keys.Escape))
             {
+                
                 GameManager.PopState();
+                tcs.SetResult(true);
             }
 
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
@@ -116,14 +122,9 @@ namespace Game1.Screens
         }
         public override void Draw(GameTime gameTime)
         {
-            //graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawRectangle(dialogRect, Color.Black, 0.5f);
-            //spriteBatch.DrawRectangle(textRect, Color.Red, 0.5f);            
             spriteBatch.Draw(pictureTex, pictureRect, Color.White);
-            //for(var idx= dialogIdx;idx< dialogIdx+lineCnt;idx++)
-              //  spriteBatch.DrawString(dialogFont, lines[idx], lineIdx[idx-dialogIdx], Color.White);
-
             spriteBatch.DrawString(dialogFont, currentText, lineIdx[0], Color.White);
             base.Draw(gameTime);
             spriteBatch.End();
@@ -133,7 +134,7 @@ namespace Game1.Screens
         {
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
             graphics = OurGame.Services.GetService<GraphicsDeviceManager>();
-            pictureTex = Content.Load<Texture2D>(@"Misc\Macho");
+            pictureTex = Content.Load<Texture2D>(@"Misc\" + assetPic);
 
             dialogFont = Content.Load<SpriteFont>("DialogFont");
             sound = Content.Load<SoundEffect>(@"sfx\typewriter");
@@ -149,7 +150,7 @@ namespace Game1.Screens
 
             textRect = new Rectangle(pictureRect.X + pictureRect.Width + (int)(0.025f * dialogRect.Width), y1 + (int)(0.1f * dialogRect.Height), (int)(0.725 * dialogRect.Width), (int)(0.8 * dialogRect.Height));
 
-            lines = WrapText(Msg,0.9f * textRect.Width,textRect.Height);
+            lines = WrapText(dialog, 0.9f * textRect.Width,textRect.Height);
 
            
         }

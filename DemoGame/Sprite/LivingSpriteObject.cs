@@ -27,6 +27,8 @@ namespace Game1.Sprite
 
         public virtual float InvulnerabilityTimer { get; protected set; }
 
+        public bool HandleInput { get; set; } = true;
+
         public LivingSpriteObject(ContentManager contentManager,GameContext context) : base(contentManager, context)
         {
             Initialize();

@@ -26,7 +26,7 @@ namespace Game1
         private const float acc = -45f;
         private const float gravity = 0.0012f;
         private const float friction = 0.001f;
-        public const float jumpForce = 1.0f;
+        public const float jumpForce = 1.0f;        
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
@@ -66,7 +66,7 @@ namespace Game1
             
             base.Update(gameTime);
 
-            if (!context.lvl.Bounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
+            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
                 context.lvl.SpawnPlayer();
 
         }
@@ -75,7 +75,8 @@ namespace Game1
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            HandleKeyInput(delta, InputHandler.Instance);
+            if (HandleInput)
+                HandleKeyInput(delta, InputHandler.Instance);
             HandleCollision(delta);
             UpdateAnimation(gameTime);
 

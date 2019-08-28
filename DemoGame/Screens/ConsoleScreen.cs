@@ -15,7 +15,7 @@ namespace Game1.Screens
     public class ConsoleScreen : BaseGameState, IConsoleState
     {
         private ConsoleComponent console;
-        private ScriptingManager scriptManager;
+        private ScriptingHost scriptManager;
         private GameContext context;
 
         public ConsoleScreen(DemoGame game) : base(game)
@@ -26,17 +26,22 @@ namespace Game1.Screens
             console = game.Services.GetService<ConsoleComponent>();
             
             console.ToggleOpenClose();
+
+            
+            //Console.WriteLine(console.Input.Value);
             console.LogInput = handleConsoleInput;
             
-            scriptManager = game.Services.GetService<ScriptingManager>();            
+            scriptManager = game.Services.GetService<ScriptingHost>();            
             context = game.Services.GetService<GameContext>();
         }
 
-        public async void handleConsoleInput(string command)
+        public void handleConsoleInput(string command)
         {
             try
             {
-                await scriptManager.ExecuteExpression(command, context);
+                scriptManager.ExecuteExpression(command, out var reply);
+                if (reply != null)
+                    console.Output.Append(reply.ToString());
             }
             catch(Exception ex)
             {                
@@ -48,6 +53,8 @@ namespace Game1.Screens
         {
             base.Update(gameTime);
             console.Update(gameTime);
+
+            
 
             if (Input.WasPressed(0, Buttons.LeftStick, Keys.OemTilde))
             {

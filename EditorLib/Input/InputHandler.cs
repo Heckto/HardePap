@@ -21,6 +21,8 @@ namespace AuxLib.Input
 #endif
     };
 
+    
+
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
@@ -33,6 +35,7 @@ namespace AuxLib.Input
         private MouseState mouseState;
         private MouseState prevMouseState;
 #endif
+        public bool HandleInput { get; set; } = true;
 
         private bool allowsExiting;
 
@@ -115,6 +118,8 @@ namespace AuxLib.Input
 
         public bool WasPressed(int playerIndex, Buttons button, Keys keys)
         {
+            if (!HandleInput)
+                return false;
             if (keyboard.WasKeyPressed(keys) || gamePadHandler.WasButtonPressed(playerIndex, button))
                 return (true);
             else
@@ -123,6 +128,8 @@ namespace AuxLib.Input
 
         public bool IsPressed(int playerIndex, Buttons button, Keys keys)
         {
+            if (!HandleInput)
+                return false;
             if (keyboard.IsKeyDown(keys) || gamePadHandler.IsButtonPressed(playerIndex, button))
                 return (true);
             else

@@ -10,6 +10,8 @@ namespace AuxLib.Camera
 {
     public class BoundedCamera
     {
+        public bool focussed = true;
+
         public BoundedCamera(Viewport viewport)
         {
             Origin = new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
@@ -40,7 +42,7 @@ namespace AuxLib.Camera
 
         public void LookAt(Vector2 position)
         {
-            Position = position - new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
+            Position = position - Origin;
         }
 
         public Rectangle? Limits
@@ -87,6 +89,19 @@ namespace AuxLib.Camera
                     _position.Y = MathHelper.Clamp(_position.Y, Limits.Value.Y, Limits.Value.Y + Limits.Value.Height - viewport.Height);
                 }
             }
+        }
+
+        public bool SetPosition(Vector2 newPos)
+        {
+            var oldPos = _position;
+            if (Limits != null && Zoom == 1.0f && Rotation == 0.0f)
+            {
+                
+                
+                _position.X = MathHelper.Clamp(newPos.X, Limits.Value.X, Limits.Value.X + Limits.Value.Width - viewport.Width);
+                _position.Y = MathHelper.Clamp(newPos.Y, Limits.Value.Y, Limits.Value.Y + Limits.Value.Height - viewport.Height);
+            }
+            return !_position.Equals(oldPos);
         }
     }
 }

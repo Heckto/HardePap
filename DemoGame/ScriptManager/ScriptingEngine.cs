@@ -1,82 +1,217 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
+using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.CSharp.RuntimeBinder;
+using Microsoft.CSharp;
 using Game1.DataContext;
-using System.IO;
-
+using Microsoft.Xna.Framework;
+using System.Threading;
 
 namespace Game1.Scripting
 {
-    public class ScriptingManager
+    public class ScriptingHost
     {
-        private string ScriptDir;
-        private ScriptOptions scriptOptions;        
-        private Dictionary<string,ScriptRunner<object>> ActiveScripts = new Dictionary<string,ScriptRunner<object>>();
+        private FrameNotifyer frameNotifyer;
 
-        public ScriptingManager(string scriptDir = "")
+        private Dictionary<string, Script> Scripts = new Dictionary<string, Script>(StringComparer.InvariantCultureIgnoreCase);
+        private Dictionary<string, MethodInfo> contextMethods = new Dictionary<string, MethodInfo>(StringComparer.InvariantCultureIgnoreCase);
+
+        private Dictionary<string, Script> runningScripts = new Dictionary<string, Script>(StringComparer.InvariantCultureIgnoreCase);
+        private GameContext dataContext;
+
+        private CompilerParameters parameters;
+
+        public ScriptingHost(GameContext context)
         {
-            scriptOptions = ScriptOptions.Default
-                    .WithReferences(typeof(RuntimeBinderException).Assembly)
-                    .WithImports("System");
-
-            if (!String.IsNullOrEmpty(scriptDir))
+            dataContext = context;
+            var t = context.GetType();
+            MethodInfo[] mi = t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            foreach (var method in mi)
             {
-                ScriptDir = scriptDir;
-
-                var scriptFiles = Directory.GetFiles(ScriptDir, "*.csx");
-                foreach (var f in scriptFiles)
-                {
-                    var scriptId = Path.GetFileNameWithoutExtension(f);
-                    var code = File.ReadAllText(f);
-                    LoadScript(scriptId, code);
-                }
+                contextMethods.Add(method.Name, method);
             }
+
+            parameters = new CompilerParameters
+            {
+                GenerateInMemory = true,
+                IncludeDebugInformation = true
+            };
+
+            var assemblies = GetType().Assembly.GetReferencedAssemblies().ToList();
+            var assemblyLocations = assemblies.Select(a => Assembly.ReflectionOnlyLoad(a.FullName).Location).ToList();
+            assemblyLocations.Add(GetType().Assembly.Location);
+            parameters.ReferencedAssemblies.AddRange(assemblyLocations.ToArray());
+
+            frameNotifyer = new FrameNotifyer()
+            {
+                gameTime = new GameTime(),
+                token = new CancellationTokenSource()
+            };
+            dataContext.currentFrameSource = new TaskCompletionSource<FrameNotifyer>();
         }
 
-        public void LoadScript(string scriptId, string code)
+        public async void LoadScript(string[] files, GameContext context)
         {
-            Task.Run(() =>
-            {                
-                var scriptObj = CSharpScript.Create(code, scriptOptions, typeof(GameContext)).CreateDelegate();
-                if (ActiveScripts.ContainsKey(scriptId))
-                    ActiveScripts[scriptId] = scriptObj;
+            await Task.Run(() =>
+            {
+                var compiler = new CSharpCodeProvider();
+                var result = compiler.CompileAssemblyFromFile(parameters, files);
+                if (result.Errors.Count > 0)
+                {
+                    foreach (CompilerError error in result.Errors)
+                        Console.WriteLine(error.ErrorText);
+                }
                 else
-                    ActiveScripts.Add(scriptId, scriptObj);
+                {
+                    var types = result.CompiledAssembly.GetTypes();
+                    var scriptTypes = types.Where(p => typeof(Script).IsAssignableFrom(p));
+                    foreach (var scriptType in scriptTypes)
+                    {
+                        var c = scriptType.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, Type.EmptyTypes, null);
+                        if (c == null)
+                            throw new InvalidOperationException(string.Format("A constructor for type '{0}' was not found.", typeof(Script)));
+                        var instance = (Script)c.Invoke(new object[] { });
+                        instance.dataContext = context;
+                        Scripts.Add(scriptType.Name, instance);
+                    }
+                }
             });
         }
 
-        public async Task<object> ExecuteScript(string scriptId, GameContext context)
+        public void Update(GameTime gameTime)
         {
-            if (ActiveScripts.ContainsKey(scriptId))
+            var removeList = new List<string>();
+            foreach (var item in runningScripts)
             {
-                return await ActiveScripts[scriptId].Invoke(context);
+                if (item.Value.State == ScriptState.Error)
+                    Console.WriteLine("ERROR");
+                else if (item.Value.State == ScriptState.Done)
+                    removeList.Add(item.Key);
             }
-            return Task.FromResult("invalid script");
+            if (removeList.Count() > 0)
+            {
+                foreach (var removeItem in removeList)
+                {
+                    // Allow for multiple runs of the same script
+                    Scripts[removeItem].State = ScriptState.Ready;
+                    runningScripts.Remove(removeItem);
+                }
+            }
+
+            frameNotifyer.gameTime = gameTime;
+            var previousFrameSource = dataContext.currentFrameSource;
+
+            dataContext.currentFrameSource = new TaskCompletionSource<FrameNotifyer>();
+
+            previousFrameSource.SetResult(frameNotifyer);
         }
 
-        public void ExecuteAllScripts(GameContext context)
+        public void CancelScript()
         {
-            foreach(var scriptId in ActiveScripts.Keys)
+            frameNotifyer.token.Cancel();
+        }
+
+        public void ExecuteScript(string scriptId)
+        {
+            try
             {
-                ActiveScripts[scriptId].Invoke(context);
+                if (Scripts.ContainsKey(scriptId))
+                {
+                    var scriptObj = Scripts[scriptId];
+                    scriptObj.Execute();
+                    scriptObj.State = ScriptState.Running;
+                    runningScripts.Add(scriptId, scriptObj);
+                }
+            }
+            catch (OperationCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
-        public async Task<object> ExecuteExpression(string expression, GameContext context)
+        public void ExecuteExpression(string command, out object reply)
         {
-            return await CSharpScript.EvaluateAsync(expression, scriptOptions, context, typeof(GameContext));
+            reply = null;
+            var arguments = command.Split(new char[] { ' ' });
+
+            if (arguments[0].Equals("?"))
+                reply = getCommands();
+            else if (arguments[0].Equals("Loaded",StringComparison.OrdinalIgnoreCase))
+            {
+                reply = getLoadedScripts();
+            }
+            else if (arguments[0].Equals("Running", StringComparison.OrdinalIgnoreCase))
+            {
+                reply = getRunningScripts();
+            }
+            else if (arguments[0].Equals("Exec", StringComparison.OrdinalIgnoreCase))
+            {
+                var scriptFile = arguments[1];
+                ExecuteScript(scriptFile);
+            }
+            else if (arguments[0].Equals("Cancel", StringComparison.OrdinalIgnoreCase))
+            {
+                CancelScript();
+            }
+            else
+            {                  
+                reply = ExecuteExpression(command);
+            }
+        }
+
+        public string ExecuteExpression(string command)
+        {            
+            var arguments = command.Split(new char[] { ' ' });
+            try
+            {
+                if (arguments.Length > 0 && contextMethods.ContainsKey(arguments[0]))
+                {
+                    var argumentList = arguments.Skip(1).Take(arguments.Length - 1).ToArray();
+                    return contextMethods[arguments[0]].Invoke(dataContext, argumentList as object[]).ToString();
+                }
+                else
+                    return $"Invalid command {arguments}";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }            
+        }
+
+        #region Meta commands
+
+        public string getCommands()
+        {
+            var msg = String.Empty;
+            foreach (var item in contextMethods)
+            {
+                msg += item.Key + " " + item.Value.ToString() + " " + Environment.NewLine;
+            }
+            return msg;
         }
 
         public string getRunningScripts()
         {
-            return String.Join(Environment.NewLine, ActiveScripts.Keys.ToList());
+            var msg = String.Empty;
+            foreach (var item in runningScripts)
+            {
+                msg += item.Key + " " + item.Value.ToString() + " " + Environment.NewLine;
+            }
+            return msg;
         }
 
-    }
+        public string getLoadedScripts()
+        {
+            var msg = String.Empty;
+            foreach (var item in Scripts)
+            {
+                msg += $"{item.Key} {item.Value.State}" + Environment.NewLine;
+            }
+            return msg;
+        }
 
-    
+        #endregion
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Game1.Levels;
-using Game1.Enemies;
 using AuxLib.ScreenManagement;
 using AuxLib.Camera;
 using Microsoft.Xna.Framework.Input;
@@ -8,26 +7,31 @@ using System.IO;
 using AuxLib.ScreenManagement.Transitions;
 using Game1.Screens;
 using System;
+using System.Threading.Tasks;
+using Game1.Scripting;
+using AuxLib.Input;
+using Game1.Sprite;
+using AuxLib.Sound;
 
 namespace Game1.DataContext
 {
     public class GameContext
     {
+        public TaskCompletionSource<FrameNotifyer> currentFrameSource;
 
         public BoundedCamera camera;
         public Level lvl;
-
         public TransitionManager transitionManager;
-
         public GameStateManager gameManager;
+        public InputHandler input;
 
-        public void SpawnEnemy(string name, int x, int y)
-        {
+        public LivingSpriteObject SpawnEnemy(string name, int x, int y)
+        {            
             var location = new Vector2(x, y);
-            lvl.SpawnEnemy(name, location);
+            return lvl.SpawnEnemy(name, location);
         }
 
-        public void SpawnEnemy(string name)
+        public void SpawnEnemyAtMouse(string name)
         {
             var m = Matrix.Invert(camera.GetViewMatrix());
             var mousePos = Mouse.GetState().Position.ToVector2();
@@ -50,6 +54,95 @@ namespace Game1.DataContext
             }
             return msg;
         }
+
+        public async Task MoveCamera(Vector2 dest, float speed)
+        {
+            var perc = 0f;
+            var cameraStart = camera.Position;
+            while (camera.Position != dest)
+            {                
+                var frameData = await currentFrameSource.Task;
+                if (frameData.token.IsCancellationRequested)
+                    frameData.token.Token.ThrowIfCancellationRequested();
+                perc = MathHelper.Clamp(perc + speed, 0, 1);                
+                var newPos = Vector2.Lerp(cameraStart, dest, perc);
+                if (!camera.SetPosition(newPos))
+                    break;
+            }
+        }
+
+        public async Task MovePlayer(Vector2 dest, float speed)
+        {
+            var perc = 0f;
+            var player = lvl.player;
+            var playerStart = player.Position;
+            while ((player.Position - dest).Length() > 3)
+            {
+                var ass = (player.Position - dest).Length();
+                var frameData = await currentFrameSource.Task;
+                if (frameData.token.IsCancellationRequested)
+                    frameData.token.Token.ThrowIfCancellationRequested();
+                perc = MathHelper.Clamp(perc + speed, 0, 1);
+                var newPos = Vector2.Lerp(playerStart, dest, perc);
+                player.Trajectory = new Vector2(1,player.Trajectory.Y);
+                if (player.Position.X > dest.X)
+                    break;
+            }
+
+            player.Trajectory = new Vector2(0f,0.00166667777f);
+        }
+
+        public async Task MovePlayerToMouse()
+        {
+            try
+            {
+                var speed = 0.02f;
+                var m = Matrix.Invert(camera.GetViewMatrix());
+                var mousePos = Mouse.GetState().Position.ToVector2();
+                var dest = Vector2.Transform(mousePos, m);
+                var perc = 0f;
+                var player = lvl.player;
+                var playerStart = player.Position;
+                while ((player.Position - dest).Length() > 3)
+                {
+                    var ass = (player.Position - dest).Length();
+                    var frameData = await currentFrameSource.Task;
+                    if (frameData.token.IsCancellationRequested)
+                        frameData.token.Token.ThrowIfCancellationRequested();
+                    perc = MathHelper.Clamp(perc + speed, 0, 1);
+                    var newPos = Vector2.Lerp(playerStart, dest, perc);
+                    player.Trajectory = new Vector2(5, player.Trajectory.Y);
+                    if (player.Position.X > dest.X)
+                        break;
+                }
+
+                player.Trajectory = Vector2.Zero;
+            }
+            catch ( Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void SetUserInput(bool active)
+        {
+            lvl.player.HandleInput = active;            
+        }
+
+        public async Task DisplayDialog(string msg,string asset)
+        {
+            var dialogState = new DialogState(gameManager.Game,msg,asset, false);
+            gameManager.PushState(dialogState);
+            await dialogState.tcs.Task;
+
+        }
+
+        public void playSFX(string sfx)
+        {
+            AudioManager.PlaySoundEffect(sfx);
+        }
+
+        public GameContext() {}
     }
 
     public class TransitionManager
@@ -73,5 +166,7 @@ namespace Game1.DataContext
             var levelfile = Path.Combine(contentDirectory, mapName);
             stateManager.PushState(new PlayState(gameInstance, levelfile), new FadeTransition(gameInstance.GraphicsDevice, Color.Black, 2.0f));
         }
+
+
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Linq;
 using System.IO;
 using System;
 using Microsoft.Xna.Framework.Content;
-using AuxLib.Debug;
 using AuxLib.Camera;
 using AuxLib.Input;
 using AuxLib.Sound;
@@ -29,7 +27,7 @@ namespace Game1
         private GameStateManager gameManager;
         private InputHandler inputHandler;
         private GameContext context;
-        private ScriptingManager scriptManager;
+        private ScriptingHost scriptManager;
 
         public static ContentManager ContentManager;
 
@@ -87,8 +85,7 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(spriteBatch);
 
-            scriptManager = new ScriptingManager();
-            Services.AddService(scriptManager);
+            
 
             var transMan = new TransitionManager(this, gameManager,ContentManager.RootDirectory);
 
@@ -96,13 +93,17 @@ namespace Game1
             {
                 camera = camera,
                 gameManager = gameManager,
-                transitionManager = transMan
+                transitionManager = transMan,
+                input = inputHandler
             };
             Services.AddService(context);
 
+            scriptManager = new ScriptingHost(context);
+            Services.AddService(scriptManager);
+
             var console = new ConsoleComponent(this);
             console.Initialize();
-            console.TimeToToggleOpenClose = 1.0f;
+            console.TimeToToggleOpenClose = 0.25f;
             Services.AddService(console);
 
             base.Initialize();

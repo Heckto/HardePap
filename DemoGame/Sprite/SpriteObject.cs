@@ -14,7 +14,7 @@ namespace Game1.Sprite
         protected float scale = 0.5f;
         
         public CharState CurrentState { get; protected set; } = CharState.Air;
-        public Vector2 Trajectory { get; protected set; } = Vector2.Zero;
+        public Vector2 Trajectory { get; set; } = Vector2.Zero;
         
 
         public MoveableBody CollisionBox { get; set; }
@@ -30,7 +30,7 @@ namespace Game1.Sprite
         public FaceDirection Direction
         {
             get { return dir; }
-            protected set
+            set
             {
                 if (dir != value)
                     dir = value;

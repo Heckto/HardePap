@@ -8,15 +8,17 @@ using Game1.Settings;
 using AuxLib.Camera;
 using Game1.Levels;
 using Game1.DataContext;
+using Game1.Scripting;
 
 namespace Game1.Screens
 {
-    public sealed class PlayState : BaseGameState, IIntroState
+    public sealed class PlayState : BaseGameState, IPlayGameState
     {
         private readonly GameContext context;
         private BoundedCamera camera;
         private GraphicsDeviceManager graphics;
         private readonly SpriteBatch spriteBatch;
+        private ScriptingHost scriptingEngine;
         string lvlFile;
         GameSettings settings;
         FpsMonitor monitor;
@@ -33,12 +35,15 @@ namespace Game1.Screens
             spriteBatch = game.Services.GetService<SpriteBatch>();
             camera = game.Services.GetService<BoundedCamera>();
             settings = game.Services.GetService<GameSettings>();
-
+            scriptingEngine = game.Services.GetService<ScriptingHost>();
             context = game.Services.GetService<GameContext>();
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
             lvlFile = LevelFile;
-            
+
+            var p = @"C:\Users\Heckto\Desktop\testGame\DemoGame\Scripts";
+            var files = Directory.GetFiles(p);
+            scriptingEngine.LoadScript(files, context);
         }
 
 
@@ -46,6 +51,8 @@ namespace Game1.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            scriptingEngine.Update(gameTime);
 
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
             {
@@ -60,17 +67,15 @@ namespace Game1.Screens
             if (Input.WasPressed(0, Buttons.RightShoulder, Keys.OemPlus))
                 camera.Zoom += 0.2f;
 
-            if (Input.WasPressed(0, Buttons.DPadLeft, Keys.I))
-                GameManager.PushState(new DialogState(OurGame));
             if (Input.WasPressed(0, Buttons.LeftStick, Keys.OemTilde))
             {
                 GameManager.PushState(new ConsoleScreen(OurGame));
             }
             context.lvl.Update(gameTime);
- 
 
 
-            camera.LookAt(context.lvl.player.Position);
+            if (camera.focussed)
+                camera.LookAt(context.lvl.player.Position);
 
             monitor.Update();
             DebugMonitor.Update(gameTime);
@@ -111,8 +116,8 @@ namespace Game1.Screens
                 context.lvl.GenerateCollision();
 
                 context.lvl.SpawnPlayer();
-
-                camera.LookAt(context.lvl.player.Position);
+                if (camera.focussed)
+                    camera.LookAt(context.lvl.player.Position);
                 camera.Limits = bounds;
             }
         }
