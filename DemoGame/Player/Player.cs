@@ -67,7 +67,7 @@ namespace Game1
             base.Update(gameTime);
 
             if (!context.lvl.LevelBounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
-                context.lvl.SpawnPlayer();
+                context.lvl.SpawnPlayer(null);
 
         }
 
@@ -221,11 +221,22 @@ namespace Game1
             var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, (collision) =>
             {
                 if (collision.Other.HasTag(ItemTypes.Transition) && !context.transitionManager.isTransitioning)
-                {
+                {                    
                     var item = collision.Other.Data as RectangleItem;
                     var lvl = item.CustomProperties["map"].value.ToString();
                     var f = Path.ChangeExtension(lvl, ".xml");
                     context.transitionManager.TransitionToMap(f);                    
+                    return CollisionResponses.Cross;
+                }
+                if (collision.Other.HasTag(ItemTypes.ScriptTrigger))
+                {
+                    var item = collision.Other.Data as RectangleItem;
+                    var script = item.CustomProperties["Script"].value.ToString();
+                    if (!String.IsNullOrEmpty(script))
+                    {
+                        context.lvl.CollisionWorld.Remove((IBox)collision.Other);
+                        context.scripter.ExecuteScript(script);
+                    }
                     return CollisionResponses.Cross;
                 }
                 if (collision.Hit.Normal.Y < 0)

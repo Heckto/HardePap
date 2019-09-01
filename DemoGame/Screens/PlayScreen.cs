@@ -18,7 +18,7 @@ namespace Game1.Screens
         private BoundedCamera camera;
         private GraphicsDeviceManager graphics;
         private readonly SpriteBatch spriteBatch;
-        private ScriptingHost scriptingEngine;
+        private ScriptingEngine scriptingEngine;
         string lvlFile;
         GameSettings settings;
         FpsMonitor monitor;
@@ -35,15 +35,15 @@ namespace Game1.Screens
             spriteBatch = game.Services.GetService<SpriteBatch>();
             camera = game.Services.GetService<BoundedCamera>();
             settings = game.Services.GetService<GameSettings>();
-            scriptingEngine = game.Services.GetService<ScriptingHost>();
+            scriptingEngine = game.Services.GetService<ScriptingEngine>();
             context = game.Services.GetService<GameContext>();
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
             lvlFile = LevelFile;
-
-            var p = @"C:\Users\Heckto\Desktop\testGame\DemoGame\Scripts";
-            var files = Directory.GetFiles(p);
-            scriptingEngine.LoadScript(files, context);
+            var dir = Path.Combine(Content.RootDirectory,"Scripts");
+            //var p = @"C:\Users\Heckto\Desktop\testGame\DemoGame\Scripts";
+            var files = Directory.GetFiles(dir);
+            scriptingEngine.LoadScript(files);
         }
 
 
@@ -54,13 +54,13 @@ namespace Game1.Screens
 
             scriptingEngine.Update(gameTime);
 
-            if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
+            if (Input.WasPressed(0, Buttons.Start, Keys.Escape))
             {
                 // push our start menu onto the stack
                 GameManager.PushState(new OptionsMenuState(OurGame));
             }
             if (Input.WasPressed(0,Buttons.DPadRight,Keys.F1))
-                context.lvl.SpawnPlayer();
+                context.lvl.SpawnPlayer(null);
             if (Input.WasPressed(0, Buttons.LeftShoulder, Keys.OemMinus))
                 camera.Zoom -= 0.2f;
 
@@ -115,10 +115,19 @@ namespace Game1.Screens
 
                 context.lvl.GenerateCollision();
 
-                context.lvl.SpawnPlayer();
+                context.lvl.SpawnPlayer(null);
                 if (camera.focussed)
                     camera.LookAt(context.lvl.player.Position);
                 camera.Limits = bounds;
+
+                if (context.lvl.CustomProperties.ContainsKey("IntroScript"))
+                {
+                    var intro_script = (string)context.lvl.CustomProperties["IntroScript"].value;
+                    if (!String.IsNullOrEmpty(intro_script) && scriptingEngine.hasScriptLoaded(intro_script))
+                    {
+                        scriptingEngine.ExecuteScript(intro_script);
+                    }
+                }
             }
         }
 

@@ -229,11 +229,14 @@
 #begin PlayerSprite.xml
 /copy:PlayerSprite.xml
 
+#begin Scripts/Intro.csx
+/copy:Scripts/Intro.csx
+
+#begin Scripts/Level1_Intro.csx
+/copy:Scripts/Level1_Intro.csx
+
 #begin Scripts/TestScript.csx
 /copy:Scripts/TestScript.csx
-
-#begin Scripts/TestScript2.csx
-/copy:Scripts/TestScript2.csx
 
 #begin SFX/kahn.wav
 /importer:WavImporter

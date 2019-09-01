@@ -15343,6 +15343,27 @@
                     </FillColor>
                     <ItemType>Transition</ItemType>
                 </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0444" Visible="true">
+                    <Position>
+                        <X>818</X>
+                        <Y>50</Y>
+                    </Position>
+                    <CustomProperties>
+                        <Property Name="Script" Type="string" Description="">
+                            <string>TestScript</string>
+                        </Property>
+                    </CustomProperties>
+                    <Width>485</Width>
+                    <Height>2005</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>ScriptTrigger</ItemType>
+                </Item>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -15919,11 +15940,11 @@
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>443</NextItemNumber>
+        <NextItemNumber>444</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>438.449219</X>
-            <Y>1377.76147</Y>
+            <X>7625.115</X>
+            <Y>47.7613525</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

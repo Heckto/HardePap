@@ -24,6 +24,7 @@ namespace Game1.DataContext
         public TransitionManager transitionManager;
         public GameStateManager gameManager;
         public InputHandler input;
+        public ScriptingEngine scripter;
 
         public LivingSpriteObject SpawnEnemy(string name, int x, int y)
         {            
@@ -31,12 +32,26 @@ namespace Game1.DataContext
             return lvl.SpawnEnemy(name, location);
         }
 
-        public void SpawnEnemyAtMouse(string name)
+        public void SpawnEnemy(string name)
         {
             var m = Matrix.Invert(camera.GetViewMatrix());
             var mousePos = Mouse.GetState().Position.ToVector2();
             var worldPos = Vector2.Transform(mousePos, m);
             lvl.SpawnEnemy(name, worldPos);
+        }
+
+        public void SpawnPlayer(string name, int x, int y)
+        {
+            var location = new Vector2(x, y);
+            lvl.SpawnPlayer(location);
+        }
+
+        public void SpawnPlayer()
+        {
+            var m = Matrix.Invert(camera.GetViewMatrix());
+            var mousePos = Mouse.GetState().Position.ToVector2();
+            var worldPos = Vector2.Transform(mousePos, m);
+            lvl.SpawnPlayer(worldPos);
         }
 
         public string ListPlayers()
@@ -92,6 +107,13 @@ namespace Game1.DataContext
             player.Trajectory = new Vector2(0f,0.00166667777f);
         }
 
+        public void HaltPlayer()
+        {            
+            var player = lvl.player;        
+            player.Trajectory = new Vector2(0f, 0.00166667777f);
+            player.SetAnimation("Idle");
+        }
+
         public async Task MovePlayerToMouse()
         {
             try
@@ -129,6 +151,11 @@ namespace Game1.DataContext
             lvl.player.HandleInput = active;            
         }
 
+        public void SetTransition(bool active)
+        {
+            transitionManager.canTransition = active;
+        }
+
         public async Task DisplayDialog(string msg,string asset)
         {
             var dialogState = new DialogState(gameManager.Game,msg,asset, false);
@@ -145,28 +172,5 @@ namespace Game1.DataContext
         public GameContext() {}
     }
 
-    public class TransitionManager
-    {
-        private GameStateManager stateManager;
-        private DemoGame gameInstance;
-        private readonly string contentDirectory;
-        public bool isTransitioning = false;
-
-        public TransitionManager(DemoGame game, GameStateManager gameStateManager,string contentDir)
-        {
-            contentDirectory = contentDir;
-            gameInstance = game;
-            stateManager = gameStateManager;
-            
-        }
-
-        public void TransitionToMap(string mapName)
-        {
-            isTransitioning = true;
-            var levelfile = Path.Combine(contentDirectory, mapName);
-            stateManager.PushState(new PlayState(gameInstance, levelfile), new FadeTransition(gameInstance.GraphicsDevice, Color.Black, 2.0f));
-        }
-
-
-    }
+    
 }

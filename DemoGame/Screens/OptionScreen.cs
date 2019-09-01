@@ -39,7 +39,7 @@ namespace Game1.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (Input.WasPressed(0, Buttons.B, Keys.Escape) || (Input.WasPressed(0, Buttons.Start, Keys.Enter)))
+            if (Input.WasPressed(0, Buttons.B, Keys.Escape))
             {
                 settings.SaveToFile();
                 GameManager.PopState();

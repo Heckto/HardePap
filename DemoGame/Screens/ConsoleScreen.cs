@@ -1,38 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using QuakeConsole;
-using Game1.DataContext;
 using Game1.Scripting;
 
 namespace Game1.Screens
-{   
+{
 
     public class ConsoleScreen : BaseGameState, IConsoleState
     {
         private ConsoleComponent console;
-        private ScriptingHost scriptManager;
-        private GameContext context;
+        private ScriptingEngine scriptManager;
 
         public ConsoleScreen(DemoGame game) : base(game)
         {
             BlockDrawing = false;
-            BlockUpdating = true;
-
-            console = game.Services.GetService<ConsoleComponent>();
-            
+            BlockUpdating = false;
+            console = game.Services.GetService<ConsoleComponent>();            
             console.ToggleOpenClose();
-
-            
-            //Console.WriteLine(console.Input.Value);
             console.LogInput = handleConsoleInput;
-            
-            scriptManager = game.Services.GetService<ScriptingHost>();            
-            context = game.Services.GetService<GameContext>();
+            scriptManager = game.Services.GetService<ScriptingEngine>();            
         }
 
         public void handleConsoleInput(string command)
@@ -53,14 +40,9 @@ namespace Game1.Screens
         {
             base.Update(gameTime);
             console.Update(gameTime);
-
-            
-
             if (Input.WasPressed(0, Buttons.LeftStick, Keys.OemTilde))
             {
                 console.ToggleOpenClose();
-                //OurGame.Components.Remove(console);
-                
             }
             if (!console.IsVisible)
                 GameManager.PopState();

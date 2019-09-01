@@ -126,7 +126,7 @@ namespace Game1.Levels
                 {
                     var rec = elem as RectangleItem;
                     var box = CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
-                    if (rec.ItemType == ItemTypes.Transition)
+                    if (rec.ItemType == ItemTypes.Transition || rec.ItemType == ItemTypes.ScriptTrigger)
                     {
                         box.Data = rec;
                     }
@@ -261,19 +261,22 @@ namespace Game1.Levels
         [XmlIgnore]
         public Player player;
 
- 
 
-        public void SpawnPlayer()
+
+        public void SpawnPlayer(Vector2? loc)
         {
             if (player != null)
             {
                 CollisionWorld.Remove(player.CollisionBox);
             }
 
-            var spawnLocation = (Vector2)CustomProperties["spawnVector"].value;
+            Vector2 spawnLocation;
+            if (!loc.HasValue)
+                spawnLocation = (Vector2)CustomProperties["spawnVector"].value;
+            else
+                spawnLocation = loc.Value;
             RemoveSprite("Player");
             player = new Player(spawnLocation, context, Content);
-//            player.onTransition += Player_onTransition;
             AddSprite("Player", player);
         }
 

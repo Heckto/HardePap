@@ -12,6 +12,7 @@ using Game1.Screens;
 using Game1.Settings;
 using Game1.DataContext;
 using Game1.Scripting;
+using Game1.Levels;
 using QuakeConsole;
 
 namespace Game1
@@ -27,7 +28,7 @@ namespace Game1
         private GameStateManager gameManager;
         private InputHandler inputHandler;
         private GameContext context;
-        private ScriptingHost scriptManager;
+        private ScriptingEngine scriptManager;
 
         public static ContentManager ContentManager;
 
@@ -94,12 +95,18 @@ namespace Game1
                 camera = camera,
                 gameManager = gameManager,
                 transitionManager = transMan,
-                input = inputHandler
+                input = inputHandler,
+                scripter = scriptManager
             };
+
+            scriptManager = new ScriptingEngine(context);
+            Services.AddService(scriptManager);
+
+            context.scripter = scriptManager;
+
             Services.AddService(context);
 
-            scriptManager = new ScriptingHost(context);
-            Services.AddService(scriptManager);
+            
 
             var console = new ConsoleComponent(this);
             console.Initialize();
@@ -141,8 +148,8 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+              //  Exit();
             base.Update(gameTime);
         }
 

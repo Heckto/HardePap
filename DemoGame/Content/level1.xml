@@ -3932,8 +3932,8 @@
                             <Y>748</Y>
                         </Vector2>
                         <Vector2>
-                            <X>4444</X>
-                            <Y>742</Y>
+                            <X>4936</X>
+                            <Y>750</Y>
                         </Vector2>
                     </LocalPoints>
                     <WorldPoints>
@@ -3986,8 +3986,8 @@
                             <Y>3650</Y>
                         </Vector2>
                         <Vector2>
-                            <X>14807</X>
-                            <Y>3644</Y>
+                            <X>15299</X>
+                            <Y>3652</Y>
                         </Vector2>
                     </WorldPoints>
                     <IsPolygon>false</IsPolygon>
@@ -4003,8 +4003,8 @@
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0185" Visible="true">
                     <Position>
-                        <X>14738</X>
-                        <Y>3038</Y>
+                        <X>14802</X>
+                        <Y>3180</Y>
                     </Position>
                     <CustomProperties>
                         <Property Name="map" Type="string" Description="Level2">
@@ -4021,6 +4021,23 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Transition</ItemType>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0186" Visible="true">
+                    <Position>
+                        <X>2727</X>
+                        <Y>3927</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>588</Width>
+                    <Height>120</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>StaticBlock</ItemType>
                 </Item>
             </Items>
             <ScrollSpeed>
@@ -4887,18 +4904,21 @@
         </Property>
         <Property Name="spawnVector" Type="Vector2" Description="">
             <Vector2>
-                <X>3500</X>
-                <Y>3300</Y>
+                <X>3150</X>
+                <Y>3800</Y>
             </Vector2>
+        </Property>
+        <Property Name="IntroScript" Type="string" Description="Intro">
+            <string>Intro</string>
         </Property>
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>185</NextItemNumber>
+        <NextItemNumber>186</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>3977.92969</X>
-            <Y>3525.418</Y>
+            <X>4275.929</X>
+            <Y>3160.75146</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

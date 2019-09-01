@@ -94,15 +94,15 @@ namespace AuxLib.Input
             keyboard.Update();
             gamePadHandler.Update();
 
-            if (allowsExiting)
-            {
-                if (keyboard.IsKeyDown(Keys.Escape))
-                    Game.Exit();
+            //if (allowsExiting)
+            //{
+            //    if (keyboard.IsKeyDown(Keys.Escape))
+            //        Game.Exit();
 
-                // Allows the default game to exit on Xbox 360 and Windows
-                if (gamePadHandler.WasButtonPressed(0, Buttons.Back))
-                    Game.Exit();
-            }
+            //    // Allows the default game to exit on Xbox 360 and Windows
+            //    if (gamePadHandler.WasButtonPressed(0, Buttons.Back))
+            //        Game.Exit();
+            //}
 
 
 

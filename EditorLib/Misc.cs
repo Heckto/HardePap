@@ -13,6 +13,7 @@ namespace AuxLib
         PolyLine = 2,
         Player = 4,
         Transition = 8,
-        Enemy = 16
+        Enemy = 16,
+        ScriptTrigger = 32
     }
 }
