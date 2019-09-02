@@ -1,5 +1,6 @@
 ﻿SetUserInput(false);
 camera.focussed = false;
+HaltPlayer();
 var targetPos = new Vector2(4450, 250);
 await MoveCamera(targetPos, 0.02f);
 await Task.Delay(2000);

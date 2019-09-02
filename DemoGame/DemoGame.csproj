@@ -71,6 +71,7 @@
     <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="DemoGame.cs" />
     <Compile Include="Enemies\Enemy1.cs" />
+    <Compile Include="HUD\HUD.cs" />
     <Compile Include="Level\Items\CircleItem.cs" />
     <Compile Include="Level\Items\Item.cs" />
     <Compile Include="Level\Items\ItemInterfaces.cs" />

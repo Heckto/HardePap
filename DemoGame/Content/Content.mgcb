@@ -14,22 +14,44 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin DialogFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:DialogFont.spritefont
-
 #begin EnemySprite.xml
 /copy:EnemySprite.xml
 
-#begin File.spritefont
+#begin Font/DiagnosticFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:File.spritefont;DiagnosticsFont
+/build:Font/DiagnosticFont.spritefont
+
+#begin Font/DialogFont.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Font/DialogFont.png
+
+#begin Font/DialogFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/DialogFont.spritefont
+
+#begin Font/LevelText.otf
+/copy:Font/LevelText.otf
+
+#begin Font/LevelText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/LevelText.spritefont
 
 #begin KunaiSprite.xml
 /copy:KunaiSprite.xml

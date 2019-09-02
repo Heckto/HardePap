@@ -12,6 +12,7 @@ using Game1.Scripting;
 using AuxLib.Input;
 using Game1.Sprite;
 using AuxLib.Sound;
+using Game1.HUD;
 
 namespace Game1.DataContext
 {
@@ -25,6 +26,7 @@ namespace Game1.DataContext
         public GameStateManager gameManager;
         public InputHandler input;
         public ScriptingEngine scripter;
+        public HeadsUpDisplay HUD;
 
         public LivingSpriteObject SpawnEnemy(string name, int x, int y)
         {            
@@ -110,7 +112,7 @@ namespace Game1.DataContext
         public void HaltPlayer()
         {            
             var player = lvl.player;        
-            player.Trajectory = new Vector2(0f, 0.00166667777f);
+            player.Trajectory = new Vector2(0f, 0.00166667f);            
             player.SetAnimation("Idle");
         }
 
@@ -161,7 +163,15 @@ namespace Game1.DataContext
             var dialogState = new DialogState(gameManager.Game,msg,asset, false);
             gameManager.PushState(dialogState);
             await dialogState.tcs.Task;
+        }
 
+        public void DisplayHUDText(string key,string msg,float TTL,float fadeTime)
+        {
+            if (HUD != null)
+            {
+                var textDisplay = new LevelIntroText(msg, TTL, fadeTime);
+                HUD.AddHUDComponent(key, textDisplay);
+            }
         }
 
         public void playSFX(string sfx)

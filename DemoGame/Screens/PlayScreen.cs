@@ -9,6 +9,7 @@ using AuxLib.Camera;
 using Game1.Levels;
 using Game1.DataContext;
 using Game1.Scripting;
+using Game1.HUD;
 
 namespace Game1.Screens
 {
@@ -22,7 +23,7 @@ namespace Game1.Screens
         string lvlFile;
         GameSettings settings;
         FpsMonitor monitor;
-        
+        HeadsUpDisplay hud;
         SpriteFont font;
         
 
@@ -41,9 +42,11 @@ namespace Game1.Screens
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
             lvlFile = LevelFile;
             var dir = Path.Combine(Content.RootDirectory,"Scripts");
-            //var p = @"C:\Users\Heckto\Desktop\testGame\DemoGame\Scripts";
             var files = Directory.GetFiles(dir);
             scriptingEngine.LoadScript(files);
+
+            hud = new HeadsUpDisplay();
+            
         }
 
 
@@ -77,6 +80,8 @@ namespace Game1.Screens
             if (camera.focussed)
                 camera.LookAt(context.lvl.player.Position);
 
+            hud.Update(gameTime);
+
             monitor.Update();
             DebugMonitor.Update(gameTime);
         }
@@ -87,6 +92,8 @@ namespace Game1.Screens
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             context.lvl.Draw(spriteBatch, camera);
+
+            hud.Draw(spriteBatch, gameTime);
 
             if (settings.debugMode)
             {
@@ -108,6 +115,7 @@ namespace Game1.Screens
 
                 // ????
                 context.lvl.context = context;
+                context.HUD = hud;
 
                 context.lvl.LoadContent(Content);
 
