@@ -82,10 +82,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DemoGame\DemoGame.csproj">
-      <Project>{c073e6eb-a7c0-436e-af19-95f3cb616084}</Project>
-      <Name>DemoGame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EditorLib\AuxLib.csproj">
       <Project>{3cdec9b0-7b51-43a2-8dca-5bc7f5d96cb4}</Project>
       <Name>AuxLib</Name>

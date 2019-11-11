@@ -1,5 +1,5 @@
 ﻿using System;
-using Game1.CollisionDetection;
+using AuxLib.CollisionDetection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

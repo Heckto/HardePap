@@ -45,33 +45,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CollisionDetection\Box.cs" />
-    <Compile Include="CollisionDetection\Collision.cs" />
-    <Compile Include="CollisionDetection\Grid.cs" />
-    <Compile Include="CollisionDetection\Hit.cs" />
-    <Compile Include="CollisionDetection\IBox.cs" />
-    <Compile Include="CollisionDetection\ICollision.cs" />
-    <Compile Include="CollisionDetection\IHit.cs" />
-    <Compile Include="CollisionDetection\IMoveableBody.cs" />
-    <Compile Include="CollisionDetection\IMovement.cs" />
-    <Compile Include="CollisionDetection\IPolyLine.cs" />
-    <Compile Include="CollisionDetection\IShape.cs" />
-    <Compile Include="CollisionDetection\IWorld.cs" />
-    <Compile Include="CollisionDetection\MoveableBody.cs" />
-    <Compile Include="CollisionDetection\Movement.cs" />
-    <Compile Include="CollisionDetection\PolyLine.cs" />
-    <Compile Include="CollisionDetection\Responoses\BounceResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\CollisionResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\CollisionResponses.cs" />
-    <Compile Include="CollisionDetection\Responoses\CrossResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\ICollisionResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\SlideResponse.cs" />
-    <Compile Include="CollisionDetection\Responoses\TouchResponse.cs" />
-    <Compile Include="CollisionDetection\Shape.cs" />
-    <Compile Include="CollisionDetection\World.cs" />
     <Compile Include="DemoGame.cs" />
-    <Compile Include="Enemies\Enemy1.cs" />
+    <Compile Include="Characters\Enemies\Enemy1.cs" />
     <Compile Include="HUD\HUD.cs" />
+    <Compile Include="HUD\HUDComponent.cs" />
+    <Compile Include="HUD\HUDText.cs" />
     <Compile Include="Level\Items\CircleItem.cs" />
     <Compile Include="Level\Items\Item.cs" />
     <Compile Include="Level\Items\ItemInterfaces.cs" />
@@ -84,7 +62,8 @@
     <Compile Include="Level\Properties.cs" />
     <Compile Include="Level\TransactionManager.cs" />
     <Compile Include="Obstacles\Kunai.cs" />
-    <Compile Include="Player\Player.cs" />
+    <Compile Include="ParticleEffects\Rain.cs" />
+    <Compile Include="Characters\Player\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\ConsoleScreen.cs" />
@@ -187,16 +166,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EditorLib\AuxLib.csproj">
       <Project>{3cdec9b0-7b51-43a2-8dca-5bc7f5d96cb4}</Project>
       <Name>AuxLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <Folder Include="Characters\NPC\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

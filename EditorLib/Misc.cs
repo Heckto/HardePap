@@ -8,12 +8,10 @@ namespace AuxLib
 {
     public enum ItemTypes
     {
-        None = 0,
-        StaticBlock = 1,
-        PolyLine = 2,
-        Player = 4,
+        Collider = 1,
+        Player = 2,        
+        Enemy = 4,
         Transition = 8,
-        Enemy = 16,
-        ScriptTrigger = 32
+        ScriptTrigger = 16
     }
 }

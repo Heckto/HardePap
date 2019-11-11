@@ -13,10 +13,12 @@ using AuxLib.Input;
 using Game1.Sprite;
 using AuxLib.Sound;
 using Game1.HUD;
+using AuxLib.ParticleEngine;
+using System.Collections.Generic;
 
 namespace Game1.DataContext
 {
-    public class GameContext
+    public partial class GameContext
     {
         public TaskCompletionSource<FrameNotifyer> currentFrameSource;
 
@@ -27,6 +29,7 @@ namespace Game1.DataContext
         public InputHandler input;
         public ScriptingEngine scripter;
         public HeadsUpDisplay HUD;
+        public List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
         public LivingSpriteObject SpawnEnemy(string name, int x, int y)
         {            
@@ -42,7 +45,7 @@ namespace Game1.DataContext
             lvl.SpawnEnemy(name, worldPos);
         }
 
-        public void SpawnPlayer(string name, int x, int y)
+        public void SpawnPlayer(int x, int y)
         {
             var location = new Vector2(x, y);
             lvl.SpawnPlayer(location);
@@ -95,12 +98,10 @@ namespace Game1.DataContext
             var playerStart = player.Position;
             while ((player.Position - dest).Length() > 3)
             {
-                var ass = (player.Position - dest).Length();
                 var frameData = await currentFrameSource.Task;
                 if (frameData.token.IsCancellationRequested)
                     frameData.token.Token.ThrowIfCancellationRequested();
                 perc = MathHelper.Clamp(perc + speed, 0, 1);
-                var newPos = Vector2.Lerp(playerStart, dest, perc);
                 player.Trajectory = new Vector2(1,player.Trajectory.Y);
                 if (player.Position.X > dest.X)
                     break;
@@ -178,6 +179,14 @@ namespace Game1.DataContext
         {
             AudioManager.PlaySoundEffect(sfx);
         }
+
+        public void MakeItRain()
+        {
+            var system = new ParticleEffects.Rain(gameManager.Game, 5000,camera);
+            system.Initialize();
+            particleSystems.Add(system);
+        }
+
 
         public GameContext() {}
     }

@@ -22,8 +22,7 @@ namespace Game1.Screens
         private Texture2D pictureTex;
 
         private Rectangle textRect;
-        private SpriteBatch spriteBatch;
-        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;        
         private SoundEffect sound;
 
         private string CappedMsg;
@@ -133,17 +132,18 @@ namespace Game1.Screens
         protected override void LoadContent()
         {
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
-            graphics = OurGame.Services.GetService<GraphicsDeviceManager>();
-            pictureTex = Content.Load<Texture2D>(@"Misc\" + assetPic);
+            
+            pictureTex = DemoGame.ContentManager.Load<Texture2D>(@"Misc\" + assetPic);
 
-            dialogFont = Content.Load<SpriteFont>("DialogFont");
-            sound = Content.Load<SoundEffect>(@"sfx\typewriter");
+            
+            dialogFont = DemoGame.ContentManager.Load<SpriteFont>("DialogFont");
+            sound = DemoGame.ContentManager.Load<SoundEffect>(@"sfx\typewriter");
             
 
-            var x1 = (int)(0.1f * graphics.GraphicsDevice.DisplayMode.Width);
-            var y1 = (int)(0.7f * graphics.GraphicsDevice.DisplayMode.Height);
-            var width = (int)(0.8f * graphics.GraphicsDevice.DisplayMode.Width);
-            var height = (int)(0.25f * graphics.GraphicsDevice.DisplayMode.Height);
+            var x1 = (int)(0.1f * DemoGame.graphics.GraphicsDevice.DisplayMode.Width);
+            var y1 = (int)(0.7f * DemoGame.graphics.GraphicsDevice.DisplayMode.Height);
+            var width = (int)(0.8f * DemoGame.graphics.GraphicsDevice.DisplayMode.Width);
+            var height = (int)(0.25f * DemoGame.graphics.GraphicsDevice.DisplayMode.Height);
             dialogRect = new Rectangle(x1, y1, width, height);
 
             pictureRect = new Rectangle(x1 + (int)(0.025f * dialogRect.Width), y1 + (int)(0.1f * dialogRect.Height), (int)(0.2 * dialogRect.Width), (int)(0.8 * dialogRect.Height));

@@ -9,10 +9,11 @@ using System.Threading;
 using System.IO;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using QuakeConsole;
 
 namespace Game1.Scripting
 {
-    public class ScriptingEngine
+    public class ScriptingEngine : ICommandInterpreter
     {
         private readonly FrameNotifyer frameNotifyer;
         
@@ -121,33 +122,7 @@ namespace Game1.Scripting
             }
         }
 
-        public void ExecuteExpression(string command, out object reply)
-        {
-            reply = null;
-            var arguments = command.Split(new char[] { ' ' });
-
-            if (arguments[0].Equals("Loaded",StringComparison.OrdinalIgnoreCase))
-            {
-                reply = getLoadedScripts();
-            }
-            else if (arguments[0].Equals("Running", StringComparison.OrdinalIgnoreCase))
-            {
-                reply = getRunningScripts();
-            }
-            else if (arguments[0].Equals("Exec", StringComparison.OrdinalIgnoreCase))
-            {
-                var scriptFile = arguments[1];
-                ExecuteScript(scriptFile);
-            }
-            else if (arguments[0].Equals("Cancel", StringComparison.OrdinalIgnoreCase))
-            {
-                CancelScript();
-            }
-            else
-            {                  
-                reply = ExecuteExpression(command);
-            }
-        }
+       
 
         public async Task<string> ExecuteExpression(string command)
         {
@@ -180,6 +155,48 @@ namespace Game1.Scripting
         public bool hasScriptLoaded(string script)
         {
             return Scripts.ContainsKey(script);
+        }
+
+        public async void Execute(IConsoleOutput output, string command)
+        {
+            try
+            {
+                var reply = string.Empty;
+                var arguments = command.Split(new char[] { ' ' });
+
+                if (arguments[0].Equals("Loaded", StringComparison.OrdinalIgnoreCase))
+                {
+                    reply = getLoadedScripts();
+                }
+                else if (arguments[0].Equals("Running", StringComparison.OrdinalIgnoreCase))
+                {
+                    reply = getRunningScripts();
+                }
+                else if (arguments[0].Equals("Exec", StringComparison.OrdinalIgnoreCase))
+                {
+                    var scriptFile = arguments[1];
+                    ExecuteScript(scriptFile);
+                }
+                else if (arguments[0].Equals("Cancel", StringComparison.OrdinalIgnoreCase))
+                {
+                    CancelScript();
+                }
+                else
+                {
+                    reply = await ExecuteExpression(command);
+                }
+                output.Append(reply);
+            }
+            catch(Exception ex)
+            {
+                output.Append(ex.Message);
+            }
+            
+        }
+
+        public void Autocomplete(IConsoleInput input, bool forward)
+        {
+            //throw new NotImplementedException();
         }
 
         #endregion

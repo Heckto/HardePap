@@ -24,11 +24,11 @@ namespace Game1.Screens
     public partial class BaseGameState : GameState
     {
         protected DemoGame OurGame;
-        protected ContentManager Content;
+        
         public BaseGameState(Game game) : base(game) 
         {
             
-            Content = new ContentManager(game.Services,"Content");
+            
             OurGame = (DemoGame)game;
         }
     }

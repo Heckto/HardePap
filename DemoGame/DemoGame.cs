@@ -22,8 +22,8 @@ namespace Game1
     /// </summary>
     public class DemoGame : Game
     {
-        BoundedCamera camera;
-        private GraphicsDeviceManager graphics;
+        private BoundedCamera camera;
+        
         private SpriteBatch spriteBatch;
         private GameStateManager gameManager;
         private InputHandler inputHandler;
@@ -31,6 +31,7 @@ namespace Game1
         private ScriptingEngine scriptManager;
 
         public static ContentManager ContentManager;
+        public static GraphicsDeviceManager graphics;
 
         public string commandParam = string.Empty;
 
@@ -88,7 +89,7 @@ namespace Game1
 
             
 
-            var transMan = new TransitionManager(this, gameManager,ContentManager.RootDirectory);
+            var transMan = new TransitionManager(this, gameManager);
 
             context = new GameContext
             {
@@ -111,6 +112,7 @@ namespace Game1
             var console = new ConsoleComponent(this);
             console.Initialize();
             console.TimeToToggleOpenClose = 0.25f;
+            console.Interpreter = scriptManager;
             Services.AddService(console);
 
             base.Initialize();

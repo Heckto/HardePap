@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoGame", "DemoGame\DemoGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelEditor", "LevelEditor\LevelEditor.csproj", "{E0139DA4-2F75-4591-BF0B-D4E2A2AAF94B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollisionDemo - Aether", "CollisionDemo - Aether\CollisionDemo - Aether.csproj", "{80A829A1-0950-4BF8-856E-2C225A6CFA93}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,13 +57,6 @@ Global
 		{E0139DA4-2F75-4591-BF0B-D4E2A2AAF94B}.Release|Any CPU.ActiveCfg = Release|x86
 		{E0139DA4-2F75-4591-BF0B-D4E2A2AAF94B}.Release|x86.ActiveCfg = Release|x86
 		{E0139DA4-2F75-4591-BF0B-D4E2A2AAF94B}.Release|x86.Build.0 = Release|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Debug|Any CPU.Build.0 = Debug|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Debug|x86.ActiveCfg = Debug|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Debug|x86.Build.0 = Debug|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Release|Any CPU.ActiveCfg = Release|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Release|x86.ActiveCfg = Release|x86
-		{80A829A1-0950-4BF8-856E-2C225A6CFA93}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

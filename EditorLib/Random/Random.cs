@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuxLib.Rand
+namespace AuxLib.RandomGeneration
 {
     public static class Rand
     {

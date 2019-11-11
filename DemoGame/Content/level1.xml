@@ -3806,7 +3806,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0048" Visible="true">
                     <Position>
@@ -3823,7 +3823,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0049" Visible="true">
                     <Position>
@@ -3840,7 +3840,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0050" Visible="true">
                     <Position>
@@ -3857,7 +3857,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0051" Visible="true">
                     <Position>
@@ -3874,7 +3874,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0054" Visible="true">
                     <Position>
@@ -3999,7 +3999,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0185" Visible="true">
                     <Position>
@@ -4037,7 +4037,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
             </Items>
             <ScrollSpeed>

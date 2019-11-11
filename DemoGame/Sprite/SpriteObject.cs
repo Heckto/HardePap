@@ -1,4 +1,4 @@
-﻿using Game1.CollisionDetection;
+﻿using AuxLib.CollisionDetection;
 using Game1.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -11,6 +11,8 @@ namespace Game1.Sprite
 {
     public abstract class SpriteObject
     {
+        public virtual bool IsAlive { get; protected set; }
+
         protected float scale = 0.5f;
         
         public CharState CurrentState { get; protected set; } = CharState.Air;
@@ -42,9 +44,9 @@ namespace Game1.Sprite
         public virtual Vector2 Position { get; protected set; }
         protected Vector2 colBodySize;
 
-        public SpriteObject(ContentManager contentManager,GameContext context)
+        public SpriteObject(GameContext context)
         {
-            LoadContent(contentManager);
+            LoadContent();
             this.context = context;
         }
 
@@ -60,14 +62,14 @@ namespace Game1.Sprite
             }
         }
 
-        public virtual void LoadFromSheet(ContentManager contentManager, string fileLocation)
+        public virtual void LoadFromSheet(string fileLocation)
         {
             var config = SpriteConfig.Deserialize(fileLocation);
 
             Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
 
             var sheetDef = config.SpritesheetDefinitionFile;
-            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale, contentManager);
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale);
 
             foreach (var animation in config.Animations)
             {
@@ -80,7 +82,7 @@ namespace Game1.Sprite
             throw new NotImplementedException();
         }
 
-        public abstract void LoadContent(ContentManager contentManager);
+        public abstract void LoadContent();
 
         public virtual void Update(GameTime gameTime)
         {

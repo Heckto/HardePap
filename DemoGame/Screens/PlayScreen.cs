@@ -6,10 +6,12 @@ using AuxLib.Debug;
 using System.IO;
 using Game1.Settings;
 using AuxLib.Camera;
+using AuxLib.ParticleEngine;
 using Game1.Levels;
 using Game1.DataContext;
 using Game1.Scripting;
 using Game1.HUD;
+using System.Collections.Generic;
 
 namespace Game1.Screens
 {
@@ -17,7 +19,6 @@ namespace Game1.Screens
     {
         private readonly GameContext context;
         private BoundedCamera camera;
-        private GraphicsDeviceManager graphics;
         private readonly SpriteBatch spriteBatch;
         private ScriptingEngine scriptingEngine;
         string lvlFile;
@@ -25,6 +26,8 @@ namespace Game1.Screens
         FpsMonitor monitor;
         HeadsUpDisplay hud;
         SpriteFont font;
+
+        
         
 
         public static DebugMonitor DebugMonitor = new DebugMonitor();
@@ -32,7 +35,6 @@ namespace Game1.Screens
 
         public PlayState(DemoGame game,string LevelFile) : base(game)
         {            
-            graphics = game.Services.GetService<GraphicsDeviceManager>();
             spriteBatch = game.Services.GetService<SpriteBatch>();
             camera = game.Services.GetService<BoundedCamera>();
             settings = game.Services.GetService<GameSettings>();
@@ -41,12 +43,11 @@ namespace Game1.Screens
             monitor = new FpsMonitor();
             DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
             lvlFile = LevelFile;
-            var dir = Path.Combine(Content.RootDirectory,"Scripts");
+            var dir = Path.Combine(DemoGame.ContentManager.RootDirectory,"Scripts");
             var files = Directory.GetFiles(dir);
             scriptingEngine.LoadScript(files);
 
-            hud = new HeadsUpDisplay();
-            
+            hud = new HeadsUpDisplay();        
         }
 
 
@@ -75,7 +76,8 @@ namespace Game1.Screens
                 GameManager.PushState(new ConsoleScreen(OurGame));
             }
             context.lvl.Update(gameTime);
-
+            foreach (var p in context.particleSystems)
+                p.Update(gameTime);
 
             if (camera.focussed)
                 camera.LookAt(context.lvl.player.Position);
@@ -89,9 +91,12 @@ namespace Game1.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            DemoGame.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             context.lvl.Draw(spriteBatch, camera);
+
+            foreach (var p in context.particleSystems)
+                p.Draw(gameTime);
 
             hud.Draw(spriteBatch, gameTime);
 
@@ -106,7 +111,7 @@ namespace Game1.Screens
 
         protected override void LoadContent()
         {
-            font = Content.Load<SpriteFont>("DiagnosticsFont");
+            font = DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
             DebugMonitor.Initialize(font);
 
             if (!String.IsNullOrEmpty(lvlFile) && File.Exists(lvlFile))
@@ -117,7 +122,7 @@ namespace Game1.Screens
                 context.lvl.context = context;
                 context.HUD = hud;
 
-                context.lvl.LoadContent(Content);
+                context.lvl.LoadContent();
 
                 var bounds = (Rectangle)context.lvl.CustomProperties["bounds"].value;
 

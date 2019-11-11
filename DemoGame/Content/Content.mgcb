@@ -137,6 +137,9 @@
 #begin level2.xml
 /copy:level2.xml
 
+#begin level3.xml
+/copy:level3.xml
+
 #begin Misc/logo.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -215,6 +218,54 @@
 /processorParam:Quality=Best
 /build:Music/level3.mp3
 
+#begin Particles/3dtubegray.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particles/3dtubegray.png
+
+#begin Particles/bubble.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particles/bubble.png
+
+#begin Particles/raindrop.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particles/raindrop.png
+
+#begin Particles/smoke.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particles/smoke.png
+
 #begin Player/player.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -259,6 +310,12 @@
 
 #begin Scripts/TestScript.csx
 /copy:Scripts/TestScript.csx
+
+#begin SFX/bitch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/bitch.mp3
 
 #begin SFX/kahn.wav
 /importer:WavImporter

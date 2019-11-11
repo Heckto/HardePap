@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System.Linq;
 using Game1.DataContext;
+using AuxLib.CollisionDetection;
+using AuxLib.CollisionDetection.Responses;
 
 namespace Game1.Obstacles
 {
@@ -15,10 +17,16 @@ namespace Game1.Obstacles
 
         private Vector2f kunaiPoint;
 
-        public Kunai(Vector2 location, FaceDirection direction, GameContext context, ContentManager contentManager) : base(contentManager,context)
+        public Kunai(Vector2 location, FaceDirection direction, GameContext context) : base(context)
         {
             Position = location;
             Direction = direction;
+
+            var texSize = CurrentAnimation.Frames.First().Size;
+
+            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(location.X-(texSize.Y /2), location.Y - (texSize.X / 2), texSize.Y, texSize.X);
+            CollisionBox.onCollisionResponse += OnResolveCollision;
+            CollisionBox.Data = this;
             Trajectory = new Vector2(movementSpeed, 0f);
 
             if (direction == FaceDirection.Right)
@@ -31,11 +39,12 @@ namespace Game1.Obstacles
                 Rotation = MathHelper.Pi / -2.0f;
                 Trajectory = new Vector2(-movementSpeed, 0f);
             }
+            IsAlive = true;
         }
 
-        public override void LoadContent(ContentManager contentManager)
+        public override void LoadContent()
         {
-            LoadFromSheet(contentManager, @"Content\KunaiSprite.xml");
+            LoadFromSheet(@"Content\KunaiSprite.xml");
             CurrentAnimation = Animations["Kunai"];
 
             var texSize = CurrentAnimation.Frames.First().Size;
@@ -50,39 +59,42 @@ namespace Game1.Obstacles
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Trajectory = new Vector2(Trajectory.X, Trajectory.Y + (gravity * delta));
+
+            var oldPos = Position;
+
             Position = new Vector2(Position.X + (delta * Trajectory.X), Position.Y + (delta * Trajectory.Y));
 
-            HandleCollision();
+            //var hits = context.lvl.CollisionWorld.Hit(oldPos, Position, new List<IShape>() { this.CollisionBox });
 
+
+
+            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, delta);
+            var hits = move.Hits.ToList();
+            //            if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
+            //{
+            if (hits.Any())
+            {
+                if (hits[0].Box.HasTag(ItemTypes.Enemy))
+                {
+                    ((LivingSpriteObject)hits[0].Box.Data).DealDamage(this, 20);
+                    Trajectory = Vector2.Zero;
+                    IsAlive = false;
+                    context.lvl.CollisionWorld.Remove(CollisionBox);
+                }
+                if (hits[0].Box.HasTag(ItemTypes.Collider))
+                {
+                    Trajectory = Vector2.Zero;
+                    IsAlive = false;
+                    context.lvl.CollisionWorld.Remove(CollisionBox);
+                }
+            }
+            //}
             base.Update(gameTime);
         }
 
-        private void HandleCollision()
+        private CollisionResponses OnResolveCollision(ICollision collision)
         {
-            var xPosition = Position.X + kunaiPoint.X;
-
-            var yPositions = new List<float> {
-                Position.Y + kunaiPoint.Y
-            };
-
-            
-
-            var collisions = yPositions
-                            .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
-                            .Where(collision => collision != null)
-                            .Select(collision => collision.Box)
-                            .Distinct();
-
-            foreach (var collision in collisions)
-            {
-                if (collision.HasTag(ItemTypes.Enemy))
-                {
-                    ((LivingSpriteObject)collision.Data).DealDamage(this, 20);
-                    Trajectory = new Vector2(0f, 0f);
-                }
-                else if (collision.HasTag(ItemTypes.PolyLine) || collision.HasTag(ItemTypes.StaticBlock))
-                    Trajectory = new Vector2(0f, 0f);
-            }
+            return CollisionResponses.None;
         }
     }
 }

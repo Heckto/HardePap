@@ -22,7 +22,6 @@ namespace Game1.Screens
         private Rectangle targetRect;
         private MenuComponent Menu;
         private GameSettings settings;
-        private GraphicsDeviceManager graphics;
 
         public OptionsMenuState(DemoGame game) : base(game)
         {
@@ -33,8 +32,6 @@ namespace Game1.Screens
             targetRect = new Rectangle((int)(0.1 * camera.viewport.Width), (int)(0.1 * camera.viewport.Height), (int)(0.8 * camera.viewport.Width), (int)(0.8 * camera.viewport.Height));
 
             settings = game.Services.GetService<GameSettings>();
-
-            graphics = game.Services.GetService<GraphicsDeviceManager>();
         }
 
         public override void Update(GameTime gameTime)
@@ -68,8 +65,9 @@ namespace Game1.Screens
 
         protected override void LoadContent()
         {
+            
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
-            font = Content.Load<SpriteFont>("DiagnosticsFont");
+            font = DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
 
 
 
@@ -78,8 +76,8 @@ namespace Game1.Screens
                                                                                                         item.Value = settings.debugMode;
                                                                                                         }),
                                          new MenuItem("Fullscreen", settings.isFullScreen,(item,value) => { settings.isFullScreen = !settings.isFullScreen;
-                                                                                                            graphics.IsFullScreen = settings.isFullScreen;
-                                                                                                            graphics.ApplyChanges();
+                                                                                                            DemoGame.graphics.IsFullScreen = settings.isFullScreen;
+                                                                                                            DemoGame.graphics.ApplyChanges();
                                                                                                              item.Value = settings.isFullScreen;
                                              })
             };

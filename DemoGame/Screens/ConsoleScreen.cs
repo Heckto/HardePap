@@ -10,30 +10,15 @@ namespace Game1.Screens
     public class ConsoleScreen : BaseGameState, IConsoleState
     {
         private ConsoleComponent console;
-        private ScriptingEngine scriptManager;
+        private readonly ScriptingEngine scriptManager;
 
         public ConsoleScreen(DemoGame game) : base(game)
         {
             BlockDrawing = false;
             BlockUpdating = false;
             console = game.Services.GetService<ConsoleComponent>();            
-            console.ToggleOpenClose();
-            console.LogInput = handleConsoleInput;
+            console.ToggleOpenClose();            
             scriptManager = game.Services.GetService<ScriptingEngine>();            
-        }
-
-        public void handleConsoleInput(string command)
-        {
-            try
-            {
-                scriptManager.ExecuteExpression(command, out var reply);
-                if (reply != null)
-                    console.Output.Append(reply.ToString());
-            }
-            catch(Exception ex)
-            {                
-                console.Output.Append(ex.Message);
-            }
         }
 
         public override void Update(GameTime gameTime)

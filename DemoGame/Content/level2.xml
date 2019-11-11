@@ -14807,8 +14807,8 @@
             <Items>
                 <Item xsi:type="PathItem" Name="Path_0214" Visible="true">
                     <Position>
-                        <X>-1021</X>
-                        <Y>1721</Y>
+                        <X>3230</X>
+                        <Y>1725</Y>
                     </Position>
                     <CustomProperties />
                     <LocalPoints>
@@ -14817,50 +14817,50 @@
                             <Y>0</Y>
                         </Vector2>
                         <Vector2>
-                            <X>4255</X>
-                            <Y>-1</Y>
+                            <X>4</X>
+                            <Y>-7</Y>
                         </Vector2>
                         <Vector2>
-                            <X>6045</X>
-                            <Y>-601</Y>
+                            <X>1794</X>
+                            <Y>-607</Y>
                         </Vector2>
                         <Vector2>
-                            <X>6830</X>
-                            <Y>-596</Y>
+                            <X>2579</X>
+                            <Y>-602</Y>
                         </Vector2>
                         <Vector2>
-                            <X>9273</X>
-                            <Y>244</Y>
+                            <X>5022</X>
+                            <Y>238</Y>
                         </Vector2>
                         <Vector2>
-                            <X>10269</X>
-                            <Y>239</Y>
+                            <X>6018</X>
+                            <Y>233</Y>
                         </Vector2>
                     </LocalPoints>
                     <WorldPoints>
                         <Vector2>
-                            <X>-1021</X>
-                            <Y>1721</Y>
+                            <X>3230</X>
+                            <Y>1725</Y>
                         </Vector2>
                         <Vector2>
                             <X>3234</X>
-                            <Y>1720</Y>
+                            <Y>1718</Y>
                         </Vector2>
                         <Vector2>
                             <X>5024</X>
-                            <Y>1120</Y>
+                            <Y>1118</Y>
                         </Vector2>
                         <Vector2>
                             <X>5809</X>
-                            <Y>1125</Y>
+                            <Y>1123</Y>
                         </Vector2>
                         <Vector2>
                             <X>8252</X>
-                            <Y>1965</Y>
+                            <Y>1963</Y>
                         </Vector2>
                         <Vector2>
                             <X>9248</X>
-                            <Y>1960</Y>
+                            <Y>1958</Y>
                         </Vector2>
                     </WorldPoints>
                     <IsPolygon>false</IsPolygon>
@@ -14872,7 +14872,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0215" Visible="true">
                     <Position>
@@ -14981,7 +14981,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0238" Visible="true">
                     <Position>
@@ -14998,7 +14998,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0239" Visible="true">
                     <Position>
@@ -15015,7 +15015,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0330" Visible="true">
                     <Position>
@@ -15032,7 +15032,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0331" Visible="true">
                     <Position>
@@ -15049,7 +15049,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0383" Visible="true">
                     <Position>
@@ -15066,7 +15066,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0384" Visible="true">
                     <Position>
@@ -15083,7 +15083,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0385" Visible="true">
                     <Position>
@@ -15100,7 +15100,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0386" Visible="true">
                     <Position>
@@ -15137,7 +15137,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0387" Visible="true">
                     <Position>
@@ -15206,7 +15206,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0388" Visible="true">
                     <Position>
@@ -15223,7 +15223,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0390" Visible="true">
                     <Position>
@@ -15240,7 +15240,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
-                    <ItemType>StaticBlock</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0395" Visible="true">
                     <Position>
@@ -15277,7 +15277,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="PathItem" Name="Path_0396" Visible="true">
                     <Position>
@@ -15314,7 +15314,7 @@
                         <A>145</A>
                         <PackedValue>2445279424</PackedValue>
                     </LineColor>
-                    <ItemType>PolyLine</ItemType>
+                    <ItemType>Collider</ItemType>
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0398" Visible="true">
                     <Position>
@@ -15363,6 +15363,23 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>ScriptTrigger</ItemType>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0445" Visible="true">
+                    <Position>
+                        <X>-737</X>
+                        <Y>1715</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>3975</Width>
+                    <Height>415</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>Collider</ItemType>
                 </Item>
             </Items>
             <ScrollSpeed>
@@ -15940,11 +15957,11 @@
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>444</NextItemNumber>
+        <NextItemNumber>445</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>7625.115</X>
-            <Y>47.7613525</Y>
+            <X>3576.78174</X>
+            <Y>1126.09473</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

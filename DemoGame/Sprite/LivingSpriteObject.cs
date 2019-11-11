@@ -17,7 +17,7 @@ namespace Game1.Sprite
 
         public virtual int CurrentHealth { get; protected set; }
 
-        public virtual bool IsAlive { get; protected set; }
+        
 
         public virtual bool Dying { get; protected set; }
 
@@ -29,7 +29,7 @@ namespace Game1.Sprite
 
         public bool HandleInput { get; set; } = true;
 
-        public LivingSpriteObject(ContentManager contentManager,GameContext context) : base(contentManager, context)
+        public LivingSpriteObject(GameContext context) : base(context)
         {
             Initialize();
         }

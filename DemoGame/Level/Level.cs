@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
-using Game1.CollisionDetection;
+using AuxLib.CollisionDetection;
 using AuxLib;
-using AuxLib.Rand;
+using AuxLib.RandomGeneration;
 using AuxLib.Sound;
 using AuxLib.Camera;
 using Game1.Sprite;
@@ -49,9 +49,6 @@ namespace Game1.Levels
         public List<IUpdateableItem> updateList = new List<IUpdateableItem>();
 
         [XmlIgnore]
-        private ContentManager Content;
-
-        [XmlIgnore]
         public GameContext context;
 
         public Level()
@@ -84,9 +81,8 @@ namespace Game1.Levels
             return level;
         }
 
-        public void LoadContent(ContentManager cm)
+        public void LoadContent()
         {
-            Content = cm;
             spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
             {
@@ -97,8 +93,8 @@ namespace Game1.Levels
                         var asset = (item as TextureItem).asset_name;
                         var assetName = ContentPath + "/" + asset;
                         if (!spritesheets.ContainsKey(asset))
-                        {
-                            var texture = cm.Load<Texture2D>(assetName);
+                        {                            
+                            var texture = DemoGame.ContentManager.Load<Texture2D>(assetName);
                             spritesheets.Add(asset, texture);
                         }
                     }
@@ -135,7 +131,7 @@ namespace Game1.Levels
                 {
                     var path = elem as PathItem;
                     var newList = path.WorldPoints.Select(v => new Vector2f(v.X, v.Y));
-                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(ItemTypes.PolyLine);
+                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(ItemTypes.Collider);
                 }
             }
         }
@@ -275,15 +271,17 @@ namespace Game1.Levels
                 spawnLocation = (Vector2)CustomProperties["spawnVector"].value;
             else
                 spawnLocation = loc.Value;
+
+            
             RemoveSprite("Player");
-            player = new Player(spawnLocation, context, Content);
+            player = new Player(spawnLocation, context);
             AddSprite("Player", player);
         }
 
         public LivingSpriteObject SpawnEnemy(string name, Vector2 location)
         {
             RemoveSprite(name);
-            var enemy = new Enemies.Enemy1(location, context, player, Content);
+            var enemy = new Enemies.Enemy1(location, context, player);
             AddSprite(name, enemy);
             return enemy;
         }

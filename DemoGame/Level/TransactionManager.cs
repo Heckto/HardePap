@@ -9,14 +9,13 @@ namespace Game1.Levels
     public class TransitionManager
     {
         private GameStateManager stateManager;
-        private DemoGame gameInstance;
-        private readonly string contentDirectory;
+        private DemoGame gameInstance;        
         public bool canTransition = true;
         public bool isTransitioning = false;
 
-        public TransitionManager(DemoGame game, GameStateManager gameStateManager, string contentDir)
+        public TransitionManager(DemoGame game, GameStateManager gameStateManager)
         {
-            contentDirectory = contentDir;
+            
             gameInstance = game;
             stateManager = gameStateManager;
 
@@ -26,8 +25,9 @@ namespace Game1.Levels
         {
             if (canTransition)
             {
+                
                 isTransitioning = true;
-                var levelfile = Path.Combine(contentDirectory, mapName);
+                var levelfile = Path.Combine(DemoGame.ContentManager.RootDirectory, mapName);
                 stateManager.PushState(new PlayState(gameInstance, levelfile), new FadeTransition(gameInstance.GraphicsDevice, Color.Black, 2.0f));
             }
         }
