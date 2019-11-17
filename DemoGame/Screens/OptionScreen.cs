@@ -67,7 +67,7 @@ namespace Game1.Screens
         {
             
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
-            font = DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
+            font = DemoGame.ContentManager.Load<SpriteFont>("Font/DiagnosticFont");
 
 
 

@@ -111,7 +111,7 @@ namespace Game1.Screens
 
         protected override void LoadContent()
         {
-            font = DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
+            font = DemoGame.ContentManager.Load<SpriteFont>("Font/DiagnosticFont");
             DebugMonitor.Initialize(font);
 
             if (!String.IsNullOrEmpty(lvlFile) && File.Exists(lvlFile))

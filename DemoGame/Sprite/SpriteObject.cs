@@ -15,7 +15,7 @@ namespace Game1.Sprite
 
         protected float scale = 0.5f;
         
-        public CharState CurrentState { get; protected set; } = CharState.Air;
+        //public CharState CurrentState { get; protected set; } = CharState.Air;
         public Vector2 Trajectory { get; set; } = Vector2.Zero;
         
 
@@ -111,10 +111,10 @@ namespace Game1.Sprite
                     CurrentAnimation = animation;
                 }
             }
-            else
-            {
-                throw new InvalidOperationException($"Animation {name} not found");
-            }
+            //else
+            //{
+            //    throw new InvalidOperationException($"Animation {name} not found");
+            //}
         }
 
         public enum FaceDirection

@@ -12,6 +12,8 @@ namespace Game1.Enemies
 {
     class Enemy1 : LivingSpriteObject
     {
+        private CharState CurrentState;
+
         private const float acc = -25f;
         private const float gravity = 0.0012f;
         private const float friction = 0.001f;
@@ -23,9 +25,9 @@ namespace Game1.Enemies
 
         public override int MaxHealth => 100;
 
-        private Player player1;
+        private LivingSpriteObject player1;
 
-        public Enemy1(Vector2 loc, GameContext context, Player player1) : base(context)
+        public Enemy1(Vector2 loc, GameContext context, LivingSpriteObject player1) : base(context)
         {
             
             colBodySize = scale * hitBoxSize;
@@ -172,5 +174,16 @@ namespace Game1.Enemies
                     break;
             }
         }
+
+        public enum CharState
+        {
+            Grounded = 0x01,
+            Air = 0x02,
+            Glide = 0x04,
+            GroundAttack = 0x08,
+            JumpAttack = 0x10,
+            GroundThrow = 0x20,
+            JumpThrow = 0x40
+        };
     }
 }

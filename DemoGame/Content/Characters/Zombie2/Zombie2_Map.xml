@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Free texture packer v0.6.0 http://free-tex-packer.com
+Format:
+n  => name
+x  => x pos
+y  => y pos
+w  => width
+h  => height
+pX => x pos of the pivot point
+pY => y pos of the pivot point
+oX => x-corner offset
+oY => y-corner offset
+oW => original width
+oH => original height
+r => 'y' if sprite is rotated-->
+<TextureAtlas imagePath="Zombie2" width="1369" height="2048" scale="1" format="RGBA8888">
+  <sprite n="Walk8" x="0" y="0" w="170" h="271" pX="0.5" pY="0.5" oX="46" oY="17" oW="261" oH="288"/>
+  <sprite n="Dead2" x="0" y="271" w="199" h="270" pX="0.5" pY="0.5" oX="23" oY="21" oW="342" oH="314"/>
+  <sprite n="Walk7" x="170" y="0" w="170" h="269" pX="0.5" pY="0.5" oX="48" oY="19" oW="261" oH="288"/>
+  <sprite n="Walk3" x="0" y="541" w="169" h="269" pX="0.5" pY="0.5" oX="49" oY="18" oW="261" oH="288"/>
+  <sprite n="Walk2" x="0" y="810" w="170" h="268" pX="0.5" pY="0.5" oX="49" oY="20" oW="261" oH="288"/>
+  <sprite n="Walk9" x="169" y="541" w="170" h="268" pX="0.5" pY="0.5" oX="46" oY="17" oW="261" oH="288"/>
+  <sprite n="Walk4" x="199" y="269" w="169" h="266" pX="0.5" pY="0.5" oX="49" oY="18" oW="261" oH="288"/>
+  <sprite n="Walk10" x="340" y="0" w="170" h="265" pX="0.5" pY="0.5" oX="48" oY="19" oW="261" oH="288"/>
+  <sprite n="Walk5" x="0" y="1078" w="170" h="264" pX="0.5" pY="0.5" oX="49" oY="20" oW="261" oH="288"/>
+  <sprite n="Walk6" x="0" y="1342" w="170" h="261" pX="0.5" pY="0.5" oX="50" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle15" x="0" y="1603" w="169" h="261" pX="0.5" pY="0.5" oX="52" oY="21" oW="261" oH="288"/>
+  <sprite n="Dead7" x="0" y="1864" w="184" h="208" pX="0.5" pY="0.5" oX="41" oY="72" oW="342" oH="314" r="y"/>
+  <sprite n="Idle13" x="169" y="1603" w="167" h="261" pX="0.5" pY="0.5" oX="57" oY="21" oW="261" oH="288"/>
+  <sprite n="Dead4" x="208" y="1864" w="183" h="218" pX="0.5" pY="0.5" oX="39" oY="57" oW="342" oH="314" r="y"/>
+  <sprite n="Idle14" x="170" y="809" w="167" h="261" pX="0.5" pY="0.5" oX="55" oY="21" oW="261" oH="288"/>
+  <sprite n="Idle1" x="170" y="1070" w="170" h="260" pX="0.5" pY="0.5" oX="50" oY="22" oW="261" oH="288"/>
+  <sprite n="Walk1" x="337" y="809" w="170" h="260" pX="0.5" pY="0.5" oX="50" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle2" x="170" y="1330" w="169" h="260" pX="0.5" pY="0.5" oX="52" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle3" x="339" y="535" w="169" h="260" pX="0.5" pY="0.5" oX="53" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle4" x="507" y="265" w="167" h="260" pX="0.5" pY="0.5" oX="55" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle12" x="510" y="0" w="166" h="260" pX="0.5" pY="0.5" oX="59" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle7" x="336" y="1590" w="166" h="260" pX="0.5" pY="0.5" oX="59" oY="22" oW="261" oH="288"/>
+  <sprite n="Dead10" x="426" y="1850" w="242" h="198" pX="0.5" pY="0.5" oX="61" oY="99" oW="342" oH="314"/>
+  <sprite n="Idle11" x="339" y="1330" w="165" h="260" pX="0.5" pY="0.5" oX="61" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle8" x="502" y="1590" w="164" h="260" pX="0.5" pY="0.5" oX="61" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle9" x="340" y="1069" w="164" h="260" pX="0.5" pY="0.5" oX="62" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle10" x="504" y="1069" w="163" h="260" pX="0.5" pY="0.5" oX="64" oY="22" oW="261" oH="288"/>
+  <sprite n="Idle5" x="504" y="1329" w="167" h="259" pX="0.5" pY="0.5" oX="56" oY="23" oW="261" oH="288"/>
+  <sprite n="Idle6" x="666" y="1588" w="166" h="259" pX="0.5" pY="0.5" oX="58" oY="23" oW="261" oH="288"/>
+  <sprite n="Dead11" x="668" y="1847" w="242" h="201" pX="0.5" pY="0.5" oX="61" oY="99" oW="342" oH="314"/>
+  <sprite n="Dead1" x="507" y="795" w="191" h="258" pX="0.5" pY="0.5" oX="13" oY="21" oW="342" oH="314"/>
+  <sprite n="Attack8" x="671" y="525" w="172" h="258" pX="0.5" pY="0.5" oX="49" oY="25" oW="261" oH="288"/>
+  <sprite n="Attack1" x="674" y="260" w="174" h="257" pX="0.5" pY="0.5" oX="40" oY="26" oW="261" oH="288"/>
+  <sprite n="Attack7" x="832" y="0" w="170" h="257" pX="0.5" pY="0.5" oX="59" oY="26" oW="261" oH="288"/>
+  <sprite n="Attack6" x="848" y="257" w="169" h="255" pX="0.5" pY="0.5" oX="68" oY="28" oW="261" oH="288"/>
+  <sprite n="Attack5" x="1002" y="0" w="166" h="252" pX="0.5" pY="0.5" oX="78" oY="31" oW="261" oH="288"/>
+  <sprite n="Attack3" x="667" y="1053" w="182" h="250" pX="0.5" pY="0.5" oX="29" oY="33" oW="261" oH="288"/>
+  <sprite n="Attack4" x="832" y="783" w="172" h="249" pX="0.5" pY="0.5" oX="79" oY="34" oW="261" oH="288"/>
+  <sprite n="Dead3" x="843" y="517" w="188" h="248" pX="0.5" pY="0.5" oX="47" oY="31" oW="342" oH="314"/>
+  <sprite n="Attack2" x="1017" y="252" w="187" h="246" pX="0.5" pY="0.5" oX="14" oY="37" oW="261" oH="288"/>
+  <sprite n="Dead12" x="1168" y="0" w="242" h="201" pX="0.5" pY="0.5" oX="61" oY="99" oW="342" oH="314" r="y"/>
+  <sprite n="Dead9" x="671" y="1303" w="241" h="195" pX="0.5" pY="0.5" oX="61" oY="100" oW="342" oH="314" r="y"/>
+  <sprite n="Dead8" x="849" y="1032" w="209" h="212" pX="0.5" pY="0.5" oX="59" oY="71" oW="342" oH="314"/>
+  <sprite n="Dead6" x="1004" y="765" w="190" h="198" pX="0.5" pY="0.5" oX="30" oY="80" oW="342" oH="314"/>
+  <sprite n="Dead5" x="1058" y="498" w="192" h="192" pX="0.5" pY="0.5" oX="21" oY="87" oW="342" oH="314"/>
+</TextureAtlas>

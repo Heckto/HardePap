@@ -40,6 +40,8 @@ namespace Game1.Obstacles
                 Trajectory = new Vector2(-movementSpeed, 0f);
             }
             IsAlive = true;
+
+            
         }
 
         public override void LoadContent()
@@ -47,12 +49,7 @@ namespace Game1.Obstacles
             LoadFromSheet(@"Content\KunaiSprite.xml");
             CurrentAnimation = Animations["Kunai"];
 
-            var texSize = CurrentAnimation.Frames.First().Size;
-
-            //Can calculate this here since it shouldn't change (unless we add rotation later)
-            kunaiPoint = Direction == FaceDirection.Right ?
-                new Vector2f(texSize.X, texSize.Y * 0.5f) :
-                new Vector2f(0, texSize.Y * 0.5f);
+            
         }
 
         public override void Update(GameTime gameTime)

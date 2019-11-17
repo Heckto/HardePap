@@ -70,7 +70,7 @@ namespace Game1.DataContext
             var msg = String.Empty;
             foreach(var entry in lvl.Sprites)
             {
-                msg += entry.Key + " " + entry.Value.ToString() + Environment.NewLine;
+                msg += entry.Key + " " + entry.Value.Position.ToString() + Environment.NewLine;
             }
             return msg;
         }

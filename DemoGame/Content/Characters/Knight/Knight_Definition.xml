@@ -1,57 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SpriteConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SpriteName>Player</SpriteName>
+  <SpriteName>Knight</SpriteName>
   <ColorR>255</ColorR>
   <ColorG>255</ColorG>
   <ColorB>255</ColorB>
   <ColorA>255</ColorA>
   <SpriteSheetScale>0.54</SpriteSheetScale>
-  <SpritesheetDefinitionFile>Player/player2.xml</SpritesheetDefinitionFile>
+  <SpritesheetDefinitionFile>Characters\Knight\Knight_Map.xml</SpritesheetDefinitionFile>
   <Animations>
     <SpriteAnimationConfig>
       <AnimationName>Idle</AnimationName>
       <Loop>true</Loop>
       <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__000</AssetName>
+          <AssetName>Idle1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__001</AssetName>
+          <AssetName>Idle2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__002</AssetName>
+          <AssetName>Idle3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__003</AssetName>
+          <AssetName>Idle4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__004</AssetName>
+          <AssetName>Idle5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__005</AssetName>
+          <AssetName>Idle6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__004</AssetName>
+          <AssetName>Idle7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__003</AssetName>
+          <AssetName>Idle8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__002</AssetName>
+          <AssetName>Idle9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Idle__001</AssetName>
+          <AssetName>Idle10</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle9</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle8</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle7</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle6</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle5</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle4</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle3</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Idle2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -60,46 +92,94 @@
       <AnimationName>Run</AnimationName>
       <Loop>true</Loop>
       <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__000</AssetName>
+          <AssetName>Run1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__001</AssetName>
+          <AssetName>Run2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__002</AssetName>
+          <AssetName>Run3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__003</AssetName>
+          <AssetName>Run4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__004</AssetName>
+          <AssetName>Run5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__005</AssetName>
+          <AssetName>Run6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__006</AssetName>
+          <AssetName>Run7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__007</AssetName>
+          <AssetName>Run8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__008</AssetName>
+          <AssetName>Run9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Run__009</AssetName>
+          <AssetName>Run10</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+      </Frames>
+    </SpriteAnimationConfig>
+    <SpriteAnimationConfig>
+      <AnimationName>Walk</AnimationName>
+      <Loop>true</Loop>
+      <OffsetX>0</OffsetX>
+      <OffsetY>0</OffsetY>
+      <Frames>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk1</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk2</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk3</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk4</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk5</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk6</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk7</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk8</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk9</AssetName>
+          <FrameTime>0.05</FrameTime>
+        </SpriteAnimationFrameConfig>
+        <SpriteAnimationFrameConfig>
+          <AssetName>Walk10</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -108,46 +188,46 @@
       <AnimationName>Attack</AnimationName>
       <Loop>false</Loop>
       <OffsetX>50</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__000</AssetName>
+          <AssetName>Attack1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__001</AssetName>
+          <AssetName>Attack2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__002</AssetName>
+          <AssetName>Attack3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__003</AssetName>
+          <AssetName>Attack4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__004</AssetName>
+          <AssetName>Attack5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__005</AssetName>
+          <AssetName>Attack6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__006</AssetName>
+          <AssetName>Attack7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__007</AssetName>
+          <AssetName>Attack8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__008</AssetName>
+          <AssetName>Attack9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Attack__009</AssetName>
+          <AssetName>Attack10</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -156,142 +236,46 @@
       <AnimationName>JumpAttack</AnimationName>
       <Loop>false</Loop>
       <OffsetX>50</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__000</AssetName>
+          <AssetName>JumpAttack1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__001</AssetName>
+          <AssetName>JumpAttack2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__002</AssetName>
+          <AssetName>JumpAttack3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__003</AssetName>
+          <AssetName>JumpAttack4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__004</AssetName>
+          <AssetName>JumpAttack5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__005</AssetName>
+          <AssetName>JumpAttack6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__006</AssetName>
+          <AssetName>JumpAttack7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__007</AssetName>
+          <AssetName>JumpAttack8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__008</AssetName>
+          <AssetName>JumpAttack9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Attack__009</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-      </Frames>
-    </SpriteAnimationConfig>
-	<SpriteAnimationConfig>
-      <AnimationName>Throw</AnimationName>
-      <Loop>false</Loop>
-      <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
-      <Frames>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__000</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__001</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__002</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__003</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__004</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__005</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__006</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__007</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__008</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Throw__009</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-      </Frames>
-    </SpriteAnimationConfig>
-	<SpriteAnimationConfig>
-      <AnimationName>JumpThrow</AnimationName>
-      <Loop>false</Loop>
-      <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
-      <Frames>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__000</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__001</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__002</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__003</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__004</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__005</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__006</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__007</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__008</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Jump_Throw__009</AssetName>
+          <AssetName>JumpAttack10</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
@@ -300,142 +284,94 @@
       <AnimationName>Jump</AnimationName>
       <Loop>true</Loop>
       <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__000</AssetName>
+          <AssetName>Jump1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__001</AssetName>
+          <AssetName>Jump2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__002</AssetName>
+          <AssetName>Jump3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__003</AssetName>
+          <AssetName>Jump4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__004</AssetName>
+          <AssetName>Jump5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__005</AssetName>
+          <AssetName>Jump6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__006</AssetName>
+          <AssetName>Jump7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__007</AssetName>
+          <AssetName>Jump8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__008</AssetName>
+          <AssetName>Jump9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Jump__009</AssetName>
+          <AssetName>Jump10</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
-      <AnimationName>Glide</AnimationName>
-      <Loop>true</Loop>
-      <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
-      <Frames>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_000</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_001</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_002</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_003</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_004</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_005</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_004</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_003</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_002</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-        <SpriteAnimationFrameConfig>
-          <AssetName>Glide_001</AssetName>
-          <FrameTime>0.05</FrameTime>
-        </SpriteAnimationFrameConfig>
-      </Frames>
-    </SpriteAnimationConfig>
-	<SpriteAnimationConfig>
       <AnimationName>Dead</AnimationName>
       <Loop>false</Loop>
       <OffsetX>0</OffsetX>
-      <OffsetY>-10</OffsetY>
+      <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__000</AssetName>
+          <AssetName>Dead1</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__001</AssetName>
+          <AssetName>Dead2</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__002</AssetName>
+          <AssetName>Dead3</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__003</AssetName>
+          <AssetName>Dead4</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__004</AssetName>
+          <AssetName>Dead5</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__005</AssetName>
+          <AssetName>Dead6</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__006</AssetName>
+          <AssetName>Dead7</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__006</AssetName>
+          <AssetName>Dead8</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__006</AssetName>
+          <AssetName>Dead9</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Dead__006</AssetName>
+          <AssetName>Dead10</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>

@@ -14,6 +14,96 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Characters/Knight/Knight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/Knight/Knight.png
+
+#begin Characters/Knight/Knight_Definition.xml
+/copy:Characters/Knight/Knight_Definition.xml
+
+#begin Characters/Knight/Knight_Map.xml
+/copy:Characters/Knight/Knight_Map.xml
+
+#begin Characters/Ninja1/Ninja1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/Ninja1/Ninja1.png
+
+#begin Characters/Ninja1/Ninja1_Definition.xml
+/copy:Characters/Ninja1/Ninja1_Definition.xml
+
+#begin Characters/Ninja1/Ninja1_Map.xml
+/copy:Characters/Ninja1/Ninja1_Map.xml
+
+#begin Characters/Ninja2/Ninja2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/Ninja2/Ninja2.png
+
+#begin Characters/Ninja2/Ninja2_Definition.xml
+/copy:Characters/Ninja2/Ninja2_Definition.xml
+
+#begin Characters/Ninja2/Ninja2_Map.xml
+/copy:Characters/Ninja2/Ninja2_Map.xml
+
+#begin Characters/Zombie1/Zombie1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/Zombie1/Zombie1.png
+
+#begin Characters/Zombie1/Zombie1_Definition.xml
+/copy:Characters/Zombie1/Zombie1_Definition.xml
+
+#begin Characters/Zombie1/Zombie1_Map.xml
+/copy:Characters/Zombie1/Zombie1_Map.xml
+
+#begin Characters/Zombie2/Zombie2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/Zombie2/Zombie2.png
+
+#begin Characters/Zombie2/Zombie2_Definition.xml
+/copy:Characters/Zombie2/Zombie2_Definition.xml
+
+#begin Characters/Zombie2/Zombie2_Map.xml
+/copy:Characters/Zombie2/Zombie2_Map.xml
+
 #begin EnemySprite.xml
 /copy:EnemySprite.xml
 
@@ -266,47 +356,8 @@
 /processorParam:TextureFormat=Color
 /build:Particles/smoke.png
 
-#begin Player/player.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player/player.png
-
-#begin Player/player.xml
-/copy:Player/player.xml
-
-#begin Player/player2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player/player2.png
-
-#begin Player/player2.xml
-/copy:Player/player2.xml
-
-#begin Player2Sprite.xml
-/copy:Player2Sprite.xml
-
-#begin PlayerSprite.xml
-/copy:PlayerSprite.xml
-
 #begin Scripts/Intro.csx
 /copy:Scripts/Intro.csx
-
-#begin Scripts/Level1_Intro.csx
-/copy:Scripts/Level1_Intro.csx
 
 #begin Scripts/TestScript.csx
 /copy:Scripts/TestScript.csx

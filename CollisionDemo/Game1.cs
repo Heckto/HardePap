@@ -48,7 +48,7 @@ namespace Game666
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("DiagnosticsFont");
+            font = Content.Load<SpriteFont>("Font/DiagnosticFont");
             // TODO: use this.Content to load your game content here
         }
 

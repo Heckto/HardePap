@@ -25,7 +25,6 @@ namespace AuxLib.Debug
         public void Initialize(SpriteFont font)
         {
             this.font = font;
-            //font = Game1.DemoGame.ContentManager.Load<SpriteFont>("DiagnosticsFont");
         }
 
         public void AddDebugValue(object sender, string key, string alias = "")

@@ -1,4 +1,6 @@
-﻿SetUserInput(false);
+﻿
+SpawnEnemy("sjaak",5500,3000);
+SetUserInput(false);
 SetTransition(false);
 camera.focussed = false;
 await Task.Delay(2000);

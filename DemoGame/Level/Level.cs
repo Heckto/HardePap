@@ -108,7 +108,8 @@ namespace Game1.Levels
             LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
             var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);
-            AudioManager.MusicVolume = 0.1f;           
+            
+            AudioManager.MusicVolume = 0.0f;           
         }
 
         public void GenerateCollision()
@@ -236,6 +237,8 @@ namespace Game1.Levels
             }
         }
 
+        
+
         public Rectangle GetLevelBounds()
         {
             var worldBounds = Rectangle.Empty;
@@ -255,7 +258,7 @@ namespace Game1.Levels
         #region NIGGA FIX THIS SHIT !!!
 
         [XmlIgnore]
-        public Player player;
+        public LivingSpriteObject player;
 
 
 
@@ -274,14 +277,14 @@ namespace Game1.Levels
 
             
             RemoveSprite("Player");
-            player = new Player(spawnLocation, context);
+            player = new Ninja1(spawnLocation, context,ItemTypes.Player);
             AddSprite("Player", player);
         }
 
         public LivingSpriteObject SpawnEnemy(string name, Vector2 location)
         {
             RemoveSprite(name);
-            var enemy = new Enemies.Enemy1(location, context, player);
+            var enemy = new Zombie1(location, context, ItemTypes.Enemy);
             AddSprite(name, enemy);
             return enemy;
         }

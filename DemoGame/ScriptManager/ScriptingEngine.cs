@@ -127,7 +127,7 @@ namespace Game1.Scripting
         public async Task<string> ExecuteExpression(string command)
         {
             var result = await CSharpScript.RunAsync(command, null, dataContext, typeof(GameContext));
-            return result.ToString();       
+            return result.ReturnValue.ToString();       
         }
 
         #region Meta commands       

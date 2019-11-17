@@ -22,6 +22,9 @@ namespace Game1.Settings
         public bool debugMode { get; set; } = false;        
         public bool isFullScreen { get; set; } = false;
 
+        public float SoundVolume { get; set; }  = 0.0f;
+        public float MusicVolume { get; set; } = 0.0f;
+
         public void SaveToFile()
         {            
             XMLFileManager<GameSettings>.WriteToFile(settingsfile, this);

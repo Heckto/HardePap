@@ -87,7 +87,7 @@ namespace Game666
 
         public void LoadContent(ContentManager content)
 		{
-			this.font = content.Load<SpriteFont>("DiagnosticsFont");
+			this.font = content.Load<SpriteFont>("Font/DiagnosticFont");
 		}
        
 

@@ -18,8 +18,10 @@ using Game1.DataContext;
 
 namespace Game1
 {
-    public class Player : LivingSpriteObject
+    public class Knight : LivingSpriteObject
     {
+        private CharState CurrentState;
+
         private int JumpCnt = 0;
         private int MaxJumpCount = 2;
 
@@ -36,7 +38,7 @@ namespace Game1
 
         private readonly List<SpriteObject> thrownObjects = new List<SpriteObject>();
 
-        public Player(Vector2 loc, GameContext context) : base(context)
+        public Knight(Vector2 loc, GameContext context) : base(context)
         {
             colBodySize = scale * hitBoxSize;
             
@@ -54,11 +56,7 @@ namespace Game1
 
         public override void LoadContent()
         {
-            if (InputHandler.Instance != null && InputHandler.Instance.IsPressed(0, Buttons.LeftTrigger, Keys.P))
-                LoadFromSheet(@"Content\Player2Sprite.xml");
-            else
-                LoadFromSheet(@"Content\PlayerSprite.xml");
-
+            LoadFromSheet(@"Content\Characters\Knight\Knight_Definition.xml");
             CurrentAnimation = Animations["Jump"];
         }
 
@@ -359,16 +357,18 @@ namespace Game1
             foreach (var thrown in thrownObjects)
                 thrown.Draw(spriteBatch);
         }
+
+        public enum CharState
+        {
+            Grounded = 0x01,
+            Air = 0x02,
+            Glide = 0x04,
+            GroundAttack = 0x08,
+            JumpAttack = 0x10,
+            GroundThrow = 0x20,
+            JumpThrow = 0x40
+        };
     }
 
-    public enum CharState
-    {
-        Grounded = 0x01,
-        Air = 0x02,
-        Glide = 0x04,
-        GroundAttack = 0x08,
-        JumpAttack = 0x10,
-        GroundThrow = 0x20,
-        JumpThrow = 0x40
-    };
+
 }

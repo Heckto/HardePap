@@ -136,7 +136,7 @@ namespace Game1.Screens
             pictureTex = DemoGame.ContentManager.Load<Texture2D>(@"Misc\" + assetPic);
 
             
-            dialogFont = DemoGame.ContentManager.Load<SpriteFont>("DialogFont");
+            dialogFont = DemoGame.ContentManager.Load<SpriteFont>("Font/DialogFont");
             sound = DemoGame.ContentManager.Load<SoundEffect>(@"sfx\typewriter");
             
 

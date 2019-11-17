@@ -14,7 +14,7 @@ oY => y-corner offset
 oW => original width
 oH => original height
 r => 'y' if sprite is rotated-->
-<TextureAtlas imagePath="player2" width="2048" height="1980" scale="1" format="RGBA8888">
+<TextureAtlas imagePath="Ninja2" width="2048" height="1980" scale="1" format="RGBA8888">
   <sprite n="Kunai" x="0" y="0" w="16" h="78" pX="0.5" pY="0.5" r="y"/>
   <sprite n="Idle__005" x="78" y="0" w="139" h="243" pX="0.5" pY="0.5" oX="3" oY="2" oW="142" oH="245" r="y"/>
   <sprite n="Idle__003" x="321" y="0" w="140" h="244" pX="0.5" pY="0.5" oX="2" oY="1" oW="142" oH="245" r="y"/>
