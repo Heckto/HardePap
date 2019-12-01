@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Game1.DataContext;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace Game1.Sprite
 {
@@ -16,10 +17,10 @@ namespace Game1.Sprite
         protected float scale = 0.5f;
         
         //public CharState CurrentState { get; protected set; } = CharState.Air;
-        public Vector2 Trajectory { get; set; } = Vector2.Zero;
+        //public Vector2 Trajectory { get; set; } = Vector2.Zero;
         
 
-        public MoveableBody CollisionBox { get; set; }
+        public Body CollisionBox { get; set; }
 
         protected GameContext context { get; set; }
 
@@ -42,7 +43,7 @@ namespace Game1.Sprite
         public float Rotation { get; set; }
 
         public virtual Vector2 Position { get; protected set; }
-        protected Vector2 colBodySize;
+        public Vector2 colBodySize;
 
         public SpriteObject(GameContext context)
         {

@@ -32,7 +32,7 @@ namespace Game1
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
-        public override Vector2 Position => new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize;
+        public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position) + 0.5f * scale * hitBoxSize;
 
         public override int MaxHealth => 100;
 
@@ -42,16 +42,13 @@ namespace Game1
         {
             colBodySize = scale * hitBoxSize;
             
-            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
-            CollisionBox.onCollisionResponse += OnResolveCollision;
+            //CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
+            //CollisionBox.onCollisionResponse += OnResolveCollision;
 
-            (CollisionBox as IBox).AddTags(ItemTypes.Player);
-            CollisionBox.Data = this;
+            //(CollisionBox as IBox).AddTags(ItemTypes.Player);
+            //CollisionBox.Data = this;
 
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentAnimation));
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(CurrentState));
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(Position));
-            PlayState.DebugMonitor.AddDebugValue(this, nameof(Trajectory));
+          
         }
 
         public override void LoadContent()
@@ -74,8 +71,6 @@ namespace Game1
         {
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (HandleInput)
-                HandleKeyInput(delta, InputHandler.Instance);
             HandleCollision(delta);
             UpdateAnimation(gameTime);
 
@@ -91,165 +86,43 @@ namespace Game1
             }
         }
 
-        private void HandleKeyInput(float delta, IInputHandler Input)
-        {
-            var keyLeft = Input.IsPressed(0, Buttons.LeftThumbstickLeft, Keys.Left);
-            var keyRight = Input.IsPressed(0, Buttons.LeftThumbstickRight, Keys.Right);
-
-            var isKeyJump = Input.IsPressed(0, Buttons.A, Keys.Space);
-            var wasKeyJump = Input.WasPressed(0, Buttons.A, Keys.Space);
-
-            var isKeyAttack = Input.IsPressed(0, Buttons.X, Keys.LeftControl);
-            var isKeyThrow = Input.WasPressed(0, Buttons.Y, Keys.LeftShift);
-
-            if ((CurrentState == CharState.GroundAttack && CurrentAnimation.AnimationName == "Attack") ||
-                (CurrentState == CharState.GroundThrow && CurrentAnimation.AnimationName == "Throw"))
-            {
-                if (CurrentAnimation.AnimationState == AnimationState.Running)
-                    return;
-                else
-                    CurrentState = CharState.Grounded;
-            }
-            else if ((CurrentState == CharState.JumpAttack && CurrentAnimation.AnimationName == "JumpAttack") ||
-                (CurrentState == CharState.JumpThrow && CurrentAnimation.AnimationName == "JumpThrow"))
-            {
-                if (CurrentAnimation.AnimationState == AnimationState.Finished)
-                    CurrentState = CharState.Air;
-            }
-
-            var trajectoryX = Trajectory.X;
-            var trajectoryY = Trajectory.Y;
-            if (keyLeft)
-            {
-                if (Trajectory.X > 0)
-                    trajectoryX = 0;
-                else
-                    trajectoryX = acc * friction * delta;
-
-                if (CurrentState != CharState.JumpAttack && CurrentState != CharState.JumpThrow)
-                    Direction = FaceDirection.Left;
-            }
-            else if (keyRight)
-            {
-                if (Trajectory.X < 0)
-                    trajectoryX = 0;
-                else
-                    trajectoryX = -acc * friction * delta;
-
-                if (CurrentState != CharState.JumpAttack && CurrentState != CharState.JumpThrow)
-                    Direction = FaceDirection.Right;
-            }
-            else if (Trajectory.X != 0)
-            {
-                trajectoryX = 0;
-            }
-
-            if (wasKeyJump)
-            {
-                if (CurrentState == CharState.Grounded)
-                {
-                    trajectoryY = -jumpForce;
-                    CurrentState = CharState.Air;
-                    CollisionBox.MountedBody = null;
-                    JumpCnt++;
-                }
-                else if (CurrentState == CharState.Air && JumpCnt > 0 && JumpCnt < MaxJumpCount)
-                {
-                    if (Trajectory.Y < 0)
-                        trajectoryY = -1 * jumpForce;
-                    else
-                        trajectoryY -= jumpForce;
-                    JumpCnt++;
-                }
-            }
-            else if (isKeyJump)
-            {
-                if (CurrentState == CharState.Air && Trajectory.Y > 0)
-                {
-                    CurrentState = CharState.Glide;
-                }
-            }
-
-            if (CurrentState == CharState.Air || CurrentState == CharState.Glide)
-            {
-                if (isKeyAttack)
-                {
-                    CurrentState = CharState.JumpAttack;
-                }
-                else if(isKeyThrow)
-                {
-                    var location = new Vector2(Position.X, Position.Y + (trajectoryY * 50)); // Adding something since the kunai spawns before the animation
-                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, context)); // null shouldnt be a problem here since the texture should be loaded already
-                    CurrentState = CharState.JumpThrow;
-                }
-                else
-                {
-                    if (CurrentState == CharState.Glide && !isKeyJump)
-                        CurrentState = CharState.Air;
-
-                    var multiplier = CurrentState == CharState.Air ? 1f : 0.00001f;
-
-                    trajectoryY += delta * gravity * multiplier;
-                }
-            }
-            else if (CurrentState == CharState.Grounded)
-            {
-                if (isKeyAttack)
-                {
-                    trajectoryX = 0;
-                    CurrentState = CharState.GroundAttack;
-                }
-                else if (isKeyThrow)
-                {
-                    trajectoryX = 0;                    
-                    var location = new Vector2(Position.X, Position.Y);
-                    thrownObjects.Add(new Obstacles.Kunai(location, Direction, context)); // null shouldnt be a problem here since the texture should be loaded already
-                    CurrentState = CharState.GroundThrow;
-                }
-                else if (Math.Abs(Trajectory.Y) > 0.5)
-                {
-                    CurrentState = CharState.Air;
-                }
-            }
-
-            Trajectory = new Vector2(trajectoryX, trajectoryY);
-        }
+    
 
         private void HandleCollision(float delta)
         {
 
-            var ignore = thrownObjects.Select(elem => (IShape)elem.CollisionBox).ToList();
-            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y,delta, ignore);
+            //var ignore = thrownObjects.Select(elem => (IShape)elem.CollisionBox).ToList();
+            //var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y,delta, ignore);
 
-            var hits = move.Hits.ToList();
+            //var hits = move.Hits.ToList();
 
-            if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
-            {
-                if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack && CurrentState != CharState.GroundThrow)
-                    CurrentState = CharState.Grounded;
-                var mounted = move.Hits.Where(elem => elem.Normal.Y < 0);
-                if (mounted.Any())
-                {
-                    CollisionBox.MountedBody = mounted.First().Box;
-                }
-                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);                
-                JumpCnt = 0;
-            }
-            else if((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
-                    (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
-            {
-                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
-            }
-            else
-            {
-                Trajectory = new Vector2(Trajectory.X, Trajectory.Y + delta * 0.001f);
-                CollisionBox.MountedBody = null;
-            }
+            //if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
+            //{
+            //    if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack && CurrentState != CharState.GroundThrow)
+            //        CurrentState = CharState.Grounded;
+            //    var mounted = move.Hits.Where(elem => elem.Normal.Y < 0);
+            //    if (mounted.Any())
+            //    {
+            //        CollisionBox.MountedBody = mounted.First().Box;
+            //    }
+            //    Trajectory = new Vector2(Trajectory.X, delta * 0.001f);                
+            //    JumpCnt = 0;
+            //}
+            //else if((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
+            //        (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
+            //{
+            //    Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
+            //}
+            //else
+            //{
+            //    Trajectory = new Vector2(Trajectory.X, Trajectory.Y + delta * 0.001f);
+            //    CollisionBox.MountedBody = null;
+            //}
 
-            if (CurrentState == CharState.GroundAttack || CurrentState == CharState.JumpAttack)
-            {
-                HandleAttackCollisions();
-            }
+            //if (CurrentState == CharState.GroundAttack || CurrentState == CharState.JumpAttack)
+            //{
+            //    HandleAttackCollisions();
+            //}
         }
 
         private CollisionResponses OnResolveCollision(ICollision collision)
@@ -274,7 +147,7 @@ namespace Game1
                 var script = item.CustomProperties["Script"].value.ToString();
                 if (!String.IsNullOrEmpty(script))
                 {
-                    context.lvl.CollisionWorld.Remove((IBox)collision.Other);
+                    //context.lvl.CollisionWorld.Remove((IBox)collision.Other);
                     context.scripter.ExecuteScript(script);
                 }
                 return CollisionResponses.Cross;
@@ -285,7 +158,7 @@ namespace Game1
             }
             if (collision.Hit.Normal.Y > 0)
             {
-                Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
+                //Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
                 return CollisionResponses.Touch;
             }
 
@@ -295,29 +168,29 @@ namespace Game1
 
         private void HandleAttackCollisions()
         {
-            var width = (int)CollisionBox.Width;
-            var swordLength = width * 0.9f;
+            //var width = (int)CollisionBox.Width;
+            //var swordLength = width * 0.9f;
 
-            var xPosition = Direction == FaceDirection.Right ?
-                CollisionBox.Bounds.Right + swordLength :
-                CollisionBox.X - swordLength;
+            //var xPosition = Direction == FaceDirection.Right ?
+            //    CollisionBox.Bounds.Right + swordLength :
+            //    CollisionBox.X - swordLength;
 
-            var yPositions = new List<float> {
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
-            };
+            //var yPositions = new List<float> {
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
+            //};
 
-            var collisions = yPositions
-                            .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
-                            .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Enemy))
-                            .Select(collision => collision.Box)
-                            .Distinct();
+            //var collisions = yPositions
+            //                .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
+            //                .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Enemy))
+            //                .Select(collision => collision.Box)
+            //                .Distinct();
 
-            foreach (var collision in collisions)
-            {
-                ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
-            }
+            //foreach (var collision in collisions)
+            //{
+            //    ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
+            //}
         }
 
         private void UpdateAnimation(GameTime gameTime)
@@ -337,10 +210,10 @@ namespace Game1
                     SetAnimation("JumpThrow");
                     break;
                 case CharState.Grounded:
-                    if (Trajectory.X == 0)
-                        SetAnimation("Idle");
-                    else
-                        SetAnimation("Run");
+                    //if (Trajectory.X == 0)
+                      //  SetAnimation("Idle");
+                    //else
+                      //  SetAnimation("Run");
                     break;
                 case CharState.Air:
                     SetAnimation("Jump");

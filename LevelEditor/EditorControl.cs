@@ -53,7 +53,7 @@ namespace LevelEditor
         List<float> initialrot;                     //rotation before user interaction
         List<Vector2> initialscale;                 //scale before user interaction
         public Level level;
-        public Camera camera;
+        public BoundedCamera camera;
         KeyboardState kstate, oldkstate;
         MouseState mstate, oldmstate;
         Forms.Cursor cursorRot, cursorScale, cursorDup;
@@ -134,7 +134,7 @@ namespace LevelEditor
                 var maincameraposition = camera.Position;
                 camera.Position *= l.ScrollSpeed;
 
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix());
 
                 l.drawInEditor(sb);
                 if (l == SelectedLayer && state == EditorState.selecting)
@@ -182,11 +182,11 @@ namespace LevelEditor
                     if (item.Visible && item.layer.Visible && kstate.IsKeyUp(Keys.Space))
                     {
                         var color = i == 0 ? Constants.Instance.ColorSelectionFirst : Constants.Instance.ColorSelectionRest;
-                        item.drawSelectionFrame(sb, camera.matrix, color);
+                        item.drawSelectionFrame(sb, camera.getViewMatrix(), color);
                         if (i == 0 && (state == EditorState.rotating || state == EditorState.scaling))
                         {
-                            var center = Vector2.Transform(item.Position, camera.matrix);
-                            var mouse = Vector2.Transform(mouseworldpos, camera.matrix);
+                            var center = Vector2.Transform(item.Position, camera.getViewMatrix());
+                            var mouse = Vector2.Transform(mouseworldpos, camera.getViewMatrix());
                             Primitives.Instance.drawLine(sb, center, mouse, Constants.Instance.ColorSelectionFirst, 1);
                         }
                     }
@@ -204,20 +204,20 @@ namespace LevelEditor
                 int max = Constants.Instance.GridNumberOfGridLines / 2;
                 for (int x = 0; x <= max; x++)
                 {
-                    var start = Vector2.Transform(new Vector2(x, -max) * Constants.Instance.GridSpacing.X, camera.matrix);
-                    var end = Vector2.Transform(new Vector2(x, max) * Constants.Instance.GridSpacing.X, camera.matrix);
+                    var start = Vector2.Transform(new Vector2(x, -max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
+                    var end = Vector2.Transform(new Vector2(x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
-                    start = Vector2.Transform(new Vector2(-x, -max) * Constants.Instance.GridSpacing.X, camera.matrix);
-                    end = Vector2.Transform(new Vector2(-x, max) * Constants.Instance.GridSpacing.X, camera.matrix);
+                    start = Vector2.Transform(new Vector2(-x, -max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
+                    end = Vector2.Transform(new Vector2(-x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
                 }
                 for (int y = 0; y <= max; y++)
                 {
-                    var start = Vector2.Transform(new Vector2(-max, y) * Constants.Instance.GridSpacing.Y, camera.matrix);
-                    var end = Vector2.Transform(new Vector2(max, y) * Constants.Instance.GridSpacing.Y, camera.matrix);
+                    var start = Vector2.Transform(new Vector2(-max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
+                    var end = Vector2.Transform(new Vector2(max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
-                    start = Vector2.Transform(new Vector2(-max, -y) * Constants.Instance.GridSpacing.Y, camera.matrix);
-                    end = Vector2.Transform(new Vector2(max, -y) * Constants.Instance.GridSpacing.Y, camera.matrix);
+                    start = Vector2.Transform(new Vector2(-max, -y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
+                    end = Vector2.Transform(new Vector2(max, -y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
                 }
                 sb.End();
@@ -225,7 +225,7 @@ namespace LevelEditor
             if (Constants.Instance.ShowWorldOrigin)
             {
                 sb.Begin();
-                var worldOrigin = Vector2.Transform(Vector2.Zero, camera.matrix);
+                var worldOrigin = Vector2.Transform(Vector2.Zero, camera.getViewMatrix());
                 Primitives.Instance.drawLine(sb, worldOrigin + new Vector2(-20, 0), worldOrigin + new Vector2(+20, 0), Constants.Instance.WorldOriginColor, Constants.Instance.WorldOriginLineThickness);
                 Primitives.Instance.drawLine(sb, worldOrigin + new Vector2(0, -20), worldOrigin + new Vector2(0, 20), Constants.Instance.WorldOriginColor, Constants.Instance.WorldOriginLineThickness);
                 sb.End();
@@ -234,7 +234,7 @@ namespace LevelEditor
             if (drawSnappedPoint)
             {
                 sb.Begin();
-                posSnappedPoint = Vector2.Transform(posSnappedPoint, camera.matrix);
+                posSnappedPoint = Vector2.Transform(posSnappedPoint, camera.getViewMatrix());
                 Primitives.Instance.drawBoxFilled(sb, posSnappedPoint.X - 5, posSnappedPoint.Y - 5, 10, 10, Constants.Instance.ColorSelectionFirst);
                 sb.End();
 
@@ -263,16 +263,16 @@ namespace LevelEditor
             int mwheeldelta = mstate.ScrollWheelValue - oldmstate.ScrollWheelValue;
             if (mwheeldelta > 0 /* && kstate.IsKeyDown(Keys.LeftControl)*/)
             {
-                float zoom = (float)Math.Round(camera.Scale * 10) * 10.0f + 10.0f;
+                float zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f + 10.0f;
                 MainForm.Instance.zoomcombo.Text = zoom.ToString() + "%";
-                camera.Scale = zoom / 100.0f;
+                camera.Zoom = zoom / 100.0f;
             }
             if (mwheeldelta < 0 /* && kstate.IsKeyDown(Keys.LeftControl)*/)
             {
-                float zoom = (float)Math.Round(camera.Scale * 10) * 10.0f - 10.0f;
+                float zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f - 10.0f;
                 if (zoom <= 0.0f) return;
                 MainForm.Instance.zoomcombo.Text = zoom.ToString() + "%";
-                camera.Scale = zoom / 100.0f;
+                camera.Zoom = zoom / 100.0f;
             }
 
             //Camera movement
@@ -290,21 +290,21 @@ namespace LevelEditor
 
             if (kstate.IsKeyDown(Keys.Subtract))
             {
-                float zoom = (float)(camera.Scale * 0.995);
+                float zoom = (float)(camera.Zoom * 0.995);
                 MainForm.Instance.zoomcombo.Text = (zoom * 100).ToString("###0.0") + "%";
-                camera.Scale = zoom;
+                camera.Zoom = zoom;
             }
             if (kstate.IsKeyDown(Keys.Add))
             {
-                float zoom = (float)(camera.Scale * 1.005);
+                float zoom = (float)(camera.Zoom * 1.005);
                 MainForm.Instance.zoomcombo.Text = (zoom * 100).ToString("###0.0") + "%";
-                camera.Scale = zoom;
+                camera.Zoom = zoom;
             }
 
             //get mouse world position considering the ScrollSpeed of the current layer
             var maincameraposition = camera.Position;
             if (SelectedLayer != null) camera.Position *= SelectedLayer.ScrollSpeed;
-            mouseworldpos = Vector2.Transform(new Vector2(mstate.X, mstate.Y), Matrix.Invert(camera.matrix));
+            mouseworldpos = Vector2.Transform(new Vector2(mstate.X, mstate.Y), Matrix.Invert(camera.getViewMatrix()));
             mouseworldpos = mouseworldpos.Round();
             MainForm.Instance.toolStripStatusLabel3.Text = "Mouse: (" + mouseworldpos.X + ", " + mouseworldpos.Y + ")";
             camera.Position = maincameraposition;
@@ -568,7 +568,7 @@ namespace LevelEditor
             if (state == EditorState.cameramoving)
             {
                 var newpos = new Vector2(mstate.X, mstate.Y);
-                var distance = (newpos - grabbedpoint) / camera.Scale;
+                var distance = (newpos - grabbedpoint) / camera.Zoom;
                 if (distance.Length() > 0)
                 {
                     camera.Position = initialcampos - distance;
@@ -1009,7 +1009,7 @@ namespace LevelEditor
         {
             var maincameraposition = camera.Position;
             if (SelectedLayer != null) camera.Position *= SelectedLayer.ScrollSpeed;
-            mouseworldpos = Vector2.Transform(new Vector2(screenx, screeny), Matrix.Invert(camera.matrix));
+            mouseworldpos = Vector2.Transform(new Vector2(screenx, screeny), Matrix.Invert(camera.getViewMatrix()));
             if (Constants.Instance.SnapToGrid || kstate.IsKeyDown(Keys.G))
             {
                 mouseworldpos = snapToGrid(mouseworldpos);
@@ -1082,7 +1082,7 @@ namespace LevelEditor
 
 
 
-            camera = new Camera(MainForm.Instance.picturebox.Width, MainForm.Instance.picturebox.Height);
+            camera = new BoundedCamera(new Viewport(0,0,MainForm.Instance.picturebox.Width, MainForm.Instance.picturebox.Height));
             camera.Position = l.EditorRelated.CameraPosition;
             MainForm.Instance.zoomcombo.Text = "100%";
             undoBuffer.Clear();

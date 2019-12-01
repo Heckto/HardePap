@@ -10,14 +10,14 @@ namespace Game1.ParticleEffects
 {
     public class Rain : ParticleSystem
     {
-        public Rain(Game game, int capacity, Vector2 externalForce,BoundedCamera camera)
-            : base(game,camera)
+        public Rain(Game game, int capacity, Vector2 externalForce,FocusCamera camera)
+            : base(game)
         {
             settings.Capacity = capacity;
             settings.ExternalForce = externalForce;
         }
 
-        public Rain(Game game, int capacity, BoundedCamera camera)
+        public Rain(Game game, int capacity, FocusCamera camera)
             : this(game, capacity, Vector2.Zero,camera) { }
 
         public Rain(Game game) : this(game, 5000,null) { }

@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\BoundedCamera.cs" />
     <Compile Include="Collision\Responses\BounceResponse.cs" />
     <Compile Include="Collision\Box.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Math\LineRectangleIntersection.cs" />
     <Compile Include="Math\Maths.cs" />
+    <Compile Include="Math\VectorExtensions.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="ParticleEngine\Particle.cs" />
     <Compile Include="ParticleEngine\ParticleSystem.cs" />

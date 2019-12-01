@@ -1,4 +1,3 @@
-using AuxLib.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,14 +25,12 @@ namespace AuxLib.ParticleEngine
         //public Matrix View;
         //public Matrix Projection;
         public bool DebugInfo = false;
-        private BoundedCamera ViewCamera;
 
-        public ParticleSystem(Game game,BoundedCamera camera) : base(game)
+        public ParticleSystem(Game game) : base(game)
         {
             //content = new ContentManager(game.Services);
             //content = game.Content;
             settings = new ParticleSystemSettings();
-            ViewCamera = camera;
         }
 
         protected abstract ParticleSystemSettings InitializeSettings();
@@ -142,7 +139,7 @@ namespace AuxLib.ParticleEngine
 
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime,Matrix view)
         {
 
             if (DebugInfo)
@@ -165,7 +162,7 @@ namespace AuxLib.ParticleEngine
             //GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
 
             //SetBlendModes();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,null,null,null,null, ViewCamera.GetViewMatrix());
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,null,null,null,null, view);
             foreach (var particle in particles)
                 particle.Draw(spriteBatch, settings.Texture);
 

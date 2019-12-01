@@ -15,6 +15,7 @@ using AuxLib.Sound;
 using Game1.HUD;
 using AuxLib.ParticleEngine;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.DataContext
 {
@@ -22,7 +23,8 @@ namespace Game1.DataContext
     {
         public TaskCompletionSource<FrameNotifyer> currentFrameSource;
 
-        public BoundedCamera camera;
+        public SpriteBatch spriteBatch;
+        public FocusCamera camera;
         public Level lvl;
         public TransitionManager transitionManager;
         public GameStateManager gameManager;
@@ -39,7 +41,7 @@ namespace Game1.DataContext
 
         public void SpawnEnemy(string name)
         {
-            var m = Matrix.Invert(camera.GetViewMatrix());
+            var m = Matrix.Invert(camera.getViewMatrix());
             var mousePos = Mouse.GetState().Position.ToVector2();
             var worldPos = Vector2.Transform(mousePos, m);
             lvl.SpawnEnemy(name, worldPos);
@@ -53,7 +55,7 @@ namespace Game1.DataContext
 
         public void SpawnPlayer()
         {
-            var m = Matrix.Invert(camera.GetViewMatrix());
+            var m = Matrix.Invert(camera.getViewMatrix());
             var mousePos = Mouse.GetState().Position.ToVector2();
             var worldPos = Vector2.Transform(mousePos, m);
             lvl.SpawnPlayer(worldPos);
@@ -86,8 +88,9 @@ namespace Game1.DataContext
                     frameData.token.Token.ThrowIfCancellationRequested();
                 perc = MathHelper.Clamp(perc + speed, 0, 1);                
                 var newPos = Vector2.Lerp(cameraStart, dest, perc);
-                if (!camera.SetPosition(newPos))
-                    break;
+
+                camera.Position = newPos;
+                    
             }
         }
 
@@ -102,18 +105,18 @@ namespace Game1.DataContext
                 if (frameData.token.IsCancellationRequested)
                     frameData.token.Token.ThrowIfCancellationRequested();
                 perc = MathHelper.Clamp(perc + speed, 0, 1);
-                player.Trajectory = new Vector2(1,player.Trajectory.Y);
+                //player.Ve = new Vector2(1,player.Trajectory.Y);
                 if (player.Position.X > dest.X)
                     break;
             }
 
-            player.Trajectory = new Vector2(0f,0.00166667777f);
+            //player.Trajectory = new Vector2(0f,0.00166667777f);
         }
 
         public void HaltPlayer()
         {            
             var player = lvl.player;        
-            player.Trajectory = new Vector2(0f, 0.00166667f);            
+            //player.Trajectory = new Vector2(0f, 0.00166667f);            
             player.SetAnimation("Idle");
         }
 
@@ -122,7 +125,7 @@ namespace Game1.DataContext
             try
             {
                 var speed = 0.02f;
-                var m = Matrix.Invert(camera.GetViewMatrix());
+                var m = Matrix.Invert(camera.getViewMatrix());
                 var mousePos = Mouse.GetState().Position.ToVector2();
                 var dest = Vector2.Transform(mousePos, m);
                 var perc = 0f;
@@ -136,12 +139,12 @@ namespace Game1.DataContext
                         frameData.token.Token.ThrowIfCancellationRequested();
                     perc = MathHelper.Clamp(perc + speed, 0, 1);
                     var newPos = Vector2.Lerp(playerStart, dest, perc);
-                    player.Trajectory = new Vector2(5, player.Trajectory.Y);
+                    //player.Trajectory = new Vector2(5, player.Trajectory.Y);
                     if (player.Position.X > dest.X)
                         break;
                 }
 
-                player.Trajectory = Vector2.Zero;
+                //player.Trajectory = Vector2.Zero;
             }
             catch ( Exception ex)
             {
@@ -182,9 +185,9 @@ namespace Game1.DataContext
 
         public void MakeItRain()
         {
-            var system = new ParticleEffects.Rain(gameManager.Game, 5000,camera);
-            system.Initialize();
-            particleSystems.Add(system);
+            //var system = new ParticleEffects.Rain(gameManager.Game, 5000,camera);
+            //system.Initialize();
+            //particleSystems.Add(system);
         }
 
 

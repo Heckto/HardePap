@@ -16,7 +16,7 @@ namespace Game1.Screens
 {
     public sealed class OptionsMenuState : BaseGameState, IOptionsState
     {
-        private BoundedCamera camera;
+        private FocusCamera camera;
         private SpriteBatch spriteBatch;
         private SpriteFont font;
         private Rectangle targetRect;
@@ -27,9 +27,8 @@ namespace Game1.Screens
         {
             BlockUpdating = true;
             BlockDrawing = false;
-
-            camera = game.Services.GetService<BoundedCamera>();
-            targetRect = new Rectangle((int)(0.1 * camera.viewport.Width), (int)(0.1 * camera.viewport.Height), (int)(0.8 * camera.viewport.Width), (int)(0.8 * camera.viewport.Height));
+            
+            targetRect = new Rectangle((int)(0.1 * GraphicsDevice.Viewport.Width), (int)(0.1 * GraphicsDevice.Viewport.Height), (int)(0.8 * GraphicsDevice.Viewport.Width), (int)(0.8 * GraphicsDevice.Viewport.Height));
 
             settings = game.Services.GetService<GameSettings>();
         }

@@ -16,6 +16,7 @@ using Game1.Levels;
 using Game1.Sprite.Enums;
 using Game1.DataContext;
 using AuxLib.RandomGeneration;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace Game1
 {
@@ -30,7 +31,7 @@ namespace Game1
         private BehaviourState state;
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
-        public override Vector2 Position => new Vector2(CollisionBox.X, CollisionBox.Y) + 0.5f * scale * hitBoxSize;
+        public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position);
 
         public override int MaxHealth => 100;
 
@@ -41,11 +42,10 @@ namespace Game1
         public Zombie1(Vector2 loc, GameContext context, ItemTypes objectType) : base(context)
         {
             colBodySize = scale * hitBoxSize;
-            
-            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
-            CollisionBox.onCollisionResponse += OnResolveCollision;
-            (CollisionBox as IBox).AddTags(objectType);
-            CollisionBox.Data = this;
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), 0, BodyType.Kinematic);
+            CollisionBox.Tag = this;
+
+            controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
             state = BehaviourState.Idle;
         }
 
@@ -67,37 +67,32 @@ namespace Game1
 
             if (HandleInput)
                 HandleKeyInput(delta, InputHandler.Instance);
-            HandleCollision(delta);
             //UpdateAnimation(gameTime);
         }
 
         private void HandleKeyInput(float delta, IInputHandler Input)
         {
-            var trajectoryX = Trajectory.X;
-            var trajectoryY = Trajectory.Y;
-
             var targetDist = Math.Abs(context.lvl.player.Position.X - Position.X);
             switch (state)
             {
                 case BehaviourState.Idle:
-                    trajectoryX = 0;
                     IdleTimeout += delta;
                     if (targetDist < 500)
                     {
                         state = BehaviourState.Chasing;
                         SetAnimation("Walk");
                     }
-                        
+
                     else if (IdleTimeout > 2000)
                     {
                         var movementLength = Rand.GetRandomInt(300, 500);
                         var movementDir = Rand.GetRandomInt(0, 2);
                         movingTarget = movementDir == 0 ? movingTarget = new Vector2(Position.X + movementLength, 0) : movingTarget = new Vector2(Position.X - movementLength, 0);
-                        CurrentState = CharState.Grounded;                      
+                        CurrentState = CharState.Grounded;
                         state = BehaviourState.Walking;
                         SetAnimation("Walk");
                         IdleTimeout = 0;
-                    }                   
+                    }
                     break;
                 case BehaviourState.Walking:
                     if (targetDist < 500)
@@ -105,15 +100,15 @@ namespace Game1
                         SetAnimation("Walk");
                         state = BehaviourState.Chasing;
                     }
-                    var tv = movingTarget - Position;                    
-                    
+                    var tv = movingTarget - Position;
+
                     tv.Normalize();
                     if (tv.X < 0)
-                        trajectoryX = -Math.Min(Math.Abs(-0.025f * delta),Math.Abs((movingTarget - Position).X / delta));
+                        velocity.X = -Math.Min(Math.Abs(-0.025f * delta), Math.Abs((movingTarget - Position).X / delta));
                     else
-                        trajectoryX = Math.Min(0.025f * delta, (movingTarget - Position).X / delta);
+                        velocity.X = Math.Min(0.025f * delta, (movingTarget - Position).X / delta);
 
-                    Console.WriteLine(trajectoryX);
+                    Console.WriteLine(velocity.X);
                     if (Math.Abs(movingTarget.X - Position.X) <= 1)
                     {
                         CurrentState = CharState.Grounded;
@@ -128,114 +123,56 @@ namespace Game1
                     var v = context.lvl.player.Position - Position;
                     v.Normalize();
                     if (v.X < 0)
-                        trajectoryX = -Math.Min(Math.Abs(-0.03f * delta), Math.Abs((context.lvl.player.Position - Position).X / delta));
+                        velocity.X = -Math.Min(Math.Abs(-0.03f * delta), Math.Abs((context.lvl.player.Position - Position).X / delta));
                     else
-                        trajectoryX = Math.Min(0.03f * delta, (context.lvl.player.Position - Position).X / delta);
+                        velocity.X = Math.Min(0.03f * delta, (context.lvl.player.Position - Position).X / delta);
                     break;
                 case BehaviourState.Attack:
-                    if (targetDist > context.lvl.player.CollisionBox.Width / 2 && CurrentAnimation.AnimationState == AnimationState.Finished)
-                        state = BehaviourState.Idle;
-                    if (CurrentAnimation.AnimationState != AnimationState.Running)
-                        SetAnimation("Attack");
+                    //if (targetDist > context.lvl.player.CollisionBox.Width / 2 && CurrentAnimation.AnimationState == AnimationState.Finished)
+                    //    state = BehaviourState.Idle;
+                    //if (CurrentAnimation.AnimationState != AnimationState.Running)
+                    //    SetAnimation("Attack");
                     break;
             }
-            
-            if (trajectoryX < 0)
-            {                
+
+            if (velocity.X < 0)
+            {
                 Direction = FaceDirection.Left;
             }
-            else if (trajectoryX > 0)
+            else if (velocity.X > 0)
             {
                 Direction = FaceDirection.Right;
-                //trajectoryX = acc * friction * delta;
             }
 
-            trajectoryY += delta * gravity;
-            Trajectory = new Vector2(trajectoryX, trajectoryY);
-        }
-
-        private void HandleCollision(float delta)
-        {
-            var hit = context.lvl.CollisionWorld.Hit(new Vector2f(Position.X,Position.Y), new Vector2f(Position.X + (delta * Trajectory.X), Position.Y + (delta * Trajectory.Y)));
-            if (hit == null)
-            {
-                // van het scherm af...
-                Console.WriteLine("ass");
-            }
-
-            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y,delta);
-
-            var hits = move.Hits.ToList();
-
-            if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
-            {
-                var mounted = move.Hits.Where(elem => elem.Normal.Y < 0);
-                if (mounted.Any())
-                {
-                    CollisionBox.MountedBody = mounted.First().Box;
-                }
-                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);                
-            }
-            else if((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
-                    (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
-            {
-                Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
-            }
-
-            if (state == BehaviourState.Attack)
-            {
-                HandleAttackCollisions();
-            }
-        }
-
-        private CollisionResponses OnResolveCollision(ICollision collision)
-        {            
-            if (collision.Hit.Normal.Y < 0)
-            {
-                return CollisionResponses.Slide;
-            }
-            if (collision.Hit.Normal.Y > 0)
-            {
-                Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
-                return CollisionResponses.Touch;
-            }
-            if (collision.Hit.Normal.X > 0 || collision.Hit.Normal.X < 0)
-            {
-                if (collision.Hit.Box.HasTag(ItemTypes.Player))
-                {
-                    Trajectory = Vector2.Zero;
-                    SetAnimation("Attack");
-                    state = BehaviourState.Attack;
-                }
-            }
-            return CollisionResponses.Slide;
-        }
+            velocity.Y += delta * gravity;
+            controller.Move(velocity);
+        }        
 
         private void HandleAttackCollisions()
         {
-            var width = (int)CollisionBox.Width;
-            var swordLength = width * 0.9f;
+            //var width = (int)CollisionBox.Width;
+            //var swordLength = width * 0.9f;
 
-            var xPosition = Direction == FaceDirection.Right ?
-                CollisionBox.Bounds.Right + swordLength :
-                CollisionBox.X - swordLength;
+            //var xPosition = Direction == FaceDirection.Right ?
+            //    CollisionBox.Bounds.Right + swordLength :
+            //    CollisionBox.X - swordLength;
 
-            var yPositions = new List<float> {
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
-                CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
-            };
+            //var yPositions = new List<float> {
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.1f),
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.5f),
+            //    CollisionBox.Bounds.Top + (CollisionBox.Bounds.Height * 0.9f)
+            //};
 
-            var collisions = yPositions
-                            .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
-                            .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Player))
-                            .Select(collision => collision.Box)
-                            .Distinct();
+            //var collisions = yPositions
+            //                .Select(yPosition => context.lvl.CollisionWorld.Hit(new Vector2f(xPosition, yPosition)))
+            //                .Where(collision => collision != null && collision.Box.HasTag(ItemTypes.Player))
+            //                .Select(collision => collision.Box)
+            //                .Distinct();
 
-            foreach (var collision in collisions)
-            {
-                ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
-            }
+            //foreach (var collision in collisions)
+            //{
+            //    ((LivingSpriteObject)collision.Data).DealDamage(this, 50);
+            //}
         }
 
         protected override void ManagedDraw(SpriteBatch spriteBatch)

@@ -24,7 +24,7 @@ namespace AuxLib.Camera
         public float Zoom { get; set; }
         public float Rotation { get; set; }
 
-        public Matrix GetViewMatrix(Vector2 parallax)
+        public Matrix getViewMatrix(Vector2 parallax)
         {
             // To add parallax, simply multiply it by the position
             return Matrix.CreateTranslation(new Vector3(-Position * parallax, 0.0f)) *
@@ -35,9 +35,9 @@ namespace AuxLib.Camera
                 Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
         }
 
-        public Matrix GetViewMatrix()
+        public Matrix getViewMatrix()
         {
-            return GetViewMatrix(Vector2.One);
+            return getViewMatrix(Vector2.One);
         }
 
         public void LookAt(Vector2 position)

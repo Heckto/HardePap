@@ -7,91 +7,58 @@ using System.Linq;
 using Game1.DataContext;
 using AuxLib.CollisionDetection;
 using AuxLib.CollisionDetection.Responses;
+using tainicom.Aether.Physics2D.Dynamics;
+using Game1.Controllers;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Game1.Obstacles
 {
     public class Kunai : SpriteObject
     {
-        const float movementSpeed = 1.5f; //pixels per ms
-        const float gravity = 0.0001f;
+        const float movementSpeed = 30f; //pixels per ms
 
-        private Vector2f kunaiPoint;
+        private BulletController controller;
+        private Vector2 movement;      
 
-        public Kunai(Vector2 location, FaceDirection direction, GameContext context) : base(context)
+        public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+
+        public Kunai(Vector2 loc, int direction, GameContext context) : base(context)
         {
-            Position = location;
-            Direction = direction;
-
+            //Position = loc;
+            movement = new Vector2(Math.Sign(direction) * movementSpeed, 0);
             var texSize = CurrentAnimation.Frames.First().Size;
+            colBodySize = texSize;
+            Rotation = (direction == 1) ? MathHelper.Pi / 2.0f : MathHelper.Pi / -2.0f;          
 
-            CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(location.X-(texSize.Y /2), location.Y - (texSize.X / 2), texSize.Y, texSize.X);
-            CollisionBox.onCollisionResponse += OnResolveCollision;
-            CollisionBox.Data = this;
-            Trajectory = new Vector2(movementSpeed, 0f);
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), Rotation, BodyType.Kinematic);
+            CollisionBox.Tag = this;
+            CollisionBox.IsBullet = true;
 
-            if (direction == FaceDirection.Right)
+            controller = new BulletController(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
+
+            controller.onCollision += hitInfo =>
             {
-                Rotation = MathHelper.Pi / 2.0f;
-                Trajectory = new Vector2(movementSpeed, 0f);
-            }
-            else
-            {
-                Rotation = MathHelper.Pi / -2.0f;
-                Trajectory = new Vector2(-movementSpeed, 0f);
-            }
+                IsAlive = false;
+            };
+
             IsAlive = true;
-
-            
         }
 
         public override void LoadContent()
-        {
+        {            
             LoadFromSheet(@"Content\KunaiSprite.xml");
             CurrentAnimation = Animations["Kunai"];
-
-            
         }
 
         public override void Update(GameTime gameTime)
         {
-            var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            Trajectory = new Vector2(Trajectory.X, Trajectory.Y + (gravity * delta));
-
-            var oldPos = Position;
-
-            Position = new Vector2(Position.X + (delta * Trajectory.X), Position.Y + (delta * Trajectory.Y));
-
-            //var hits = context.lvl.CollisionWorld.Hit(oldPos, Position, new List<IShape>() { this.CollisionBox });
-
-
-
-            var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y, delta);
-            var hits = move.Hits.ToList();
-            //            if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
-            //{
-            if (hits.Any())
-            {
-                if (hits[0].Box.HasTag(ItemTypes.Enemy))
-                {
-                    ((LivingSpriteObject)hits[0].Box.Data).DealDamage(this, 20);
-                    Trajectory = Vector2.Zero;
-                    IsAlive = false;
-                    context.lvl.CollisionWorld.Remove(CollisionBox);
-                }
-                if (hits[0].Box.HasTag(ItemTypes.Collider))
-                {
-                    Trajectory = Vector2.Zero;
-                    IsAlive = false;
-                    context.lvl.CollisionWorld.Remove(CollisionBox);
-                }
-            }
-            //}
+            var r = new Rectangle((int)Position.X, (int)Position.Y, (int)colBodySize.X, (int)colBodySize.Y);
+            if (!context.camera.Bounds.Intersects(r))
+                IsAlive = false;
+            else
+                controller.Move(movement);
             base.Update(gameTime);
-        }
-
-        private CollisionResponses OnResolveCollision(ICollision collision)
-        {
-            return CollisionResponses.None;
         }
     }
 }

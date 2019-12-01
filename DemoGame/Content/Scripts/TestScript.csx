@@ -1,5 +1,5 @@
 ﻿SetUserInput(false);
-camera.focussed = false;
+camera.focussedOnPlayer = false;
 HaltPlayer();
 var targetPos = new Vector2(4450, 250);
 await MoveCamera(targetPos, 0.02f);
@@ -15,7 +15,7 @@ await MoveCamera(lvl.player.Position - camera.Origin, 0.02f);
 msg = "Stop annoying me, yeah! I play my music loud It takes the Old Dirty Niss, to move the crowd They say he had his dick in his mouth Frits Bom taught me that back in the house Now give me my money!";
 pic = "ninja";
 await DisplayDialog(msg, pic);
-camera.focussed = true;
+camera.focussedOnPlayer = true;
 await Task.Delay(1500);
 camera.Zoom = 3;
 await Task.Delay(2000);

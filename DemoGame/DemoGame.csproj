@@ -45,15 +45,18 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CharacterController.cs" />
-    <Compile Include="Controllers\ChasingAI.cs" />
+    <Compile Include="Characters\MovingPlatform.cs" />
     <Compile Include="Characters\Player\Zombie2.cs" />
     <Compile Include="Characters\Player\Zombie1.cs" />
     <Compile Include="Characters\Player\Knight.cs" />
     <Compile Include="Characters\Player\Ninja2.cs" />
-    <Compile Include="Controllers\ManuelCharacterController.cs" />
+    <Compile Include="Controllers\BulletController.cs" />
+    <Compile Include="Controllers\CharacterController2D.cs" />
+    <Compile Include="Controllers\PlatformController.cs" />
+    <Compile Include="Controllers\RaycastController.cs" />
     <Compile Include="DemoGame.cs" />
     <Compile Include="Characters\Enemies\Enemy1.cs" />
+    <Compile Include="FocusCamera.cs" />
     <Compile Include="HUD\HUD.cs" />
     <Compile Include="HUD\HUDComponent.cs" />
     <Compile Include="HUD\HUDText.cs" />
@@ -101,6 +104,12 @@
     <Compile Include="Sprite\SpriteSheetDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Aether.Physics2D, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aether.Physics2D.1.4.0\lib\net40\Aether.Physics2D.dll</HintPath>
+    </Reference>
+    <Reference Include="Aether.Physics2D.Diagnostics, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aether.Physics2D.Diagnostics.1.4.0\lib\net40\Aether.Physics2D.Diagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=3.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.3.2.1\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -170,6 +179,7 @@
     </MonoGameContentReference>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="Content\DiagnosticsFont.xnb" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +187,10 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CollisionDemo - Aether\CollisionDemo.csproj">
+      <Project>{80a829a1-0950-4bf8-856e-2c225a6cfa93}</Project>
+      <Name>CollisionDemo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EditorLib\AuxLib.csproj">
       <Project>{3cdec9b0-7b51-43a2-8dca-5bc7f5d96cb4}</Project>
       <Name>AuxLib</Name>

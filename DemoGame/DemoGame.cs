@@ -22,7 +22,7 @@ namespace Game1
     /// </summary>
     public class DemoGame : Game
     {
-        private BoundedCamera camera;
+        private FocusCamera camera;
         
         private SpriteBatch spriteBatch;
         private GameStateManager gameManager;
@@ -80,7 +80,8 @@ namespace Game1
             graphics.ApplyChanges();
             Window.IsBorderless = true;
 
-            camera = new BoundedCamera(GraphicsDevice.Viewport);
+            
+            camera = new FocusCamera(GraphicsDevice.Viewport,null);
 
             Services.AddService(camera);
 
@@ -97,7 +98,9 @@ namespace Game1
                 gameManager = gameManager,
                 transitionManager = transMan,
                 input = inputHandler,
-                scripter = scriptManager
+                scripter = scriptManager,
+                spriteBatch = spriteBatch
+                
             };
 
             scriptManager = new ScriptingEngine(context);

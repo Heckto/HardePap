@@ -18,7 +18,7 @@ namespace Game1.Screens
     public sealed class PlayState : BaseGameState, IPlayGameState
     {
         private readonly GameContext context;
-        private BoundedCamera camera;
+        private FocusCamera camera;
         private readonly SpriteBatch spriteBatch;
         private ScriptingEngine scriptingEngine;
         string lvlFile;
@@ -36,16 +36,16 @@ namespace Game1.Screens
         public PlayState(DemoGame game,string LevelFile) : base(game)
         {            
             spriteBatch = game.Services.GetService<SpriteBatch>();
-            camera = game.Services.GetService<BoundedCamera>();
+            camera = game.Services.GetService<FocusCamera>();
             settings = game.Services.GetService<GameSettings>();
             scriptingEngine = game.Services.GetService<ScriptingEngine>();
             context = game.Services.GetService<GameContext>();
             monitor = new FpsMonitor();
-            DebugMonitor.AddDebugValue(monitor, "Value", "FrameRate");
+            
             lvlFile = LevelFile;
             var dir = Path.Combine(DemoGame.ContentManager.RootDirectory,"Scripts");
             var files = Directory.GetFiles(dir);
-            scriptingEngine.LoadScript(files);
+            //scriptingEngine.LoadScript(files);
 
             hud = new HeadsUpDisplay();        
         }
@@ -79,13 +79,14 @@ namespace Game1.Screens
             foreach (var p in context.particleSystems)
                 p.Update(gameTime);
 
-            if (camera.focussed)
-                camera.LookAt(context.lvl.player.Position);
+            //if (camera.focussedOnPlayer)
+              //  camera.Position = context.lvl.player.Position;
 
             hud.Update(gameTime);
 
             monitor.Update();
-            DebugMonitor.Update(gameTime);
+
+            DebugMonitor.AddDebugValue("FrameRate", monitor.Value);
         }
 
 
@@ -129,18 +130,19 @@ namespace Game1.Screens
                 context.lvl.GenerateCollision();
 
                 context.lvl.SpawnPlayer(null);
-                if (camera.focussed)
-                    camera.LookAt(context.lvl.player.Position);
-                camera.Limits = bounds;
+                if (camera.focussedOnPlayer)
+                    camera.Position = context.lvl.player.Position;
 
-                if (context.lvl.CustomProperties.ContainsKey("IntroScript"))
-                {
-                    var intro_script = (string)context.lvl.CustomProperties["IntroScript"].value;
-                    if (!String.IsNullOrEmpty(intro_script) && scriptingEngine.hasScriptLoaded(intro_script))
-                    {
-                        scriptingEngine.ExecuteScript(intro_script);
-                    }
-                }
+                camera.Bounds = bounds;
+
+                //if (context.lvl.CustomProperties.ContainsKey("IntroScript"))
+                //{
+                //    var intro_script = (string)context.lvl.CustomProperties["IntroScript"].value;
+                //    if (!String.IsNullOrEmpty(intro_script) && scriptingEngine.hasScriptLoaded(intro_script))
+                //    {
+                //        scriptingEngine.ExecuteScript(intro_script);
+                //    }
+                //}
             }
         }
 

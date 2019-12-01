@@ -259,7 +259,7 @@ namespace LevelEditor
             Logger.Instance.log("pictureBox1_Resize().");
             
             //if (MainForm.Instance.picturebox != null) Game1.Instance.resizebackbuffer(picturebox.Width, picturebox.Height);
-            if (Instance.picturebox != null) Instance.picturebox.camera.updateviewport(picturebox.Width, picturebox.Height);
+            //if (Instance.picturebox != null) Instance.picturebox.camera.v(picturebox.Width, picturebox.Height);
         }
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
@@ -552,7 +552,7 @@ namespace LevelEditor
             if (zoomcombo.Text.Length > 0 && Instance.picturebox != null)
             {
                 //float zoom = float.Parse(zoomcombo.Text.Substring(0, zoomcombo.Text.Length - 1));
-                Instance.picturebox.camera.Scale = 100 / 100;
+                Instance.picturebox.camera.Zoom = 100 / 100;
             }
         }
 

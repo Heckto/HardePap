@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Xna.Framework;
 using System;
 
 namespace AuxLib
@@ -257,17 +258,39 @@ namespace AuxLib
 			return result;
 		}
 
-		/// <summary>
-		/// Converts radians to degrees.
-		/// </summary>
-		/// <param name="radians">The angle in radians.</param>
-		/// <returns>The angle in degrees.</returns>
-		/// <remarks>
-		/// This method uses double precission internally,
-		/// though it returns single float
-		/// Factor = 180 / pi
-		/// </remarks>
-		public static float ToDegrees(float radians)
+        public static float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed, float deltaTime)
+        {
+            smoothTime = System.Math.Max(0.0001f, smoothTime);
+            float num = 2f / smoothTime;
+            float num2 = num * deltaTime;
+            float num3 = 1f / (1f + num2 + 0.48f * num2 * num2 + 0.235f * num2 * num2 * num2);
+            float num4 = current - target;
+            float num5 = target;
+            float num6 = maxSpeed * smoothTime;
+            num4 = MathHelper.Clamp(num4, -num6, num6);
+            target = current - num4;
+            float num7 = (currentVelocity + num * num4) * deltaTime;
+            currentVelocity = (currentVelocity - num * num7) * num3;
+            float num8 = target + (num4 + num7) * num3;
+            if (num5 - current > 0f == num8 > num5)
+            {
+                num8 = num5;
+                currentVelocity = (num8 - num5) / deltaTime;
+            }
+            return num8;
+        }
+
+        /// <summary>
+        /// Converts radians to degrees.
+        /// </summary>
+        /// <param name="radians">The angle in radians.</param>
+        /// <returns>The angle in degrees.</returns>
+        /// <remarks>
+        /// This method uses double precission internally,
+        /// though it returns single float
+        /// Factor = 180 / pi
+        /// </remarks>
+        public static float ToDegrees(float radians)
 		{
 			return (float)(radians * 57.295779513082320876798154814105);
 		}
@@ -319,4 +342,100 @@ namespace AuxLib
 			return (value > 0) && ((value & (value - 1)) == 0);
 		}
 	}
+
+    public static class ConvertUnits
+    {
+        private static float _displayUnitsToSimUnitsRatio = 100f;
+        private static float _simUnitsToDisplayUnitsRatio = 1 / _displayUnitsToSimUnitsRatio;
+
+        public static void SetDisplayUnitToSimUnitRatio(float displayUnitsPerSimUnit)
+        {
+            _displayUnitsToSimUnitsRatio = displayUnitsPerSimUnit;
+            _simUnitsToDisplayUnitsRatio = 1 / displayUnitsPerSimUnit;
+        }
+
+        public static float ToDisplayUnits(float simUnits)
+        {
+            return simUnits * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static float ToDisplayUnits(int simUnits)
+        {
+            return simUnits * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static Vector2 ToDisplayUnits(Vector2 simUnits)
+        {
+            return simUnits * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static void ToDisplayUnits(ref Vector2 simUnits, out Vector2 displayUnits)
+        {
+            Vector2.Multiply(ref simUnits, _displayUnitsToSimUnitsRatio, out displayUnits);
+        }
+
+        public static Vector3 ToDisplayUnits(Vector3 simUnits)
+        {
+            return simUnits * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static Vector2 ToDisplayUnits(float x, float y)
+        {
+            return new Vector2(x, y) * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static void ToDisplayUnits(float x, float y, out Vector2 displayUnits)
+        {
+            displayUnits = Vector2.Zero;
+            displayUnits.X = x * _displayUnitsToSimUnitsRatio;
+            displayUnits.Y = y * _displayUnitsToSimUnitsRatio;
+        }
+
+        public static float ToSimUnits(float displayUnits)
+        {
+            return displayUnits * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static float ToSimUnits(double displayUnits)
+        {
+            return (float)displayUnits * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static float ToSimUnits(int displayUnits)
+        {
+            return displayUnits * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static Vector2 ToSimUnits(Vector2 displayUnits)
+        {
+            return displayUnits * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static Vector3 ToSimUnits(Vector3 displayUnits)
+        {
+            return displayUnits * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static void ToSimUnits(ref Vector2 displayUnits, out Vector2 simUnits)
+        {
+            Vector2.Multiply(ref displayUnits, _simUnitsToDisplayUnitsRatio, out simUnits);
+        }
+
+        public static Vector2 ToSimUnits(float x, float y)
+        {
+            return new Vector2(x, y) * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static Vector2 ToSimUnits(double x, double y)
+        {
+            return new Vector2((float)x, (float)y) * _simUnitsToDisplayUnitsRatio;
+        }
+
+        public static void ToSimUnits(float x, float y, out Vector2 simUnits)
+        {
+            simUnits = Vector2.Zero;
+            simUnits.X = x * _simUnitsToDisplayUnitsRatio;
+            simUnits.Y = y * _simUnitsToDisplayUnitsRatio;
+        }
+    }
 }

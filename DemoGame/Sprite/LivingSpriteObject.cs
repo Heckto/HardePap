@@ -17,7 +17,7 @@ namespace Game1.Sprite
 
         public virtual int CurrentHealth { get; protected set; }
 
-        
+        public Controller2D controller;
 
         public virtual bool Dying { get; protected set; }
 
@@ -28,6 +28,8 @@ namespace Game1.Sprite
         public virtual float InvulnerabilityTimer { get; protected set; }
 
         public bool HandleInput { get; set; } = true;
+
+        public Vector2 velocity;
 
         public LivingSpriteObject(GameContext context) : base(context)
         {

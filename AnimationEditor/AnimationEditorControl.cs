@@ -125,7 +125,7 @@ namespace AnimationEditor
             {
                 foreach (var f in selectedAnimation.keyFrames)
                 {
-                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.matrix);
+                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix());
                     //f.frame.AssetName
 
                     var spriteDef = spriteSheets[f.frame.AssetName].SpriteDef[f.frame.AssetIndex];
@@ -170,20 +170,20 @@ namespace AnimationEditor
                 int max = Constants.Instance.GridNumberOfGridLines / 2;
                 for (int x = 0; x <= max; x++)
                 {
-                    var start = Vector2.Transform(new Vector2(x, -max) * Constants.Instance.GridSpacing.X, camera.matrix);
-                    var end = Vector2.Transform(new Vector2(x, max) * Constants.Instance.GridSpacing.X, camera.matrix);
+                    var start = Vector2.Transform(new Vector2(x, -max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
+                    var end = Vector2.Transform(new Vector2(x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
-                    start = Vector2.Transform(new Vector2(-x, -max) * Constants.Instance.GridSpacing.X, camera.matrix);
-                    end = Vector2.Transform(new Vector2(-x, max) * Constants.Instance.GridSpacing.X, camera.matrix);
+                    start = Vector2.Transform(new Vector2(-x, -max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
+                    end = Vector2.Transform(new Vector2(-x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
                 }
                 for (int y = 0; y <= max; y++)
                 {
-                    var start = Vector2.Transform(new Vector2(-max, y) * Constants.Instance.GridSpacing.Y, camera.matrix);
-                    var end = Vector2.Transform(new Vector2(max, y) * Constants.Instance.GridSpacing.Y, camera.matrix);
+                    var start = Vector2.Transform(new Vector2(-max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
+                    var end = Vector2.Transform(new Vector2(max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
-                    start = Vector2.Transform(new Vector2(-max, -y) * Constants.Instance.GridSpacing.Y, camera.matrix);
-                    end = Vector2.Transform(new Vector2(max, -y) * Constants.Instance.GridSpacing.Y, camera.matrix);
+                    start = Vector2.Transform(new Vector2(-max, -y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
+                    end = Vector2.Transform(new Vector2(max, -y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
                 }
                 sb.End();

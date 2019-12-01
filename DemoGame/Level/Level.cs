@@ -7,7 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
-using AuxLib.CollisionDetection;
+//using AuxLib.CollisionDetection;
+using tainicom.Aether.Physics2D.Dynamics;
+using tainicom.Aether.Physics2D.Diagnostics;
 using AuxLib;
 using AuxLib.RandomGeneration;
 using AuxLib.Sound;
@@ -31,6 +33,9 @@ namespace Game1.Levels
 
         [XmlIgnore]
         public World CollisionWorld;
+
+        [XmlIgnore]
+        public DebugView debugView;
 
         [XmlIgnore]
         public Dictionary<string, Texture2D> spritesheets;
@@ -83,6 +88,11 @@ namespace Game1.Levels
 
         public void LoadContent()
         {
+
+            CollisionWorld = new World(new Vector2(0, 10));
+
+            debugView = new DebugView(CollisionWorld);
+            debugView.LoadContent(DemoGame.graphics.GraphicsDevice, DemoGame.ContentManager);
             spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
             {
@@ -106,6 +116,7 @@ namespace Game1.Levels
 
             LevelBounds = (Rectangle)CustomProperties["bounds"].value;
             LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
+            context.camera.Bounds = LevelBounds;
             var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);
             
@@ -114,25 +125,31 @@ namespace Game1.Levels
 
         public void GenerateCollision()
         {
-            CollisionWorld = new World(LevelBounds);
-
             var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
+            Body colBody;
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
                 {
                     var rec = elem as RectangleItem;
-                    var box = CollisionWorld.CreateRectangle(rec.Position.X, rec.Position.Y, rec.Width, rec.Height).AddTags(rec.ItemType);
+                    var origin = new Vector2(rec.Width / 2, rec.Height / 2);
+                    colBody = CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(rec.Width), ConvertUnits.ToSimUnits(rec.Height), 10, ConvertUnits.ToSimUnits(rec.Position + origin));
                     if (rec.ItemType == ItemTypes.Transition || rec.ItemType == ItemTypes.ScriptTrigger)
                     {
-                        box.Data = rec;
+                        colBody.Tag = rec;
                     }
+                    colBody.SetCollisionCategories(Category.Cat2);
                 }
                 else if (elem is PathItem)
                 {
                     var path = elem as PathItem;
-                    var newList = path.WorldPoints.Select(v => new Vector2f(v.X, v.Y));
-                    CollisionWorld.CreatePolyLine(newList.ToArray()).AddTags(ItemTypes.Collider);
+                    for(var idx=0;idx < path.WorldPoints.Length-1; idx++)
+                    {
+                        colBody = CollisionWorld.CreateEdge(ConvertUnits.ToSimUnits(path.WorldPoints[idx]), ConvertUnits.ToSimUnits(path.WorldPoints[idx + 1]));
+                        colBody.SetCollisionCategories(Category.Cat2);
+                    }
+
+
                 }
             }
         }
@@ -167,16 +184,19 @@ namespace Game1.Levels
                 updateItem.Update(gameTime, this);
             }
             foreach (var sprite in Sprites.ToList())
-                sprite.Value.Update(gameTime);            
+                sprite.Value.Update(gameTime);
+
+            
+            context.camera.UpdateCamera(gameTime,player.controller.latestVelocity);
         }
 
-        public void Draw(SpriteBatch sb, BoundedCamera camera)
+        public void Draw(SpriteBatch sb, FocusCamera camera)
         {
             foreach (var layer in Layers)
             {
                 if (layer.Name == "collision")
                 {
-                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
+                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix());
                     foreach (var sprite in Sprites)
                         sprite.Value.Draw(sb);
                     sb.End();
@@ -185,7 +205,7 @@ namespace Game1.Levels
                 {
                     if (layer.Visible)
                     {
-                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix(layer.ScrollSpeed));
+                        sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix(layer.ScrollSpeed));
                         {
                             foreach (var item in layer.Items)
                             {
@@ -207,24 +227,52 @@ namespace Game1.Levels
 
         }
 
-        public void DrawDebug(SpriteBatch sb, SpriteFont font, BoundedCamera camera)
+        public void DrawDebug(SpriteBatch sb, SpriteFont font, FocusCamera camera)
         {
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.GetViewMatrix());
-            var b = CollisionWorld.Bounds;
-            CollisionWorld.DrawDebug(sb, font, (int)b.X, (int)b.Y, (int)b.Width, (int)b.Height);
-            sb.End();
+            var projection = Matrix.CreateOrthographicOffCenter(0f, ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Width), ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Height), 0f, 0f, 1f);
+            debugView.RenderDebugData(projection, camera.getScaledViewMatrix());
+
+
+            var projection2 = Matrix.CreateOrthographicOffCenter(0f, sb.GraphicsDevice.Viewport.Width, sb.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+            debugView.BeginCustomDraw(projection2, camera.getViewMatrix());
+
+            foreach (var ray in player.controller.castList)
+                debugView.DrawSegment(ray.from, ray.to, Color.Blue);
+
+            var areaPoints = new Vector2[] {
+                ConvertUnits.ToDisplayUnits(new Vector2(camera.focusArea.left,camera.focusArea.top)),
+                ConvertUnits.ToDisplayUnits(new Vector2(camera.focusArea.right, camera.focusArea.top)),
+                ConvertUnits.ToDisplayUnits(new Vector2(camera.focusArea.right, camera.focusArea.bottom)),
+                ConvertUnits.ToDisplayUnits(new Vector2(camera.focusArea.left, camera.focusArea.bottom))
+            };
+            debugView.DrawSolidPolygon(areaPoints, 4, Color.Red);
+
+            debugView.DrawPoint(ConvertUnits.ToDisplayUnits(camera.focusPosition), 3, Color.White);
+
+            debugView.DrawPoint(camera.Position, 3, Color.Pink);
+
+            var cameraBounds = new Vector2[] {
+                new Vector2(camera.Bounds.Left,camera.Bounds.Top),
+                new Vector2(camera.Bounds.Right, camera.Bounds.Top),
+                new Vector2(camera.Bounds.Right, camera.Bounds.Bottom),
+                new Vector2(camera.Bounds.Left, camera.Bounds.Bottom)
+            };
+
+            debugView.DrawPolygon(cameraBounds, 4, Color.Green);
+
+            debugView.EndCustomDraw();
         }
 
         public void AddSprite(string spriteName, SpriteObject sprite)
         {
-            Sprites.Add(spriteName, sprite);
+            Sprites.Add(spriteName, sprite);            
         }
 
         public void RemoveSprite(string spriteName)
         {
             if (Sprites.ContainsKey(spriteName))
             {
-                CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
+                //CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
                 Sprites.Remove(spriteName);
             }
         }
@@ -236,25 +284,6 @@ namespace Game1.Levels
                 RemoveSprite(item.Key);
             }
         }
-
-        
-
-        public Rectangle GetLevelBounds()
-        {
-            var worldBounds = Rectangle.Empty;
-            foreach (var l in Layers)
-            {
-                if (l.Name != "collision" && l.Name != "background")
-                {
-                    foreach (var item in l.Items)
-                    {
-                        worldBounds = Rectangle.Union(worldBounds, item.getBoundingBox());
-                    }
-                }
-            }
-            return worldBounds;
-        }
-
         #region NIGGA FIX THIS SHIT !!!
 
         [XmlIgnore]
@@ -277,7 +306,8 @@ namespace Game1.Levels
 
             
             RemoveSprite("Player");
-            player = new Ninja1(spawnLocation, context,ItemTypes.Player);
+            var l = new Vector2(3500, 3500);
+            player = new Ninja1(l, context);
             AddSprite("Player", player);
         }
 
