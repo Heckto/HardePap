@@ -22,8 +22,8 @@ namespace CustomUITypeEditors
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            string path = Convert.ToString(value);
-            using (FolderBrowserDialog dlg = new FolderBrowserDialog())
+            var path = Convert.ToString(value);
+            using (var dlg = new FolderBrowserDialog())
             {
                 dlg.SelectedPath = path;
                 if (dlg.ShowDialog() == DialogResult.OK)

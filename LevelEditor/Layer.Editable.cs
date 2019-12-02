@@ -43,9 +43,9 @@ namespace LevelEditor
 
         public Layer clone()
         {
-            Layer result = (Layer)this.MemberwiseClone();
+            var result = (Layer)this.MemberwiseClone();
             result.Items = new List<Item>(Items);
-            for (int i = 0; i < result.Items.Count; i++)
+            for (var i = 0; i < result.Items.Count; i++)
             {
                 result.Items[i] = result.Items[i].clone();
                 result.Items[i].layer = result;
@@ -57,7 +57,7 @@ namespace LevelEditor
 
         public Item getItemAtPos(Vector2 mouseworldpos)
         {
-            for (int i = Items.Count - 1; i >= 0; i--)
+            for (var i = Items.Count - 1; i >= 0; i--)
             {
                 if (Items[i].contains(mouseworldpos) && Items[i].Visible) return Items[i];
             }
@@ -67,7 +67,7 @@ namespace LevelEditor
         public void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-            foreach (Item item in Items) item.drawInEditor(sb);
+            foreach (var item in Items) item.drawInEditor(sb);
         }
 
 

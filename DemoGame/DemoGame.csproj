@@ -54,6 +54,7 @@
     <Compile Include="Controllers\CharacterController2D.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\RaycastController.cs" />
+    <Compile Include="Controllers\ZombieController.cs" />
     <Compile Include="DemoGame.cs" />
     <Compile Include="Characters\Enemies\Enemy1.cs" />
     <Compile Include="FocusCamera.cs" />

@@ -68,8 +68,8 @@ namespace LevelEditor
                 tnHeight = (int)(((float)bmp.Height / (float)bmp.Width) * tnWidth);
             else if (bmp.Width < bmp.Height)
                 tnWidth = (int)(((float)bmp.Width / (float)bmp.Height) * tnHeight);
-            int iLeft = (imgWidth / 2) - (tnWidth / 2);
-            int iTop = (imgHeight / 2) - (tnHeight / 2);
+            var iLeft = (imgWidth / 2) - (tnWidth / 2);
+            var iTop = (imgHeight / 2) - (tnHeight / 2);
             grp.DrawImage(bmp, iLeft, iTop, tnWidth, tnHeight);
             retBmp.Tag = bmp;
             return retBmp;
@@ -116,7 +116,7 @@ namespace LevelEditor
         {
             if (e.Label == null) return;
 
-            TreeNode[] nodes = treeView1.Nodes.Find(e.Label, true);
+            var nodes = treeView1.Nodes.Find(e.Label, true);
             if (nodes.Length > 0)
             {
                 MessageBox.Show("A layer or item with the name \"" + e.Label + "\" already exists in the level. Please use another name!");
@@ -223,7 +223,7 @@ namespace LevelEditor
                 {
                     var i2 = (Item)destnode.Tag;
                     Instance.picturebox.moveItemToLayer(i1, i2.layer, i2);
-                    int delta = 0;
+                    var delta = 0;
                     if (destnode.Index > sourcenode.Index && i1.layer == i2.layer) delta = 1;
                     sourcenode.Remove();
                     destnode.Parent.Nodes.Insert(destnode.Index + delta, sourcenode);
@@ -307,7 +307,7 @@ namespace LevelEditor
                 var l = (Layer)treeView1.SelectedNode.Tag;
                 var layercopy = l.clone();
                 layercopy.Name = getUniqueNameBasedOn(layercopy.Name);
-                for (int i = 0; i < layercopy.Items.Count; i++)
+                for (var i = 0; i < layercopy.Items.Count; i++)
                 {
                     layercopy.Items[i].Name = getUniqueNameBasedOn(layercopy.Items[i].Name);
                 }
@@ -667,8 +667,8 @@ namespace LevelEditor
        
         public string getUniqueNameBasedOn(string name)
         {
-            int i=0;
-            string newname = "Copy of " + name;
+            var i=0;
+            var newname = "Copy of " + name;
             while (treeView1.Nodes.Find(newname, true).Length>0) 
             {
                 newname = "Copy(" + i++.ToString() + ") of " + name;
@@ -678,7 +678,7 @@ namespace LevelEditor
 
         private Texture2D GetBrushData(Microsoft.Xna.Framework.Rectangle tile, Texture2D tileTex)
         {
-            int[] data = new int[tile.Width * tile.Height];
+            var data = new int[tile.Width * tile.Height];
             tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
 
             var texBrush = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
@@ -690,15 +690,15 @@ namespace LevelEditor
 
         private Bitmap GetButtonImage(Microsoft.Xna.Framework.Rectangle tile,Texture2D tileTex)
         {
-            int[] data = new int[tile.Width * tile.Height];
+            var data = new int[tile.Width * tile.Height];
             tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
-            Bitmap bitmap = new Bitmap(tile.Width, tile.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var bitmap = new Bitmap(tile.Width, tile.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            for (int x = 0; x < tile.Width; ++x)
+            for (var x = 0; x < tile.Width; ++x)
             {
-                for (int y = 0; y < tile.Height; ++y)
+                for (var y = 0; y < tile.Height; ++y)
                 {
-                    Color bitmapColor =
+                    var bitmapColor =
                         Color.FromArgb(data[y * tile.Width + x]);
 
                     bitmap.SetPixel(x, y, bitmapColor);
@@ -720,11 +720,11 @@ namespace LevelEditor
             Image img = Resources.folder;
             var di = new DirectoryInfo(path);
 
-            string filters = "*.jpg;*.png;*.bmp;";
+            var filters = "*.jpg;*.png;*.bmp;";
             var fileList = new List<FileInfo>();
-            string[] extensions = filters.Split(new char[] { ';' },StringSplitOptions.RemoveEmptyEntries);
-            foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
-            FileInfo[] files = fileList.ToArray();
+            var extensions = filters.Split(new char[] { ';' },StringSplitOptions.RemoveEmptyEntries);
+            foreach (var filter in extensions) fileList.AddRange(di.GetFiles(filter));
+            var files = fileList.ToArray();
             var taskList = new List<Task>();
             foreach (var file in files)
             {
@@ -757,8 +757,8 @@ namespace LevelEditor
             {
                 try
                 {
-                    FileStream fileStream = new FileStream(textureFile, FileMode.Open);
-                    Texture2D spriteAtlas = Texture2D.FromStream(Instance.picturebox.GraphicsDevice, fileStream);
+                    var fileStream = new FileStream(textureFile, FileMode.Open);
+                    var spriteAtlas = Texture2D.FromStream(Instance.picturebox.GraphicsDevice, fileStream);
                     fileStream.Dispose();
                     var spriteSheet = new SpriteSheet(spriteAtlas, defFile);
                     spriteSheets.Add(spriteSheet.Name, spriteSheet);

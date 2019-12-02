@@ -25,7 +25,7 @@ namespace Game1
             collisions.faceDirection = 1;
         }
 
-        public void Move(Vector2 moveAmount, bool standingOnPlatform = false)
+        public virtual void Move(Vector2 moveAmount, bool standingOnPlatform = false)
         {
             latestVelocity = moveAmount;
             var simVelocity = ConvertUnits.ToSimUnits(moveAmount);
@@ -62,7 +62,6 @@ namespace Game1
 
         void HorizontalCollisions(ref Vector2 moveAmount)
         {
-            var orgVel = moveAmount;
             float directionX = collisions.faceDirection;
             float rayLength = Math.Abs(moveAmount.X) + skinWidth;
 
@@ -124,7 +123,7 @@ namespace Game1
             }            
         }
 
-        void VerticalCollisions(ref Vector2 moveAmount)
+        protected virtual void VerticalCollisions(ref Vector2 moveAmount)
         {
             float directionY = Math.Sign(moveAmount.Y);
             var rayLength = Math.Abs(moveAmount.Y) + skinWidth;
@@ -144,7 +143,7 @@ namespace Game1
                     if ((hitInfo.fixture.CollisionCategories & Category.Cat4) == Category.Cat4)
                     {
                         if (directionY == -1 || hitInfo.distance == 0)
-                            continue;                                                
+                            continue;
                     }
                     if (collisions.fallThroughPlatform)
                         continue;
@@ -168,6 +167,8 @@ namespace Game1
                     collisions.below = directionY == 1;
                     collisions.above = directionY == -1;
                 }
+                else
+                    collisions.edgeCase = true;
             }
 
             if (collisions.climbingSlope)
@@ -282,6 +283,8 @@ namespace Game1
             public Vector2 moveAmountOld;
             public int faceDirection;
 
+            public bool edgeCase;
+
             public bool fallThroughPlatform;
             public void Reset()
             {
@@ -293,6 +296,7 @@ namespace Game1
                 slopeNormal = Vector2.Zero;
                 slopeAngleOld = slopeAngle;
                 slopeAngle = 0;
+                edgeCase = false;
             }
         }
 

@@ -57,18 +57,18 @@ namespace LevelEditor
 
         PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
         {
-            PropertyDescriptorCollection pdc = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
+            var pdc = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
             foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(this))
             {
                 pdc.Add(pd);
             }
             
             //put Position property on top
-            PropertyDescriptor posd = pdc["pPosition"];
+            var posd = pdc["pPosition"];
             pdc.Remove(posd);
             pdc.Insert(0, posd);
 
-            foreach (String key in CustomProperties.Keys)
+            foreach (var key in CustomProperties.Keys)
             {
                 pdc.Add(new DictionaryPropertyDescriptor(CustomProperties, key, attributes));
             }

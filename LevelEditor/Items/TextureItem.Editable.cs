@@ -112,7 +112,7 @@ namespace LevelEditor
             this.Origin = getTextureOrigin(srcRect);
 
             //compensate for origins that are not at the center of the texture
-            Vector2 center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
+            var center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
             this.Position -= (center - Origin);
 
             OnTransformed();
@@ -120,7 +120,7 @@ namespace LevelEditor
 
         public override Item clone()
         {
-            TextureItem result = (TextureItem)this.MemberwiseClone();
+            var result = (TextureItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
             result.polygon = (Vector2[])polygon.Clone();
             result.hovering = false;
@@ -147,10 +147,10 @@ namespace LevelEditor
                 Matrix.CreateRotationZ(Rotation) *
                 Matrix.CreateTranslation(new Vector3(Position, 0.0f));
 
-            Vector2 leftTop = new Vector2(0, 0);
-            Vector2 rightTop = new Vector2(srcRectangle.Width, 0);
-            Vector2 leftBottom = new Vector2(0, srcRectangle.Height);
-            Vector2 rightBottom = new Vector2(srcRectangle.Width, srcRectangle.Height);
+            var leftTop = new Vector2(0, 0);
+            var rightTop = new Vector2(srcRectangle.Width, 0);
+            var leftBottom = new Vector2(0, srcRectangle.Height);
+            var rightBottom = new Vector2(srcRectangle.Width, srcRectangle.Height);
 
             // Transform all four corners into work space
             Vector2.Transform(ref leftTop, ref transform, out leftTop);
@@ -167,9 +167,9 @@ namespace LevelEditor
             polygon[2] = rightBottom;
 
             // Find the minimum and maximum extents of the rectangle in world space
-            Vector2 min = Vector2.Min(Vector2.Min(leftTop, rightTop),
+            var min = Vector2.Min(Vector2.Min(leftTop, rightTop),
                                       Vector2.Min(leftBottom, rightBottom));
-            Vector2 max = Vector2.Max(Vector2.Max(leftTop, rightTop),
+            var max = Vector2.Max(Vector2.Max(leftTop, rightTop),
                                       Vector2.Max(leftBottom, rightBottom));
 
             // Return as a rectangle
@@ -222,25 +222,25 @@ namespace LevelEditor
         {
             if (!Visible) return;
 
-            SpriteEffects se = SpriteEffects.None;
+            var se = SpriteEffects.None;
             if (pFlipHorizontally) se |= SpriteEffects.FlipHorizontally;
             if (pFlipVertically) se |= SpriteEffects.FlipVertically;
-            Color c = TintColor;
+            var c = TintColor;
             if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
             sb.Draw(MainForm.Instance.spriteSheets[texture_filename].Texture, Position, srcRectangle, c, Rotation, Origin, Scale, se, 0);
         }
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
         {
-            Vector2[] poly = new Vector2[4];
+            var poly = new Vector2[4];
             Vector2.Transform(polygon, ref matrix, poly);
 
             Primitives.Instance.drawPolygon(sb, poly, color, 2);
-            foreach (Vector2 p in poly)
+            foreach (var p in poly)
             {
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }
-            Vector2 origin = Vector2.Transform(pPosition, matrix);
+            var origin = Vector2.Transform(pPosition, matrix);
             Primitives.Instance.drawBoxFilled(sb, origin.X - 5, origin.Y - 5, 10, 10, color);
         }
 
@@ -255,9 +255,9 @@ namespace LevelEditor
 
         public bool intersectpixels(Vector2 worldpos)
         {
-            Vector2 positionInB = Vector2.Transform(worldpos, Matrix.Invert(transform));
-            int xB = (int)Math.Round(positionInB.X);
-            int yB = (int)Math.Round(positionInB.Y);
+            var positionInB = Vector2.Transform(worldpos, Matrix.Invert(transform));
+            var xB = (int)Math.Round(positionInB.X);
+            var yB = (int)Math.Round(positionInB.Y);
 
             if (FlipHorizontally) xB = srcRectangle.Width - xB;
             if (FlipVertically) yB = srcRectangle.Height - yB;
@@ -265,7 +265,7 @@ namespace LevelEditor
             // If the pixel lies within the bounds of B
             if (0 <= xB && xB < srcRectangle.Width && 0 <= yB && yB < srcRectangle.Height)
             {
-                Color colorB = coldata[xB + yB * srcRectangle.Width];
+                var colorB = coldata[xB + yB * srcRectangle.Width];
                 if (colorB.A != 0)
                 {
                     return true;

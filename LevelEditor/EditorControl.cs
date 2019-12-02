@@ -176,7 +176,7 @@ namespace LevelEditor
                 var maincameraposition = camera.Position;
                 camera.Position *= SelectedItems[0].layer.ScrollSpeed;
                 sb.Begin();
-                int i = 0;
+                var i = 0;
                 foreach (var item in SelectedItems)
                 {
                     if (item.Visible && item.layer.Visible && kstate.IsKeyUp(Keys.Space))
@@ -201,8 +201,8 @@ namespace LevelEditor
             if (Constants.Instance.ShowGrid)
             {
                 sb.Begin();
-                int max = Constants.Instance.GridNumberOfGridLines / 2;
-                for (int x = 0; x <= max; x++)
+                var max = Constants.Instance.GridNumberOfGridLines / 2;
+                for (var x = 0; x <= max; x++)
                 {
                     var start = Vector2.Transform(new Vector2(x, -max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     var end = Vector2.Transform(new Vector2(x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
@@ -211,7 +211,7 @@ namespace LevelEditor
                     end = Vector2.Transform(new Vector2(-x, max) * Constants.Instance.GridSpacing.X, camera.getViewMatrix());
                     Primitives.Instance.drawLine(sb, start, end, Constants.Instance.GridColor, Constants.Instance.GridLineThickness);
                 }
-                for (int y = 0; y <= max; y++)
+                for (var y = 0; y <= max; y++)
                 {
                     var start = Vector2.Transform(new Vector2(-max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
                     var end = Vector2.Transform(new Vector2(max, y) * Constants.Instance.GridSpacing.Y, camera.getViewMatrix());
@@ -260,16 +260,16 @@ namespace LevelEditor
 
 
             mstate = Mouse.GetState();
-            int mwheeldelta = mstate.ScrollWheelValue - oldmstate.ScrollWheelValue;
+            var mwheeldelta = mstate.ScrollWheelValue - oldmstate.ScrollWheelValue;
             if (mwheeldelta > 0 /* && kstate.IsKeyDown(Keys.LeftControl)*/)
             {
-                float zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f + 10.0f;
+                var zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f + 10.0f;
                 MainForm.Instance.zoomcombo.Text = zoom.ToString() + "%";
                 camera.Zoom = zoom / 100.0f;
             }
             if (mwheeldelta < 0 /* && kstate.IsKeyDown(Keys.LeftControl)*/)
             {
-                float zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f - 10.0f;
+                var zoom = (float)Math.Round(camera.Zoom * 10) * 10.0f - 10.0f;
                 if (zoom <= 0.0f) return;
                 MainForm.Instance.zoomcombo.Text = zoom.ToString() + "%";
                 camera.Zoom = zoom / 100.0f;
@@ -290,13 +290,13 @@ namespace LevelEditor
 
             if (kstate.IsKeyDown(Keys.Subtract))
             {
-                float zoom = (float)(camera.Zoom * 0.995);
+                var zoom = (float)(camera.Zoom * 0.995);
                 MainForm.Instance.zoomcombo.Text = (zoom * 100).ToString("###0.0") + "%";
                 camera.Zoom = zoom;
             }
             if (kstate.IsKeyDown(Keys.Add))
             {
-                float zoom = (float)(camera.Zoom * 1.005);
+                var zoom = (float)(camera.Zoom * 1.005);
                 MainForm.Instance.zoomcombo.Text = (zoom * 100).ToString("###0.0") + "%";
                 camera.Zoom = zoom;
             }
@@ -351,7 +351,7 @@ namespace LevelEditor
                         }
                         selectitem(selecteditemscopy[0]);
                         updatetreeview();
-                        for (int i = 1; i < selecteditemscopy.Count; i++) SelectedItems.Add(selecteditemscopy[i]);
+                        for (var i = 1; i < selecteditemscopy.Count; i++) SelectedItems.Add(selecteditemscopy[i]);
                         startMoving();
                     }
                     else if (kstate.IsKeyDown(Keys.LeftShift) && item != null)
@@ -477,7 +477,7 @@ namespace LevelEditor
 
             if (state == EditorState.moving)
             {
-                int i = 0;
+                var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
                     newPosition = initialpos[i] + mouseworldpos - grabbedpoint;
@@ -502,8 +502,8 @@ namespace LevelEditor
             if (state == EditorState.rotating)
             {
                 var newpos = mouseworldpos - SelectedItems[0].pPosition;
-                float deltatheta = (float)Math.Atan2(grabbedpoint.Y, grabbedpoint.X) - (float)Math.Atan2(newpos.Y, newpos.X);
-                int i = 0;
+                var deltatheta = (float)Math.Atan2(grabbedpoint.Y, grabbedpoint.X) - (float)Math.Atan2(newpos.Y, newpos.X);
+                var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
                     if (selitem.CanRotate())
@@ -529,8 +529,8 @@ namespace LevelEditor
             if (state == EditorState.scaling)
             {
                 var newdistance = mouseworldpos - SelectedItems[0].pPosition;
-                float factor = newdistance.Length() / grabbedpoint.Length();
-                int i = 0;
+                var factor = newdistance.Length() / grabbedpoint.Length();
+                var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
                     if (selitem.CanScale())
@@ -620,7 +620,7 @@ namespace LevelEditor
                 if (kstate.IsKeyDown(Keys.LeftControl) && primitivestarted && currentprimitive == PrimitiveType.Rectangle)
                 {
                     var distance = mouseworldpos - clickedPoints[0];
-                    float squareside = Math.Max(distance.X, distance.Y);
+                    var squareside = Math.Max(distance.X, distance.Y);
                     mouseworldpos = clickedPoints[0] + new Vector2(squareside, squareside);
                 }
                 if ((mstate.LeftButton == ButtonState.Pressed && oldmstate.LeftButton == ButtonState.Released) ||
@@ -706,8 +706,8 @@ namespace LevelEditor
         {
             SelectedItems.Clear();
             SelectedLayer = null;
-            string[] itemnames = level.selecteditems.Split(';');
-            foreach (string itemname in itemnames)
+            var itemnames = level.selecteditems.Split(';');
+            foreach (var itemname in itemnames)
             {
                 if (itemname.Length > 0) SelectedItems.Add(level.getItemByName(itemname));
             }
@@ -741,7 +741,7 @@ namespace LevelEditor
 
         public void moveLayerUp(Layer l)
         {
-            int index = level.Layers.IndexOf(l);
+            var index = level.Layers.IndexOf(l);
             level.Layers[index] = level.Layers[index - 1];
             level.Layers[index - 1] = l;
             selectlayer(l);
@@ -749,7 +749,7 @@ namespace LevelEditor
 
         public void moveLayerDown(Layer l)
         {
-            int index = level.Layers.IndexOf(l);
+            var index = level.Layers.IndexOf(l);
             level.Layers[index] = level.Layers[index + 1];
             level.Layers[index + 1] = l;
             selectlayer(l);
@@ -797,7 +797,7 @@ namespace LevelEditor
 
             if (itemsaffected.Count > 0)
             {
-                string message = "";
+                var message = "";
                 foreach (var item in itemsaffected) message += item.Name + " (Layer: " + item.layer.Name + ")\n";
                 Forms.MessageBox.Show("The following Items have Custom Properties of Type \"Item\" that refered to items that have just been deleted:\n\n"
                     + message + "\nThe corresponding Custom Properties have been set to NULL, since the Item referred to doesn't exist anymore.");
@@ -807,7 +807,7 @@ namespace LevelEditor
 
         public void moveItemUp(Item i)
         {
-            int index = i.layer.Items.IndexOf(i);
+            var index = i.layer.Items.IndexOf(i);
             i.layer.Items[index] = i.layer.Items[index - 1];
             i.layer.Items[index - 1] = i;
             //updatetreeview();
@@ -815,7 +815,7 @@ namespace LevelEditor
 
         public void moveItemDown(Item i)
         {
-            int index = i.layer.Items.IndexOf(i);
+            var index = i.layer.Items.IndexOf(i);
             i.layer.Items[index] = i.layer.Items[index + 1];
             i.layer.Items[index + 1] = i;
             selectitem(i);
@@ -852,7 +852,7 @@ namespace LevelEditor
 
         public void moveItemToLayer(Item i1, Layer l2, Item i2)
         {
-            int index2 = i2 == null ? 0 : l2.Items.IndexOf(i2);
+            var index2 = i2 == null ? 0 : l2.Items.IndexOf(i2);
             i1.layer.Items.Remove(i1);
             l2.Items.Insert(index2, i1);
             i1.layer = l2;
@@ -1122,7 +1122,7 @@ namespace LevelEditor
                     itemnode.Tag = item;
                     itemnode.Checked = true;
                     itemnode.ContextMenuStrip = MainForm.Instance.ItemContextMenu;
-                    int imageindex = 0;
+                    var imageindex = 0;
                     if (item is TextureItem) imageindex = 1;
                     if (item is RectangleItem) imageindex = 2;
                     if (item is CircleItem) imageindex = 3;
@@ -1141,7 +1141,7 @@ namespace LevelEditor
             MainForm.Instance.propertyGrid1.SelectedObject = null;
             if (SelectedItems.Count > 0)
             {
-                Forms.TreeNode[] nodes = MainForm.Instance.treeView1.Nodes.Find(SelectedItems[0].Name, true);
+                var nodes = MainForm.Instance.treeView1.Nodes.Find(SelectedItems[0].Name, true);
                 if (nodes.Length > 0)
                 {
                     var selecteditemscopy = new List<Item>(SelectedItems);
@@ -1153,7 +1153,7 @@ namespace LevelEditor
             }
             else if (SelectedLayer != null)
             {
-                Forms.TreeNode[] nodes = MainForm.Instance.treeView1.Nodes[0].Nodes.Find(SelectedLayer.Name, false);
+                var nodes = MainForm.Instance.treeView1.Nodes[0].Nodes.Find(SelectedLayer.Name, false);
                 if (nodes.Length > 0)
                 {
                     MainForm.Instance.treeView1.SelectedNode = nodes[0];

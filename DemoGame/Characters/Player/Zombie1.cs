@@ -22,11 +22,7 @@ namespace Game1
 {
     public class Zombie1 : LivingSpriteObject
     {
-        private CharState CurrentState;
-
-        private const float acc = 3f;
-        private const float gravity = 0.0012f;
-        private const float friction = 0.001f;
+        private const float gravity = 64f;
 
         private BehaviourState state;
         private Vector2 hitBoxSize = new Vector2(220, 400);
@@ -39,11 +35,12 @@ namespace Game1
         private float IdleTimeout = 0;
         
 
-        public Zombie1(Vector2 loc, GameContext context, ItemTypes objectType) : base(context)
+        public Zombie1(Vector2 loc, GameContext context) : base(context)
         {
             colBodySize = scale * hitBoxSize;
             CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), 0, BodyType.Kinematic);
             CollisionBox.Tag = this;
+            CollisionBox.SetCollisionCategories(Category.Cat20);
 
             controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
             state = BehaviourState.Idle;
@@ -53,7 +50,6 @@ namespace Game1
         {
             LoadFromSheet(@"Content\Characters\Zombie1\Zombie1_Definition.xml");
             CurrentAnimation = Animations["Idle"];
-            CurrentState = CharState.Grounded;
         }
 
         public override void Update(GameTime gameTime)
@@ -63,11 +59,10 @@ namespace Game1
 
         public override void ManagedUpdate(GameTime gameTime)
         {
-            var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (HandleInput)
                 HandleKeyInput(delta, InputHandler.Instance);
-            //UpdateAnimation(gameTime);
         }
 
         private void HandleKeyInput(float delta, IInputHandler Input)
@@ -77,41 +72,38 @@ namespace Game1
             {
                 case BehaviourState.Idle:
                     IdleTimeout += delta;
-                    if (targetDist < 500)
-                    {
-                        state = BehaviourState.Chasing;
-                        SetAnimation("Walk");
-                    }
-
-                    else if (IdleTimeout > 2000)
+                    //if (targetDist < 500)
+                    //{
+                    //    state = BehaviourState.Chasing;
+                    //    SetAnimation("Walk");
+                    //}
+                    //else
+                    if (IdleTimeout > 2000)
                     {
                         var movementLength = Rand.GetRandomInt(300, 500);
                         var movementDir = Rand.GetRandomInt(0, 2);
                         movingTarget = movementDir == 0 ? movingTarget = new Vector2(Position.X + movementLength, 0) : movingTarget = new Vector2(Position.X - movementLength, 0);
-                        CurrentState = CharState.Grounded;
                         state = BehaviourState.Walking;
                         SetAnimation("Walk");
                         IdleTimeout = 0;
                     }
                     break;
                 case BehaviourState.Walking:
-                    if (targetDist < 500)
-                    {
-                        SetAnimation("Walk");
-                        state = BehaviourState.Chasing;
-                    }
+                    //if (targetDist < 500)
+                    //{
+                    //    SetAnimation("Walk");
+                    //    state = BehaviourState.Chasing;
+                    //}
                     var tv = movingTarget - Position;
 
                     tv.Normalize();
                     if (tv.X < 0)
-                        velocity.X = -Math.Min(Math.Abs(-0.025f * delta), Math.Abs((movingTarget - Position).X / delta));
+                        velocity.X = -Math.Min(Math.Abs(-0.05f * delta), Math.Abs((movingTarget - Position).X / delta));
                     else
-                        velocity.X = Math.Min(0.025f * delta, (movingTarget - Position).X / delta);
+                        velocity.X = Math.Min(0.05f * delta, (movingTarget - Position).X / delta);
 
-                    Console.WriteLine(velocity.X);
                     if (Math.Abs(movingTarget.X - Position.X) <= 1)
                     {
-                        CurrentState = CharState.Grounded;
                         state = BehaviourState.Idle;
                         SetAnimation("Idle");
                         Console.WriteLine(Position + " - " + movingTarget);
@@ -135,17 +127,20 @@ namespace Game1
                     break;
             }
 
-            if (velocity.X < 0)
-            {
-                Direction = FaceDirection.Left;
-            }
-            else if (velocity.X > 0)
-            {
-                Direction = FaceDirection.Right;
-            }
+            Direction = velocity.X < 0 ? FaceDirection.Left : FaceDirection.Right;
 
-            velocity.Y += delta * gravity;
+            velocity.Y += gravity * delta;
             controller.Move(velocity);
+
+            if (controller.collisions.edgeCase && controller.collisions.below)
+            {
+                movingTarget.X -= ((movingTarget - Position).X * controller.collisions.faceDirection);
+            }
+            else if (controller.collisions.below)
+                velocity.Y = 0;
+
+
+
         }        
 
         private void HandleAttackCollisions()
@@ -180,19 +175,28 @@ namespace Game1
             base.ManagedDraw(spriteBatch);
         }
 
+        protected override void OnDeath()
+        {
+            if (state != BehaviourState.Dying)
+            {
+                state = BehaviourState.Dying;
+                SetAnimation("Dead");
+            }
+            else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
+            {
+                context.lvl.CollisionWorld.Remove(CollisionBox);
+                IsAlive = false;
+            }
+        }
+
         public enum BehaviourState
         {
             Idle = 0,
             Walking =1,
             Chasing = 2,
-            Attack = 4
+            Attack = 4,
+            Dying = 8
         }
-
-        public enum CharState
-        {
-            Grounded = 0x01,
-            GroundAttack = 0x02,
-        };
     }
 
 

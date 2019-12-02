@@ -31,7 +31,7 @@ namespace LevelEditor
 
         public Vertices(Vector2[] vector2)
         {
-            for (int i = 0; i < vector2.Length; i++)
+            for (var i = 0; i < vector2.Length; i++)
             {
                 Add(vector2[i]);
             }
@@ -39,7 +39,7 @@ namespace LevelEditor
 
         public Vertices(Vertices vertices)
         {
-            for (int i = 0; i < vertices.Count; i++)
+            for (var i = 0; i < vertices.Count; i++)
             {
                 Add(vertices[i]);
             }
@@ -89,7 +89,7 @@ namespace LevelEditor
         /// <returns></returns>
         public Vector2 GetEdge(int index)
         {
-            int nextIndex = NextIndex(index);
+            var nextIndex = NextIndex(index);
             _vectorTemp2 = this[nextIndex];
             _vectorTemp3 = this[index];
             Vector2.Subtract(ref _vectorTemp2, ref _vectorTemp3, out _vectorTemp1);
@@ -103,7 +103,7 @@ namespace LevelEditor
         /// <param name="edge">The edge.</param>
         public void GetEdge(int index, out Vector2 edge)
         {
-            int nextIndex = NextIndex(index);
+            var nextIndex = NextIndex(index);
             _vectorTemp2 = this[nextIndex];
             _vectorTemp3 = this[index];
             Vector2.Subtract(ref _vectorTemp2, ref _vectorTemp3, out edge);
@@ -177,7 +177,7 @@ namespace LevelEditor
         {
             GetEdgeNormal(index, out _vectorTemp1);
 
-            int prevIndex = PreviousIndex(index);
+            var prevIndex = PreviousIndex(index);
             GetEdgeNormal(prevIndex, out _vectorTemp2);
 
             Vector2.Add(ref _vectorTemp1, ref _vectorTemp2, out _vectorTemp3);
@@ -195,7 +195,7 @@ namespace LevelEditor
         public void GetVertexNormal(int index, out Vector2 vertexNormal)
         {
             GetEdgeNormal(index, out _vectorTemp1);
-            int prevIndex = PreviousIndex(index);
+            var prevIndex = PreviousIndex(index);
             GetEdgeNormal(prevIndex, out _vectorTemp2);
             Vector2.Add(ref _vectorTemp1, ref _vectorTemp2, out _vectorTemp3);
             Vector2.Normalize(ref _vectorTemp3, out vertexNormal);
@@ -207,11 +207,11 @@ namespace LevelEditor
         /// <returns></returns>
         public float GetShortestEdge()
         {
-            float shortestEdge = float.MaxValue;
-            for (int i = 0; i < Count; i++)
+            var shortestEdge = float.MaxValue;
+            for (var i = 0; i < Count; i++)
             {
                 GetEdge(i, out _vectorTemp1);
-                float length = _vectorTemp1.Length();
+                var length = _vectorTemp1.Length();
                 if (length < shortestEdge)
                 {
                     shortestEdge = length;
@@ -226,30 +226,30 @@ namespace LevelEditor
         /// <param name="maxEdgeLength">Length of the max edge.</param>
         public void SubDivideEdges(float maxEdgeLength)
         {
-            Vertices verticesTemp = new Vertices();
-            for (int i = 0; i < Count; i++)
+            var verticesTemp = new Vertices();
+            for (var i = 0; i < Count; i++)
             {
-                Vector2 vertA = this[i];
-                Vector2 vertB = this[NextIndex(i)];
+                var vertA = this[i];
+                var vertB = this[NextIndex(i)];
                 Vector2 edge;
                 Vector2.Subtract(ref vertA, ref vertB, out edge);
-                float edgeLength = edge.Length();
+                var edgeLength = edge.Length();
 
                 verticesTemp.Add(vertA);
                 if (edgeLength > maxEdgeLength) //need to subdivide
                 {
-                    double edgeCount = Math.Ceiling(edgeLength / (double)maxEdgeLength);
+                    var edgeCount = Math.Ceiling(edgeLength / (double)maxEdgeLength);
 
-                    for (int j = 0; j < edgeCount - 1; j++)
+                    for (var j = 0; j < edgeCount - 1; j++)
                     {
-                        Vector2 vert = Vector2.Lerp(vertA, vertB, (j + 1) / (float)edgeCount);
+                        var vert = Vector2.Lerp(vertA, vertB, (j + 1) / (float)edgeCount);
                         verticesTemp.Add(vert);
                     }
                 }
             }
 
             Clear();
-            for (int k = 0; k < verticesTemp.Count; k++)
+            for (var k = 0; k < verticesTemp.Count; k++)
             {
                 Add(verticesTemp[k]);
             }
@@ -262,7 +262,7 @@ namespace LevelEditor
         {
             // the sign of the 'area' of the polygon is all
             // we are interested in.
-            float area = GetSignedArea();
+            var area = GetSignedArea();
             if (area > 0)
             {
                 Reverse();
@@ -280,7 +280,7 @@ namespace LevelEditor
 
             for (i = 0; i < Count; i++)
             {
-                int j = (i + 1) % Count;
+                var j = (i + 1) % Count;
                 area += this[i].X * this[j].Y;
                 area -= this[i].Y * this[j].X;
             }
@@ -299,7 +299,7 @@ namespace LevelEditor
 
             for (i = 0; i < Count; i++)
             {
-                int j = (i + 1) % Count;
+                var j = (i + 1) % Count;
                 area += this[i].X * this[j].Y;
                 area -= this[i].Y * this[j].X;
             }
@@ -313,7 +313,7 @@ namespace LevelEditor
         /// <returns></returns>
         public Vector2 GetCentroid()
         {
-            float area = GetArea();
+            var area = GetArea();
             return GetCentroid(area);
         }
 
@@ -325,7 +325,7 @@ namespace LevelEditor
         public Vector2 GetCentroid(float area)
         {
             //calc centroid on counter clockwise verts.
-            Vertices verts = new Vertices(this);
+            var verts = new Vertices(this);
             verts.ForceCounterClockWiseOrder();
 
             float cx = 0, cy = 0;
@@ -334,7 +334,7 @@ namespace LevelEditor
             float factor;
             for (i = 0; i < Count; i++)
             {
-                int j = (i + 1) % Count;
+                var j = (i + 1) % Count;
 
                 factor = -(verts[i].X * verts[j].Y - verts[j].X * verts[i].Y);
                 cx += (verts[i].X + verts[j].X) * factor;
@@ -356,13 +356,13 @@ namespace LevelEditor
         /// <exception cref="ArgumentException">Can't calculate MOI on zero vertices</exception>
         public float GetMomentOfInertia()
         {
-            Vertices verts = new Vertices(this);
+            var verts = new Vertices(this);
 
             //Make sure that the vertices are in counter clockwise order.
             verts.ForceCounterClockWiseOrder();
 
             //Get the centroid and center the vertices around the centroid.
-            Vector2 centroid = verts.GetCentroid();
+            var centroid = verts.GetCentroid();
 
             Vector2.Multiply(ref centroid, -1, out centroid);
 
@@ -377,8 +377,8 @@ namespace LevelEditor
             float denom = 0;
             float numer = 0;
             Vector2 v2;
-            Vector2 v1 = verts[verts.Count - 1];
-            for (int index = 0; index < verts.Count; index++, v1 = v2)
+            var v1 = verts[verts.Count - 1];
+            for (var index = 0; index < verts.Count; index++, v1 = v2)
             {
                 v2 = verts[index];
                 float a;
@@ -406,11 +406,11 @@ namespace LevelEditor
         public void ProjectToAxis(ref Vector2 axis, out float min, out float max)
         {
             // To project a point on an axis use the dot product
-            float dotProduct = Vector2.Dot(axis, this[0]);
+            var dotProduct = Vector2.Dot(axis, this[0]);
             min = dotProduct;
             max = dotProduct;
 
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 dotProduct = Vector2.Dot(this[i], axis);
                 if (dotProduct < min)
@@ -433,7 +433,7 @@ namespace LevelEditor
         /// <param name="vector">The vector.</param>
         public void Translate(ref Vector2 vector)
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 this[i] = Vector2.Add(this[i], vector);
         }
 
@@ -443,7 +443,7 @@ namespace LevelEditor
         /// <param name="value">The Value.</param>
         public void Scale(ref Vector2 value)
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 this[i] = Vector2.Multiply(this[i], value);
         }
 
@@ -456,7 +456,7 @@ namespace LevelEditor
             Matrix rotationMatrix;
             Matrix.CreateRotationZ(value, out rotationMatrix);
 
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 this[i] = Vector2.Transform(this[i], rotationMatrix);
         }
 
@@ -468,22 +468,22 @@ namespace LevelEditor
         /// </returns>
         public bool IsConvex()
         {
-            bool isPositive = false;
-            for (int i = 0; i < Count; ++i)
+            var isPositive = false;
+            for (var i = 0; i < Count; ++i)
             {
-                int lower = (i == 0) ? (Count - 1) : (i - 1);
-                int middle = i;
-                int upper = (i == Count - 1) ? (0) : (i + 1);
+                var lower = (i == 0) ? (Count - 1) : (i - 1);
+                var middle = i;
+                var upper = (i == Count - 1) ? (0) : (i + 1);
 
-                float dx0 = this[middle].X - this[lower].X;
-                float dy0 = this[middle].Y - this[lower].Y;
-                float dx1 = this[upper].X - this[middle].X;
-                float dy1 = this[upper].Y - this[middle].Y;
+                var dx0 = this[middle].X - this[lower].X;
+                var dy0 = this[middle].Y - this[lower].Y;
+                var dx1 = this[upper].X - this[middle].X;
+                var dy1 = this[upper].Y - this[middle].Y;
 
-                float cross = dx0 * dy1 - dx1 * dy0;
+                var cross = dx0 * dy1 - dx1 * dy0;
                 // Cross product should have same sign
                 // for each vertex if poly is convex.
-                bool newIsP = (cross >= 0) ? true : false;
+                var newIsP = (cross >= 0) ? true : false;
                 if (i == 0)
                 {
                     isPositive = newIsP;
@@ -506,7 +506,7 @@ namespace LevelEditor
         public static Vertices CreateRectangle(float width, float height)
         {
             //Note: The rectangle has vertices along the edges. This is to support the distance grid better.
-            Vertices vertices = new Vertices();
+            var vertices = new Vertices();
             vertices.Add(new Vector2(-width * .5f, -height * .5f));
             vertices.Add(new Vector2(-width * .5f, -height * .25f));
             vertices.Add(new Vector2(-width * .5f, 0));
@@ -536,7 +536,7 @@ namespace LevelEditor
         /// <returns>The vertices that define a rectangle</returns>
         public static Vertices CreateSimpleRectangle(float width, float height)
         {
-            Vertices vertices = new Vertices();
+            var vertices = new Vertices();
             vertices.Add(new Vector2(-width * .5f, -height * .5f));
             vertices.Add(new Vector2(-width * .5f, height * .5f));
             vertices.Add(new Vector2(width * .5f, height * .5f));
@@ -565,12 +565,12 @@ namespace LevelEditor
         /// <returns></returns>
         public static Vertices CreateEllipse(float xRadius, float yRadius, int numberOfEdges)
         {
-            Vertices vertices = new Vertices();
+            var vertices = new Vertices();
 
-            float stepSize = MathHelper.TwoPi / numberOfEdges;
+            var stepSize = MathHelper.TwoPi / numberOfEdges;
 
             vertices.Add(new Vector2(xRadius, 0));
-            for (int i = 1; i < numberOfEdges; i++)
+            for (var i = 1; i < numberOfEdges; i++)
                 vertices.Add(new Vector2(xRadius * Calculator.Cos(stepSize * i), -yRadius * Calculator.Sin(stepSize * i)));
 
             return vertices;
@@ -586,15 +586,15 @@ namespace LevelEditor
         /// <returns></returns>
         public static Vertices CreateGear(float radius, int numberOfTeeth, float tipPercentage, float toothHeight)
         {
-            Vertices vertices = new Vertices();
+            var vertices = new Vertices();
 
-            float stepSize = MathHelper.TwoPi / numberOfTeeth;
+            var stepSize = MathHelper.TwoPi / numberOfTeeth;
 
-            float toothTipStepSize = (stepSize / 2f) * tipPercentage;
+            var toothTipStepSize = (stepSize / 2f) * tipPercentage;
 
-            float toothAngleStepSize = (stepSize - (toothTipStepSize * 2f)) / 2f;
+            var toothAngleStepSize = (stepSize - (toothTipStepSize * 2f)) / 2f;
 
-            for (int i = 0; i < numberOfTeeth; i++)
+            for (var i = 0; i < numberOfTeeth; i++)
             {
                 vertices.Add(new Vector2((radius) * Calculator.Cos(stepSize * i),
                     -(radius) * Calculator.Sin(stepSize * i)));
@@ -614,8 +614,8 @@ namespace LevelEditor
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < Count; i++)
+            var builder = new StringBuilder();
+            for (var i = 0; i < Count; i++)
             {
                 builder.Append(this[i].ToString());
                 if (i < Count - 1)
@@ -643,8 +643,8 @@ namespace LevelEditor
         /// <returns></returns>
         public static Vertices CreatePolygon(uint[] data, int width, int height)
         {
-            PolygonCreationAssistance pca = new PolygonCreationAssistance(data, width, height);
-            List<Vertices> verts = CreatePolygon(ref pca);
+            var pca = new PolygonCreationAssistance(data, width, height);
+            var verts = CreatePolygon(ref pca);
 
             return verts[0];
         }
@@ -662,7 +662,7 @@ namespace LevelEditor
         /// <returns></returns>
         public static List<Vertices> CreatePolygon(uint[] data, int width, int height, float hullTolerance, byte alphaTolerance, bool multiPartDetection, bool holeDetection)
         {
-            PolygonCreationAssistance pca = new PolygonCreationAssistance(data, width, height);
+            var pca = new PolygonCreationAssistance(data, width, height);
             pca.HullTolerance = hullTolerance;
             pca.AlphaTolerance = alphaTolerance;
             pca.MultipartDetection = multiPartDetection;
@@ -677,7 +677,7 @@ namespace LevelEditor
         /// <returns></returns>
         public static List<Vertices> CreatePolygon(ref PolygonCreationAssistance pca)
         {
-            List<Vertices> polygons = new List<Vertices>();
+            var polygons = new List<Vertices>();
 
             Vertices polygon;
             Vertices holePolygon;
@@ -688,7 +688,7 @@ namespace LevelEditor
             Vector2? holeEntrance = null;
             Vector2? polygonEntrance = null;
 
-            List<Vector2> blackList = new List<Vector2>();
+            var blackList = new List<Vector2>();
 
             bool inPolygon;
             bool searchOn;
@@ -767,7 +767,7 @@ namespace LevelEditor
                             {
                                 inPolygon = false;
 
-                                for (int i = 0; i < polygons.Count; i++)
+                                for (var i = 0; i < polygons.Count; i++)
                                 {
                                     polygon = polygons[i];
 
@@ -799,13 +799,13 @@ namespace LevelEditor
 
         private static Vector2? GetHoleHullEntrance(ref PolygonCreationAssistance pca, ref Vertices polygon, Vector2? startVertex)
         {
-            List<CrossingEdgeInfo> edges = new List<CrossingEdgeInfo>();
+            var edges = new List<CrossingEdgeInfo>();
             Vector2? entrance;
 
             int startLine;
             int endLine;
 
-            int lastSolid = 0;
+            var lastSolid = 0;
             bool foundSolid;
             bool foundTransparent;
 
@@ -824,7 +824,7 @@ namespace LevelEditor
                 if (startLine > 0 && startLine < pca.Height && endLine > 0 && endLine < pca.Height)
                 {
                     // go from top to bottom of the polygon
-                    for (int y = startLine; y <= endLine; y += pca.HoleDetectionLineStepSize)
+                    for (var y = startLine; y <= endLine; y += pca.HoleDetectionLineStepSize)
                     {
                         // get x-coord of every polygon edge which crosses y
                         edges = GetCrossingEdges(ref polygon, EdgeAlignment.Vertical, y);
@@ -832,12 +832,12 @@ namespace LevelEditor
                         // we need an even number of crossing edges
                         if (edges.Count > 1 && edges.Count % 2 == 0)
                         {
-                            for (int i = 0; i < edges.Count; i += 2)
+                            for (var i = 0; i < edges.Count; i += 2)
                             {
                                 foundSolid = false;
                                 foundTransparent = false;
 
-                                for (int x = (int)edges[i].CrossingPoint.X; x <= (int)edges[i + 1].CrossingPoint.X; x++)
+                                for (var x = (int)edges[i].CrossingPoint.X; x <= (int)edges[i + 1].CrossingPoint.X; x++)
                                 {
                                     if (pca.IsSolid(x, y))
                                     {
@@ -887,7 +887,7 @@ namespace LevelEditor
 
                 if (higherDetail)
                 {
-                    for (int i = 0; i < polygon.Count; i++)
+                    for (var i = 0; i < polygon.Count; i++)
                     {
                         edgeVertex1 = polygon[i];
 
@@ -904,7 +904,7 @@ namespace LevelEditor
                 }
                 else
                 {
-                    for (int i = 0; i < polygon.Count; i++)
+                    for (var i = 0; i < polygon.Count; i++)
                     {
                         edgeVertex1 = polygon[i];
 
@@ -925,15 +925,15 @@ namespace LevelEditor
 
         private static bool InPolygon(ref PolygonCreationAssistance pca, ref Vertices polygon, Vector2 point)
         {
-            bool inPolygon = !DistanceToHullAcceptable(ref pca, ref polygon, point, true);
+            var inPolygon = !DistanceToHullAcceptable(ref pca, ref polygon, point, true);
 
             if (!inPolygon)
             {
-                List<CrossingEdgeInfo> edges = GetCrossingEdges(ref polygon, EdgeAlignment.Vertical, (int)point.Y);
+                var edges = GetCrossingEdges(ref polygon, EdgeAlignment.Vertical, (int)point.Y);
 
                 if (edges.Count > 0 && edges.Count % 2 == 0)
                 {
-                    for (int i = 0; i < edges.Count; i += 2)
+                    for (var i = 0; i < edges.Count; i += 2)
                     {
                         if (edges[i].CrossingPoint.X <= point.X && edges[i + 1].CrossingPoint.X >= point.X)
                         {
@@ -951,10 +951,10 @@ namespace LevelEditor
 
         private static Vector2? GetTopMostVertex(ref Vertices vertices)
         {
-            float topMostValue = float.MaxValue;
+            var topMostValue = float.MaxValue;
             Vector2? topMost = null;
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (var i = 0; i < vertices.Count; i++)
             {
                 if (topMostValue > vertices[i].Y)
                 {
@@ -968,9 +968,9 @@ namespace LevelEditor
 
         private static float GetTopMostCoord(ref Vertices vertices)
         {
-            float returnValue = float.MaxValue;
+            var returnValue = float.MaxValue;
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (var i = 0; i < vertices.Count; i++)
             {
                 if (returnValue > vertices[i].Y)
                 {
@@ -983,9 +983,9 @@ namespace LevelEditor
 
         private static float GetBottomMostCoord(ref Vertices vertices)
         {
-            float returnValue = float.MinValue;
+            var returnValue = float.MinValue;
 
-            for (int i = 0; i < vertices.Count; i++)
+            for (var i = 0; i < vertices.Count; i++)
             {
                 if (returnValue < vertices[i].Y)
                 {
@@ -998,7 +998,7 @@ namespace LevelEditor
 
         private static List<CrossingEdgeInfo> GetCrossingEdges(ref Vertices polygon, EdgeAlignment edgeAlign, int checkLine)
         {
-            List<CrossingEdgeInfo> edges = new List<CrossingEdgeInfo>();
+            var edges = new List<CrossingEdgeInfo>();
 
             Vector2 slope;
             Vector2 edgeVertex1;
@@ -1017,7 +1017,7 @@ namespace LevelEditor
                 switch (edgeAlign)
                 {
                     case EdgeAlignment.Vertical:
-                        for (int i = 0; i < polygon.Count; i++)
+                        for (var i = 0; i < polygon.Count; i++)
                         {
                             edgeVertex1 = polygon[i];
 
@@ -1065,20 +1065,20 @@ namespace LevelEditor
 
         private static bool SplitPolygonEdge(ref Vertices polygon, EdgeAlignment edgeAlign, Vector2 coordInsideThePolygon, out int vertex1Index, out int vertex2Index)
         {
-            List<CrossingEdgeInfo> edges = new List<CrossingEdgeInfo>();
+            var edges = new List<CrossingEdgeInfo>();
 
             Vector2 slope;
             int edgeVertex1Index;
             int edgeVertex2Index;
-            int nearestEdgeVertex1Index = 0;
-            int nearestEdgeVertex2Index = 0;
-            bool edgeFound = false;
+            var nearestEdgeVertex1Index = 0;
+            var nearestEdgeVertex2Index = 0;
+            var edgeFound = false;
 
             float distance;
-            float shortestDistance = float.MaxValue;
+            var shortestDistance = float.MaxValue;
 
-            bool edgeCoordFound = false;
-            Vector2 foundEdgeCoord = Vector2.Zero;
+            var edgeCoordFound = false;
+            var foundEdgeCoord = Vector2.Zero;
 
             vertex1Index = 0;
             vertex2Index = 0;
@@ -1092,7 +1092,7 @@ namespace LevelEditor
 
                     if (edges != null && edges.Count > 1 && edges.Count % 2 == 0)
                     {
-                        for (int i = 0; i < edges.Count; i++)
+                        for (var i = 0; i < edges.Count; i++)
                         {
                             if (edges[i].CrossingPoint.X < coordInsideThePolygon.X)
                             {
@@ -1161,12 +1161,12 @@ namespace LevelEditor
 
         private static Vertices CreateSimplePolygon(ref PolygonCreationAssistance pca, Vector2 entrance, Vector2 last)
         {
-            bool entranceFound = false;
+            var entranceFound = false;
 
-            Vertices polygon = new Vertices();
-            Vertices hullArea = new Vertices();
+            var polygon = new Vertices();
+            var hullArea = new Vertices();
 
-            Vector2 current = Vector2.Zero;
+            var current = Vector2.Zero;
             Vector2 next;
 
             #region Entrance check
@@ -1253,7 +1253,7 @@ namespace LevelEditor
             int x;
             int y;
 
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 x = (int)current.X + _closePixels[i, 0];
                 y = (int)current.Y + _closePixels[i, 1];
@@ -1272,10 +1272,10 @@ namespace LevelEditor
 
         private static bool IsNearPixel(ref PolygonCreationAssistance pca, Vector2 current, Vector2 near)
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
-                int x = (int)current.X + _closePixels[i, 0];
-                int y = (int)current.Y + _closePixels[i, 1];
+                var x = (int)current.X + _closePixels[i, 0];
+                var y = (int)current.Y + _closePixels[i, 1];
 
                 if (x >= 0 && x <= pca.Width && y >= 0 && y <= pca.Height)
                 {
@@ -1292,9 +1292,9 @@ namespace LevelEditor
         private static bool GetHullEntrance(ref PolygonCreationAssistance pca, out Vector2 entrance)
         {
             // Search for first solid pixel.
-            for (int y = 0; y <= pca.Height; y++)
+            for (var y = 0; y <= pca.Height; y++)
             {
-                for (int x = 0; x <= pca.Width; x++)
+                for (var x = 0; x <= pca.Width; x++)
                 {
                     if (pca.IsSolid(x, y))
                     {
@@ -1312,12 +1312,12 @@ namespace LevelEditor
         private static bool GetNextHullEntrance(ref PolygonCreationAssistance pca, Vector2 start, out Vector2? entrance)
         {
             // Search for first solid pixel.
-            int size = pca.Height * pca.Width;
+            var size = pca.Height * pca.Width;
             int x;
 
-            bool foundTransparent = false;
+            var foundTransparent = false;
 
-            for (int i = (int)start.X + (int)start.Y * pca.Width; i <= size; i++)
+            for (var i = (int)start.X + (int)start.Y * pca.Width; i <= size; i++)
             {
                 if (pca.IsSolid(i))
                 {
@@ -1345,12 +1345,12 @@ namespace LevelEditor
             int x;
             int y;
 
-            int indexOfFirstPixelToCheck = GetIndexOfFirstPixelToCheck(last, current);
+            var indexOfFirstPixelToCheck = GetIndexOfFirstPixelToCheck(last, current);
             int indexOfPixelToCheck;
 
             const int pixelsToCheck = 8;// _closePixels.Length;
 
-            for (int i = 0; i < pixelsToCheck; i++)
+            for (var i = 0; i < pixelsToCheck; i++)
             {
                 indexOfPixelToCheck = (indexOfFirstPixelToCheck + i) % pixelsToCheck;
 
@@ -1373,13 +1373,13 @@ namespace LevelEditor
 
         private static bool SearchForOutstandingVertex(ref Vertices hullArea, float hullTolerance, out Vector2 outstanding)
         {
-            int hullAreaLastPoint = hullArea.Count - 1;
+            var hullAreaLastPoint = hullArea.Count - 1;
 
-            Vector2 outstandingResult = Vector2.Zero;
-            bool found = false;
+            var outstandingResult = Vector2.Zero;
+            var found = false;
 
             // Search between the first and last hull point.
-            for (int i = 1; i < hullAreaLastPoint; i++)
+            for (var i = 1; i < hullAreaLastPoint; i++)
             {
                 // Check if the distance is over the one that's tolerable.
                 if (Calculator.DistanceBetweenPointAndLineSegment(hullArea[i], hullArea[0], hullArea[hullAreaLastPoint]) >= hullTolerance)
@@ -1467,7 +1467,7 @@ namespace LevelEditor
             Vertices poly2;
             List<EdgeIntersectInfo> intersections;
 
-            int startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out error);
+            var startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out error);
 
             if (startingIndex == -1)
             {
@@ -1481,26 +1481,26 @@ namespace LevelEditor
                 }
             }
 
-            Vertices union = new Vertices();
-            Vertices currentPoly = poly1;
-            Vertices otherPoly = poly2;
+            var union = new Vertices();
+            var currentPoly = poly1;
+            var otherPoly = poly2;
 
             // Store the starting vertex so we can refer to it later.
-            Vector2 startingVertex = poly1[startingIndex];
-            int currentIndex = startingIndex;
+            var startingVertex = poly1[startingIndex];
+            var currentIndex = startingIndex;
 
             do
             {
                 // Add the current vertex to the final union
                 union.Add(currentPoly[currentIndex]);
 
-                foreach (EdgeIntersectInfo intersect in intersections)
+                foreach (var intersect in intersections)
                 {
                     // If the current point is an intersection point
                     if (currentPoly[currentIndex] == intersect.IntersectionPoint)
                     {
                         // Make sure we want to swap polygons here.
-                        int otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
+                        var otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
 
                         // If the next vertex, if we do swap, is not inside the current polygon,
                         // then its safe to swap, otherwise, just carry on with the current poly.
@@ -1558,7 +1558,7 @@ namespace LevelEditor
             Vertices poly2;
             List<EdgeIntersectInfo> intersections;
 
-            int startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out error);
+            var startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out error);
 
             if (startingIndex == -1)
             {
@@ -1572,29 +1572,29 @@ namespace LevelEditor
                 }
             }
 
-            Vertices subtract = new Vertices();
-            Vertices currentPoly = poly1;
-            Vertices otherPoly = poly2;
+            var subtract = new Vertices();
+            var currentPoly = poly1;
+            var otherPoly = poly2;
 
             // Store the starting vertex so we can refer to it later.
-            Vector2 startingVertex = poly1[startingIndex];
-            int currentIndex = startingIndex;
+            var startingVertex = poly1[startingIndex];
+            var currentIndex = startingIndex;
 
             // Trace direction
-            bool forward = true;
+            var forward = true;
 
             do
             {
                 // Add the current vertex to the final union
                 subtract.Add(currentPoly[currentIndex]);
 
-                foreach (EdgeIntersectInfo intersect in intersections)
+                foreach (var intersect in intersections)
                 {
                     // If the current point is an intersection point
                     if (currentPoly[currentIndex] == intersect.IntersectionPoint)
                     {
                         // Make sure we want to swap polygons here.
-                        int otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
+                        var otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
 
                         Vector2 otherVertex;
                         if (forward)
@@ -1702,7 +1702,7 @@ namespace LevelEditor
             List<EdgeIntersectInfo> intersections;
 
             PolyUnionError gotError;
-            int startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out gotError);
+            var startingIndex = PreparePolygons(polygon1, polygon2, out poly1, out poly2, out intersections, out gotError);
 
             if (startingIndex == -1)
             {
@@ -1716,26 +1716,26 @@ namespace LevelEditor
                 }
             }
 
-            Vertices intersectOut = new Vertices();
-            Vertices currentPoly = poly1;
-            Vertices otherPoly = poly2;
+            var intersectOut = new Vertices();
+            var currentPoly = poly1;
+            var otherPoly = poly2;
 
             // Store the starting vertex so we can refer to it later.            
-            int currentIndex = poly1.IndexOf(intersections[0].IntersectionPoint);
-            Vector2 startingVertex = poly1[currentIndex];
+            var currentIndex = poly1.IndexOf(intersections[0].IntersectionPoint);
+            var startingVertex = poly1[currentIndex];
 
             do
             {
                 // Add the current vertex to the final union
                 intersectOut.Add(currentPoly[currentIndex]);
 
-                foreach (EdgeIntersectInfo intersect in intersections)
+                foreach (var intersect in intersections)
                 {
                     // If the current point is an intersection point
                     if (currentPoly[currentIndex] == intersect.IntersectionPoint)
                     {
                         // Make sure we want to swap polygons here.
-                        int otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
+                        var otherIndex = otherPoly.IndexOf(intersect.IntersectionPoint);
 
                         // If the next vertex, if we do swap, is inside the current polygon,
                         // then its safe to swap, otherwise, just carry on with the current poly.
@@ -1810,7 +1810,7 @@ namespace LevelEditor
             }
 
             // Add intersection points to original polygons, ignoring existing points.
-            foreach (EdgeIntersectInfo intersect in intersections)
+            foreach (var intersect in intersections)
             {
                 if (!poly1.Contains(intersect.IntersectionPoint))
                 {
@@ -1826,8 +1826,8 @@ namespace LevelEditor
             // Find starting point on the edge of polygon1 
             // that is outside of the intersected area
             // to begin polygon trace.
-            int startingIndex = -1;
-            int currentIndex = 0;
+            var startingIndex = -1;
+            var currentIndex = 0;
             do
             {
                 if (!PointInPolygonAngle(poly1[currentIndex], poly2))
@@ -1863,19 +1863,19 @@ namespace LevelEditor
             intersections.Clear();
 
             // Iterate through polygon1's edges
-            for (int i = 0; i < polygon1.Count; i++)
+            for (var i = 0; i < polygon1.Count; i++)
             {
                 // Get edge vertices
-                Vector2 p1 = polygon1[i];
-                Vector2 p2 = polygon1[polygon1.NextIndex(i)];
+                var p1 = polygon1[i];
+                var p2 = polygon1[polygon1.NextIndex(i)];
 
                 // Get intersections between this edge and polygon2
-                for (int j = 0; j < polygon2.Count; j++)
+                for (var j = 0; j < polygon2.Count; j++)
                 {
-                    Vector2 point = Vector2.Zero;
+                    var point = Vector2.Zero;
 
-                    Vector2 p3 = polygon2[j];
-                    Vector2 p4 = polygon2[polygon2.NextIndex(j)];
+                    var p3 = polygon2[j];
+                    var p4 = polygon2[polygon2.NextIndex(j)];
 
                     // _defaultFloatTolerance = .00001f (Perhaps this should be made available publically from CollisionHelper?
 
@@ -1908,7 +1908,7 @@ namespace LevelEditor
             double angle = 0;
 
             // Iterate through polygon's edges
-            for (int i = 0; i < polygon.Count; i++)
+            for (var i = 0; i < polygon.Count; i++)
             {
                 /*
                 p1.h = polygon[i].h - p.h;
@@ -1917,8 +1917,8 @@ namespace LevelEditor
                 p2.v = polygon[(i + 1) % n].v - p.v;
                 */
                 // Get points
-                Vector2 p1 = polygon[i] - point;
-                Vector2 p2 = polygon[polygon.NextIndex(i)] - point;
+                var p1 = polygon[i] - point;
+                var p2 = polygon[polygon.NextIndex(i)] - point;
 
                 angle += VectorAngle(p1, p2);
             }
@@ -1938,9 +1938,9 @@ namespace LevelEditor
         /// </summary>
         private static double VectorAngle(Vector2 p1, Vector2 p2)
         {
-            double theta1 = Math.Atan2(p1.Y, p1.X);
-            double theta2 = Math.Atan2(p2.Y, p2.X);
-            double dtheta = theta2 - theta1;
+            var theta1 = Math.Atan2(p1.Y, p1.X);
+            var theta2 = Math.Atan2(p2.Y, p2.X);
+            var dtheta = theta2 - theta1;
             while (dtheta > Math.PI)
                 dtheta -= (2 * Math.PI);
             while (dtheta < -Math.PI)
@@ -1956,8 +1956,8 @@ namespace LevelEditor
         /// <returns>A new polygon with rounded vertices.</returns>
         public static Vertices Round(Vertices polygon)
         {
-            Vertices returnPoly = new Vertices();
-            for (int i = 0; i < polygon.Count; i++)
+            var returnPoly = new Vertices();
+            for (var i = 0; i < polygon.Count; i++)
                 returnPoly.Add(new Vector2((float)Math.Round(polygon[i].X, 0), (float)Math.Round(polygon[i].Y, 0)));
 
             return returnPoly;
@@ -1988,13 +1988,13 @@ namespace LevelEditor
             if (polygon.Count < 3)
                 return polygon;
 
-            Vertices simplified = new Vertices();
-            Vertices roundPolygon = Round(polygon);
+            var simplified = new Vertices();
+            var roundPolygon = Round(polygon);
 
-            for (int curr = 0; curr < roundPolygon.Count; curr++)
+            for (var curr = 0; curr < roundPolygon.Count; curr++)
             {
-                int prev = roundPolygon.PreviousIndex(curr);
-                int next = roundPolygon.NextIndex(curr);
+                var prev = roundPolygon.PreviousIndex(curr);
+                var next = roundPolygon.NextIndex(curr);
 
                 if ((roundPolygon[prev] - roundPolygon[curr]).Length() <= bias)
                     continue;
@@ -2068,15 +2068,15 @@ namespace LevelEditor
             if (bottomRadius >= height / 2)
                 throw new ArgumentException("The bottom radius must be lower than height / 2. Higher values of bottom radius would create a circle, and not a half circle.", "bottomRadius");
 
-            Vertices vertices = new Vertices();
+            var vertices = new Vertices();
 
-            float newHeight = (height - topRadius - bottomRadius) * 0.5f;
+            var newHeight = (height - topRadius - bottomRadius) * 0.5f;
 
             // top
             vertices.Add(new Vector2(topRadius, newHeight));
 
-            float stepSize = MathHelper.Pi / topEdges;
-            for (int i = 1; i < topEdges; i++)
+            var stepSize = MathHelper.Pi / topEdges;
+            for (var i = 1; i < topEdges; i++)
             {
                 vertices.Add(new Vector2(topRadius * Calculator.Cos(stepSize * i), topRadius * Calculator.Sin(stepSize * i) + newHeight));
             }
@@ -2087,7 +2087,7 @@ namespace LevelEditor
             vertices.Add(new Vector2(-bottomRadius, -newHeight));
 
             stepSize = MathHelper.Pi / bottomEdges;
-            for (int i = 1; i < bottomEdges; i++)
+            for (var i = 1; i < bottomEdges; i++)
             {
                 vertices.Add(new Vector2(-bottomRadius * Calculator.Cos(stepSize * i), -bottomRadius * Calculator.Sin(stepSize * i) - newHeight));
             }
@@ -2164,10 +2164,10 @@ namespace LevelEditor
 
             public float? IntersectsWithRay(Vector2 origin, Vector2 direction)
             {
-                float largestDistance = MathHelper.Max(A.Position.X - origin.X, B.Position.X - origin.X) * 2f;
-                LineSegment raySegment = new LineSegment(new Vertex(origin, 0), new Vertex(origin + (direction * largestDistance), 0));
+                var largestDistance = MathHelper.Max(A.Position.X - origin.X, B.Position.X - origin.X) * 2f;
+                var raySegment = new LineSegment(new Vertex(origin, 0), new Vertex(origin + (direction * largestDistance), 0));
 
-                Vector2? intersection = FindIntersection(this, raySegment);
+                var intersection = FindIntersection(this, raySegment);
                 float? value = null;
 
                 if (intersection != null)
@@ -2178,22 +2178,22 @@ namespace LevelEditor
 
             public static Vector2? FindIntersection(LineSegment a, LineSegment b)
             {
-                float x1 = a.A.Position.X;
-                float y1 = a.A.Position.Y;
-                float x2 = a.B.Position.X;
-                float y2 = a.B.Position.Y;
-                float x3 = b.A.Position.X;
-                float y3 = b.A.Position.Y;
-                float x4 = b.B.Position.X;
-                float y4 = b.B.Position.Y;
+                var x1 = a.A.Position.X;
+                var y1 = a.A.Position.Y;
+                var x2 = a.B.Position.X;
+                var y2 = a.B.Position.Y;
+                var x3 = b.A.Position.X;
+                var y3 = b.A.Position.Y;
+                var x4 = b.B.Position.X;
+                var y4 = b.B.Position.Y;
 
-                float denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+                var denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
 
-                float uaNum = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-                float ubNum = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
+                var uaNum = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
+                var ubNum = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
 
-                float ua = uaNum / denom;
-                float ub = ubNum / denom;
+                var ua = uaNum / denom;
+                var ub = ubNum / denom;
 
                 if (MathHelper.Clamp(ua, 0f, 1f) != ua || MathHelper.Clamp(ub, 0f, 1f) != ub)
                     return null;
@@ -2228,7 +2228,7 @@ namespace LevelEditor
                 if (point.Equals(A) || point.Equals(B) || point.Equals(C))
                     return true;
 
-                bool oddNodes = false;
+                var oddNodes = false;
 
                 if (checkPointToSegment(C, A, point))
                     oddNodes = !oddNodes;
@@ -2250,7 +2250,7 @@ namespace LevelEditor
                 if ((sA.Position.Y < point.Position.Y && sB.Position.Y >= point.Position.Y) ||
                     (sB.Position.Y < point.Position.Y && sA.Position.Y >= point.Position.Y))
                 {
-                    float x =
+                    var x =
                         sA.Position.X +
                         (point.Position.Y - sA.Position.Y) /
                         (sB.Position.Y - sA.Position.Y) *
@@ -2279,7 +2279,7 @@ namespace LevelEditor
             {
                 unchecked
                 {
-                    int result = A.GetHashCode();
+                    var result = A.GetHashCode();
                     result = (result * 397) ^ B.GetHashCode();
                     result = (result * 397) ^ C.GetHashCode();
                     return result;
@@ -2357,8 +2357,8 @@ namespace LevelEditor
                         index %= Count;
 
                     //find the proper node
-                    LinkedListNode<T> node = First;
-                    for (int i = 0; i < index; i++)
+                    var node = First;
+                    for (var i = 0; i < index; i++)
                         node = node.Next;
 
                     return node;
@@ -2381,7 +2381,7 @@ namespace LevelEditor
             /// <returns>The index of the item if found; -1 if the item is not found.</returns>
             public int IndexOf(T item)
             {
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                     if (this[i].Value.Equals(item))
                         return i;
 
@@ -2409,7 +2409,7 @@ namespace LevelEditor
         {
             //Log("\nBeginning triangulation...");
 
-            List<Triangle> triangles = new List<Triangle>();
+            var triangles = new List<Triangle>();
 
             //make sure we have our vertices wound properly
             if (DetermineWindingOrder(inputVertices) == WindingOrder.Clockwise)
@@ -2424,7 +2424,7 @@ namespace LevelEditor
             reflexVertices.Clear();
 
             //generate the cyclical list of vertices in the polygon
-            for (int i = 0; i < outputVertices.Length; i++)
+            for (var i = 0; i < outputVertices.Length; i++)
                 polygonVertices.AddLast(new Vertex(outputVertices[i], (short)i));
 
             //categorize all of the vertices as convex, reflex, and ear
@@ -2449,7 +2449,7 @@ namespace LevelEditor
             //redundant comparisons
             if (desiredWindingOrder == WindingOrder.CounterClockwise)
             {
-                for (int i = 0; i < triangles.Count; i++)
+                for (var i = 0; i < triangles.Count; i++)
                 {
                     indices[(i * 3)] = triangles[i].A.Index;
                     indices[(i * 3) + 1] = triangles[i].B.Index;
@@ -2458,7 +2458,7 @@ namespace LevelEditor
             }
             else
             {
-                for (int i = 0; i < triangles.Count; i++)
+                for (var i = 0; i < triangles.Count; i++)
                 {
                     indices[(i * 3)] = triangles[i].C.Index;
                     indices[(i * 3) + 1] = triangles[i].B.Index;
@@ -2492,21 +2492,21 @@ namespace LevelEditor
             reflexVertices.Clear();
 
             //generate the cyclical list of vertices in the polygon
-            for (int i = 0; i < shapeVerts.Length; i++)
+            for (var i = 0; i < shapeVerts.Length; i++)
                 polygonVertices.AddLast(new Vertex(shapeVerts[i], (short)i));
 
-            CyclicalList<Vertex> holePolygon = new CyclicalList<Vertex>();
-            for (int i = 0; i < holeVerts.Length; i++)
+            var holePolygon = new CyclicalList<Vertex>();
+            for (var i = 0; i < holeVerts.Length; i++)
                 holePolygon.Add(new Vertex(holeVerts[i], (short)(i + polygonVertices.Count)));
 
 #if DEBUG
-            StringBuilder vString = new StringBuilder();
-            foreach (Vertex v in polygonVertices)
+            var vString = new StringBuilder();
+            foreach (var v in polygonVertices)
                 vString.Append(string.Format("{0}, ", v));
             Log("Shape Vertices: {0}", vString);
 
             vString = new StringBuilder();
-            foreach (Vertex v in holePolygon)
+            foreach (var v in holePolygon)
                 vString.Append(string.Format("{0}, ", v));
             Log("Hole Vertices: {0}", vString);
 #endif
@@ -2515,19 +2515,19 @@ namespace LevelEditor
             FindEarVertices();
 
             //find the hole vertex with the largest X value
-            Vertex rightMostHoleVertex = holePolygon[0];
-            foreach (Vertex v in holePolygon)
+            var rightMostHoleVertex = holePolygon[0];
+            foreach (var v in holePolygon)
                 if (v.Position.X > rightMostHoleVertex.Position.X)
                     rightMostHoleVertex = v;
 
             //construct a list of all line segments where at least one vertex
             //is to the right of the rightmost hole vertex with one vertex
             //above the hole vertex and one below
-            List<LineSegment> segmentsToTest = new List<LineSegment>();
-            for (int i = 0; i < polygonVertices.Count; i++)
+            var segmentsToTest = new List<LineSegment>();
+            for (var i = 0; i < polygonVertices.Count; i++)
             {
-                Vertex a = polygonVertices[i].Value;
-                Vertex b = polygonVertices[i + 1].Value;
+                var a = polygonVertices[i].Value;
+                var b = polygonVertices[i + 1].Value;
 
                 if ((a.Position.X > rightMostHoleVertex.Position.X || b.Position.X > rightMostHoleVertex.Position.X) &&
                     ((a.Position.Y >= rightMostHoleVertex.Position.Y && b.Position.Y <= rightMostHoleVertex.Position.Y) ||
@@ -2538,10 +2538,10 @@ namespace LevelEditor
             //now we try to find the closest intersection point heading to the right from
             //our hole vertex.
             float? closestPoint = null;
-            LineSegment closestSegment = new LineSegment();
-            foreach (LineSegment segment in segmentsToTest)
+            var closestSegment = new LineSegment();
+            foreach (var segment in segmentsToTest)
             {
-                float? intersection = segment.IntersectsWithRay(rightMostHoleVertex.Position, Vector2.UnitX);
+                var intersection = segment.IntersectsWithRay(rightMostHoleVertex.Position, Vector2.UnitX);
                 if (intersection != null)
                 {
                     if (closestPoint == null || closestPoint.Value > intersection.Value)
@@ -2558,17 +2558,17 @@ namespace LevelEditor
                 return shapeVerts;
 
             //otherwise we can find our mutually visible vertex to split the polygon
-            Vector2 I = rightMostHoleVertex.Position + Vector2.UnitX * closestPoint.Value;
-            Vertex P = (closestSegment.A.Position.X > closestSegment.B.Position.X)
+            var I = rightMostHoleVertex.Position + Vector2.UnitX * closestPoint.Value;
+            var P = (closestSegment.A.Position.X > closestSegment.B.Position.X)
                 ? closestSegment.A
                 : closestSegment.B;
 
             //construct triangle MIP
-            Triangle mip = new Triangle(rightMostHoleVertex, new Vertex(I, 1), P);
+            var mip = new Triangle(rightMostHoleVertex, new Vertex(I, 1), P);
 
             //see if any of the reflex vertices lie inside of the MIP triangle
-            List<Vertex> interiorReflexVertices = new List<Vertex>();
-            foreach (Vertex v in reflexVertices)
+            var interiorReflexVertices = new List<Vertex>();
+            foreach (var v in reflexVertices)
                 if (mip.ContainsPoint(v))
                     interiorReflexVertices.Add(v);
 
@@ -2576,12 +2576,12 @@ namespace LevelEditor
             //to our rightMostHoleVertex, forms the line closest to Vector2.UnitX
             if (interiorReflexVertices.Count > 0)
             {
-                float closestDot = -1f;
-                foreach (Vertex v in interiorReflexVertices)
+                var closestDot = -1f;
+                foreach (var v in interiorReflexVertices)
                 {
                     //compute the dot product of the vector against the UnitX
-                    Vector2 d = Vector2.Normalize(v.Position - rightMostHoleVertex.Position);
-                    float dot = Vector2.Dot(Vector2.UnitX, d);
+                    var d = Vector2.Normalize(v.Position - rightMostHoleVertex.Position);
+                    var dot = Vector2.Dot(Vector2.UnitX, d);
 
                     //if this line is the closest we've found
                     if (dot > closestDot)
@@ -2596,13 +2596,13 @@ namespace LevelEditor
             //now we just form our output array by injecting the hole vertices into place
             //we know we have to inject the hole into the main array after point P going from
             //rightMostHoleVertex around and then back to P.
-            int mIndex = holePolygon.IndexOf(rightMostHoleVertex);
-            int injectPoint = polygonVertices.IndexOf(P);
+            var mIndex = holePolygon.IndexOf(rightMostHoleVertex);
+            var injectPoint = polygonVertices.IndexOf(P);
 
             Log("Inserting hole at injection point {0} starting at hole vertex {1}.",
                 P,
                 rightMostHoleVertex);
-            for (int i = mIndex; i <= mIndex + holePolygon.Count; i++)
+            for (var i = mIndex; i <= mIndex + holePolygon.Count; i++)
             {
                 Log("Inserting vertex {0} after vertex {1}.", holePolygon[i], polygonVertices[injectPoint].Value);
                 polygonVertices.AddAfter(polygonVertices[injectPoint++], holePolygon[i]);
@@ -2611,14 +2611,14 @@ namespace LevelEditor
 
 #if DEBUG
             vString = new StringBuilder();
-            foreach (Vertex v in polygonVertices)
+            foreach (var v in polygonVertices)
                 vString.Append(string.Format("{0}, ", v));
             Log("New Shape Vertices: {0}\n", vString);
 #endif
 
             //finally we write out the new polygon vertices and return them out
-            Vector2[] newShapeVerts = new Vector2[polygonVertices.Count];
-            for (int i = 0; i < polygonVertices.Count; i++)
+            var newShapeVerts = new Vector2[polygonVertices.Count];
+            for (var i = 0; i < polygonVertices.Count; i++)
                 newShapeVerts[i] = polygonVertices[i].Value.Position;
 
             return newShapeVerts;
@@ -2659,7 +2659,7 @@ namespace LevelEditor
         public static Vector2[] ReverseWindingOrder(Vector2[] vertices)
         {
             //Log("\nReversing winding order...");
-            Vector2[] newVerts = new Vector2[vertices.Length];
+            var newVerts = new Vector2[vertices.Length];
 
 #if DEBUG
             //StringBuilder vString = new StringBuilder();
@@ -2669,7 +2669,7 @@ namespace LevelEditor
 #endif
 
             newVerts[0] = vertices[0];
-            for (int i = 1; i < newVerts.Length; i++)
+            for (var i = 1; i < newVerts.Length; i++)
                 newVerts[i] = vertices[vertices.Length - i];
 
 #if DEBUG
@@ -2693,17 +2693,17 @@ namespace LevelEditor
         /// <returns>The calculated winding order of the polygon.</returns>
         public static WindingOrder DetermineWindingOrder(Vector2[] vertices)
         {
-            int clockWiseCount = 0;
-            int counterClockWiseCount = 0;
-            Vector2 p1 = vertices[0];
+            var clockWiseCount = 0;
+            var counterClockWiseCount = 0;
+            var p1 = vertices[0];
 
-            for (int i = 1; i < vertices.Length; i++)
+            for (var i = 1; i < vertices.Length; i++)
             {
-                Vector2 p2 = vertices[i];
-                Vector2 p3 = vertices[(i + 1) % vertices.Length];
+                var p2 = vertices[i];
+                var p3 = vertices[(i + 1) % vertices.Length];
 
-                Vector2 e1 = p1 - p2;
-                Vector2 e2 = p3 - p2;
+                var e1 = p1 - p2;
+                var e2 = p3 - p2;
 
                 if (e1.X * e2.Y - e1.Y * e2.X >= 0)
                     clockWiseCount++;
@@ -2729,9 +2729,9 @@ namespace LevelEditor
         private static void ClipNextEar(ICollection<Triangle> triangles)
         {
             //find the triangle
-            Vertex ear = earVertices[0].Value;
-            Vertex prev = polygonVertices[polygonVertices.IndexOf(ear) - 1].Value;
-            Vertex next = polygonVertices[polygonVertices.IndexOf(ear) + 1].Value;
+            var ear = earVertices[0].Value;
+            var prev = polygonVertices[polygonVertices.IndexOf(ear) - 1].Value;
+            var next = polygonVertices[polygonVertices.IndexOf(ear) + 1].Value;
             triangles.Add(new Triangle(ear, next, prev));
 
             //remove the ear from the shape
@@ -2786,8 +2786,8 @@ namespace LevelEditor
 
             if (convexVertices.Contains(vertex))
             {
-                bool wasEar = earVertices.Contains(vertex);
-                bool isEar = IsEar(vertex);
+                var wasEar = earVertices.Contains(vertex);
+                var isEar = IsEar(vertex);
 
                 if (wasEar && !isEar)
                 {
@@ -2812,9 +2812,9 @@ namespace LevelEditor
 
         private static void FindConvexAndReflexVertices()
         {
-            for (int i = 0; i < polygonVertices.Count; i++)
+            for (var i = 0; i < polygonVertices.Count; i++)
             {
-                Vertex v = polygonVertices[i].Value;
+                var v = polygonVertices[i].Value;
 
                 if (IsConvex(v))
                 {
@@ -2835,9 +2835,9 @@ namespace LevelEditor
 
         private static void FindEarVertices()
         {
-            for (int i = 0; i < convexVertices.Count; i++)
+            for (var i = 0; i < convexVertices.Count; i++)
             {
-                Vertex c = convexVertices[i];
+                var c = convexVertices[i];
 
                 if (IsEar(c))
                 {
@@ -2853,12 +2853,12 @@ namespace LevelEditor
 
         private static bool IsEar(Vertex c)
         {
-            Vertex p = polygonVertices[polygonVertices.IndexOf(c) - 1].Value;
-            Vertex n = polygonVertices[polygonVertices.IndexOf(c) + 1].Value;
+            var p = polygonVertices[polygonVertices.IndexOf(c) - 1].Value;
+            var n = polygonVertices[polygonVertices.IndexOf(c) + 1].Value;
 
             //Log("Testing vertex {0} as ear with triangle {1}, {0}, {2}...", c, p, n);
 
-            foreach (Vertex t in reflexVertices)
+            foreach (var t in reflexVertices)
             {
                 if (t.Equals(p) || t.Equals(c) || t.Equals(n))
                     continue;
@@ -2879,12 +2879,12 @@ namespace LevelEditor
 
         private static bool IsConvex(Vertex c)
         {
-            Vertex p = polygonVertices[polygonVertices.IndexOf(c) - 1].Value;
-            Vertex n = polygonVertices[polygonVertices.IndexOf(c) + 1].Value;
+            var p = polygonVertices[polygonVertices.IndexOf(c) - 1].Value;
+            var n = polygonVertices[polygonVertices.IndexOf(c) + 1].Value;
 
-            Vector2 d1 = Vector2.Normalize(c.Position - p.Position);
-            Vector2 d2 = Vector2.Normalize(n.Position - c.Position);
-            Vector2 n2 = new Vector2(-d2.Y, d2.X);
+            var d1 = Vector2.Normalize(c.Position - p.Position);
+            var d2 = Vector2.Normalize(n.Position - c.Position);
+            var n2 = new Vector2(-d2.Y, d2.X);
 
             return (Vector2.Dot(d1, n2) <= 0f);
         }
@@ -3014,8 +3014,8 @@ namespace LevelEditor
         #region IComparable Member
         public int CompareTo(object obj)
         {
-            CrossingEdgeInfo cei = (CrossingEdgeInfo)obj;
-            int result = 0;
+            var cei = (CrossingEdgeInfo)obj;
+            var result = 0;
 
             switch (_alignment)
             {
@@ -3092,7 +3092,7 @@ namespace LevelEditor
             get { return _hullTolerance; }
             set
             {
-                float hullTolerance = value;
+                var hullTolerance = value;
 
                 if (hullTolerance > 4f) hullTolerance = 4f;
                 if (hullTolerance < 0.9f) hullTolerance = 0.9f;
@@ -3224,12 +3224,12 @@ namespace LevelEditor
         {
             x = new float[3];
             y = new float[3];
-            float dx1 = x2 - x1;
-            float dx2 = x3 - x1;
-            float dy1 = y2 - y1;
-            float dy2 = y3 - y1;
-            float cross = dx1 * dy2 - dx2 * dy1;
-            bool ccw = (cross > 0);
+            var dx1 = x2 - x1;
+            var dx2 = x3 - x1;
+            var dy1 = y2 - y1;
+            var dy2 = y3 - y1;
+            var cross = dx1 * dy2 - dx2 * dy1;
+            var ccw = (cross > 0);
             if (ccw)
             {
                 x[0] = x1; x[1] = x2; x[2] = x3;
@@ -3273,18 +3273,18 @@ namespace LevelEditor
             if (_y < y[0] && _y < y[1] && _y < y[2]) return false;
             if (_y > y[0] && _y > y[1] && _y > y[2]) return false;
 
-            float vx2 = _x - x[0]; float vy2 = _y - y[0];
-            float vx1 = x[1] - x[0]; float vy1 = y[1] - y[0];
-            float vx0 = x[2] - x[0]; float vy0 = y[2] - y[0];
+            var vx2 = _x - x[0]; var vy2 = _y - y[0];
+            var vx1 = x[1] - x[0]; var vy1 = y[1] - y[0];
+            var vx0 = x[2] - x[0]; var vy0 = y[2] - y[0];
 
-            float dot00 = vx0 * vx0 + vy0 * vy0;
-            float dot01 = vx0 * vx1 + vy0 * vy1;
-            float dot02 = vx0 * vx2 + vy0 * vy2;
-            float dot11 = vx1 * vx1 + vy1 * vy1;
-            float dot12 = vx1 * vx2 + vy1 * vy2;
-            float invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
-            float u = (dot11 * dot02 - dot01 * dot12) * invDenom;
-            float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+            var dot00 = vx0 * vx0 + vy0 * vy0;
+            var dot01 = vx0 * vx1 + vy0 * vy1;
+            var dot02 = vx0 * vx2 + vy0 * vy2;
+            var dot11 = vx1 * vx1 + vy1 * vy1;
+            var dot12 = vx1 * vx2 + vy1 * vy2;
+            var invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
+            var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+            var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
             return ((u > 0) && (v > 0) && (u + v < 1));
         }
@@ -3371,7 +3371,7 @@ namespace LevelEditor
             nVertices = nVert;
             x = new float[nVertices];
             y = new float[nVertices];
-            for (int i = 0; i < nVertices; ++i)
+            for (var i = 0; i < nVertices; ++i)
             {
                 x[i] = _x[i];
                 y[i] = _y[i];
@@ -3384,7 +3384,7 @@ namespace LevelEditor
             nVertices = nVert;
             x = new float[nVertices];
             y = new float[nVertices];
-            for (int i = 0; i < nVertices; ++i)
+            for (var i = 0; i < nVertices; ++i)
             {
                 x[i] = v[i].X;
                 y[i] = v[i].Y;
@@ -3409,7 +3409,7 @@ namespace LevelEditor
 
             //First do wraparound
             area += x[nVertices - 1] * y[0] - x[0] * y[nVertices - 1];
-            for (int i = 0; i < nVertices - 1; ++i)
+            for (var i = 0; i < nVertices - 1; ++i)
             {
                 area += x[i] * y[i + 1] - x[i + 1] * y[i];
             }
@@ -3427,19 +3427,19 @@ namespace LevelEditor
         private void MergeParallelEdges(float tolerance)
         {
             if (nVertices <= 3) return;             //Can't do anything useful here to a triangle
-            bool[] mergeMe = new bool[nVertices];
-            int newNVertices = nVertices;
-            for (int i = 0; i < nVertices; ++i)
+            var mergeMe = new bool[nVertices];
+            var newNVertices = nVertices;
+            for (var i = 0; i < nVertices; ++i)
             {
-                int lower = (i == 0) ? (nVertices - 1) : (i - 1);
-                int middle = i;
-                int upper = (i == nVertices - 1) ? (0) : (i + 1);
-                float dx0 = x[middle] - x[lower];
-                float dy0 = y[middle] - y[lower];
-                float dx1 = x[upper] - x[middle];
-                float dy1 = y[upper] - y[middle];
-                float norm0 = (float)Math.Sqrt(dx0 * dx0 + dy0 * dy0);
-                float norm1 = (float)Math.Sqrt(dx1 * dx1 + dy1 * dy1);
+                var lower = (i == 0) ? (nVertices - 1) : (i - 1);
+                var middle = i;
+                var upper = (i == nVertices - 1) ? (0) : (i + 1);
+                var dx0 = x[middle] - x[lower];
+                var dy0 = y[middle] - y[lower];
+                var dx1 = x[upper] - x[middle];
+                var dy1 = y[upper] - y[middle];
+                var norm0 = (float)Math.Sqrt(dx0 * dx0 + dy0 * dy0);
+                var norm1 = (float)Math.Sqrt(dx1 * dx1 + dy1 * dy1);
                 if (!(norm0 > 0.0f && norm1 > 0.0f) && newNVertices > 3)
                 {
                     //Merge identical points
@@ -3448,8 +3448,8 @@ namespace LevelEditor
                 }
                 dx0 /= norm0; dy0 /= norm0;
                 dx1 /= norm1; dy1 /= norm1;
-                float cross = dx0 * dy1 - dx1 * dy0;
-                float dot = dx0 * dx1 + dy0 * dy1;
+                var cross = dx0 * dy1 - dx1 * dy0;
+                var dot = dx0 * dx1 + dy0 * dy1;
                 if (Math.Abs(cross) < tolerance && dot > 0 && newNVertices > 3)
                 {
                     mergeMe[i] = true;
@@ -3464,10 +3464,10 @@ namespace LevelEditor
             {
                 return;
             }
-            float[] newx = new float[newNVertices];
-            float[] newy = new float[newNVertices];
-            int currIndex = 0;
-            for (int i = 0; i < nVertices; ++i)
+            var newx = new float[newNVertices];
+            var newy = new float[newNVertices];
+            var currIndex = 0;
+            for (var i = 0; i < nVertices; ++i)
             {
                 if (mergeMe[i] || newNVertices == 0 || currIndex == newNVertices) continue;
 
@@ -3503,7 +3503,7 @@ namespace LevelEditor
             nVertices = 3;
             x = new float[nVertices];
             y = new float[nVertices];
-            for (int i = 0; i < nVertices; ++i)
+            for (var i = 0; i < nVertices; ++i)
             {
                 x[i] = t.x[i];
                 y[i] = t.y[i];
@@ -3515,7 +3515,7 @@ namespace LevelEditor
             nVertices = p.nVertices;
             x = new float[nVertices];
             y = new float[nVertices];
-            for (int i = 0; i < nVertices; ++i)
+            for (var i = 0; i < nVertices; ++i)
             {
                 x[i] = p.x[i];
                 y[i] = p.y[i];
@@ -3532,7 +3532,7 @@ namespace LevelEditor
                 y = new float[nVertices];
             }
 
-            for (int i = 0; i < nVertices; ++i)
+            for (var i = 0; i < nVertices; ++i)
             {
                 x[i] = p.x[i];
                 y[i] = p.y[i];
@@ -3548,20 +3548,20 @@ namespace LevelEditor
         /// </returns>
         private bool IsConvex()
         {
-            bool isPositive = false;
-            for (int i = 0; i < nVertices; ++i)
+            var isPositive = false;
+            for (var i = 0; i < nVertices; ++i)
             {
-                int lower = (i == 0) ? (nVertices - 1) : (i - 1);
-                int middle = i;
-                int upper = (i == nVertices - 1) ? (0) : (i + 1);
-                float dx0 = x[middle] - x[lower];
-                float dy0 = y[middle] - y[lower];
-                float dx1 = x[upper] - x[middle];
-                float dy1 = y[upper] - y[middle];
-                float cross = dx0 * dy1 - dx1 * dy0;
+                var lower = (i == 0) ? (nVertices - 1) : (i - 1);
+                var middle = i;
+                var upper = (i == nVertices - 1) ? (0) : (i + 1);
+                var dx0 = x[middle] - x[lower];
+                var dy0 = y[middle] - y[lower];
+                var dx1 = x[upper] - x[middle];
+                var dy1 = y[upper] - y[middle];
+                var cross = dx0 * dy1 - dx1 * dy0;
                 // Cross product should have same sign
                 // for each vertex if poly is convex.
-                bool newIsP = (cross >= 0) ? true : false;
+                var newIsP = (cross >= 0) ? true : false;
                 if (i == 0)
                 {
                     isPositive = newIsP;
@@ -3772,11 +3772,11 @@ namespace LevelEditor
         {
             //		float32 equalTol = .001f;
             // First, find vertices that connect
-            int firstP = -1;
-            int firstT = -1;
-            int secondP = -1;
-            int secondT = -1;
-            for (int i = 0; i < nVertices; i++)
+            var firstP = -1;
+            var firstT = -1;
+            var secondP = -1;
+            var secondT = -1;
+            for (var i = 0; i < nVertices; i++)
             {
                 if (t.x[0] == x[i] && t.y[0] == y[i])
                 {
@@ -3832,16 +3832,16 @@ namespace LevelEditor
             }
 
             // Find tip index on triangle
-            int tipT = 0;
+            var tipT = 0;
             if (tipT == firstT || tipT == secondT)
                 tipT = 1;
             if (tipT == firstT || tipT == secondT)
                 tipT = 2;
 
-            float[] newx = new float[nVertices + 1];
-            float[] newy = new float[nVertices + 1];
-            int currOut = 0;
-            for (int i = 0; i < nVertices; i++)
+            var newx = new float[nVertices + 1];
+            var newy = new float[nVertices + 1];
+            var currOut = 0;
+            for (var i = 0; i < nVertices; i++)
             {
                 newx[currOut] = x[i];
                 newy[currOut] = y[i];
@@ -3853,7 +3853,7 @@ namespace LevelEditor
                 }
                 ++currOut;
             }
-            Polygon result = new Polygon(newx, newy, nVertices + 1);
+            var result = new Polygon(newx, newy, nVertices + 1);
 
             return result;
         }
@@ -3876,12 +3876,12 @@ namespace LevelEditor
 
             if (pin.nVertices < 3) return false;
             const float tol = .001f;
-            bool hasPinchPoint = false;
-            int pinchIndexA = -1;
-            int pinchIndexB = -1;
-            for (int i = 0; i < pin.nVertices; ++i)
+            var hasPinchPoint = false;
+            var pinchIndexA = -1;
+            var pinchIndexB = -1;
+            for (var i = 0; i < pin.nVertices; ++i)
             {
-                for (int j = i + 1; j < pin.nVertices; ++j)
+                for (var j = i + 1; j < pin.nVertices; ++j)
                 {
                     //Don't worry about pinch points where the points
                     //are actually just dupe neighbors
@@ -3900,29 +3900,29 @@ namespace LevelEditor
             if (hasPinchPoint)
             {
                 //printf("Found pinch point\n");
-                int sizeA = pinchIndexB - pinchIndexA;
+                var sizeA = pinchIndexB - pinchIndexA;
                 if (sizeA == pin.nVertices) return false;//has dupe points at wraparound, not a problem here
-                float[] xA = new float[sizeA];
-                float[] yA = new float[sizeA];
-                for (int i = 0; i < sizeA; ++i)
+                var xA = new float[sizeA];
+                var yA = new float[sizeA];
+                for (var i = 0; i < sizeA; ++i)
                 {
-                    int ind = Remainder(pinchIndexA + i, pin.nVertices);             // is this right
+                    var ind = Remainder(pinchIndexA + i, pin.nVertices);             // is this right
                     xA[i] = pin.x[ind];
                     yA[i] = pin.y[ind];
                 }
-                Polygon tempA = new Polygon(xA, yA, sizeA);
+                var tempA = new Polygon(xA, yA, sizeA);
                 poutA.Set(tempA);
 
-                int sizeB = pin.nVertices - sizeA;
-                float[] xB = new float[sizeB];
-                float[] yB = new float[sizeB];
-                for (int i = 0; i < sizeB; ++i)
+                var sizeB = pin.nVertices - sizeA;
+                var xB = new float[sizeB];
+                var yB = new float[sizeB];
+                for (var i = 0; i < sizeB; ++i)
                 {
-                    int ind = Remainder(pinchIndexB + i, pin.nVertices);          // is this right    
+                    var ind = Remainder(pinchIndexB + i, pin.nVertices);          // is this right    
                     xB[i] = pin.x[ind];
                     yB[i] = pin.y[ind];
                 }
-                Polygon tempB = new Polygon(xB, yB, sizeB);
+                var tempB = new Polygon(xB, yB, sizeB);
                 poutB.Set(tempB);
                 //printf("Size of a: %d, size of b: %d\n",sizeA,sizeB);
             }
@@ -3967,33 +3967,33 @@ namespace LevelEditor
 
             //Recurse and split on pinch points
             Polygon pA, pB;
-            Polygon pin = new Polygon(xv, yv, vNum);
+            var pin = new Polygon(xv, yv, vNum);
             if (ResolvePinchPoint(pin, out pA, out pB))
             {
-                Triangle[] mergeA = new Triangle[pA.nVertices];
-                Triangle[] mergeB = new Triangle[pB.nVertices];
-                int nA = TriangulatePolygon(pA.x, pA.y, pA.nVertices, out mergeA);
-                int nB = TriangulatePolygon(pB.x, pB.y, pB.nVertices, out mergeB);
+                var mergeA = new Triangle[pA.nVertices];
+                var mergeB = new Triangle[pB.nVertices];
+                var nA = TriangulatePolygon(pA.x, pA.y, pA.nVertices, out mergeA);
+                var nB = TriangulatePolygon(pB.x, pB.y, pB.nVertices, out mergeB);
                 if (nA == -1 || nB == -1)
                 {
                     return -1;
                 }
-                for (int i = 0; i < nA; ++i)
+                for (var i = 0; i < nA; ++i)
                 {
                     results[i] = new Triangle(mergeA[i]);
                 }
-                for (int i = 0; i < nB; ++i)
+                for (var i = 0; i < nB; ++i)
                 {
                     results[nA + i] = new Triangle(mergeB[i]);
                 }
                 return (nA + nB);
             }
 
-            Triangle[] buffer = new Triangle[vNum - 2];
-            int bufferSize = 0;
-            float[] xrem = new float[vNum];
-            float[] yrem = new float[vNum];
-            for (int i = 0; i < vNum; ++i)
+            var buffer = new Triangle[vNum - 2];
+            var bufferSize = 0;
+            var xrem = new float[vNum];
+            var yrem = new float[vNum];
+            for (var i = 0; i < vNum; ++i)
             {
                 xrem[i] = xv[i];
                 yrem[i] = yv[i];
@@ -4002,27 +4002,27 @@ namespace LevelEditor
             while (vNum > 3)
             {
                 // Find an ear
-                int earIndex = -1;
+                var earIndex = -1;
                 //float32 earVolume = -1.0f;
-                float earMaxMinCross = -10.0f;
-                for (int i = 0; i < vNum; ++i)
+                var earMaxMinCross = -10.0f;
+                for (var i = 0; i < vNum; ++i)
                 {
                     if (IsEar(i, xrem, yrem, vNum))
                     {
-                        int lower = Remainder(i - 1, vNum);
-                        int upper = Remainder(i + 1, vNum);
-                        Vector2 d1 = new Vector2(xrem[upper] - xrem[i], yrem[upper] - yrem[i]);
-                        Vector2 d2 = new Vector2(xrem[i] - xrem[lower], yrem[i] - yrem[lower]);
-                        Vector2 d3 = new Vector2(xrem[lower] - xrem[upper], yrem[lower] - yrem[upper]);
+                        var lower = Remainder(i - 1, vNum);
+                        var upper = Remainder(i + 1, vNum);
+                        var d1 = new Vector2(xrem[upper] - xrem[i], yrem[upper] - yrem[i]);
+                        var d2 = new Vector2(xrem[i] - xrem[lower], yrem[i] - yrem[lower]);
+                        var d3 = new Vector2(xrem[lower] - xrem[upper], yrem[lower] - yrem[upper]);
 
                         d1.Normalize();
                         d2.Normalize();
                         d3.Normalize();
-                        float cross12 = Math.Abs(Calculator.Cross(d1, d2));
-                        float cross23 = Math.Abs(Calculator.Cross(d2, d3));
-                        float cross31 = Math.Abs(Calculator.Cross(d3, d1));
+                        var cross12 = Math.Abs(Calculator.Cross(d1, d2));
+                        var cross23 = Math.Abs(Calculator.Cross(d2, d3));
+                        var cross31 = Math.Abs(Calculator.Cross(d3, d1));
                         //Find the maximum minimum angle
-                        float minCross = Math.Min(cross12, Math.Min(cross23, cross31));
+                        var minCross = Math.Min(cross12, Math.Min(cross23, cross31));
                         if (minCross > earMaxMinCross)
                         {
                             earIndex = i;
@@ -4044,7 +4044,7 @@ namespace LevelEditor
                 // should just be thrown out without halting triangulation.
                 if (earIndex == -1)
                 {
-                    for (int i = 0; i < bufferSize; i++)
+                    for (var i = 0; i < bufferSize; i++)
                     {
                         results[i] = new Triangle(buffer[i]);
                     }
@@ -4059,10 +4059,10 @@ namespace LevelEditor
                 // - remove the ear tip from the list
 
                 --vNum;
-                float[] newx = new float[vNum];
-                float[] newy = new float[vNum];
-                int currDest = 0;
-                for (int i = 0; i < vNum; ++i)
+                var newx = new float[vNum];
+                var newy = new float[vNum];
+                var currDest = 0;
+                for (var i = 0; i < vNum; ++i)
                 {
                     if (currDest == earIndex) ++currDest;
                     newx[i] = xrem[currDest];
@@ -4071,9 +4071,9 @@ namespace LevelEditor
                 }
 
                 // - add the clipped triangle to the triangle list
-                int under = (earIndex == 0) ? (vNum) : (earIndex - 1);
-                int over = (earIndex == vNum) ? 0 : (earIndex + 1);
-                Triangle toAdd = new Triangle(xrem[earIndex], yrem[earIndex], xrem[over], yrem[over], xrem[under], yrem[under]);
+                var under = (earIndex == 0) ? (vNum) : (earIndex - 1);
+                var over = (earIndex == vNum) ? 0 : (earIndex + 1);
+                var toAdd = new Triangle(xrem[earIndex], yrem[earIndex], xrem[over], yrem[over], xrem[under], yrem[under]);
                 buffer[bufferSize] = new Triangle(toAdd);
                 ++bufferSize;
 
@@ -4082,14 +4082,14 @@ namespace LevelEditor
                 yrem = newy;
             }
 
-            Triangle tooAdd = new Triangle(xrem[1], yrem[1], xrem[2], yrem[2],
+            var tooAdd = new Triangle(xrem[1], yrem[1], xrem[2], yrem[2],
                                       xrem[0], yrem[0]);
             buffer[bufferSize] = new Triangle(tooAdd);
             ++bufferSize;
 
             //b2Assert(bufferSize == xremLength-2);
 
-            for (int i = 0; i < bufferSize; i++)
+            for (var i = 0; i < bufferSize; i++)
             {
                 results[i] = new Triangle(buffer[i]);
             }
@@ -4105,7 +4105,7 @@ namespace LevelEditor
         /// <returns></returns>
         private static int Remainder(int x, int modulus)
         {
-            int rem = x % modulus;
+            var rem = x % modulus;
             while (rem < 0)
             {
                 rem += modulus;
@@ -4135,15 +4135,15 @@ namespace LevelEditor
         /// <returns></returns>
         private static int PolygonizeTriangles(Triangle[] triangulated, int triangulatedLength, out Polygon[] polys, int polysLength)
         {
-            int polyIndex = 0;
+            var polyIndex = 0;
             polys = new Polygon[50];
 
             if (triangulatedLength <= 0)
             {
                 return 0;
             }
-            bool[] covered = new bool[triangulatedLength];
-            for (int i = 0; i < triangulatedLength; ++i)
+            var covered = new bool[triangulatedLength];
+            for (var i = 0; i < triangulatedLength; ++i)
             {
                 covered[i] = false;
                 //Check here for degenerate triangles
@@ -4155,11 +4155,11 @@ namespace LevelEditor
                 }
             }
 
-            bool notDone = true;
+            var notDone = true;
             while (notDone)
             {
-                int currTri = -1;
-                for (int i = 0; i < triangulatedLength; ++i)
+                var currTri = -1;
+                for (var i = 0; i < triangulatedLength; ++i)
                 {
                     if (covered[i])
                         continue;
@@ -4172,17 +4172,17 @@ namespace LevelEditor
                 }
                 else
                 {
-                    Polygon poly = new Polygon(triangulated[currTri]);
+                    var poly = new Polygon(triangulated[currTri]);
                     covered[currTri] = true;
-                    int index = 0;
-                    for (int i = 0; i < 2 * triangulatedLength; ++i, ++index)
+                    var index = 0;
+                    for (var i = 0; i < 2 * triangulatedLength; ++i, ++index)
                     {
                         while (index >= triangulatedLength) index -= triangulatedLength;
                         if (covered[index])
                         {
                             continue;
                         }
-                        Polygon newP = poly.Add(triangulated[index]);
+                        var newP = poly.Add(triangulated[index]);
                         if (newP == null)
                         {                                 // is this right
                             continue;
@@ -4238,8 +4238,8 @@ namespace LevelEditor
             {
                 return false;
             }
-            int upper = i + 1;
-            int lower = i - 1;
+            var upper = i + 1;
+            var lower = i - 1;
             if (i == 0)
             {
                 dx0 = xv[0] - xv[xvLength - 1];
@@ -4263,12 +4263,12 @@ namespace LevelEditor
                 dx1 = xv[i + 1] - xv[i];
                 dy1 = yv[i + 1] - yv[i];
             }
-            float cross = dx0 * dy1 - dx1 * dy0;
+            var cross = dx0 * dy1 - dx1 * dy0;
             if (cross > 0)
                 return false;
-            Triangle myTri = new Triangle(xv[i], yv[i], xv[upper], yv[upper],
+            var myTri = new Triangle(xv[i], yv[i], xv[upper], yv[upper],
                                       xv[lower], yv[lower]);
-            for (int j = 0; j < xvLength; ++j)
+            for (var j = 0; j < xvLength; ++j)
             {
                 if (j == i || j == lower || j == upper)
                     continue;
@@ -4282,11 +4282,11 @@ namespace LevelEditor
         {
             if (n == 1)
                 return;
-            int low = 0;
-            int high = n - 1;
+            var low = 0;
+            var high = n - 1;
             while (low < high)
             {
-                float buffer = x[low];
+                var buffer = x[low];
                 x[low] = x[high];
                 x[high] = buffer;
                 buffer = y[low];
@@ -4319,12 +4319,12 @@ namespace LevelEditor
 
             if (p.nVertices < 3) return 0;
 
-            Triangle[] triangulated = new Triangle[p.nVertices - 2];
+            var triangulated = new Triangle[p.nVertices - 2];
             int nTri;
             if (p.IsCCW())
             {
                 //printf("It is ccw \n");
-                Polygon tempP = new Polygon(p);
+                var tempP = new Polygon(p);
                 ReversePolygon(tempP.x, tempP.y, tempP.nVertices);
                 nTri = TriangulatePolygon(tempP.x, tempP.y, tempP.nVertices, out triangulated);
                 //			ReversePolygon(p->x, p->y, p->nVertices); //reset orientation
@@ -4339,19 +4339,19 @@ namespace LevelEditor
                 //Still no luck?  Oh well...
                 return -1;
             }
-            int nPolys = PolygonizeTriangles(triangulated, nTri, out results, maxPolys);
+            var nPolys = PolygonizeTriangles(triangulated, nTri, out results, maxPolys);
             return nPolys;
         }
 
         public static Vertices[] DecomposeVertices(Vertices v, int max)
         {
-            Polygon p = new Polygon(v.ToArray(), v.Count);      // convert the vertices to a polygon
+            var p = new Polygon(v.ToArray(), v.Count);      // convert the vertices to a polygon
 
             Polygon[] output;
 
             DecomposeConvex(p, out output, max);
 
-            Vertices[] verticesOut = new Vertices[output.Length];
+            var verticesOut = new Vertices[output.Length];
 
             int i;
 
@@ -4361,15 +4361,15 @@ namespace LevelEditor
                 {
                     verticesOut[i] = new Vertices();
 
-                    for (int j = 0; j < output[i].nVertices; j++)
+                    for (var j = 0; j < output[i].nVertices; j++)
                         verticesOut[i].Add(new Vector2(output[i].x[j], output[i].y[j]));
                 }
                 else
                     break;
             }
 
-            Vertices[] verts = new Vertices[i];
-            for (int k = 0; k < i; k++)
+            var verts = new Vertices[i];
+            for (var k = 0; k < i; k++)
             {
                 verts[k] = new Vertices(verticesOut[k]);
             }
@@ -4470,19 +4470,19 @@ namespace LevelEditor
         public static float BiLerp(Vector2 point, Vector2 min, Vector2 max, float value1, float value2, float value3,
                                    float value4, float minValue, float maxValue)
         {
-            float x = point.X;
-            float y = point.Y;
+            var x = point.X;
+            var y = point.Y;
 
             x = MathHelper.Clamp(x, min.X, max.X);
             y = MathHelper.Clamp(y, min.Y, max.Y);
 
-            float xRatio = (x - min.X) / (max.X - min.X);
-            float yRatio = (y - min.Y) / (max.Y - min.Y);
+            var xRatio = (x - min.X) / (max.X - min.X);
+            var yRatio = (y - min.Y) / (max.Y - min.Y);
 
-            float top = MathHelper.Lerp(value1, value4, xRatio);
-            float bottom = MathHelper.Lerp(value2, value3, xRatio);
+            var top = MathHelper.Lerp(value1, value4, xRatio);
+            var bottom = MathHelper.Lerp(value2, value3, xRatio);
 
-            float value = MathHelper.Lerp(top, bottom, yRatio);
+            var value = MathHelper.Lerp(top, bottom, yRatio);
             value = MathHelper.Clamp(value, minValue, maxValue);
             return value;
         }
@@ -4494,7 +4494,7 @@ namespace LevelEditor
 
         public static float DistanceBetweenPointAndPoint(Vector2 point1, Vector2 point2)
         {
-            Vector2 v = Vector2.Subtract(point1, point2);
+            var v = Vector2.Subtract(point1, point2);
             return v.Length();
         }
 
@@ -4508,17 +4508,17 @@ namespace LevelEditor
         public static float DistanceBetweenPointAndLineSegment(Vector2 point, Vector2 lineEndPoint1,
                                                                Vector2 lineEndPoint2)
         {
-            Vector2 v = Vector2.Subtract(lineEndPoint2, lineEndPoint1);
-            Vector2 w = Vector2.Subtract(point, lineEndPoint1);
+            var v = Vector2.Subtract(lineEndPoint2, lineEndPoint1);
+            var w = Vector2.Subtract(point, lineEndPoint1);
 
-            float c1 = Vector2.Dot(w, v);
+            var c1 = Vector2.Dot(w, v);
             if (c1 <= 0) return DistanceBetweenPointAndPoint(point, lineEndPoint1);
 
-            float c2 = Vector2.Dot(v, v);
+            var c2 = Vector2.Dot(v, v);
             if (c2 <= c1) return DistanceBetweenPointAndPoint(point, lineEndPoint2);
 
-            float b = c1 / c2;
-            Vector2 pointOnLine = Vector2.Add(lineEndPoint1, Vector2.Multiply(v, b));
+            var b = c1 / c2;
+            var pointOnLine = Vector2.Add(lineEndPoint1, Vector2.Multiply(v, b));
             return DistanceBetweenPointAndPoint(point, pointOnLine);
         }
 
@@ -4559,8 +4559,8 @@ namespace LevelEditor
         public static Vector2 Project(Vector2 projectVector, Vector2 onToVector)
         {
             float multiplier = 0;
-            float numerator = (onToVector.X * projectVector.X + onToVector.Y * projectVector.Y);
-            float denominator = (onToVector.X * onToVector.X + onToVector.Y * onToVector.Y);
+            var numerator = (onToVector.X * projectVector.X + onToVector.Y * projectVector.Y);
+            var denominator = (onToVector.X * onToVector.X + onToVector.Y * onToVector.Y);
 
             if (denominator != 0)
             {
@@ -4572,7 +4572,7 @@ namespace LevelEditor
 
         public static void Truncate(ref Vector2 vector, float maxLength, out Vector2 truncatedVector)
         {
-            float length = vector.Length();
+            var length = vector.Length();
             length = Math.Min(length, maxLength);
             if (length > 0)
             {
@@ -4618,8 +4618,8 @@ namespace LevelEditor
 
         public static void RotateVector(ref Vector2 vector, float radians)
         {
-            float length = vector.Length();
-            float newRadians = (float)Math.Atan2(vector.X, -(double)vector.Y) + radians;
+            var length = vector.Length();
+            var newRadians = (float)Math.Atan2(vector.X, -(double)vector.Y) + radians;
 
             vector.X = (float)Math.Sin(newRadians) * length;
             vector.Y = -(float)Math.Cos(newRadians) * length;
@@ -4733,8 +4733,8 @@ namespace LevelEditor
 
         public static float InterpolateRotation(float radians1, float radians2, float t)
         {
-            Vector2 vector1 = new Vector2((float)Math.Sin(radians1), -(float)Math.Cos(radians1));
-            Vector2 vector2 = new Vector2((float)Math.Sin(radians2), -(float)Math.Cos(radians2));
+            var vector1 = new Vector2((float)Math.Sin(radians1), -(float)Math.Cos(radians1));
+            var vector2 = new Vector2((float)Math.Sin(radians2), -(float)Math.Cos(radians2));
 
             vector1 += (vector2 - vector1) * t;
             vector1.Normalize();
@@ -4746,11 +4746,11 @@ namespace LevelEditor
         {
             // To project a point on an axis use the dot product
             axis.Normalize();
-            float dotProduct = Vector2.Dot(axis, points[0]);
+            var dotProduct = Vector2.Dot(axis, points[0]);
             min = dotProduct;
             max = dotProduct;
 
-            for (int i = 0; i < points.Length; i++)
+            for (var i = 0; i < points.Length; i++)
             {
                 dotProduct = Vector2.Dot(points[i], axis);
                 if (dotProduct < min)

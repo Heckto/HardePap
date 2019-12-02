@@ -23,13 +23,13 @@ namespace LevelEditor
         public IUndoable cloneforundo()
         {
             selecteditems = "";
-            foreach (Item i in MainForm.Instance.picturebox.SelectedItems) selecteditems += i.Name + ";";
+            foreach (var i in MainForm.Instance.picturebox.SelectedItems) selecteditems += i.Name + ";";
             if (MainForm.Instance.picturebox.SelectedLayer != null) selectedlayers = MainForm.Instance.picturebox.SelectedLayer.Name;
 
 
-            Level result = (Level)this.MemberwiseClone();
+            var result = (Level)this.MemberwiseClone();
             result.Layers = new List<Layer>(Layers);
-            for (int i = 0; i < result.Layers.Count; i++)
+            for (var i = 0; i < result.Layers.Count; i++)
             {
                 result.Layers[i] = result.Layers[i].clone();
                 result.Layers[i].level = result;
@@ -48,10 +48,10 @@ namespace LevelEditor
             }*/
 
 
-            Level l2 = (Level)other;
+            var l2 = (Level)other;
             Layers = l2.Layers;
             treenode.Nodes.Clear();
-            foreach (Layer l in Layers)
+            foreach (var l in Layers)
             {
                 MainForm.Instance.picturebox.addLayer(l);
                 //TODO add all items

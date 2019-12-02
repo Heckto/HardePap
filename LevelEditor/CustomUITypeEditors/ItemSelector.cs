@@ -30,7 +30,7 @@ namespace CustomUITypeEditors
             treeView1.Nodes[0].Expand();
             if (Value != null)
             {
-                TreeNode[] nodes = treeView1.Nodes.Find(Value.Name, true);
+                var nodes = treeView1.Nodes.Find(Value.Name, true);
                 if (nodes.Length > 0)
                 {
                     treeView1.SelectedNode = nodes[0];
@@ -59,12 +59,12 @@ namespace CustomUITypeEditors
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService wfes =
+            var wfes =
                 provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
 
             if (wfes != null)
             {
-                ItemSelector uc1 = new ItemSelector((Item)value);
+                var uc1 = new ItemSelector((Item)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

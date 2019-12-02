@@ -143,18 +143,18 @@ namespace LevelEditor
         //XML import and export
         public void export(string filename)
         {
-            string path = System.Windows.Forms.Application.StartupPath + "\\" + filename;
-            FileStream stream = File.Open(path, FileMode.Create);
-            XmlSerializer serializer = new XmlSerializer(typeof(Constants));
+            var path = System.Windows.Forms.Application.StartupPath + "\\" + filename;
+            var stream = File.Open(path, FileMode.Create);
+            var serializer = new XmlSerializer(typeof(Constants));
             serializer.Serialize(stream, this);
             stream.Close();
         }
         public void import(string filename)
         {
-            string path = System.Windows.Forms.Application.StartupPath + "\\" + filename;
+            var path = System.Windows.Forms.Application.StartupPath + "\\" + filename;
             if (!File.Exists(path)) return;
-            FileStream stream = File.Open(path, FileMode.Open);
-            XmlSerializer serializer = new XmlSerializer(typeof(Constants));
+            var stream = File.Open(path, FileMode.Open);
+            var serializer = new XmlSerializer(typeof(Constants));
             instance = (Constants)serializer.Deserialize(stream);
             stream.Close();
         }

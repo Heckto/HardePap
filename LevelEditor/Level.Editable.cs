@@ -78,43 +78,49 @@ namespace LevelEditor
 
         public void export(string filename)
         {
-            foreach (Layer l in Layers)
+            try
             {
-                foreach (Item i in l.Items)
+                foreach (var l in Layers)
                 {
-                    if (i is TextureItem)
+                    foreach (var i in l.Items)
                     {
-                        TextureItem ti = (TextureItem)i;
-                        ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_filename);
-                        ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
+                        if (i is TextureItem)
+                        {
+                            var ti = (TextureItem)i;
+                            ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_filename);
+                            ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
+                        }
                     }
                 }
+
+
+                var writer = new XmlTextWriter(filename, null);
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+
+                var serializer = new XmlSerializer(typeof(Level));
+                serializer.Serialize(writer, this);
+
+                writer.Close();
             }
-
-
-            XmlTextWriter writer = new XmlTextWriter(filename, null);
-            writer.Formatting = Formatting.Indented;
-            writer.Indentation = 4;
-
-            XmlSerializer serializer = new XmlSerializer(typeof(Level));
-            serializer.Serialize(writer, this);
-
-            writer.Close();
-
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
 
         public string RelativePath(string relativeTo, string pathToTranslate)
         {
-            string[] absoluteDirectories = relativeTo.Split('\\');
-            string[] relativeDirectories = pathToTranslate.Split('\\');
+            var absoluteDirectories = relativeTo.Split('\\');
+            var relativeDirectories = pathToTranslate.Split('\\');
 
             //Get the shortest of the two paths
-            int length = absoluteDirectories.Length < relativeDirectories.Length ? absoluteDirectories.Length : relativeDirectories.Length;
+            var length = absoluteDirectories.Length < relativeDirectories.Length ? absoluteDirectories.Length : relativeDirectories.Length;
 
             //Use to determine where in the loop we exited
-            int lastCommonRoot = -1;
+            var lastCommonRoot = -1;
             int index;
 
             //Find common root
@@ -130,7 +136,7 @@ namespace LevelEditor
                 return pathToTranslate;
 
             //Build up the relative path
-            StringBuilder relativePath = new StringBuilder();
+            var relativePath = new StringBuilder();
 
             //Add on the ..
             for (index = lastCommonRoot + 1; index < absoluteDirectories.Length; index++)

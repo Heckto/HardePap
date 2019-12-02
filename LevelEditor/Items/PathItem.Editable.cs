@@ -40,14 +40,14 @@ namespace LevelEditor
             Position = points[0];
             WorldPoints = points;
             LocalPoints = (Vector2[])points.Clone();
-            for (int i = 0; i < LocalPoints.Length; i++) LocalPoints[i] -= Position;
+            for (var i = 0; i < LocalPoints.Length; i++) LocalPoints[i] -= Position;
             LineWidth = Constants.Instance.DefaultPathItemLineWidth;
             LineColor = Constants.Instance.ColorPrimitives;
         }
 
         public override Item clone()
         {
-            PathItem result = (PathItem)this.MemberwiseClone();
+            var result = (PathItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
             result.LocalPoints = (Vector2[])this.LocalPoints.Clone();
             result.WorldPoints = (Vector2[])this.WorldPoints.Clone();
@@ -62,7 +62,7 @@ namespace LevelEditor
 
         public override bool contains(Vector2 worldpos)
         {
-            for (int i = 1; i < WorldPoints.Length; i++)
+            for (var i = 1; i < WorldPoints.Length; i++)
             {
                 if (worldpos.DistanceToLineSegment(WorldPoints[i], WorldPoints[i-1]) <= LineWidth) return true;
             }
@@ -76,14 +76,14 @@ namespace LevelEditor
         /// </summary>
         public override void OnTransformed()
         {
-            for (int i = 0; i < WorldPoints.Length; i++) WorldPoints[i] = LocalPoints[i] + Position;
+            for (var i = 0; i < WorldPoints.Length; i++) WorldPoints[i] = LocalPoints[i] + Position;
         }
 
 
         public override void onMouseOver(Vector2 mouseworldpos)
         {
             pointundermouse = -1;
-            for (int i = 0; i < WorldPoints.Length; i++)
+            for (var i = 0; i < WorldPoints.Length; i++)
             {
                 if (mouseworldpos.DistanceTo(WorldPoints[i]) <= 5)
                 {
@@ -118,7 +118,7 @@ namespace LevelEditor
             if (pointgrabbed == 0)
             {
                 LocalPoints[0] = Vector2.Zero;
-                for (int i = 1; i < LocalPoints.Length; i++)
+                for (var i = 1; i < LocalPoints.Length; i++)
                 {
                     LocalPoints[i] = WorldPoints[i] - WorldPoints[0];
                 }
@@ -155,12 +155,12 @@ namespace LevelEditor
 
         public override void setRotation(float rotation)
         {
-            float current = (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
-            float delta = rotation - current;
+            var current = (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
+            var delta = rotation - current;
 
-            Matrix matrix = Matrix.CreateRotationZ(delta);
+            var matrix = Matrix.CreateRotationZ(delta);
 
-            for (int i = 1; i < LocalPoints.Length; i++)
+            for (var i = 1; i < LocalPoints.Length; i++)
             {
                 LocalPoints[i] = Vector2.Transform(LocalPoints[i], matrix);
             }
@@ -175,16 +175,16 @@ namespace LevelEditor
 
         public override Vector2 getScale()
         {
-            float length = (LocalPoints[1] - LocalPoints[0]).Length();
+            var length = (LocalPoints[1] - LocalPoints[0]).Length();
             return new Vector2(length, length);
         }
 
         public override void setScale(Vector2 scale)
         {
-            float factor = scale.X / (LocalPoints[1] - LocalPoints[0]).Length();
-            for (int i = 1; i < LocalPoints.Length; i++)
+            var factor = scale.X / (LocalPoints[1] - LocalPoints[0]).Length();
+            for (var i = 1; i < LocalPoints.Length; i++)
             {
-                Vector2 olddistance = LocalPoints[i] - LocalPoints[0];
+                var olddistance = LocalPoints[i] - LocalPoints[0];
                 LocalPoints[i] = LocalPoints[0] + olddistance * factor;
             }
             OnTransformed();
@@ -193,7 +193,7 @@ namespace LevelEditor
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-            Color c = LineColor;
+            var c = LineColor;
             if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
 
             if (IsPolygon)
@@ -205,7 +205,7 @@ namespace LevelEditor
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
         {
-            Vector2[] transformedPoints = new Vector2[WorldPoints.Length];
+            var transformedPoints = new Vector2[WorldPoints.Length];
             Vector2.Transform(WorldPoints, ref matrix, transformedPoints);
 
             if (IsPolygon)
@@ -213,7 +213,7 @@ namespace LevelEditor
             else
                 Primitives.Instance.drawPath(sb, transformedPoints, color, 2);
 
-            foreach (Vector2 p in transformedPoints)
+            foreach (var p in transformedPoints)
             {
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }

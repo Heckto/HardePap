@@ -27,10 +27,10 @@ namespace LevelEditor
             if (propertyValues == null)
                 throw new ArgumentNullException("propertyValues");
 
-            object boxed = Activator.CreateInstance(context.PropertyDescriptor.PropertyType);
+            var boxed = Activator.CreateInstance(context.PropertyDescriptor.PropertyType);
             foreach (System.Collections.DictionaryEntry entry in propertyValues)
             {
-                System.Reflection.PropertyInfo pi = context.PropertyDescriptor.PropertyType.GetProperty(entry.Key.ToString());
+                var pi = context.PropertyDescriptor.PropertyType.GetProperty(entry.Key.ToString());
                 if ((pi != null) && (pi.CanWrite))
                 {
                     pi.SetValue(boxed, Convert.ChangeType(entry.Value, pi.PropertyType), null);

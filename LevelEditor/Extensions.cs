@@ -48,11 +48,11 @@ namespace LevelEditor
 
         public static float DistanceToLineSegment(this Vector2 v, Vector2 a, Vector2 b)
         {
-            Vector2 x = b - a;
+            var x = b - a;
             x.Normalize();
-            float t = Vector2.Dot(x, v - a);
+            var t = Vector2.Dot(x, v - a);
             if (t < 0) return (a - v).Length();
-            float d = (b - a).Length();
+            var d = (b - a).Length();
             if (t > d) return (b - v).Length();
             return (a + x * t - v).Length();
 
@@ -60,13 +60,13 @@ namespace LevelEditor
 
         public static Rectangle Transform(this Rectangle r, Matrix m)
         {
-            Vector2[] poly = new Vector2[2];
+            var poly = new Vector2[2];
             poly[0] = new Vector2(r.Left, r.Top);
             poly[1] = new Vector2(r.Right, r.Bottom);
-            Vector2[] newpoly = new Vector2[2];
+            var newpoly = new Vector2[2];
             Vector2.Transform(poly, ref m, newpoly);
 
-            Rectangle result = new Rectangle();
+            var result = new Rectangle();
             result.Location = newpoly[0].ToPoint();
             result.Width = (int)(newpoly[1].X - newpoly[0].X);
             result.Height = (int)(newpoly[1].Y - newpoly[0].Y);
@@ -81,7 +81,7 @@ namespace LevelEditor
         /// <returns>An array of Vector2 representing the rectangle's corners starting from top/left and going clockwise.</returns>
         public static Vector2[] ToPolygon(this Rectangle r)
         {
-            Vector2[] poly = new Vector2[4];
+            var poly = new Vector2[4];
             poly[0] = new Vector2(r.Left, r.Top);
             poly[1] = new Vector2(r.Right, r.Top);
             poly[2] = new Vector2(r.Right, r.Bottom);
@@ -91,8 +91,8 @@ namespace LevelEditor
 
         public static Rectangle RectangleFromVectors(Vector2 v1, Vector2 v2)
         {
-            Vector2 distance = v2 - v1;
-            Rectangle result = new Rectangle();
+            var distance = v2 - v1;
+            var result = new Rectangle();
             result.X = (int)Math.Min(v1.X, v2.X);
             result.Y = (int)Math.Min(v1.Y, v2.Y);
             result.Width = (int)Math.Abs(distance.X);

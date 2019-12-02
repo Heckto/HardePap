@@ -22,7 +22,7 @@ namespace LevelEditor
         private void buttonOK_Click(object sender, EventArgs e)
         {
 
-            TreeNode[] nodes = MainForm.Instance.treeView1.Nodes.Find(textBox1.Text, true);
+            var nodes = MainForm.Instance.treeView1.Nodes.Find(textBox1.Text, true);
             if (nodes.Length > 0)
             {
                 MessageBox.Show("A layer or item with the name \"" + textBox1.Text + "\" already exists in the level. Please use another name!");

@@ -58,7 +58,7 @@ namespace Game1.Controllers
                 var hit = caster.RayCast(rayOrigin, RightVector * directionX, rayLength, out var hitInfo, collisionMask);
                 if (hit)
                 {
-                    if (hitInfo.distance < moveAmount.X)
+                    if (hitInfo.distance < Math.Abs(moveAmount.X))
                     {
                         moveAmount.X = hitInfo.distance;
                         info = hitInfo;

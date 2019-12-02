@@ -47,7 +47,7 @@ namespace Game1.Sprite
             if(IsAlive && (CurrentHealth > 0 && !Dying))
                 ManagedUpdate(gameTime);
 
-            if(CurrentHealth <= 0 || Dying)
+            if(CurrentHealth <= 0 || Dying && IsAlive)
             {
                 OnDeath();
             }

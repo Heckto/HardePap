@@ -41,24 +41,24 @@ namespace LevelEditor
                                                     int borderInnerTransitionWidth, int borderOuterTransitionWidth,
                                                     Color color, Color borderColor)
         {
-            int diameter = radius * 2;
-            Vector2 center = new Vector2(radius, radius);
+            var diameter = radius * 2;
+            var center = new Vector2(radius, radius);
 
             //Texture2D circle = new Texture2D(graphicsDevice, diameter, diameter, 1, TextureUsage.None, SurfaceFormat.Color);
-            Texture2D circle = new Texture2D(graphicsDevice, diameter, diameter);
-            Color[] colors = new Color[diameter * diameter];
-            int y = -1;
-            for (int i = 0; i < colors.Length; i++)
+            var circle = new Texture2D(graphicsDevice, diameter, diameter);
+            var colors = new Color[diameter * diameter];
+            var y = -1;
+            for (var i = 0; i < colors.Length; i++)
             {
-                int x = i % diameter;
+                var x = i % diameter;
 
                 if (x == 0)
                 {
                     y += 1;
                 }
 
-                Vector2 diff = new Vector2(x, y) - center;
-                float length = diff.Length(); // distance.Length();
+                var diff = new Vector2(x, y) - center;
+                var length = diff.Length(); // distance.Length();
 
                 if (length > radius)
                 {
@@ -66,7 +66,7 @@ namespace LevelEditor
                 }
                 else if (length >= radius - borderOuterTransitionWidth)
                 {
-                    float transitionAmount = (length - (radius - borderOuterTransitionWidth)) / borderOuterTransitionWidth;
+                    var transitionAmount = (length - (radius - borderOuterTransitionWidth)) / borderOuterTransitionWidth;
                     transitionAmount = 255 * (1 - transitionAmount);
                     colors[i] = new Color(borderColor.R, borderColor.G, borderColor.B, (byte)transitionAmount);
                 }
@@ -76,7 +76,7 @@ namespace LevelEditor
                 }
                 else if (length >= radius - (borderWidth + borderOuterTransitionWidth + borderInnerTransitionWidth))
                 {
-                    float transitionAmount = (length -
+                    var transitionAmount = (length -
                                               (radius -
                                                (borderWidth + borderOuterTransitionWidth + borderInnerTransitionWidth))) /
                                              (borderInnerTransitionWidth + 1);
@@ -118,7 +118,7 @@ namespace LevelEditor
 
         public void drawBoxFilled(SpriteBatch sb, Vector2 upperLeft, Vector2 lowerRight, Color c)
         {
-            Rectangle r = Extensions.RectangleFromVectors(upperLeft, lowerRight);
+            var r = Extensions.RectangleFromVectors(upperLeft, lowerRight);
             sb.Draw(pixel, r, c);
         }
 
@@ -140,8 +140,8 @@ namespace LevelEditor
 
         public void drawLine(SpriteBatch sb, float x1, float y1, float x2, float y2, Color c, int linewidth)
         {
-            Vector2 v = new Vector2(x2 - x1, y2 - y1);
-            float rot = (float)Math.Atan2(y2 - y1, x2 - x1);
+            var v = new Vector2(x2 - x1, y2 - y1);
+            var rot = (float)Math.Atan2(y2 - y1, x2 - x1);
             sb.Draw(pixel, new Vector2(x1, y1), new Rectangle(1, 1, 1, linewidth), c, rot,
                 new Vector2(0, linewidth / 2), new Vector2(v.Length(), 1), SpriteEffects.None, 0);
         }
@@ -153,7 +153,7 @@ namespace LevelEditor
 
         public void drawPath(SpriteBatch sb, Vector2[] points, Color c, int linewidth)
         {
-            for (int i = 0; i < points.Length - 1; i++)
+            for (var i = 0; i < points.Length - 1; i++)
             {
                 drawLine(sb, points[i], points[i + 1], c, linewidth);
             }
@@ -168,12 +168,12 @@ namespace LevelEditor
 
         public Vector2[] makeCircle(Vector2 position, float radius, int numpoints)
         {
-            Vector2[] polygon = new Vector2[numpoints];
+            var polygon = new Vector2[numpoints];
             float angle = 0;
-            for (int i = 0; i < numpoints; i++)
+            for (var i = 0; i < numpoints; i++)
             {
-                float x = (float)Math.Cos(angle) * radius;
-                float y = (float)Math.Sin(angle) * radius;
+                var x = (float)Math.Cos(angle) * radius;
+                var y = (float)Math.Sin(angle) * radius;
                 polygon[i] = position + new Vector2(x, y);
                 angle += MathHelper.TwoPi / (float)numpoints;
             }

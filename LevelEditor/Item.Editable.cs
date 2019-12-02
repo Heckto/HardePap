@@ -22,7 +22,7 @@ namespace LevelEditor
         {
             if (destinationType == typeof(string) && value is Item)
             {
-                Item result = (Item)value;
+                var result = (Item)value;
                 return result.Name;
             }
             return base.ConvertTo(context, culture, value, destinationType);

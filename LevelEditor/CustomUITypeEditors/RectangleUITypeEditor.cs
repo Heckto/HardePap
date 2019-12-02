@@ -161,12 +161,12 @@ namespace CustomUITypeEditors
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService wfes =
+            var wfes =
                 provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
 
             if (wfes != null)
             {
-                RectangleEditorControl uc1 = new RectangleEditorControl((Rectangle)value);
+                var uc1 = new RectangleEditorControl((Rectangle)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

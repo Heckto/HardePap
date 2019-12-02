@@ -74,7 +74,7 @@ namespace LevelEditor
 
         public override Item clone()
         {
-            RectangleItem result = (RectangleItem)this.MemberwiseClone();
+            var result = (RectangleItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
             result.hovering = false; 
             return result;
@@ -102,7 +102,7 @@ namespace LevelEditor
         {
             //System.Diagnostics.Debug.WriteLine(System.DateTime.Now.ToString() + "RectangleItem.onMouseOver()");
 
-            int edgewidth = 10;
+            var edgewidth = 10;
             if (Math.Abs(mouseworldpos.X - Rectangle.Left) <= edgewidth)
             {
                 MainForm.Instance.picturebox.Cursor = Cursors.SizeWE;
@@ -158,7 +158,7 @@ namespace LevelEditor
 
         public override void setPosition(Vector2 pos)
         {
-            Vector2 delta = pos - Position;
+            var delta = pos - Position;
             if (pos == Position) return;
             switch (edgegrabbed)
             {
@@ -198,7 +198,7 @@ namespace LevelEditor
 
         public override void setScale(Vector2 scale)
         {
-            float factor = scale.X / pWidth;
+            var factor = scale.X / pWidth;
             Width = (float)Math.Round(scale.X);
             Height = (float)Math.Round(Height * factor);
             OnTransformed();
@@ -208,7 +208,7 @@ namespace LevelEditor
         {
             if (!Visible) return;
 
-            Color c = FillColor;
+            var c = FillColor;
             if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
             Primitives.Instance.drawBoxFilled(sb, Rectangle, c);
         }
@@ -219,9 +219,9 @@ namespace LevelEditor
             
             Primitives.Instance.drawBox(sb, this.Rectangle.Transform(matrix), color, 2);
             
-            Vector2[] poly = Rectangle.Transform(matrix).ToPolygon();
+            var poly = Rectangle.Transform(matrix).ToPolygon();
 
-            foreach (Vector2 p in poly)
+            foreach (var p in poly)
             {
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }

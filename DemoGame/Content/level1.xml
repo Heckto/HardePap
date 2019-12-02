@@ -3815,7 +3815,7 @@
                     </Position>
                     <CustomProperties />
                     <Width>1233</Width>
-                    <Height>170</Height>
+                    <Height>452</Height>
                     <FillColor>
                         <B>192</B>
                         <G>0</G>
@@ -3832,7 +3832,7 @@
                     </Position>
                     <CustomProperties />
                     <Width>400</Width>
-                    <Height>27</Height>
+                    <Height>69</Height>
                     <FillColor>
                         <B>192</B>
                         <G>0</G>
@@ -3849,7 +3849,7 @@
                     </Position>
                     <CustomProperties />
                     <Width>406</Width>
-                    <Height>23</Height>
+                    <Height>77</Height>
                     <FillColor>
                         <B>192</B>
                         <G>0</G>
@@ -3866,7 +3866,7 @@
                     </Position>
                     <CustomProperties />
                     <Width>410</Width>
-                    <Height>20</Height>
+                    <Height>66</Height>
                     <FillColor>
                         <B>192</B>
                         <G>0</G>
@@ -4024,12 +4024,29 @@
                 </Item>
                 <Item xsi:type="RectangleItem" Name="Rectangle_0186" Visible="true">
                     <Position>
-                        <X>2727</X>
-                        <Y>3927</Y>
+                        <X>6148</X>
+                        <Y>3728</Y>
                     </Position>
                     <CustomProperties />
-                    <Width>588</Width>
-                    <Height>120</Height>
+                    <Width>137</Width>
+                    <Height>729</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>Collider</ItemType>
+                </Item>
+                <Item xsi:type="RectangleItem" Name="Rectangle_0187" Visible="true">
+                    <Position>
+                        <X>10365</X>
+                        <Y>2902</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>192</Width>
+                    <Height>1392</Height>
                     <FillColor>
                         <B>192</B>
                         <G>0</G>
@@ -4914,11 +4931,11 @@
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>186</NextItemNumber>
+        <NextItemNumber>187</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>4275.929</X>
-            <Y>3160.75146</Y>
+            <X>9555.485</X>
+            <Y>2510.08472</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

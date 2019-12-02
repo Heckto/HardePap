@@ -1,4 +1,7 @@
-﻿using AuxLib.Debug;
+﻿using AuxLib;
+using AuxLib.Debug;
+using Game1.DataContext;
+using Game1.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,21 +11,22 @@ using System.Text;
 using System.Threading.Tasks;
 using tainicom.Aether.Physics2D.Dynamics;
 
-namespace Game666
+namespace Game1
 {
-    public class MovingPlatform : ControlledEntity
+    public class MovingPlatform : LivingSpriteObject
     {
-        public PlatformController controller;
+        public PlatformController cntlr;
 
-        public MovingPlatform(Vector2 size, Vector2 loc, World world, Vector2[] wayPoints,Category cat = Category.None)
+        public MovingPlatform(GameContext context, Vector2 size, Vector2 loc, World world, Vector2[] wayPoints, Category cat = Category.None) : base(context)
         {
-            colliderSize = size;
+
+            colBodySize = size;
 
 
-            collider = world.CreateRectangle((float)ConvertUnits.ToSimUnits(size.X), (float)ConvertUnits.ToSimUnits(size.Y), 1, ConvertUnits.ToSimUnits(loc));
-            collider.SetCollisionCategories(cat);
-            collider.Tag = this;
-            controller = new PlatformController(collider, world, Category.Cat2)
+            CollisionBox = world.CreateRectangle((float)ConvertUnits.ToSimUnits(size.X), (float)ConvertUnits.ToSimUnits(size.Y), 1, ConvertUnits.ToSimUnits(loc));
+            CollisionBox.SetCollisionCategories(cat);
+            CollisionBox.Tag = this;
+            cntlr = new PlatformController(CollisionBox, Category.Cat2)
             {
                 speed = 0.1f,
                 easeAmount = 1.7f,
@@ -31,9 +35,16 @@ namespace Game666
             };
         }
 
-        public void Update(GameTime gameTime)
+        public override int MaxHealth => throw new NotImplementedException();
+
+        public override void LoadContent()
         {
-            controller.Update(gameTime);
+            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            cntlr.Update(gameTime);
         }
     }
 }

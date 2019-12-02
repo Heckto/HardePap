@@ -16,6 +16,7 @@ using AuxLib.Sound;
 using AuxLib.Camera;
 using Game1.Sprite;
 using Game1.DataContext;
+using Game1.Screens;
 
 namespace Game1.Levels
 {
@@ -183,10 +184,19 @@ namespace Game1.Levels
             {
                 updateItem.Update(gameTime, this);
             }
+
+
+
+            var l = Sprites.Where(elem => !elem.Value.IsAlive).Select(entry => entry.Key).ToList();
+            foreach (var entry in l)
+                Sprites.Remove(entry);
+
             foreach (var sprite in Sprites.ToList())
                 sprite.Value.Update(gameTime);
 
-            
+            PlayState.DebugMonitor.AddDebugValue("Sprites List Cnt", Sprites.Count());
+
+
             context.camera.UpdateCamera(gameTime,player.controller.latestVelocity);
         }
 
@@ -272,7 +282,7 @@ namespace Game1.Levels
         {
             if (Sprites.ContainsKey(spriteName))
             {
-                //CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
+                CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
                 Sprites.Remove(spriteName);
             }
         }
@@ -281,6 +291,7 @@ namespace Game1.Levels
         {
             foreach (var item in Sprites.Where(kvp => kvp.Value == sprite))
             {
+                //CollisionWorld.Remove(Sprites[spriteName].CollisionBox);
                 RemoveSprite(item.Key);
             }
         }
@@ -292,11 +303,7 @@ namespace Game1.Levels
 
 
         public void SpawnPlayer(Vector2? loc)
-        {
-            if (player != null)
-            {
-                CollisionWorld.Remove(player.CollisionBox);
-            }
+        {            
 
             Vector2 spawnLocation;
             if (!loc.HasValue)
@@ -314,7 +321,7 @@ namespace Game1.Levels
         public LivingSpriteObject SpawnEnemy(string name, Vector2 location)
         {
             RemoveSprite(name);
-            var enemy = new Zombie1(location, context, ItemTypes.Enemy);
+            var enemy = new Zombie1(location, context);
             AddSprite(name, enemy);
             return enemy;
         }

@@ -43,14 +43,14 @@ namespace LevelEditor
 
         public static Level FromFile(string filename, ContentManager cm)
         {
-            FileStream stream = File.Open(filename, FileMode.Open);
-            XmlSerializer serializer = new XmlSerializer(typeof(Level));
-            Level level = (Level)serializer.Deserialize(stream);
+            var stream = File.Open(filename, FileMode.Open);
+            var serializer = new XmlSerializer(typeof(Level));
+            var level = (Level)serializer.Deserialize(stream);
             stream.Close();
 
-            foreach (Layer layer in level.Layers)
+            foreach (var layer in level.Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (var item in layer.Items)
                 {
                     item.CustomProperties.RestoreItemAssociations(level);
                     item.load(cm);
@@ -62,9 +62,9 @@ namespace LevelEditor
 
         public Item getItemByName(string name)
         {
-            foreach (Layer layer in Layers)
+            foreach (var layer in Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (var item in layer.Items)
                 {
                     if (item.Name == name) return item;
                 }
@@ -74,7 +74,7 @@ namespace LevelEditor
 
         public Layer getLayerByName(string name)
         {
-            foreach (Layer layer in Layers)
+            foreach (var layer in Layers)
             {
                 if (layer.Name == name) return layer;
             }
@@ -83,7 +83,7 @@ namespace LevelEditor
 
         public void draw(SpriteBatch sb)
         {
-            foreach (Layer layer in Layers) layer.draw(sb);
+            foreach (var layer in Layers) layer.draw(sb);
         }
 
 
@@ -133,7 +133,7 @@ namespace LevelEditor
         public void draw(SpriteBatch sb)
         {
             if (!Visible) return;
-            foreach (Item item in Items) item.draw(sb);
+            foreach (var item in Items) item.draw(sb);
         }
 
     }
@@ -275,7 +275,7 @@ namespace LevelEditor
         public override void draw(SpriteBatch sb)
         {
             if (!Visible) return;
-            SpriteEffects effects = SpriteEffects.None;
+            var effects = SpriteEffects.None;
             if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
             if (FlipVertically) effects |= SpriteEffects.FlipVertically;
             sb.Draw(MainForm.Instance.spriteSheets[texture_filename].Texture, Position, srcRectangle, TintColor, Rotation, Origin, Scale, effects, 0);
@@ -352,7 +352,7 @@ namespace LevelEditor
 
         public CustomProperty clone()
         {
-            CustomProperty result = new CustomProperty(name, value, type, description);
+            var result = new CustomProperty(name, value, type, description);
             return result;
         }
     }
@@ -370,9 +370,9 @@ namespace LevelEditor
         public SerializableDictionary(SerializableDictionary copyfrom)
             : base(copyfrom)
         {
-            string[] keyscopy = new string[Keys.Count];
+            var keyscopy = new string[Keys.Count];
             Keys.CopyTo(keyscopy, 0);
-            foreach (string key in keyscopy)
+            foreach (var key in keyscopy)
             {
                 this[key] = this[key].clone();
             }
@@ -386,18 +386,18 @@ namespace LevelEditor
         public void ReadXml(System.Xml.XmlReader reader)
         {
 
-            bool wasEmpty = reader.IsEmptyElement;
+            var wasEmpty = reader.IsEmptyElement;
             reader.Read();
 
             if (wasEmpty) return;
 
             while (reader.NodeType != XmlNodeType.EndElement)
             {
-                CustomProperty cp = new CustomProperty();
+                var cp = new CustomProperty();
                 cp.name = reader.GetAttribute("Name");
                 cp.description = reader.GetAttribute("Description");
 
-                string type = reader.GetAttribute("Type");
+                var type = reader.GetAttribute("Type");
                 if (type == "string") cp.type = typeof(string);
                 if (type == "bool") cp.type = typeof(bool);
                 if (type == "Vector2") cp.type = typeof(Vector2);
@@ -413,8 +413,8 @@ namespace LevelEditor
                 else
                 {
                     reader.ReadStartElement("Property");
-                    XmlSerializer valueSerializer = new XmlSerializer(cp.type);
-                    object obj = valueSerializer.Deserialize(reader);
+                    var valueSerializer = new XmlSerializer(cp.type);
+                    var obj = valueSerializer.Deserialize(reader);
                     cp.value = Convert.ChangeType(obj, cp.type);
                     this.Add(cp.name, cp);
                     reader.ReadEndElement();
@@ -427,7 +427,7 @@ namespace LevelEditor
 
         public void WriteXml(System.Xml.XmlWriter writer)
         {
-            foreach (String key in this.Keys)
+            foreach (var key in this.Keys)
             {
                 writer.WriteStartElement("Property");
                 writer.WriteAttributeString("Name", this[key].name);
@@ -441,13 +441,13 @@ namespace LevelEditor
 
                 if (this[key].type == typeof(Item))
                 {
-                    Item item = (Item)this[key].value;
+                    var item = (Item)this[key].value;
                     if (item != null) writer.WriteString(item.Name);
                     else writer.WriteString("$null$");
                 }
                 else
                 {
-                    XmlSerializer valueSerializer = new XmlSerializer(this[key].type);
+                    var valueSerializer = new XmlSerializer(this[key].type);
                     valueSerializer.Serialize(writer, this[key].value);
                 }
                 writer.WriteEndElement();
@@ -460,7 +460,7 @@ namespace LevelEditor
         /// </summary>
         public void RestoreItemAssociations(Level level)
         {
-            foreach (CustomProperty cp in Values)
+            foreach (var cp in Values)
             {
                 if (cp.type == typeof(Item)) cp.value = level.getItemByName((string)cp.value);
             }

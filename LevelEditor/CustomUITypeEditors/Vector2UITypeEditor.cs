@@ -32,7 +32,7 @@ namespace CustomUITypeEditors
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            drawing.Graphics g = e.Graphics;
+            var g = e.Graphics;
             g.DrawEllipse(new drawing.Pen(drawing.Color.Black, 3), center.X - radius, center.Y - radius, 2 * radius, 2 * radius);
 
             if (Value == Vector2.Zero) return;
@@ -42,9 +42,9 @@ namespace CustomUITypeEditors
             g.DrawArc(new drawing.Pen(drawing.Color.Blue, 1), center.X - 20, center.Y - 20, 40, 40, 0, (int)MathHelper.ToDegrees((float)angle));
 
             //draw black arrow
-            Vector2 newpos = Vector2.Transform(Vector2.UnitX * radius, Matrix.CreateRotationZ((float)angle));
-            Vector2 arrowpos1 = Vector2.Transform((Vector2.UnitX + new Vector2(-0.3f, -0.1f)) * radius, Matrix.CreateRotationZ((float)angle));
-            Vector2 arrowpos2 = Vector2.Transform((Vector2.UnitX + new Vector2(-0.3f, +0.1f)) * radius, Matrix.CreateRotationZ((float)angle));
+            var newpos = Vector2.Transform(Vector2.UnitX * radius, Matrix.CreateRotationZ((float)angle));
+            var arrowpos1 = Vector2.Transform((Vector2.UnitX + new Vector2(-0.3f, -0.1f)) * radius, Matrix.CreateRotationZ((float)angle));
+            var arrowpos2 = Vector2.Transform((Vector2.UnitX + new Vector2(-0.3f, +0.1f)) * radius, Matrix.CreateRotationZ((float)angle));
             g.DrawLine(new drawing.Pen(drawing.Color.Black, 3), center.X, center.Y, center.X + newpos.X, center.Y + newpos.Y);
             g.DrawLine(new drawing.Pen(drawing.Color.Black, 3), center.X + newpos.X, center.Y + newpos.Y, center.X + arrowpos1.X, center.Y + arrowpos1.Y);
             g.DrawLine(new drawing.Pen(drawing.Color.Black, 3), center.X + newpos.X, center.Y + newpos.Y, center.X + arrowpos2.X, center.Y + arrowpos2.Y);
@@ -72,7 +72,7 @@ namespace CustomUITypeEditors
         {
             if (e.Button == MouseButtons.Left)
             {
-                Vector2 mousepos = new Vector2(e.X, e.Y) - center;
+                var mousepos = new Vector2(e.X, e.Y) - center;
                 angle = Math.Atan2(mousepos.Y, mousepos.X);
                 onAngleOrLengthUpdated();
                 onValueUpdated();
@@ -277,12 +277,12 @@ namespace CustomUITypeEditors
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            IWindowsFormsEditorService wfes =
+            var wfes =
                 provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
 
             if (wfes != null)
             {
-                Vector2EditorControl uc1 = new Vector2EditorControl((Vector2)value);
+                var uc1 = new Vector2EditorControl((Vector2)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

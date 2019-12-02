@@ -38,13 +38,13 @@ namespace CustomUITypeEditors
             /// <param name="colorEditor">The editor this instance belongs to.</param>
             public ColorUIWrapper(XNAColorUITypeEditor colorEditor)
             {
-                Type colorUiType = typeof(ColorEditor).GetNestedType("ColorUI", BindingFlags.CreateInstance | BindingFlags.NonPublic);
-                ConstructorInfo constructorInfo = colorUiType.GetConstructor(new Type[] { typeof(ColorEditor) });
+                var colorUiType = typeof(ColorEditor).GetNestedType("ColorUI", BindingFlags.CreateInstance | BindingFlags.NonPublic);
+                var constructorInfo = colorUiType.GetConstructor(new Type[] { typeof(ColorEditor) });
                 _control = (Control)constructorInfo.Invoke(new object[] { colorEditor });
 
                 _control.BackColor = System.Drawing.SystemColors.Control;
 
-                Panel alphaPanel = new Panel();
+                var alphaPanel = new Panel();
                 alphaPanel.BackColor = System.Drawing.SystemColors.Control;
                 alphaPanel.Dock = DockStyle.Right;
                 alphaPanel.Width = 28;
@@ -89,7 +89,7 @@ namespace CustomUITypeEditors
             {
                 get
                 {
-                    object result = _valuePropertyInfo.GetValue(_control, new object[0]);
+                    var result = _valuePropertyInfo.GetValue(_control, new object[0]);
                     if (result is System.Drawing.Color) result = System.Drawing.Color.FromArgb(_tbAlpha.Value, (System.Drawing.Color)result);
                     return result;
                 }
@@ -112,8 +112,8 @@ namespace CustomUITypeEditors
                 try
                 {
                     _inSizeChange = true;
-                    TabControl tabControl = (TabControl)_control.Controls[0];
-                    System.Drawing.Size size = tabControl.TabPages[0].Controls[0].Size;
+                    var tabControl = (TabControl)_control.Controls[0];
+                    var size = tabControl.TabPages[0].Controls[0].Size;
                     //Rectangle rectangle = tabControl.GetTabRect(0);
                     _control.Size = new System.Drawing.Size(_tbAlpha.Width + size.Width, size.Height + tabControl.GetTabRect(0).Height);
                 }
@@ -146,19 +146,19 @@ namespace CustomUITypeEditors
         {
             if (provider != null)
             {
-                IWindowsFormsEditorService service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                var service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
                 if (service == null) return value;
 
                 if (_colorUI == null) _colorUI = new ColorUIWrapper(this);
 
-                Color xnacolor = (Color)value;
+                var xnacolor = (Color)value;
                 _colorUI.Start(service, System.Drawing.Color.FromArgb(xnacolor.A, xnacolor.R, xnacolor.G, xnacolor.B));
 
                 service.DropDownControl(_colorUI.Control);
                 if ((_colorUI.Value != null) /*&& (((Color)_colorUI.Value) != Color.Empty)*/)
                 {
                     //value = _colorUI.Value;
-                    System.Drawing.Color rescolor = (System.Drawing.Color)_colorUI.Value;
+                    var rescolor = (System.Drawing.Color)_colorUI.Value;
                     value = new Color(rescolor.R, rescolor.G, rescolor.B, rescolor.A);
                 }
                 _colorUI.End();
@@ -171,11 +171,11 @@ namespace CustomUITypeEditors
         {
             if (e.Value is Color && ((Color)e.Value).A <= byte.MaxValue)
             {
-                Color xnacolor = (Color)e.Value;
-                System.Drawing.Color syscolor = System.Drawing.Color.FromArgb(xnacolor.A, xnacolor.R, xnacolor.G, xnacolor.B);
+                var xnacolor = (Color)e.Value;
+                var syscolor = System.Drawing.Color.FromArgb(xnacolor.A, xnacolor.R, xnacolor.G, xnacolor.B);
 
-                int oneThird = e.Bounds.Width / 3;
-                using (System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.DarkGray))
+                var oneThird = e.Bounds.Width / 3;
+                using (var brush = new System.Drawing.SolidBrush(System.Drawing.Color.DarkGray))
                 {
                     e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, 4, 4));
                     e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(e.Bounds.X + 9, e.Bounds.Y + 1, 4, 4));
@@ -189,7 +189,7 @@ namespace CustomUITypeEditors
                     e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(e.Bounds.X + 17, e.Bounds.Y + 9, 2, 3));
 
                 }
-                using (System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(syscolor))
+                using (var brush = new System.Drawing.SolidBrush(syscolor))
                 {
                     e.Graphics.FillRectangle(brush, new System.Drawing.Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height - 1));
                 }

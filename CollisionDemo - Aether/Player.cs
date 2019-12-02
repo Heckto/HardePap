@@ -18,7 +18,6 @@ namespace Game666
         public Body collider;
         public Vector2 colliderSize;
         protected World world;
-
     }
 
     public class Player : ControlledEntity
