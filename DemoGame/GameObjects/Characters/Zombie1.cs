@@ -1,17 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework.Input;
-using AuxLib.CollisionDetection;
-using AuxLib.CollisionDetection.Responses;
 using AuxLib;
-using Game1.Screens;
 using AuxLib.Input;
-using Game1.GameObjects;
 using Game1.GameObjects.Sprite;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects.Sprite.Enums;
@@ -29,11 +20,10 @@ namespace Game1.GameObjects.Characters
         private BehaviourState state;
         private Vector2 hitBoxSize = new Vector2(110, 200);
 
-        public override int MaxHealth => 100;
+        public override int MaxHealth => 150;
 
         private Vector2 movingTarget;
-        private float IdleTimeout = 0;
-        
+        private float IdleTimeout = 0;        
 
         public Zombie1(Vector2 loc, GameContext context) : base(context)
         {
@@ -85,7 +75,7 @@ namespace Game1.GameObjects.Characters
                     //    SetAnimation("Walk");
                     //}
                     //else
-                    if (IdleTimeout > 2000)
+                    if (IdleTimeout > 5)
                     {
                         var movementLength = Rand.GetRandomInt(300, 500);
                         var movementDir = Rand.GetRandomInt(0, 2);
@@ -104,10 +94,12 @@ namespace Game1.GameObjects.Characters
                     var tv = movingTarget - Position;
 
                     tv.Normalize();
-                    if (tv.X < 0)
-                        velocity.X = -Math.Min(Math.Abs(-0.05f * delta), Math.Abs((movingTarget - Position).X / delta));
-                    else
-                        velocity.X = Math.Min(0.05f * delta, (movingTarget - Position).X / delta);
+                    velocity.X = tv.X;
+                    //if (tv.X < 0)
+
+                    //    velocity.X = -Math.Min(Math.Abs(-0.05f * delta), Math.Abs((movingTarget - Position).X / delta));
+                    //else
+                    //    velocity.X = Math.Min(0.05f * delta, (movingTarget - Position).X / delta);
 
                     if (Math.Abs(movingTarget.X - Position.X) <= 1)
                     {
@@ -188,7 +180,6 @@ namespace Game1.GameObjects.Characters
             }
             else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
             {
-                //context.lvl.CollisionWorld.Remove(CollisionBox);
                 IsAlive = false;
             }
         }

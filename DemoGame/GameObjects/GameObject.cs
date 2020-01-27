@@ -15,7 +15,6 @@ namespace Game1.GameObjects
     [XmlInclude(typeof(Ninja1))]
     [XmlInclude(typeof(Zombie1))]
     [XmlInclude(typeof(Zombie2))]
-    //[XmlInclude(typeof(Item))]
 
     public abstract class GameObject : IEditableGameObject
     {
