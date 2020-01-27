@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Microsoft.Xna.Framework.Input;
 using AuxLib.Input;
-using Game1.Sprite;
+using Game1.GameObjects.Sprite;
 
 namespace AuxLib.Camera
 {
@@ -109,7 +109,7 @@ namespace AuxLib.Camera
 
         private float currentMouseWheelValue, previousMouseWheelValue, zoom;
 
-        private Vector2 Origin;
+        public Vector2 Origin;
         private float Rotation = 0.0f;
 
         public FocusCamera(Viewport _viewport,Rectangle? bounds)
@@ -169,7 +169,7 @@ namespace AuxLib.Camera
                 Matrix.CreateTranslation(new Vector3(-Position * parallax, 0.0f)) *
                 Matrix.CreateTranslation(-new Vector3(Bounds.Width* 0.5f, Bounds.Height * 0.5f, 0.0f)) *
                 Matrix.CreateRotationZ(Rotation) *
-                Matrix.CreateScale(Zoom) *
+                Matrix.CreateScale(Zoom,Zoom, 1) *
                 Matrix.CreateTranslation(new Vector3(Bounds.Width * 0.5f, Bounds.Height * 0.5f, 0.0f));
         }
 

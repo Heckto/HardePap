@@ -7,11 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Windows.Forms;
 using AuxLib;
+using Game1.GameObjects.Levels;
+using LevelEditor.Items;
+using Game1.GameObjects;
 
 namespace LevelEditor
 {
-    public partial class CircleItem
+    public partial class EditableCircleItem : CircleItem
     {
+        CircleItem circleItem;
 
         [DisplayName("Radius"), Category(" General")]
         [XmlIgnore()]
@@ -21,9 +25,8 @@ namespace LevelEditor
         [Editor(typeof(XNAColorUITypeEditor), typeof(UITypeEditor))]
         [XmlIgnore()]
         public Color pFillColor { get { return FillColor; } set { FillColor = value; } }
-        public ItemTypes ItemType { get; set; }
 
-        public CircleItem(Vector2 startpos, float radius)
+        public EditableCircleItem(Vector2 startpos, float radius)
             : base()
         {
             this.Position = startpos;
@@ -31,7 +34,7 @@ namespace LevelEditor
             this.FillColor = Constants.Instance.ColorPrimitives;
         }
 
-        public override Item clone()
+        public Item clone()
         {
             var result = (CircleItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
@@ -39,23 +42,23 @@ namespace LevelEditor
             return result;
         }
 
-        public override string getNamePrefix()
+        public string getNamePrefix()
         {
             return "Circle_";
         }
 
-        public override bool contains(Vector2 worldpos)
+        public bool contains(Vector2 worldpos)
         {
             return (worldpos - Position).Length() <= Radius;
         }
 
 
-        public override void OnTransformed()
+        public void OnTransformed()
         {
         }
 
 
-        public override void onMouseButtonDown(Vector2 mouseworldpos)
+        public void onMouseButtonDown(Vector2 mouseworldpos)
         {
             hovering = false;
             MainForm.Instance.picturebox.Cursor = Cursors.SizeAll;
@@ -63,22 +66,22 @@ namespace LevelEditor
         }
 
 
-        public override bool CanScale()
+        public bool CanScale()
         {
             return true;
         }
 
-        public override Vector2 getScale()
+        public Vector2 getScale()
         {
             return new Vector2(pRadius, pRadius);
         }
 
-        public override void setScale(Vector2 scale)
+        public void setScale(Vector2 scale)
         {
             pRadius = (float)Math.Round(scale.X);
         }
 
-        public override void drawInEditor(SpriteBatch sb)
+        public void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
             var c = FillColor;
@@ -87,7 +90,7 @@ namespace LevelEditor
         }
 
 
-        public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
+        public void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
         {
 
             var transformedPosition = Vector2.Transform(Position, matrix);

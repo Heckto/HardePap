@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using AuxLib.Extensions;
 
 namespace LevelEditor
 {
-    class Primitives
+    public class Primitives
     {
         private static Primitives instance;
         public static Primitives Instance
@@ -31,10 +24,13 @@ namespace LevelEditor
 
         public Primitives()
         {
-            
-            pixel = new Texture2D(MainForm.Instance.picturebox.GraphicsDevice, 1, 1);
+            //DemoGame.graphics.GraphicsDevice
+                        pixel = new Texture2D(MainForm.Instance.picturebox.GraphicsDevice, 1, 1);
+            //pixel = new Texture2D(device, 1, 1);
+
             pixel.SetData(new[] { Color.White });
             circle = CreateCircleTexture(MainForm.Instance.picturebox.GraphicsDevice, circleTextureRadius, 0, 1, 1, Color.White, Color.White);
+            //circle = CreateCircleTexture(device, circleTextureRadius, 0, 1, 1, Color.White, Color.White);
         }
 
         public Texture2D CreateCircleTexture(GraphicsDevice graphicsDevice, int radius, int borderWidth,

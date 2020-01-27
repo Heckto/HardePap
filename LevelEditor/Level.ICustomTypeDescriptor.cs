@@ -1,89 +1,89 @@
 ﻿using System;
 using System.ComponentModel;
 using CustomUITypeEditors;
+using Game1.GameObjects;
+using Game1.GameObjects.Levels;
 using Microsoft.Xna.Framework;
+
 using Microsoft.Xna.Framework.Graphics;
 
 namespace LevelEditor
 {
-    
- 
-    public partial class Level : ICustomTypeDescriptor
-    {
-
-        AttributeCollection ICustomTypeDescriptor.GetAttributes()
-        {
-            return TypeDescriptor.GetAttributes(this, true);
-        }
-
-        string ICustomTypeDescriptor.GetClassName()
-        {
-            return TypeDescriptor.GetClassName(this, true);
-        }
-
-        string ICustomTypeDescriptor.GetComponentName()
-        {
-            return TypeDescriptor.GetComponentName(this, true);
-        }
-
-        TypeConverter ICustomTypeDescriptor.GetConverter()
-        {
-            return TypeDescriptor.GetConverter(this, true);
-        }
-
-        EventDescriptor ICustomTypeDescriptor.GetDefaultEvent()
-        {
-            return TypeDescriptor.GetDefaultEvent(this, true);
-        }
-
-        PropertyDescriptor ICustomTypeDescriptor.GetDefaultProperty()
-        {
-            return TypeDescriptor.GetDefaultProperty(this, true);
-        }
-
-        object ICustomTypeDescriptor.GetEditor(Type editorBaseType)
-        {
-            return TypeDescriptor.GetEditor(this, editorBaseType, true);
-        }
-
-        EventDescriptorCollection ICustomTypeDescriptor.GetEvents(Attribute[] attributes)
-        {
-            return TypeDescriptor.GetEvents(this, attributes, true);
-        }
-
-        EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
-        {
-            return TypeDescriptor.GetEvents(this, true);
-        }
-
-        PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
-        {
-            var pdc = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
-            foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(this))
-            {
-                pdc.Add(pd);
-            }
-            foreach (var key in CustomProperties.Keys)
-            {
-                pdc.Add(new DictionaryPropertyDescriptor(CustomProperties, key, attributes));
-            }
-            return pdc;
-        }
-
-        PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
-        {
-            return TypeDescriptor.GetProperties(this, true);
-        }
-
-        object ICustomTypeDescriptor.GetPropertyOwner(PropertyDescriptor pd)
-        {
-            return this;
-        }
-
-    }
 
 
+    //public partial class Level : ICustomTypeDescriptor
+    //{
 
+    //    AttributeCollection ICustomTypeDescriptor.GetAttributes()
+    //    {
+    //        return TypeDescriptor.GetAttributes(this, true);
+    //    }
+
+    //    string ICustomTypeDescriptor.GetClassName()
+    //    {
+    //        return TypeDescriptor.GetClassName(this, true);
+    //    }
+
+    //    string ICustomTypeDescriptor.GetComponentName()
+    //    {
+    //        return TypeDescriptor.GetComponentName(this, true);
+    //    }
+
+    //    TypeConverter ICustomTypeDescriptor.GetConverter()
+    //    {
+    //        return TypeDescriptor.GetConverter(this, true);
+    //    }
+
+    //    EventDescriptor ICustomTypeDescriptor.GetDefaultEvent()
+    //    {
+    //        return TypeDescriptor.GetDefaultEvent(this, true);
+    //    }
+
+    //    PropertyDescriptor ICustomTypeDescriptor.GetDefaultProperty()
+    //    {
+    //        return TypeDescriptor.GetDefaultProperty(this, true);
+    //    }
+
+    //    object ICustomTypeDescriptor.GetEditor(Type editorBaseType)
+    //    {
+    //        return TypeDescriptor.GetEditor(this, editorBaseType, true);
+    //    }
+
+    //    EventDescriptorCollection ICustomTypeDescriptor.GetEvents(Attribute[] attributes)
+    //    {
+    //        return TypeDescriptor.GetEvents(this, attributes, true);
+    //    }
+
+    //    EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
+    //    {
+    //        return TypeDescriptor.GetEvents(this, true);
+    //    }
+
+    //    PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
+    //    {
+    //        var pdc = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
+    //        foreach (PropertyDescriptor pd in TypeDescriptor.GetProperties(this))
+    //        {
+    //            pdc.Add(pd);
+    //        }
+    //        foreach (var key in CustomProperties.Keys)
+    //        {
+    //            pdc.Add(new DictionaryPropertyDescriptor(CustomProperties, key, attributes));
+    //        }
+    //        return pdc;
+    //    }
+
+    //    PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
+    //    {
+    //        return TypeDescriptor.GetProperties(this, true);
+    //    }
+
+    //    object ICustomTypeDescriptor.GetPropertyOwner(PropertyDescriptor pd)
+    //    {
+    //        return this;
+    //    }
+
+    //}
     public class DictionaryPropertyDescriptor : PropertyDescriptor
     {
         String key;
@@ -156,9 +156,9 @@ namespace LevelEditor
         {
             if (sdict[key].type == typeof(Vector2)) return new Vector2UITypeEditor();
             if (sdict[key].type == typeof(Rectangle)) return new RectangleUITypeEditor();
-            if (sdict[key].type == typeof(Color)) return  new XNAColorUITypeEditor();
-            if (sdict[key].type == typeof(Item)) return new ItemUITypeEditor();
-            
+            if (sdict[key].type == typeof(Color)) return new XNAColorUITypeEditor();
+            if (sdict[key].type == typeof(GameObject)) return new ItemUITypeEditor();
+
             return base.GetEditor(editorBaseType);
         }
 

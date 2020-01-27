@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Game1.GameObjects;
+using Game1.GameObjects.Levels;
 
 namespace LevelEditor
 {
@@ -57,7 +59,7 @@ namespace LevelEditor
             }
             var cp = new CustomProperty();
             cp.name = textBox1.Text;
-            cp.type = typeof(Item);
+            cp.type = typeof(GameObject);
             cp.value = MainForm.Instance.picturebox.SelectedItems[1];
             MainForm.Instance.picturebox.SelectedItems[0].CustomProperties.Add(cp.name, cp);
 
@@ -72,7 +74,7 @@ namespace LevelEditor
                 }
                 cp = new CustomProperty();
                 cp.name = textBox2.Text;
-                cp.type = typeof(Item);
+                cp.type = typeof(GameObject);
                 cp.value = MainForm.Instance.picturebox.SelectedItems[0];
                 MainForm.Instance.picturebox.SelectedItems[1].CustomProperties.Add(cp.name, cp);
             }

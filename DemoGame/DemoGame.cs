@@ -12,8 +12,9 @@ using Game1.Screens;
 using Game1.Settings;
 using Game1.DataContext;
 using Game1.Scripting;
-using Game1.Levels;
+using Game1.GameObjects;
 using QuakeConsole;
+using Game1.GameObjects.Levels;
 
 namespace Game1
 {

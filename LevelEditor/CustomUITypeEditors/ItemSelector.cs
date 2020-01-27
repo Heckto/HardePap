@@ -9,14 +9,16 @@ using System.Windows.Forms;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using LevelEditor;
+using Game1.GameObjects.Levels;
+using Game1.GameObjects;
 
 namespace CustomUITypeEditors
 {
     public partial class ItemSelector : UserControl
     {
-        public Item Value;
+        public GameObject Value;
 
-        public ItemSelector(Item item)
+        public ItemSelector(GameObject item)
         {
             InitializeComponent();
             Value = item;
@@ -44,7 +46,7 @@ namespace CustomUITypeEditors
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is Item) Value = (Item)e.Node.Tag;
+            if (e.Node.Tag is GameObject) Value = (GameObject)e.Node.Tag;
         }
 
     }
@@ -64,7 +66,7 @@ namespace CustomUITypeEditors
 
             if (wfes != null)
             {
-                var uc1 = new ItemSelector((Item)value);
+                var uc1 = new ItemSelector((GameObject)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

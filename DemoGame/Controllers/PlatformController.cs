@@ -1,4 +1,4 @@
-﻿using Game1.Sprite;
+﻿using Game1.GameObjects.Sprite;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections;

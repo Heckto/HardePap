@@ -29,7 +29,7 @@ namespace Game1.Screens
         {
             if (Input.WasPressed(0, Buttons.Start, Keys.Enter))
             {
-                AudioManager.PlaySoundEffect("bitch");
+                //AudioManager.PlaySoundEffect("bitch");
                 var levelfile = Path.Combine(DemoGame.ContentManager.RootDirectory, "Level1.xml");
                 // push our start menu onto the stack
                 GameManager.PushState(new PlayState(OurGame, levelfile), new ExpandTransition(DemoGame.graphics.GraphicsDevice,Color.Black, 2.0f));

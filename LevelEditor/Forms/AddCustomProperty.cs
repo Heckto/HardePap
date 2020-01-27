@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using Game1.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Game1.GameObjects.Levels;
 
 namespace LevelEditor
 {
@@ -58,7 +60,7 @@ namespace LevelEditor
             }
             if (radioButton5.Checked)
             {
-                cp.type = typeof(Item);
+                cp.type = typeof(GameObject);
                 cp.value = null;
             }
             if (radioButton6.Checked)

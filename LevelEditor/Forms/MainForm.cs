@@ -17,6 +17,8 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using AuxLib.Logging;
 using System.Threading.Tasks;
+using Game1.GameObjects.Levels;
+using Game1.GameObjects;
 
 namespace LevelEditor
 {
@@ -93,6 +95,7 @@ namespace LevelEditor
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Constants.Instance.export("settings.xml");
+            Application.Exit();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -139,9 +142,9 @@ namespace LevelEditor
                 e.Node.Name = e.Label;
                 Instance.picturebox.endCommand();
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is GameObject)
             {
-                var i = (Item)e.Node.Tag;
+                var i = (GameObject)e.Node.Tag;
                 Instance.picturebox.beginCommand("Rename Item (\"" + i.Name + "\" -> \"" + e.Label + "\")");
                 i.Name = e.Label;
                 e.Node.Name = e.Label;
@@ -151,19 +154,15 @@ namespace LevelEditor
             picturebox.Select();
         }
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.Tag is Level)
-            {
-                picturebox.level.Visible = e.Node.Checked;
-            }
+        {            
             if (e.Node.Tag is Layer)
             {
                 var l = (Layer)e.Node.Tag;
                 l.Visible = e.Node.Checked;
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is GameObject)
             {
-                var i = (Item)e.Node.Tag;
+                var i = (GameObject)e.Node.Tag;
                 i.Visible = e.Node.Checked;
             }
         }
@@ -178,9 +177,9 @@ namespace LevelEditor
                 var l = (Layer)e.Node.Tag;
                 picturebox.selectlayer(l);
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is GameObject)
             {
-                var i = (Item)e.Node.Tag;
+                var i = (GameObject)e.Node.Tag;
                 picturebox.selectitem(i);
             }
         }
@@ -218,10 +217,10 @@ namespace LevelEditor
 
             if (destnode != sourcenode)
             {
-                var i1 = (Item)sourcenode.Tag;
-                if (destnode.Tag is Item)
+                var i1 = (GameObject)sourcenode.Tag;
+                if (destnode.Tag is GameObject)
                 {
-                    var i2 = (Item)destnode.Tag;
+                    var i2 = (GameObject)destnode.Tag;
                     Instance.picturebox.moveItemToLayer(i1, i2.layer, i2);
                     var delta = 0;
                     if (destnode.Index > sourcenode.Index && i1.layer == i2.layer) delta = 1;
@@ -323,10 +322,10 @@ namespace LevelEditor
             {
                 Instance.picturebox.camera.Position = Microsoft.Xna.Framework.Vector2.Zero;
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is GameObject)
             {
-                var i = (Item)treeView1.SelectedNode.Tag;
-                Instance.picturebox.camera.Position = i.pPosition;
+                var i = (GameObject)treeView1.SelectedNode.Tag;
+                Instance.picturebox.camera.Position = i.Position;
             }
         }
         private void ActionRename(object sender, EventArgs e)
@@ -346,7 +345,7 @@ namespace LevelEditor
             {
                 Instance.picturebox.deleteLayer(l);
             }
-            else if (treeView1.SelectedNode.Tag is Item)
+            else if (treeView1.SelectedNode.Tag is GameObject)
             {
                 Instance.picturebox.deleteSelectedItems();
             }
@@ -364,7 +363,7 @@ namespace LevelEditor
                     Instance.picturebox.updatetreeview();
                 }
             }
-            if (treeView1.SelectedNode.Tag is Item i)
+            if (treeView1.SelectedNode.Tag is GameObject i)
             {
                 if (i.layer.Items.IndexOf(i) > 0)
                 {
@@ -387,9 +386,9 @@ namespace LevelEditor
                     Instance.picturebox.updatetreeview();
                 }
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is GameObject)
             {
-                var i = (Item)treeView1.SelectedNode.Tag;
+                var i = (GameObject)treeView1.SelectedNode.Tag;
                 if (i.layer.Items.IndexOf(i) < i.layer.Items.Count - 1)
                 {
                     Instance.picturebox.beginCommand("Move Down Item \"" + i.Name + "\"");
@@ -401,9 +400,9 @@ namespace LevelEditor
         }
         private void ActionAddCustomProperty(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is GameObject)
             {
-                var i = (Item)treeView1.SelectedNode.Tag;
+                var i = (GameObject)treeView1.SelectedNode.Tag;
                 var form = new AddCustomProperty(i.CustomProperties);
                 form.ShowDialog();
             }
@@ -470,7 +469,7 @@ namespace LevelEditor
         }
         public void loadLevel(String filename)
         {
-            var level = Level.FromFile(filename, Instance.picturebox.Editor.Content);
+            var level = Level.FromFile(filename);
             Instance.picturebox.loadLevel(level);
             levelfilename = filename;
             DirtyFlag = false;
@@ -636,6 +635,10 @@ namespace LevelEditor
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             Instance.picturebox.endCommand();
+            if (propertyGrid1.SelectedObject is GameObject obj)
+                obj.OnTransformed();
+                
+
             Instance.picturebox.beginCommand("Edit in PropertyGrid");
         }
 
@@ -650,7 +653,7 @@ namespace LevelEditor
             var c = (Command)e.ClickedItem.Tag;
             Instance.picturebox.redoMany(c);
         }
-        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void AddTextureItem(object sender, MouseEventArgs e)
         {
             var spriteSheet = (SpriteSheet)(sender as ListView).Tag;
             var spriteSheetDef = (string)(sender as ListView).FocusedItem.Tag;
@@ -659,6 +662,40 @@ namespace LevelEditor
             
             Instance.picturebox.createTextureBrush(tex, spriteSheet, spriteSheetDef);
         }
+
+        private void AddEntityItem(object sender, MouseEventArgs e)
+        {
+            var entityType = (Type)(sender as ListView).FocusedItem.Tag;
+            var name = (sender as ListView).FocusedItem.Text;
+
+            //var tex = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
+            //tex.SetData<int>(data);
+            //var tex = CreateTexture(Instance.picturebox.GraphicsDevice, 50, 100, pixel => Color.Red);
+
+            var obj = (GameObject)Activator.CreateInstance(entityType);
+
+            Instance.picturebox.createEntityBrush(obj,name);
+        }
+
+        //public static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
+        //{
+            
+        //    //initialize a texture
+        //    Texture2D texture = new Texture2D(device, width, height,false,SurfaceFormat.Color);
+
+        //    //the array holds the color for each pixel in the texture
+        //    Color[] data = new Color[width * height];
+        //    for (int pixel = 0; pixel < data.Count(); pixel++)
+        //    {
+        //        //the function applies the color according to the specified pixel
+        //        data[pixel] = paint(pixel);
+        //    }
+
+        //    //set the color
+        //    texture.SetData(data);
+
+        //    return texture;
+        //}
 
         private void listView1_DragOver(object sender, DragEventArgs e)
         {
@@ -689,7 +726,7 @@ namespace LevelEditor
 
 
         private Bitmap GetButtonImage(Microsoft.Xna.Framework.Rectangle tile,Texture2D tileTex)
-        {
+        {            
             var data = new int[tile.Width * tile.Height];
             tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
             var bitmap = new Bitmap(tile.Width, tile.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -716,13 +753,53 @@ namespace LevelEditor
                 tabControl1.TabPages.RemoveAt(idx);
             }
 
+            LoadEntities(path);
+
+            await LoadSpriteSheets(path);
+        }
+
+        private void LoadEntities(string path)
+        {
+            var tp = new TabPage("Entities");
+            var lv = new ListView();
+            //lv.LargeImageList = imgList;
+            lv.Dock = DockStyle.Fill;
+            lv.View = View.LargeIcon;
+            
+            tp.Controls.Add(lv);
+
+            var asm = Assembly.Load("Game1");
+            var types = asm.GetTypes();
+            var t = types.Where(elem => elem.IsClass && !elem.IsAbstract && elem.IsSubclassOf(typeof(GameObject)));
+            foreach (var entity in t)
+            {
+
+                if (entity.IsDefined(typeof(EditableAttribute)))
+                {
+                    var lvi = new ListViewItem();
+                    lvi.Name = entity.Name;
+                    lvi.Text = entity.Name;
+                    lvi.ImageKey = entity.Name;
+                    lvi.Tag = entity;
+                    lvi.ToolTipText = entity.Name;
+                    lv.Items.Add(lvi);
+                }
+            }
+            lv.MouseDoubleClick += AddEntityItem;
+
+            tabControl1.TabPages.Add(tp);            
+        }
+
+        private async Task LoadSpriteSheets(string path)
+        {
+            Instance.picturebox.Editor.Content.RootDirectory = Constants.Instance.DefaultContentRootFolder;
             spriteSheets = new Dictionary<string, SpriteSheet>();
             Image img = Resources.folder;
             var di = new DirectoryInfo(path);
 
-            var filters = "*.jpg;*.png;*.bmp;";
+            var filters = "*.xnb";            
             var fileList = new List<FileInfo>();
-            var extensions = filters.Split(new char[] { ';' },StringSplitOptions.RemoveEmptyEntries);
+            var extensions = filters.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var filter in extensions) fileList.AddRange(di.GetFiles(filter));
             var files = fileList.ToArray();
             var taskList = new List<Task>();
@@ -735,13 +812,14 @@ namespace LevelEditor
                 lv.LargeImageList = imgList;
                 lv.Dock = DockStyle.Fill;
                 lv.View = View.LargeIcon;
-                
+
                 tp.Controls.Add(lv);
 
-                
+
                 tabControl1.TabPages.Add(tp);
 
-                taskList.Add(Task.Run(() => { LoadSpriteSheet(file, lv); }));
+                LoadSpriteSheet(file, lv);
+                //taskList.Add(Task.Run(() => { LoadSpriteSheet(file, lv); }));
             }
 
             await Task.WhenAll(taskList);
@@ -757,16 +835,17 @@ namespace LevelEditor
             {
                 try
                 {
-                    var fileStream = new FileStream(textureFile, FileMode.Open);
-                    var spriteAtlas = Texture2D.FromStream(Instance.picturebox.GraphicsDevice, fileStream);
-                    fileStream.Dispose();
+
+                    var contentManager = Instance.picturebox.Editor.Content;
+                    var spriteAtlas = contentManager.Load<Texture2D>(Path.GetFileNameWithoutExtension(file.Name));
+
                     var spriteSheet = new SpriteSheet(spriteAtlas, defFile);
                     spriteSheets.Add(spriteSheet.Name, spriteSheet);
                     foreach (var spriteDef in spriteSheet.SpriteDef)
                     {
                         var rect = spriteDef.Value.SrcRectangle;
-                        var item = GetButtonImage(rect, spriteAtlas);
 
+                        var item = GetButtonImage(rect, spriteAtlas);                        
 
                         var lvi = new ListViewItem();
                         lvi.Name = file.FullName;
@@ -784,7 +863,7 @@ namespace LevelEditor
                     }
 
                     lv.Tag = spriteSheet;
-                    lv.MouseDoubleClick += listView1_MouseDoubleClick;
+                    lv.MouseDoubleClick += AddTextureItem;
                 }
                 catch (Exception ex)
                 {

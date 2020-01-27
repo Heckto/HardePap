@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Game1.Levels;
+using Game1.GameObjects.Levels;
 using AuxLib.ScreenManagement;
 using AuxLib.Camera;
 using Microsoft.Xna.Framework.Input;
@@ -10,7 +10,7 @@ using System;
 using System.Threading.Tasks;
 using Game1.Scripting;
 using AuxLib.Input;
-using Game1.Sprite;
+using Game1.GameObjects.Sprite;
 using AuxLib.Sound;
 using Game1.HUD;
 using AuxLib.ParticleEngine;
@@ -70,10 +70,10 @@ namespace Game1.DataContext
         public string ListEnemies()
         {
             var msg = String.Empty;
-            foreach(var entry in lvl.Sprites)
-            {
-                msg += entry.Key + " " + entry.Value.Position.ToString() + Environment.NewLine;
-            }
+            //foreach(var entry in lvl.Sprites)
+            //{
+            //    msg += entry.Key + " " + entry.Value.Position.ToString() + Environment.NewLine;
+            //}
             return msg;
         }
 

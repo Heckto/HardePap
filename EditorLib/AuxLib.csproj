@@ -75,12 +75,14 @@
     <Compile Include="Collision\World.cs" />
     <Compile Include="Debugging\DebugMonitor.cs" />
     <Compile Include="Debugging\FPSMonitor.cs" />
+    <Compile Include="Debugging\Primitives.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Math\Constants.cs" />
     <Compile Include="Debugging\Debug.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Math\LineRectangleIntersection.cs" />
     <Compile Include="Math\Maths.cs" />
+    <Compile Include="Math\Vector2Extensions.cs" />
     <Compile Include="Math\VectorExtensions.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="ParticleEngine\Particle.cs" />

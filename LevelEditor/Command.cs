@@ -19,7 +19,7 @@ namespace LevelEditor
         {
             ComType = CommandType.WholeLevel;
             Description = description;
-            ObjectsBefore.Add(MainForm.Instance.picturebox.level.cloneforundo());
+           // ObjectsBefore.Add(MainForm.Instance.picturebox.level.cloneforundo());
         }
 
         public List<IUndoable> Undo()
@@ -27,7 +27,7 @@ namespace LevelEditor
             switch (ComType)
             {
                 case CommandType.WholeLevel:
-                    MainForm.Instance.picturebox.level = (Level)ObjectsBefore[0];
+                   // MainForm.Instance.picturebox.level = (Level)ObjectsBefore[0];
                     MainForm.Instance.picturebox.getSelectionFromLevel();
                     MainForm.Instance.picturebox.updatetreeview();
                     break;
@@ -40,7 +40,7 @@ namespace LevelEditor
             switch (ComType)
             {
                 case CommandType.WholeLevel:
-                    MainForm.Instance.picturebox.level = (Level)ObjectsAfter[0];
+                   // MainForm.Instance.picturebox.level = (Level)ObjectsAfter[0];
                     MainForm.Instance.picturebox.getSelectionFromLevel();
                     MainForm.Instance.picturebox.updatetreeview();
                     break;
@@ -50,7 +50,7 @@ namespace LevelEditor
 
         public void saveAfterState()
         {
-            ObjectsAfter.Add(MainForm.Instance.picturebox.level.cloneforundo());
+           // ObjectsAfter.Add(MainForm.Instance.picturebox.level.cloneforundo());
         }
 
     }

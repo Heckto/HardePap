@@ -28,7 +28,7 @@ namespace LevelEditor
             {
                 Logger.Instance.log("Exception caught: \n\n " + e.Message + "\n\n" + e.StackTrace);
                 if (e.InnerException != null) Logger.Instance.log("Inner Exception: " + e.InnerException.Message);
-                MessageBox.Show("An exception was caught. Application will end. Please check the file log.txt.");
+                MessageBox.Show("An exception was caught. Application will end. Please check the file log.txt. : " + e.Message);
             }
             finally
             {

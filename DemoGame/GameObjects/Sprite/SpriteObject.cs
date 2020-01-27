@@ -1,0 +1,245 @@
+﻿using AuxLib.CollisionDetection;
+using Game1.GameObjects.Sprite.Enums;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using Game1.DataContext;
+using tainicom.Aether.Physics2D.Dynamics;
+using Game1.GameObjects.Levels;
+using System.Xml.Serialization;
+using System.ComponentModel;
+
+namespace Game1.GameObjects.Sprite
+{
+    public abstract class SpriteObject : GameObject , IEditableGameObject
+    {
+        [XmlIgnore]
+        public bool IsAlive;
+
+
+        public Vector2 Size = new Vector2(100, 200);
+
+        [XmlIgnore]
+        public Body CollisionBox;
+
+        [XmlIgnore]
+        public GameContext context;
+
+        [XmlIgnore]
+        protected Color Color { get; set; }
+
+        [XmlIgnore]
+        protected Dictionary<string, SpriteAnimation> Animations = new Dictionary<string, SpriteAnimation>();
+
+        [XmlIgnore]
+        protected SpriteAnimation CurrentAnimation;
+
+        private FaceDirection dir = FaceDirection.Right;
+
+        public Vector2 Origin;
+
+        [Browsable(false)]
+        public FaceDirection Direction
+        {
+            get { return dir; }
+            set
+            {
+                if (dir != value)
+                    dir = value;
+            }
+        }
+
+        //public float Rotation { get; set; }
+
+        public Vector2 colBodySize = new Vector2(100,200);
+
+        public SpriteObject() { }
+
+        public SpriteObject(GameContext context)
+        {
+            LoadContent();
+            this.context = context;
+        }
+
+        public virtual void Initialize()
+        {
+
+        }
+
+        public virtual void LoadFromFile(ContentManager contentManager, string fileLocation)
+        {
+            var config = SpriteConfig.Deserialize(fileLocation);
+
+            Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
+
+            foreach(var animation in config.Animations)
+            {
+                Animations.Add(animation.AnimationName, new SpriteAnimation(contentManager, animation));
+            }
+        }
+
+        public virtual void LoadFromSheet(string fileLocation)
+        {
+            var config = SpriteConfig.Deserialize(fileLocation);
+
+            Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
+
+            var sheetDef = config.SpritesheetDefinitionFile;
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale);
+
+            foreach (var animation in config.Animations)
+            {
+                Animations.Add(animation.AnimationName, new SpriteAnimation(animation, frameDictionary));
+            }
+        }
+
+        public abstract void LoadContent();
+
+        public virtual void Update(GameTime gameTime, Level lvl)
+        {
+            CurrentAnimation.Update(gameTime);
+        }
+
+
+        public virtual void Draw(SpriteBatch spriteBatch, AnimationEffect animationEffect)
+        {
+            var flip = (Direction == FaceDirection.Left);
+
+            if(CurrentAnimation != null)
+                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, 0, 0.5f, Color, animationEffect);
+        }
+
+        public void SetAnimation(string name)
+        {
+            if (Animations.ContainsKey(name))
+            {
+                var animation = Animations[name];
+                if (CurrentAnimation != animation)
+                {
+                    animation.Reset();
+                    CurrentAnimation = animation;
+                }
+            }
+        }
+
+        public enum FaceDirection
+        {
+            Left,
+            Right
+        }
+
+        #region Editor
+
+        public override Rectangle getBoundingBox()
+        {
+            
+            return new Rectangle((int)Position.X,(int)Position.Y,(int)Size.X,(int)Size.Y);
+        }
+
+        [XmlIgnore]
+        Matrix transform;
+
+        [XmlIgnore]
+        Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
+
+        [XmlIgnore]
+        Vector2[] polygon;
+        public override GameObject clone()
+        {
+            var result = (SpriteObject)this.MemberwiseClone();
+            result.CustomProperties = new SerializableDictionary(CustomProperties);
+            //result.polygon = (Vector2[])polygon.Clone();
+            result.hovering = false;
+            return result;
+        }
+
+        public override string getNamePrefix()
+        {
+            return "SpriteItem_" + Name;
+        }
+
+        public override void OnTransformed()
+        {
+            polygon = new Vector2[4];
+            transform =
+                Matrix.CreateTranslation(new Vector3(-Origin.X, -Origin.Y, 0.0f)) *
+                ///Matrix.CreateScale(Scale.X, Scale.Y, 1) *
+                //Matrix.CreateRotationZ(Rotation) *
+                Matrix.CreateTranslation(new Vector3(Position, 0.0f));
+
+            var leftTop = new Vector2(0, 0);
+            var rightTop = new Vector2(colBodySize.X, 0);
+            var leftBottom = new Vector2(0, colBodySize.Y);
+            var rightBottom = new Vector2(colBodySize.X, colBodySize.Y);
+
+            // Transform all four corners into work space
+            Vector2.Transform(ref leftTop, ref transform, out leftTop);
+            Vector2.Transform(ref rightTop, ref transform, out rightTop);
+            Vector2.Transform(ref leftBottom, ref transform, out leftBottom);
+            Vector2.Transform(ref rightBottom, ref transform, out rightBottom);
+
+            polygon[0] = leftTop;
+            polygon[1] = rightTop;
+            polygon[3] = leftBottom;
+            polygon[2] = rightBottom;
+
+            // Find the minimum and maximum extents of the rectangle in world space
+            var min = Vector2.Min(Vector2.Min(leftTop, rightTop),
+                                      Vector2.Min(leftBottom, rightBottom));
+            var max = Vector2.Max(Vector2.Max(leftTop, rightTop),
+                                      Vector2.Max(leftBottom, rightBottom));
+
+            // Return as a rectangle
+            boundingrectangle = new Rectangle((int)min.X, (int)min.Y,
+                                 (int)(max.X - min.X), (int)(max.Y - min.Y));
+        }
+
+
+        public override void onMouseButtonDown(Vector2 mouseworldpos)
+        {
+            hovering = false;
+            //MainForm.Instance.picturebox.Cursor = Cursors.SizeAll;
+            base.onMouseButtonDown(mouseworldpos);
+        }
+
+
+        public override bool CanRotate()
+        {
+            return false;
+        }
+
+        public override bool CanScale()
+        {
+            return false;
+        }
+
+        public override void drawInEditor(SpriteBatch sb)
+        {
+            if (!Visible) return;           
+            var c = hovering ? new Color(255, 0, 0, 228) : Color;
+            Primitives.Instance.drawBox(sb, getBoundingBox(), Color.Red, 5);
+        }
+
+        public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
+        {
+            var poly = new Vector2[4];
+            Vector2.Transform(polygon, ref matrix, poly);
+
+            Primitives.Instance.drawPolygon(sb, poly, color, 2);
+            foreach (var p in poly)
+            {
+                Primitives.Instance.drawCircleFilled(sb, p, 4, color);
+            }
+            var origin = Vector2.Transform(Position, matrix);
+            Primitives.Instance.drawBoxFilled(sb, origin.X - 5, origin.Y - 5, 10, 10, color);
+        }
+
+        public override bool contains(Vector2 worldpos)
+        {
+            return boundingrectangle.Contains((int)worldpos.X, (int)worldpos.Y);
+        }
+        #endregion
+    }
+}

@@ -7,7 +7,7 @@ using System.IO;
 using Game1.Settings;
 using AuxLib.Camera;
 using AuxLib.ParticleEngine;
-using Game1.Levels;
+using Game1.GameObjects.Levels;
 using Game1.DataContext;
 using Game1.Scripting;
 using Game1.HUD;

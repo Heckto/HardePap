@@ -3,7 +3,7 @@
     <Layers>
         <Layer Name="BG" Visible="true">
             <Items>
-                <Item xsi:type="TextureItem" Name="Texture_0014" Visible="true">
+                <GameObject xsi:type="TextureItem" Name="Texture_0014" Visible="true">
                     <Position>
                         <X>-53</X>
                         <Y>-175</Y>
@@ -43,8 +43,8 @@
                         <X>892</X>
                         <Y>162</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0013" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0013" Visible="true">
                     <Position>
                         <X>1417</X>
                         <Y>-243</Y>
@@ -84,8 +84,8 @@
                         <X>892</X>
                         <Y>162</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0001" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0001" Visible="true">
                     <Position>
                         <X>-481</X>
                         <Y>-72</Y>
@@ -125,8 +125,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0002" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0002" Visible="true">
                     <Position>
                         <X>239</X>
                         <Y>-44</Y>
@@ -166,8 +166,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0005" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0005" Visible="true">
                     <Position>
                         <X>1079</X>
                         <Y>-69</Y>
@@ -207,8 +207,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0018" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0018" Visible="true">
                     <Position>
                         <X>-193</X>
                         <Y>397</Y>
@@ -248,8 +248,8 @@
                         <X>360</X>
                         <Y>235</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0017" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0017" Visible="true">
                     <Position>
                         <X>491</X>
                         <Y>393</Y>
@@ -289,8 +289,8 @@
                         <X>360</X>
                         <Y>235</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0003" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0003" Visible="true">
                     <Position>
                         <X>-335</X>
                         <Y>102</Y>
@@ -330,8 +330,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0016" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0016" Visible="true">
                     <Position>
                         <X>1199</X>
                         <Y>397</Y>
@@ -371,8 +371,8 @@
                         <X>360</X>
                         <Y>235</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0004" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0004" Visible="true">
                     <Position>
                         <X>491</X>
                         <Y>103</Y>
@@ -412,8 +412,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0015" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0015" Visible="true">
                     <Position>
                         <X>1917</X>
                         <Y>417</Y>
@@ -453,8 +453,8 @@
                         <X>360</X>
                         <Y>235</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0007" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0007" Visible="true">
                     <Position>
                         <X>1745</X>
                         <Y>-51</Y>
@@ -494,8 +494,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0006" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0006" Visible="true">
                     <Position>
                         <X>1211</X>
                         <Y>115</Y>
@@ -535,8 +535,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0008" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0008" Visible="true">
                     <Position>
                         <X>1839</X>
                         <Y>111</Y>
@@ -576,8 +576,8 @@
                         <X>454</X>
                         <Y>177</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0019" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0019" Visible="true">
                     <Position>
                         <X>1978</X>
                         <Y>-544</Y>
@@ -617,8 +617,8 @@
                         <X>159</X>
                         <Y>39</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0020" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0020" Visible="true">
                     <Position>
                         <X>1733</X>
                         <Y>-284</Y>
@@ -658,8 +658,8 @@
                         <X>159</X>
                         <Y>39</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0021" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0021" Visible="true">
                     <Position>
                         <X>895</X>
                         <Y>-554</Y>
@@ -699,8 +699,8 @@
                         <X>159</X>
                         <Y>39</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0022" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0022" Visible="true">
                     <Position>
                         <X>490</X>
                         <Y>-339</Y>
@@ -740,8 +740,8 @@
                         <X>159</X>
                         <Y>39</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0023" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0023" Visible="true">
                     <Position>
                         <X>-275</X>
                         <Y>-462</Y>
@@ -781,8 +781,8 @@
                         <X>159</X>
                         <Y>39</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0024" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0024" Visible="true">
                     <Position>
                         <X>-462</X>
                         <Y>-134</Y>
@@ -822,8 +822,8 @@
                         <X>245</X>
                         <Y>23</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0025" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0025" Visible="true">
                     <Position>
                         <X>525</X>
                         <Y>-139</Y>
@@ -863,8 +863,8 @@
                         <X>245</X>
                         <Y>23</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0026" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0026" Visible="true">
                     <Position>
                         <X>1715</X>
                         <Y>-69</Y>
@@ -904,8 +904,8 @@
                         <X>245</X>
                         <Y>23</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0027" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0027" Visible="true">
                     <Position>
                         <X>1245</X>
                         <Y>-364</Y>
@@ -945,8 +945,8 @@
                         <X>245</X>
                         <Y>23</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0028" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0028" Visible="true">
                     <Position>
                         <X>1713</X>
                         <Y>111</Y>
@@ -986,8 +986,8 @@
                         <X>639</X>
                         <Y>42</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0029" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0029" Visible="true">
                     <Position>
                         <X>648</X>
                         <Y>-274</Y>
@@ -1027,8 +1027,8 @@
                         <X>639</X>
                         <Y>42</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0030" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0030" Visible="true">
                     <Position>
                         <X>195</X>
                         <Y>576</Y>
@@ -1068,8 +1068,8 @@
                         <X>406</X>
                         <Y>164</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0031" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0031" Visible="true">
                     <Position>
                         <X>-613</X>
                         <Y>572</Y>
@@ -1109,8 +1109,8 @@
                         <X>406</X>
                         <Y>164</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0032" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0032" Visible="true">
                     <Position>
                         <X>1004</X>
                         <Y>576</Y>
@@ -1150,8 +1150,8 @@
                         <X>406</X>
                         <Y>164</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0033" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0033" Visible="true">
                     <Position>
                         <X>1537</X>
                         <Y>602</Y>
@@ -1191,8 +1191,8 @@
                         <X>133</X>
                         <Y>159</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0034" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0034" Visible="true">
                     <Position>
                         <X>2022</X>
                         <Y>481</Y>
@@ -1232,8 +1232,8 @@
                         <X>183</X>
                         <Y>56</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0035" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0035" Visible="true">
                     <Position>
                         <X>2712</X>
                         <Y>352</Y>
@@ -1273,8 +1273,8 @@
                         <X>183</X>
                         <Y>56</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0036" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0036" Visible="true">
                     <Position>
                         <X>3390</X>
                         <Y>224</Y>
@@ -1314,8 +1314,8 @@
                         <X>183</X>
                         <Y>56</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0037" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0037" Visible="true">
                     <Position>
                         <X>4187</X>
                         <Y>207</Y>
@@ -1355,8 +1355,8 @@
                         <X>426</X>
                         <Y>87</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0038" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0038" Visible="true">
                     <Position>
                         <X>4179</X>
                         <Y>487</Y>
@@ -1396,8 +1396,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0039" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0039" Visible="true">
                     <Position>
                         <X>4174</X>
                         <Y>932</Y>
@@ -1437,8 +1437,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0040" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0040" Visible="true">
                     <Position>
                         <X>4167</X>
                         <Y>1185</Y>
@@ -1478,8 +1478,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0041" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0041" Visible="true">
                     <Position>
                         <X>4939</X>
                         <Y>477</Y>
@@ -1519,8 +1519,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0042" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0042" Visible="true">
                     <Position>
                         <X>4932</X>
                         <Y>842</Y>
@@ -1560,8 +1560,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0043" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0043" Visible="true">
                     <Position>
                         <X>4867</X>
                         <Y>1087</Y>
@@ -1601,8 +1601,8 @@
                         <X>419</X>
                         <Y>229</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0044" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0044" Visible="true">
                     <Position>
                         <X>4974</X>
                         <Y>195</Y>
@@ -1642,7 +1642,7 @@
                         <X>426</X>
                         <Y>87</Y>
                     </Origin>
-                </Item>
+                </GameObject>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -1652,7 +1652,7 @@
         </Layer>
         <Layer Name="collision" Visible="true">
             <Items>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0052" Visible="true">
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0052" Visible="true">
                     <Position>
                         <X>-1015</X>
                         <Y>544</Y>
@@ -1668,8 +1668,8 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Collider</ItemType>
-                </Item>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0053" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0053" Visible="true">
                     <Position>
                         <X>1851</X>
                         <Y>454</Y>
@@ -1685,8 +1685,8 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Collider</ItemType>
-                </Item>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0054" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0054" Visible="true">
                     <Position>
                         <X>2538</X>
                         <Y>331</Y>
@@ -1702,8 +1702,8 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Collider</ItemType>
-                </Item>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0055" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0055" Visible="true">
                     <Position>
                         <X>3218</X>
                         <Y>197</Y>
@@ -1719,8 +1719,8 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Collider</ItemType>
-                </Item>
-                <Item xsi:type="RectangleItem" Name="Rectangle_0056" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0056" Visible="true">
                     <Position>
                         <X>3775</X>
                         <Y>184</Y>
@@ -1736,7 +1736,34 @@
                         <PackedValue>2445279424</PackedValue>
                     </FillColor>
                     <ItemType>Collider</ItemType>
-                </Item>
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Name="Rectangle_0057" Visible="true">
+                    <Position>
+                        <X>5262</X>
+                        <Y>-175</Y>
+                    </Position>
+                    <CustomProperties>
+                        <Property Name="map" Type="string" Description="">
+                            <string>level1</string>
+                        </Property>
+                        <Property Name="spawnVector" Type="Vector2" Description="">
+                            <Vector2>
+                                <X>3500</X>
+                                <Y>3300</Y>
+                            </Vector2>
+                        </Property>
+                    </CustomProperties>
+                    <Width>140</Width>
+                    <Height>400</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>Transition</ItemType>
+                </GameObject>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -1746,7 +1773,7 @@
         </Layer>
         <Layer Name="FRONT" Visible="true">
             <Items>
-                <Item xsi:type="TextureItem" Name="Texture_0045" Visible="true">
+                <GameObject xsi:type="TextureItem" Name="Texture_0045" Visible="true">
                     <Position>
                         <X>1252</X>
                         <Y>575</Y>
@@ -1786,8 +1813,8 @@
                         <X>283</X>
                         <Y>83</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0046" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0046" Visible="true">
                     <Position>
                         <X>449</X>
                         <Y>542</Y>
@@ -1827,8 +1854,8 @@
                         <X>151</X>
                         <Y>135</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0047" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0047" Visible="true">
                     <Position>
                         <X>3999</X>
                         <Y>107</Y>
@@ -1868,8 +1895,8 @@
                         <X>154</X>
                         <Y>142</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0048" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0048" Visible="true">
                     <Position>
                         <X>-291</X>
                         <Y>482</Y>
@@ -1909,8 +1936,8 @@
                         <X>178</X>
                         <Y>188</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0049" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0049" Visible="true">
                     <Position>
                         <X>809</X>
                         <Y>722</Y>
@@ -1950,8 +1977,8 @@
                         <X>278</X>
                         <Y>587</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0050" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0050" Visible="true">
                     <Position>
                         <X>427</X>
                         <Y>385</Y>
@@ -1991,8 +2018,8 @@
                         <X>935</X>
                         <Y>668</Y>
                     </Origin>
-                </Item>
-                <Item xsi:type="TextureItem" Name="Texture_0051" Visible="true">
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Name="Texture_0051" Visible="true">
                     <Position>
                         <X>4412</X>
                         <Y>735</Y>
@@ -2032,7 +2059,7 @@
                         <X>873</X>
                         <Y>679</Y>
                     </Origin>
-                </Item>
+                </GameObject>
             </Items>
             <ScrollSpeed>
                 <X>1</X>
@@ -2067,11 +2094,11 @@
     </CustomProperties>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>56</NextItemNumber>
+        <NextItemNumber>57</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>1742.99988</X>
-            <Y>-277.499969</Y>
+            <X>2839.6665</X>
+            <Y>-354.166626</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

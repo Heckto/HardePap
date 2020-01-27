@@ -13,11 +13,18 @@ using Microsoft.Xna.Framework.Input;
 using Forms = System.Windows.Forms;
 using AuxLib.Logging;
 using AuxLib.Camera;
+using Game1.GameObjects.Levels;
+using Game1.GameObjects;
+using Game1;
+//using System.Windows.Forms;
 
 namespace LevelEditor
 {
-    public class EditorControl : UpdateWindow
-    {
+
+    
+    public class EditorControl : MonoGameControl
+    {        
+        //MonoGame.Forms.Controls.
         public bool canDraw = false;
 
         private EditorState _state;
@@ -45,8 +52,8 @@ namespace LevelEditor
                 else MainForm.Instance.toolStripStatusLabel2.Text = "Layer: " + selectedlayer.Name;
             }
         }
-        Item lastitem;
-        public List<Item> SelectedItems;
+        GameObject lastitem;
+        public List<GameObject> SelectedItems;
         Rectangle selectionrectangle = new Rectangle();
         Vector2 mouseworldpos, grabbedpoint, initialcampos, newPosition;
         List<Vector2> initialpos;                   //position before user interaction
@@ -70,7 +77,7 @@ namespace LevelEditor
             Logger.Instance.log("Editor creation started.");
             state = EditorState.idle;
 
-            SelectedItems = new List<Item>();
+            SelectedItems = new List<GameObject>();
             initialpos = new List<Vector2>();
             initialrot = new List<float>();
             initialscale = new List<Vector2>();
@@ -128,7 +135,7 @@ namespace LevelEditor
 
             var sb = Editor.spriteBatch;
             GraphicsDevice.Clear(Constants.Instance.ColorBackground);
-            if (level == null || !level.Visible) return;
+            if (level == null) return;
             foreach (var l in level.Layers)
             {
                 var maincameraposition = camera.Position;
@@ -143,8 +150,9 @@ namespace LevelEditor
                 }
                 if (l == SelectedLayer && state == EditorState.brush)
                 {
-                    sb.Draw(currentbrush.texture, new Vector2(mouseworldpos.X, mouseworldpos.Y), null, new Color(1f, 1f, 1f, 0.7f),
-                        0, new Vector2(currentbrush.texture.Width / 2, currentbrush.texture.Height / 2), 1, SpriteEffects.None, 0);
+                    currentbrush.Draw(sb, mouseworldpos);
+                    //sb.Draw(currentbrush.texture, new Vector2(mouseworldpos.X, mouseworldpos.Y), null, new Color(1f, 1f, 1f, 0.7f),
+                    //    0, new Vector2(currentbrush.texture.Width / 2, currentbrush.texture.Height / 2), 1, SpriteEffects.None, 0);
                 }
                 if (l == SelectedLayer && state == EditorState.brush_primitive && primitivestarted)
                 {
@@ -305,7 +313,8 @@ namespace LevelEditor
             var maincameraposition = camera.Position;
             if (SelectedLayer != null) camera.Position *= SelectedLayer.ScrollSpeed;
             mouseworldpos = Vector2.Transform(new Vector2(mstate.X, mstate.Y), Matrix.Invert(camera.getViewMatrix()));
-            mouseworldpos = mouseworldpos.Round();
+            //mouseworldpos = mouseworldpos.Round();
+            mouseworldpos = new Vector2((float)Math.Round(mouseworldpos.X), (float)Math.Round(mouseworldpos.Y));
             MainForm.Instance.toolStripStatusLabel3.Text = "Mouse: (" + mouseworldpos.X + ", " + mouseworldpos.Y + ")";
             camera.Position = maincameraposition;
 
@@ -316,32 +325,50 @@ namespace LevelEditor
                 var item = getItemAtPos(mouseworldpos);
                 if (item != null)
                 {
+
                     MainForm.Instance.toolStripStatusLabel1.Text = item.Name;
-                    item.onMouseOver(mouseworldpos);
-                    if (kstate.IsKeyDown(Keys.LeftControl)) MainForm.Instance.picturebox.Cursor = cursorDup;
+                    var isOver = item.onMouseOver(mouseworldpos, out var msg);
+                    if (isOver)
+                    {
+                        MainForm.Instance.picturebox.Cursor = Forms.Cursors.Hand;
+                        MainForm.Instance.toolStripStatusLabel1.Text = msg;
+                    }
+                    else
+                    {
+                        MainForm.Instance.picturebox.Cursor = Forms.Cursors.Default;
+                    }
+                    if (kstate.IsKeyDown(Keys.LeftControl)) MainForm.Instance.picturebox.Cursor = cursorDup;                    
                 }
                 else
                 {
                     MainForm.Instance.toolStripStatusLabel1.Text = "";
                 }
-                if (item != lastitem && lastitem != null) lastitem.onMouseOut();
+                if (item != lastitem && lastitem != null)
+                {
+                    lastitem.onMouseOut();
+                    MainForm.Instance.picturebox.Cursor = Forms.Cursors.Default;
+                }
                 lastitem = item;
 
                 //LEFT MOUSE BUTTON CLICK
                 if ((mstate.LeftButton == ButtonState.Pressed && oldmstate.LeftButton == ButtonState.Released) ||
                     (kstate.IsKeyDown(Keys.D1) && oldkstate.IsKeyUp(Keys.D1)))
                 {
-                    if (item != null) item.onMouseButtonDown(mouseworldpos);
+                    if (item != null)
+                    {                        
+                        item.onMouseButtonDown(mouseworldpos);
+                        MainForm.Instance.picturebox.Cursor = Forms.Cursors.SizeAll;
+                    }
                     if (kstate.IsKeyDown(Keys.LeftControl) && item != null)
                     {
                         if (!SelectedItems.Contains(item)) selectitem(item);
 
                         beginCommand("Add Item(s)");
 
-                        var selecteditemscopy = new List<Item>();
+                        var selecteditemscopy = new List<GameObject>();
                         foreach (var selitem in SelectedItems)
                         {
-                            var i2 = (Item)selitem.clone();
+                            var i2 = selitem.clone();
                             selecteditemscopy.Add(i2);
                         }
                         foreach (var selitem in selecteditemscopy)
@@ -398,7 +425,7 @@ namespace LevelEditor
                     {
                         if (SelectedItems.Count > 0)
                         {
-                            grabbedpoint = mouseworldpos - SelectedItems[0].pPosition;
+                            grabbedpoint = mouseworldpos - SelectedItems[0].Position;
 
                             //save the initial rotation for each item
                             initialrot.Clear();
@@ -426,7 +453,7 @@ namespace LevelEditor
                     if (item != null) item.onMouseOut();
                     if (SelectedItems.Count > 0)
                     {
-                        grabbedpoint = mouseworldpos - SelectedItems[0].pPosition;
+                        grabbedpoint = mouseworldpos - SelectedItems[0].Position;
 
                         //save the initial scale for each item
                         initialscale.Clear();
@@ -491,7 +518,8 @@ namespace LevelEditor
                     (kstate.IsKeyUp(Keys.D1) && oldkstate.IsKeyDown(Keys.D1)))
                 {
 
-                    foreach (var selitem in SelectedItems) selitem.onMouseButtonUp(mouseworldpos);
+                    foreach (var selitem in SelectedItems)
+                        selitem.onMouseButtonUp(mouseworldpos);
 
                     state = EditorState.idle;
                     MainForm.Instance.picturebox.Cursor = Forms.Cursors.Default;
@@ -501,11 +529,12 @@ namespace LevelEditor
 
             if (state == EditorState.rotating)
             {
-                var newpos = mouseworldpos - SelectedItems[0].pPosition;
+                var newpos = mouseworldpos - SelectedItems[0].Position;
                 var deltatheta = (float)Math.Atan2(grabbedpoint.Y, grabbedpoint.X) - (float)Math.Atan2(newpos.Y, newpos.X);
                 var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
+                    
                     if (selitem.CanRotate())
                     {
                         selitem.setRotation(initialrot[i] - deltatheta);
@@ -528,11 +557,12 @@ namespace LevelEditor
 
             if (state == EditorState.scaling)
             {
-                var newdistance = mouseworldpos - SelectedItems[0].pPosition;
+                var newdistance = mouseworldpos - SelectedItems[0].Position;
                 var factor = newdistance.Length() / grabbedpoint.Length();
                 var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
+                    
                     if (selitem.CanScale())
                     {
                         if (selitem is TextureItem)
@@ -553,7 +583,7 @@ namespace LevelEditor
                             selitem.setScale(scale);
                         }
                         i++;
-                    }
+                    }                    
                 }
                 MainForm.Instance.propertyGrid1.Refresh();
                 if ((mstate.RightButton == ButtonState.Released && oldmstate.RightButton == ButtonState.Pressed) ||
@@ -590,7 +620,7 @@ namespace LevelEditor
                     selectionrectangle = Extensions.RectangleFromVectors(grabbedpoint, mouseworldpos);
                     foreach (var i in SelectedLayer.Items)
                     {
-                        if (i.Visible && selectionrectangle.Contains((int)i.pPosition.X, (int)i.pPosition.Y)) SelectedItems.Add(i);
+                        if (i.Visible && selectionrectangle.Contains((int)i.Position.X, (int)i.Position.Y)) SelectedItems.Add(i);
                     }
                     updatetreeviewselection();
                 }
@@ -763,7 +793,7 @@ namespace LevelEditor
             MainForm.Instance.propertyGrid1.SelectedObject = l;
         }
 
-        public void addItem(Item i)
+        public void addItem(GameObject i)
         {
             if (!i.layer.Items.Contains(i)) i.layer.Items.Add(i);
         }
@@ -771,9 +801,9 @@ namespace LevelEditor
         public void deleteSelectedItems()
         {
             beginCommand("Delete Item(s)");
-            var selecteditemscopy = new List<Item>(SelectedItems);
+            var selecteditemscopy = new List<GameObject>(SelectedItems);
 
-            var itemsaffected = new List<Item>();
+            var itemsaffected = new List<GameObject>();
 
             foreach (var selitem in selecteditemscopy)
             {
@@ -782,7 +812,7 @@ namespace LevelEditor
                     foreach (var i in l.Items)
                         foreach (var cp in i.CustomProperties.Values)
                         {
-                            if (cp.type == typeof(Item) && cp.value == selitem)
+                            if (cp.type == typeof(GameObject) && cp.value == selitem)
                             {
                                 cp.value = null;
                                 itemsaffected.Add(i);
@@ -805,7 +835,7 @@ namespace LevelEditor
 
         }
 
-        public void moveItemUp(Item i)
+        public void moveItemUp(GameObject i)
         {
             var index = i.layer.Items.IndexOf(i);
             i.layer.Items[index] = i.layer.Items[index - 1];
@@ -813,7 +843,7 @@ namespace LevelEditor
             //updatetreeview();
         }
 
-        public void moveItemDown(Item i)
+        public void moveItemDown(GameObject i)
         {
             var index = i.layer.Items.IndexOf(i);
             i.layer.Items[index] = i.layer.Items[index + 1];
@@ -822,7 +852,7 @@ namespace LevelEditor
             //updatetreeview();
         }
 
-        public void selectitem(Item i)
+        public void selectitem(GameObject i)
         {
             SelectedItems.Clear();
             if (i != null)
@@ -850,7 +880,7 @@ namespace LevelEditor
             updatetreeviewselection();
         }
 
-        public void moveItemToLayer(Item i1, Layer l2, Item i2)
+        public void moveItemToLayer(GameObject i1, Layer l2, GameObject i2)
         {
             var index2 = i2 == null ? 0 : l2.Items.IndexOf(i2);
             i1.layer.Items.Remove(i1);
@@ -861,7 +891,7 @@ namespace LevelEditor
         {
             if (chosenlayer == SelectedLayer) return;
             beginCommand("Move Item(s) To Layer \"" + chosenlayer.Name + "\"");
-            var selecteditemscopy = new List<Item>(SelectedItems);
+            var selecteditemscopy = new List<GameObject>(SelectedItems);
             foreach (var i in selecteditemscopy)
             {
                 moveItemToLayer(i, chosenlayer, null);
@@ -874,13 +904,14 @@ namespace LevelEditor
         {
             //if (chosenlayer == SelectedLayer) return;
             beginCommand("Copy Item(s) To Layer \"" + chosenlayer.Name + "\"");
-            var selecteditemscopy = new List<Item>(SelectedItems);
+            var selecteditemscopy = new List<GameObject>(SelectedItems);
             foreach (var i in selecteditemscopy)
             {
                 var copy = i.clone();
                 copy.layer = chosenlayer;
                 copy.Name = MainForm.Instance.getUniqueNameBasedOn(copy.Name);
                 addItem(copy);
+                
             }
             endCommand();
             SelectedItems.Clear();
@@ -889,8 +920,26 @@ namespace LevelEditor
 
         public void createTextureBrush(Texture2D tex, SpriteSheet ss, string name)
         {
+            if (SelectedLayer == null)
+            {
+                Forms.MessageBox.Show(Resources.No_Layer);
+                destroyTextureBrush();
+                return;
+            }
             state = EditorState.brush;
-            currentbrush = new Brush(tex, ss, name);
+            currentbrush = new TextureBrush(tex, ss, name);
+        }
+
+        public void createEntityBrush(GameObject o,string name)
+        {
+            if (SelectedLayer == null)
+            {
+                Forms.MessageBox.Show(Resources.No_Layer);
+                destroyTextureBrush();
+                return;
+            }
+            state = EditorState.brush;
+            currentbrush = new EntityBrush(o, name);
         }
 
         public void destroyTextureBrush()
@@ -901,13 +950,25 @@ namespace LevelEditor
 
         public void paintTextureBrush(bool continueAfterPaint)
         {
-            if (SelectedLayer == null)
+            //if (SelectedLayer == null)
+            //{
+            //    Forms.MessageBox.Show(Resources.No_Layer);
+            //    destroyTextureBrush();
+            //    return;
+            //}
+            GameObject i = null;
+            if (currentbrush is TextureBrush br)
             {
-                Forms.MessageBox.Show(Resources.No_Layer);
-                destroyTextureBrush();
-                return;
+                
+                i = new TextureItem(br.spriteSheet, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y), MainForm.Instance.spriteSheets[(currentbrush as TextureBrush).spriteSheet].SpriteDef[(currentbrush as TextureBrush).spriteName].SrcRectangle, MainForm.Instance.spriteSheets[(currentbrush as TextureBrush).spriteSheet].Texture);
             }
-            Item i = new TextureItem(currentbrush.spriteSheet, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y), MainForm.Instance.spriteSheets[currentbrush.spriteSheet].SpriteDef[currentbrush.spriteName].SrcRectangle);
+            else if (currentbrush is EntityBrush ebr)
+            {
+
+                i = (GameObject)Activator.CreateInstance(ebr.entity.GetType());
+                i.Position = mouseworldpos;
+                i.OnTransformed();
+            }
             i.Name = i.getNamePrefix() + level.getNextItemNumber();
             i.layer = SelectedLayer;
             beginCommand("Add Item \"" + i.Name + "\"");
@@ -958,7 +1019,7 @@ namespace LevelEditor
             switch (currentprimitive)
             {
                 case PrimitiveType.Rectangle:
-                    Item ri = new RectangleItem(Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
+                    GameObject ri = new RectangleItem(Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
                     ri.Name = ri.getNamePrefix() + level.getNextItemNumber();
                     ri.layer = SelectedLayer;
                     beginCommand("Add Item \"" + ri.Name + "\"");
@@ -967,7 +1028,7 @@ namespace LevelEditor
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Rectangle_Entered;
                     break;
                 case PrimitiveType.Circle:
-                    Item ci = new CircleItem(clickedPoints[0], (mouseworldpos - clickedPoints[0]).Length());
+                    GameObject ci = new CircleItem(clickedPoints[0], (mouseworldpos - clickedPoints[0]).Length());
                     ci.Name = ci.getNamePrefix() + level.getNextItemNumber();
                     ci.layer = SelectedLayer;
                     beginCommand("Add Item \"" + ci.Name + "\"");
@@ -976,7 +1037,7 @@ namespace LevelEditor
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Circle_Entered;
                     break;
                 case PrimitiveType.Path:
-                    Item pi = new PathItem(clickedPoints.ToArray());
+                    GameObject pi = new PathItem(clickedPoints.ToArray());
                     pi.Name = pi.getNamePrefix() + level.getNextItemNumber();
                     pi.layer = SelectedLayer;
                     beginCommand("Add Item \"" + pi.Name + "\"");
@@ -997,7 +1058,7 @@ namespace LevelEditor
             initialpos.Clear();
             foreach (var selitem in SelectedItems)
             {
-                initialpos.Add(selitem.pPosition);
+                initialpos.Add(selitem.Position);
             }
 
             state = EditorState.moving;
@@ -1017,7 +1078,7 @@ namespace LevelEditor
             camera.Position = maincameraposition;
         }
 
-        public Item getItemAtPos(Vector2 mouseworldpos)
+        public GameObject getItemAtPos(Vector2 mouseworldpos)
         {
             if (SelectedLayer == null) return null;
             return SelectedLayer.getItemAtPos(mouseworldpos);
@@ -1058,7 +1119,7 @@ namespace LevelEditor
             }
 
             
-
+            
             TextureLoader.Instance.Clear();
 
             foreach (var layer in l.Layers)
@@ -1067,7 +1128,8 @@ namespace LevelEditor
                 foreach (var item in layer.Items)
                 {
                     item.layer = layer;
-                    if (!item.loadIntoEditor()) return;
+                    item.loadIntoEditor(Editor.Content);
+                    //if (!item.loadIntoEditor()) return;
                 }
             }
 
@@ -1104,13 +1166,12 @@ namespace LevelEditor
         {
             MainForm.Instance.treeView1.Nodes.Clear();
             level.treenode = MainForm.Instance.treeView1.Nodes.Add(level.Name);
-            level.treenode.Tag = level;
-            level.treenode.Checked = level.Visible;
-            level.treenode.ContextMenuStrip = MainForm.Instance.LevelContextMenu;
+            ((Forms.TreeNode)level.treenode).Tag = level;            
+            ((Forms.TreeNode)level.treenode).ContextMenuStrip = MainForm.Instance.LevelContextMenu;
 
             foreach (var layer in level.Layers)
             {
-                var layernode = level.treenode.Nodes.Add(layer.Name, layer.Name);
+                var layernode = ((Forms.TreeNode)level.treenode).Nodes.Add(layer.Name, layer.Name);
                 layernode.Tag = layer;
                 layernode.Checked = layer.Visible;
                 layernode.ContextMenuStrip = MainForm.Instance.LayerContextMenu;
@@ -1131,7 +1192,7 @@ namespace LevelEditor
                 }
                 layernode.Expand();
             }
-            level.treenode.Expand();
+            ((Forms.TreeNode)level.treenode).Expand();
 
             updatetreeviewselection();
         }
@@ -1144,7 +1205,7 @@ namespace LevelEditor
                 var nodes = MainForm.Instance.treeView1.Nodes.Find(SelectedItems[0].Name, true);
                 if (nodes.Length > 0)
                 {
-                    var selecteditemscopy = new List<Item>(SelectedItems);
+                    var selecteditemscopy = new List<GameObject>(SelectedItems);
                     MainForm.Instance.propertyGrid1.SelectedObject = SelectedItems[0];
                     MainForm.Instance.treeView1.SelectedNode = nodes[0];
                     MainForm.Instance.treeView1.SelectedNode.EnsureVisible();
@@ -1174,7 +1235,7 @@ namespace LevelEditor
             beginCommand("Align Horizontally");
             foreach (var i in SelectedItems)
             {
-                i.pPosition = new Vector2(i.pPosition.X, SelectedItems[0].pPosition.Y);
+                i.Position = new Vector2(i.Position.X, SelectedItems[0].Position.Y);
             }
             endCommand();
         }
@@ -1184,7 +1245,7 @@ namespace LevelEditor
             beginCommand("Align Vertically");
             foreach (var i in SelectedItems)
             {
-                i.pPosition = new Vector2(SelectedItems[0].pPosition.X, i.pPosition.Y);
+                i.Position = new Vector2(SelectedItems[0].Position.X, i.Position.Y);
             }
             endCommand();
         }
@@ -1194,7 +1255,7 @@ namespace LevelEditor
             beginCommand("Align Rotation");
             foreach (TextureItem i in SelectedItems)
             {
-                i.pRotation = ((TextureItem)SelectedItems[0]).pRotation;
+                i.Rotation = ((TextureItem)SelectedItems[0]).Rotation;
             }
             endCommand();
         }
@@ -1204,7 +1265,7 @@ namespace LevelEditor
             beginCommand("Align Scale");
             foreach (TextureItem i in SelectedItems)
             {
-                i.pScale = ((TextureItem)SelectedItems[0]).pScale;
+                i.Scale = ((TextureItem)SelectedItems[0]).Scale;
             }
             endCommand();
         }
