@@ -58,8 +58,8 @@ namespace AuxLib.Camera
             {
 
                 var bb = new RectangleF(
-                   ConvertUnits.ToSimUnits(target.Position.X - target.colBodySize.X / 2),
-                   ConvertUnits.ToSimUnits(target.Position.Y - target.colBodySize.Y / 2),
+                   ConvertUnits.ToSimUnits(target.Transform.Position.X - target.colBodySize.X / 2),
+                   ConvertUnits.ToSimUnits(target.Transform.Position.Y - target.colBodySize.Y / 2),
                    ConvertUnits.ToSimUnits(target.colBodySize.X),
                    ConvertUnits.ToSimUnits(target.colBodySize.Y));
 
@@ -132,8 +132,8 @@ namespace AuxLib.Camera
             target = _target;
             
             var bb = new RectangleF(
-                ConvertUnits.ToSimUnits(target.Position.X - target.colBodySize.X / 2),
-                ConvertUnits.ToSimUnits(target.Position.Y - target.colBodySize.Y / 2),
+                ConvertUnits.ToSimUnits(target.Transform.Position.X - target.colBodySize.X / 2),
+                ConvertUnits.ToSimUnits(target.Transform.Position.Y - target.colBodySize.Y / 2),
                 ConvertUnits.ToSimUnits(target.colBodySize.X),
                 ConvertUnits.ToSimUnits(target.colBodySize.Y));
             focusArea = new FocusArea(bb, focusAreaSize);

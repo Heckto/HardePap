@@ -131,7 +131,7 @@ namespace Game1.Screens
 
                 context.lvl.SpawnPlayer(null);
                 if (camera.focussedOnPlayer)
-                    camera.Position = context.lvl.player.Position;
+                    camera.Position = context.lvl.player.Transform.Position;
 
                 camera.Bounds = bounds;
 

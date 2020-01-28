@@ -24,19 +24,19 @@ namespace Game1.GameObjects
         bool contains(Vector2 worldpos);
         void onMouseButtonDown(Vector2 mouseworldpos);
 
-        bool CanRotate();
-        float getRotation();
-        void setRotation(float rotation);
-        bool CanScale();
-        Vector2 getScale();
-        void setScale(Vector2 scale);
+        //bool CanRotate();
+        //float getRotation();
+        //void setRotation(float rotation);
+        //bool CanScale();
+        //Vector2 getScale();
+        //void setScale(Vector2 scale);
         void drawInEditor(SpriteBatch sb);
         void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color);
 
         bool onMouseOver(Vector2 mouseworldpos, out string msg);
         void onMouseOut();
         void onMouseButtonUp(Vector2 mouseworldpos);
-        void setPosition(Vector2 pos);
+        //void setPosition(Vector2 pos);
     }
 
     public interface IUndoable

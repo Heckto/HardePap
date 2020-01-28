@@ -108,7 +108,7 @@ namespace Game1.GameObjects.Sprite
             var flip = (Direction == FaceDirection.Left);
 
             if(CurrentAnimation != null)
-                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, 0, 0.5f, Color, animationEffect);
+                CurrentAnimation.Draw(spriteBatch, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, animationEffect);
         }
 
         public void SetAnimation(string name)
@@ -135,11 +135,11 @@ namespace Game1.GameObjects.Sprite
         public override Rectangle getBoundingBox()
         {
             
-            return new Rectangle((int)Position.X,(int)Position.Y,(int)Size.X,(int)Size.Y);
+            return new Rectangle((int)Transform.Position.X,(int)Transform.Position.Y,(int)Size.X,(int)Size.Y);
         }
 
-        [XmlIgnore]
-        Matrix transform;
+        //[XmlIgnore]
+        //Matrix transform;
 
         [XmlIgnore]
         Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
@@ -155,30 +155,31 @@ namespace Game1.GameObjects.Sprite
             return result;
         }
 
-        public override string getNamePrefix()
-        {
-            return "SpriteItem_" + Name;
-        }
+        //public override string getNamePrefix()
+        //{
+        //    return "SpriteItem_" + Name;
+        //}
 
         public override void OnTransformed()
         {
             polygon = new Vector2[4];
-            transform =
-                Matrix.CreateTranslation(new Vector3(-Origin.X, -Origin.Y, 0.0f)) *
-                ///Matrix.CreateScale(Scale.X, Scale.Y, 1) *
-                //Matrix.CreateRotationZ(Rotation) *
-                Matrix.CreateTranslation(new Vector3(Position, 0.0f));
+            //transform =
+            //    Matrix.CreateTranslation(new Vector3(-Origin.X, -Origin.Y, 0.0f)) *
+            //    ///Matrix.CreateScale(Scale.X, Scale.Y, 1) *
+            //    //Matrix.CreateRotationZ(Rotation) *
+            //    Matrix.CreateTranslation(new Vector3(transform.Position, 0.0f));
 
             var leftTop = new Vector2(0, 0);
             var rightTop = new Vector2(colBodySize.X, 0);
             var leftBottom = new Vector2(0, colBodySize.Y);
             var rightBottom = new Vector2(colBodySize.X, colBodySize.Y);
 
+            Transform.GetLocalMatrix(out var mat);
             // Transform all four corners into work space
-            Vector2.Transform(ref leftTop, ref transform, out leftTop);
-            Vector2.Transform(ref rightTop, ref transform, out rightTop);
-            Vector2.Transform(ref leftBottom, ref transform, out leftBottom);
-            Vector2.Transform(ref rightBottom, ref transform, out rightBottom);
+            leftTop = Vector2.Transform(leftTop, mat);
+            rightTop = Vector2.Transform(rightTop, mat);
+            leftBottom = Vector2.Transform(leftBottom, mat);
+            rightBottom = Vector2.Transform(rightBottom, mat);
 
             polygon[0] = leftTop;
             polygon[1] = rightTop;
@@ -205,21 +206,11 @@ namespace Game1.GameObjects.Sprite
         }
 
 
-        public override bool CanRotate()
-        {
-            return false;
-        }
-
-        public override bool CanScale()
-        {
-            return false;
-        }
-
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;           
             var c = hovering ? new Color(255, 0, 0, 228) : Color;
-            Primitives.Instance.drawBox(sb, getBoundingBox(), Color.Red, 5);
+            Primitives.Instance.drawBox(sb, getBoundingBox(),c, 5);
         }
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
@@ -232,7 +223,7 @@ namespace Game1.GameObjects.Sprite
             {
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }
-            var origin = Vector2.Transform(Position, matrix);
+            var origin = Vector2.Transform(Transform.Position, matrix);
             Primitives.Instance.drawBoxFilled(sb, origin.X - 5, origin.Y - 5, 10, 10, color);
         }
 

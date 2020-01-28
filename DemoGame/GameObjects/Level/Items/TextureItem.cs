@@ -13,10 +13,6 @@ namespace Game1.GameObjects.Levels
         [XmlIgnore]
         public Texture2D texture;
 
-        public float Rotation { get; set; }
-
-        public Vector2 Scale { get; set; }
-
         public Color TintColor { get; set; }
 
         public bool FlipHorizontally { get; set; }
@@ -28,7 +24,8 @@ namespace Game1.GameObjects.Levels
         [ReadOnly(true)]
         public String asset_name { get; set; }
 
-        public Rectangle srcRectangle;
+        [ReadOnly(true)]
+        public Rectangle srcRectangle { get; set; }
 
         [ReadOnly(true)]
         public Vector2 Origin { get; set; }
@@ -39,13 +36,13 @@ namespace Game1.GameObjects.Levels
         {
             var effects = SpriteEffects.None;
             if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
-            if (FlipVertically) effects |= SpriteEffects.FlipVertically;
-            sb.Draw(texture, Position, srcRectangle, TintColor, Rotation, Origin, Scale, effects, 0);
+            if (FlipVertically) effects |= SpriteEffects.FlipVertically;            
+            sb.Draw(texture, Transform.Position, srcRectangle, TintColor, Transform.Rotation, Origin, Transform.Scale, effects, 0);
         }
 
         public override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)Position.X, (int)Position.Y, (int)(srcRectangle.Width * Scale.X), (int)(srcRectangle.Height * Scale.Y));
+            return boundingrectangle;
         }
 
         #region Editable
@@ -53,40 +50,26 @@ namespace Game1.GameObjects.Levels
         [XmlIgnore]
         Color[] coldata;
 
-        [XmlIgnore]
-        Matrix transform;
 
-        [XmlIgnore]
-        Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
+        
 
         [XmlIgnore]
         Vector2[] polygon;
-        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect) : base()
-        {
+
+        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect,Texture2D tex)
+        {            
+            this.texture = tex;
             this.texture_filename = fullpath;
             this.asset_name = Path.GetFileNameWithoutExtension(fullpath);
-            this.Position = position;
-            this.Rotation = 0;
-            this.Scale = Vector2.One;
             this.TintColor = Color.White;
             FlipHorizontally = FlipVertically = false;
             this.srcRectangle = srcRect;
             this.Origin = getTextureOrigin(srcRect);
-
-            //compensate for origins that are not at the center of the texture
-            var center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
-            this.Position -= (center - Origin);
-
-            if (texture != null)
-                OnTransformed();
-        }
-
-        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect,Texture2D tex) : this(fullpath,position,srcRect)
-        {
             
-            this.texture = tex;
-            if (texture != null)
-                OnTransformed();
+            //compensate for origins that are not at the center of the texture
+            //var center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
+            //this.Transform.Position = position - (center - Origin);
+            this.Transform.Position = position;
         }
 
         public override GameObject clone()
@@ -98,27 +81,15 @@ namespace Game1.GameObjects.Levels
             return result;
         }
 
-        public override string getNamePrefix()
-        {
-            return "Texture_";
-        }
 
         public override void OnTransformed()
         {
-
+            
             coldata = new Color[srcRectangle.Width * srcRectangle.Height];
-
-            //MainForm.Instance.spriteSheets[texture_filename].Texture.GetData<Color>(0, srcRectangle, coldata, 0, srcRectangle.Width * srcRectangle.Height);
             texture.GetData<Color>(0, srcRectangle, coldata, 0, srcRectangle.Width * srcRectangle.Height);
-
             polygon = new Vector2[4];
 
-
-            transform =
-                Matrix.CreateTranslation(new Vector3(-Origin.X, -Origin.Y, 0.0f)) *
-                Matrix.CreateScale(Scale.X, Scale.Y, 1) *
-                Matrix.CreateRotationZ(Rotation) *
-                Matrix.CreateTranslation(new Vector3(Position, 0.0f));
+            Transform.GetLocalMatrix(out var mat);
 
             var leftTop = new Vector2(0, 0);
             var rightTop = new Vector2(srcRectangle.Width, 0);
@@ -126,10 +97,10 @@ namespace Game1.GameObjects.Levels
             var rightBottom = new Vector2(srcRectangle.Width, srcRectangle.Height);
 
             // Transform all four corners into work space
-            Vector2.Transform(ref leftTop, ref transform, out leftTop);
-            Vector2.Transform(ref rightTop, ref transform, out rightTop);
-            Vector2.Transform(ref leftBottom, ref transform, out leftBottom);
-            Vector2.Transform(ref rightBottom, ref transform, out rightBottom);
+            leftTop = Vector2.Transform(leftTop - Origin, mat);
+            rightTop = Vector2.Transform(rightTop - Origin, mat);
+            leftBottom = Vector2.Transform(leftBottom - Origin, mat);
+            rightBottom = Vector2.Transform(rightBottom - Origin, mat);
 
             polygon[0] = leftTop;
             polygon[1] = rightTop;
@@ -155,56 +126,14 @@ namespace Game1.GameObjects.Levels
             base.onMouseButtonDown(mouseworldpos);
         }
 
-
-        public override bool CanRotate()
-        {
-            return true;
-        }
-
-        public override float getRotation()
-        {
-            return Rotation;
-        }
-
-        public override void setRotation(float rotation)
-        {
-            Rotation = rotation;
-            base.setRotation(rotation);
-        }
-
-
-        public override bool CanScale()
-        {
-            return true;
-        }
-
-        public override Vector2 getScale()
-        {
-            return Scale;
-        }
-
-        public override void setScale(Vector2 scale)
-        {
-            Scale = scale;
-            base.setScale(scale);
-        }
-
-
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-
             var se = SpriteEffects.None;
             if (FlipHorizontally) se |= SpriteEffects.FlipHorizontally;
             if (FlipVertically) se |= SpriteEffects.FlipVertically;
-            var c = TintColor;
-            //if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
-            if (hovering)
-                c = new Color(255, 0, 0, 228);
-            //sb.Draw(MainForm.Instance.spriteSheets[texture_filename].Texture, Position, srcRectangle, c, Rotation, Origin, Scale, se, 0);
-              
-
-            sb.Draw(texture, Position, srcRectangle, c, Rotation, Origin, Scale, se, 0);
+            var c = hovering ? new Color(255, 0, 0, 228) : TintColor;
+            sb.Draw(texture, Transform.Position, srcRectangle, c, Transform.Rotation, Origin, Transform.Scale, se, 0);
         }
 
         public override void loadIntoEditor(ContentManager content)
@@ -222,7 +151,7 @@ namespace Game1.GameObjects.Levels
             {
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }
-            var origin = Vector2.Transform(Position, matrix);
+            var origin = Vector2.Transform(Transform.Position, matrix);
             Primitives.Instance.drawBoxFilled(sb, origin.X - 5, origin.Y - 5, 10, 10, color);
         }
 
@@ -237,7 +166,9 @@ namespace Game1.GameObjects.Levels
 
         public bool intersectpixels(Vector2 worldpos)
         {
-            var positionInB = Vector2.Transform(worldpos, Matrix.Invert(transform));
+            
+            Transform.GetLocalMatrix(out var mat);
+            var positionInB = Vector2.Transform(worldpos + Origin, Matrix.Invert(mat));
             var xB = (int)Math.Round(positionInB.X);
             var yB = (int)Math.Round(positionInB.Y);
 

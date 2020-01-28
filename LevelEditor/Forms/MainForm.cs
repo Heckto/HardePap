@@ -325,7 +325,7 @@ namespace LevelEditor
             if (treeView1.SelectedNode.Tag is GameObject)
             {
                 var i = (GameObject)treeView1.SelectedNode.Tag;
-                Instance.picturebox.camera.Position = i.Position;
+                Instance.picturebox.camera.Position = i.Transform.Position;
             }
         }
         private void ActionRename(object sender, EventArgs e)

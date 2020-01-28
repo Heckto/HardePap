@@ -14,6 +14,7 @@ using Game1.GameObjects.Levels;
 using tainicom.Aether.Physics2D.Dynamics;
 using Game1.GameObjects.Obstacles;
 using System.IO;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.GameObjects.Characters
 {
@@ -61,7 +62,7 @@ namespace Game1.GameObjects.Characters
 
         public Ninja1(Vector2 loc, GameContext context) : base(context)
         {
-            Position = loc;
+            Transform.Position = loc;
             Visible = true;
             colBodySize = hitBoxSize;
             CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc),0,BodyType.Kinematic);
@@ -94,7 +95,7 @@ namespace Game1.GameObjects.Characters
 
             controller.Move(velocity);
 
-            Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+            Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
 
             if (controller.collisions.above || controller.collisions.below)
             {
@@ -110,13 +111,13 @@ namespace Game1.GameObjects.Characters
 
             base.Update(gameTime,lvl);
 
-            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
+            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Transform.Position) && !context.transitionManager.isTransitioning)
                 context.lvl.SpawnPlayer(null);
 
             PlayState.DebugMonitor.Clear();
             PlayState.DebugMonitor.AddDebugValue("Current Animation", CurrentAnimation);
             PlayState.DebugMonitor.AddDebugValue("Current State", CurrentState);
-            PlayState.DebugMonitor.AddDebugValue("Position", Position);
+            PlayState.DebugMonitor.AddDebugValue("Position", Transform.Position);
             PlayState.DebugMonitor.AddDebugValue("Velocity", velocity);
             PlayState.DebugMonitor.AddDebugValue("Below", controller.collisions.below);
             PlayState.DebugMonitor.AddDebugValue("Left", controller.collisions.left);
@@ -247,7 +248,7 @@ namespace Game1.GameObjects.Characters
             if (isBKey)
             {
                 CurrentState = CharState.GroundThrow;
-                var location = new Vector2(Position.X, Position.Y); /*+ (trajectoryY * 50)); // Adding something since the kunai spawns before the animation*/
+                var location = new Vector2(Transform.Position.X, Transform.Position.Y); /*+ (trajectoryY * 50)); // Adding something since the kunai spawns before the animation*/
                 var kunai = new Kunai(location, controller.collisions.faceDirection, context);
                 context.lvl.AddSprite(Guid.NewGuid().ToString(), kunai);
             }
@@ -352,7 +353,7 @@ namespace Game1.GameObjects.Characters
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, 0, 0.5f, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
         }
 
         private void Trigger_onEnterZone(Fixture body)
@@ -376,6 +377,11 @@ namespace Game1.GameObjects.Characters
             }
         }
 
+        public override void loadIntoEditor(ContentManager content)
+        {
+            
+        }
+
         public enum CharState
         {
             Idle = 1,
@@ -388,7 +394,11 @@ namespace Game1.GameObjects.Characters
             JumpThrow = 128,
             Dead = 256
         };
+
+
     }
+
+    
 
    
 }

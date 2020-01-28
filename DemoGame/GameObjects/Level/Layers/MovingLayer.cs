@@ -18,14 +18,14 @@ namespace Game1.GameObjects.Levels
             foreach (var Item in Items)
             {
                 var cam = new Vector2(1920, 1080);
-                var screenPost = Item.Position * ScrollSpeed + (cam * (Vector2.One - ScrollSpeed));
+                var screenPost = Item.Transform.Position * ScrollSpeed + (cam * (Vector2.One - ScrollSpeed));
 
-                var screenPost2 = -((cam * (Vector2.One - ScrollSpeed)) - Item.Position) / ScrollSpeed;
+                var screenPost2 = -((cam * (Vector2.One - ScrollSpeed)) - Item.Transform.Position) / ScrollSpeed;
 
 
                 var scrollAss = ScrollVector;
                 scrollAss.Normalize();
-                Item.Position += ScrollVector;
+                Item.Transform.Position += ScrollVector;
 
 
                 var itemBox = Item.getBoundingBox();
@@ -35,11 +35,11 @@ namespace Game1.GameObjects.Levels
                 {
                     var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
 
-                    Item.Position -= (posVector);
+                    Item.Transform.Position -= (posVector);
 
-                    var pos = ScrollSpeed * Item.Position + (cam + (Vector2.One - ScrollSpeed));
+                    var pos = ScrollSpeed * Item.Transform.Position + (cam + (Vector2.One - ScrollSpeed));
 
-                    Item.Position = pos;
+                    Item.Transform.Position = pos;
                 }                
             }
         }

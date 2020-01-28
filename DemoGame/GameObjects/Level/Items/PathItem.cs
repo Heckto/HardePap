@@ -41,10 +41,10 @@ namespace Game1.GameObjects.Levels
         public PathItem(Vector2[] points)
             : base()
         {
-            Position = points[0];
+            Transform.Position = points[0];
             WorldPoints = points;
             LocalPoints = (Vector2[])points.Clone();
-            for (var i = 0; i < LocalPoints.Length; i++) LocalPoints[i] -= Position;
+            for (var i = 0; i < LocalPoints.Length; i++) LocalPoints[i] -= Transform.Position;
             //LineWidth = Constants.Instance.DefaultPathItemLineWidth;
             //LineColor = Constants.Instance.ColorPrimitives;
             LineWidth = 4;
@@ -82,7 +82,7 @@ namespace Game1.GameObjects.Levels
         /// </summary>
         public override void OnTransformed()
         {
-            for (var i = 0; i < WorldPoints.Length; i++) WorldPoints[i] = LocalPoints[i] + Position;
+            for (var i = 0; i < WorldPoints.Length; i++) WorldPoints[i] = LocalPoints[i] + Transform.Position;
         }
 
 
@@ -136,7 +136,7 @@ namespace Game1.GameObjects.Levels
                 {
                     LocalPoints[i] = WorldPoints[i] - WorldPoints[0];
                 }
-                Position = WorldPoints[0];
+                Transform.Position = WorldPoints[0];
                 OnTransformed();
                 //MainForm.Instance.propertyGrid1.Refresh();
             }
@@ -145,66 +145,66 @@ namespace Game1.GameObjects.Levels
             base.onMouseButtonUp(mouseworldpos);
         }
 
-        public override void setPosition(Vector2 pos)
-        {
-            if (pointgrabbed >= 0)
-            {
-                LocalPoints[pointgrabbed] = initialpos + pos - Position * 2;
-                OnTransformed();
-                //MainForm.Instance.toolStripStatusLabel1.Text = Name + " (Point " + pointgrabbed.ToString() + ": " + WorldPoints[pointgrabbed].ToString() + ")";
-            }
-            else base.setPosition(pos);
-        }
+        //public override void setPosition(Vector2 pos)
+        //{
+        //    if (pointgrabbed >= 0)
+        //    {
+        //        LocalPoints[pointgrabbed] = initialpos + pos - Position * 2;
+        //        OnTransformed();
+        //        //MainForm.Instance.toolStripStatusLabel1.Text = Name + " (Point " + pointgrabbed.ToString() + ": " + WorldPoints[pointgrabbed].ToString() + ")";
+        //    }
+        //    else base.setPosition(pos);
+        //}
 
 
-        public override bool CanRotate()
-        {
-            return true;
-        }
+        //public override bool CanRotate()
+        //{
+        //    return true;
+        //}
 
-        public override float getRotation()
-        {
-            return (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
-        }
+        //public override float getRotation()
+        //{
+        //    return (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
+        //}
 
-        public override void setRotation(float rotation)
-        {
-            var current = (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
-            var delta = rotation - current;
+        //public override void setRotation(float rotation)
+        //{
+        //    var current = (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
+        //    var delta = rotation - current;
 
-            var matrix = Matrix.CreateRotationZ(delta);
+        //    var matrix = Matrix.CreateRotationZ(delta);
 
-            for (var i = 1; i < LocalPoints.Length; i++)
-            {
-                LocalPoints[i] = Vector2.Transform(LocalPoints[i], matrix);
-            }
-            base.setRotation(rotation);
+        //    for (var i = 1; i < LocalPoints.Length; i++)
+        //    {
+        //        LocalPoints[i] = Vector2.Transform(LocalPoints[i], matrix);
+        //    }
+        //    base.setRotation(rotation);
             
-        }
+        //}
 
 
-        public override bool CanScale()
-        {
-            return true;
-        }
+        //public override bool CanScale()
+        //{
+        //    return true;
+        //}
 
-        public override Vector2 getScale()
-        {
-            var length = (LocalPoints[1] - LocalPoints[0]).Length();
-            return new Vector2(length, length);
-        }
+        //public override Vector2 getScale()
+        //{
+        //    var length = (LocalPoints[1] - LocalPoints[0]).Length();
+        //    return new Vector2(length, length);
+        //}
 
-        public override void setScale(Vector2 scale)
-        {
-            var factor = scale.X / (LocalPoints[1] - LocalPoints[0]).Length();
-            for (var i = 1; i < LocalPoints.Length; i++)
-            {
-                var olddistance = LocalPoints[i] - LocalPoints[0];
-                LocalPoints[i] = LocalPoints[0] + olddistance * factor;
-            }
-            base.setScale(scale);
+        //public override void setScale(Vector2 scale)
+        //{
+        //    var factor = scale.X / (LocalPoints[1] - LocalPoints[0]).Length();
+        //    for (var i = 1; i < LocalPoints.Length; i++)
+        //    {
+        //        var olddistance = LocalPoints[i] - LocalPoints[0];
+        //        LocalPoints[i] = LocalPoints[0] + olddistance * factor;
+        //    }
+        //    base.setScale(scale);
 
-        }
+        //}
 
         public override void drawInEditor(SpriteBatch sb)
         {

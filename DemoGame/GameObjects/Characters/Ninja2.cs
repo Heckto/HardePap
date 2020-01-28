@@ -65,7 +65,7 @@ namespace Game1.GameObjects.Characters
             HandleCollision(gameTime);
             UpdateAnimation(gameTime);
 
-            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Position) && !context.transitionManager.isTransitioning)
+            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Transform.Position) && !context.transitionManager.isTransitioning)
                 context.lvl.SpawnPlayer(null);
 
         }

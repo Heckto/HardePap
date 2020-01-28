@@ -5,6 +5,7 @@ using System;
 using System.Xml.Serialization;
 using Game1.GameObjects.Characters;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended;
 
 namespace Game1.GameObjects
 {
@@ -21,6 +22,10 @@ namespace Game1.GameObjects
 
         public GameObject()
         {
+            Transform = new Transform2();
+
+            Transform.TranformUpdated += OnTransformed;
+            Transform.TransformBecameDirty += OnTransformed;
             CustomProperties = new SerializableDictionary();
         }
 
@@ -30,10 +35,14 @@ namespace Game1.GameObjects
         [XmlAttribute()]
         public bool Visible;
 
-        public Vector2 Position { get; set; }
+
+        public Transform2 Transform { get; set; }
 
         [XmlIgnore()]
         public Layer layer;
+
+        [XmlIgnore]
+        protected Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
 
         public SerializableDictionary CustomProperties;
 
@@ -44,39 +53,17 @@ namespace Game1.GameObjects
         [XmlIgnore]
         protected bool hovering;
         public abstract GameObject clone();
-        public abstract string getNamePrefix();
+        public virtual string getNamePrefix()
+        {
+            return this.GetType().Name + "_";
+        }
         public abstract void OnTransformed();
         public abstract bool contains(Vector2 worldpos);
-        public virtual bool CanRotate()
-        {
-            return false;
-        }
-        public virtual float getRotation()
-        {
-            return 0;
-        }
-        public virtual void setRotation(float rotation)
-        {
-            OnTransformed();
-        }
-        public abstract bool CanScale();
-        public virtual Vector2 getScale()
-        {
-            return Vector2.One;
-        }
-        public virtual void setScale(Vector2 scale)
-        {
-            OnTransformed();
-        }
+        
         public abstract void drawInEditor(SpriteBatch sb);
         public virtual void loadIntoEditor(ContentManager content) { }
         public abstract void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color);
-        public virtual void setPosition(Vector2 pos)
-        {
-            Position = pos;
-            OnTransformed();
-        }
-
+        
         public virtual bool onMouseOver(Vector2 mouseworldpos, out string msg)
         {
             msg = String.Empty;

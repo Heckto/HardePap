@@ -98,15 +98,15 @@ namespace Game1.DataContext
         {
             var perc = 0f;
             var player = lvl.player;
-            var playerStart = player.Position;
-            while ((player.Position - dest).Length() > 3)
+            var playerStart = player.Transform.Position;
+            while ((player.Transform.Position - dest).Length() > 3)
             {
                 var frameData = await currentFrameSource.Task;
                 if (frameData.token.IsCancellationRequested)
                     frameData.token.Token.ThrowIfCancellationRequested();
                 perc = MathHelper.Clamp(perc + speed, 0, 1);
                 //player.Ve = new Vector2(1,player.Trajectory.Y);
-                if (player.Position.X > dest.X)
+                if (player.Transform.Position.X > dest.X)
                     break;
             }
 
@@ -130,17 +130,17 @@ namespace Game1.DataContext
                 var dest = Vector2.Transform(mousePos, m);
                 var perc = 0f;
                 var player = lvl.player;
-                var playerStart = player.Position;
-                while ((player.Position - dest).Length() > 3)
+                var playerStart = player.Transform.Position;
+                while ((player.Transform.Position - dest).Length() > 3)
                 {
-                    var ass = (player.Position - dest).Length();
+                    var ass = (player.Transform.Position - dest).Length();
                     var frameData = await currentFrameSource.Task;
                     if (frameData.token.IsCancellationRequested)
                         frameData.token.Token.ThrowIfCancellationRequested();
                     perc = MathHelper.Clamp(perc + speed, 0, 1);
                     var newPos = Vector2.Lerp(playerStart, dest, perc);
                     //player.Trajectory = new Vector2(5, player.Trajectory.Y);
-                    if (player.Position.X > dest.X)
+                    if (player.Transform.Position.X > dest.X)
                         break;
                 }
 

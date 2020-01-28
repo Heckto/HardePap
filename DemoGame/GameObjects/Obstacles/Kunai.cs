@@ -26,7 +26,7 @@ namespace Game1.GameObjects.Obstacles
         public Kunai(Vector2 loc, int direction, GameContext context) : base(context)
         {
             Visible = true;
-            this.Position = loc; 
+            this.Transform.Position = loc; 
             movement = new Vector2(Math.Sign(direction) * movementSpeed, 0);
             var texSize = CurrentAnimation.Frames.First().Size;
             colBodySize = 0.5f * texSize;
@@ -61,13 +61,13 @@ namespace Game1.GameObjects.Obstacles
 
         public void Update(GameTime gameTime,Level lvl)
         {
-            var r = new Rectangle((int)Position.X, (int)Position.Y, (int)colBodySize.Y, (int)colBodySize.X);
+            var r = new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, (int)colBodySize.Y, (int)colBodySize.X);
             if (!context.camera.Bounds.Intersects(r))
                 IsAlive = false;           
 
             controller.Move(movement);
 
-            Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+            Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
             base.Update(gameTime, lvl);
         }
 
@@ -75,7 +75,7 @@ namespace Game1.GameObjects.Obstacles
         {
             var flip = (Direction == FaceDirection.Left);
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, Rotation, 0.5f, Color, AnimationEffect.None);
+                CurrentAnimation.Draw(sb, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, Rotation, 0.5f, Color, AnimationEffect.None);
         }
     }
 }

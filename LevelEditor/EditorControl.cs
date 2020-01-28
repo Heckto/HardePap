@@ -193,7 +193,7 @@ namespace LevelEditor
                         item.drawSelectionFrame(sb, camera.getViewMatrix(), color);
                         if (i == 0 && (state == EditorState.rotating || state == EditorState.scaling))
                         {
-                            var center = Vector2.Transform(item.Position, camera.getViewMatrix());
+                            var center = Vector2.Transform(item.Transform.Position, camera.getViewMatrix());
                             var mouse = Vector2.Transform(mouseworldpos, camera.getViewMatrix());
                             Primitives.Instance.drawLine(sb, center, mouse, Constants.Instance.ColorSelectionFirst, 1);
                         }
@@ -425,16 +425,13 @@ namespace LevelEditor
                     {
                         if (SelectedItems.Count > 0)
                         {
-                            grabbedpoint = mouseworldpos - SelectedItems[0].Position;
+                            grabbedpoint = mouseworldpos - SelectedItems[0].Transform.Position;
 
                             //save the initial rotation for each item
                             initialrot.Clear();
                             foreach (var selitem in SelectedItems)
-                            {
-                                if (selitem.CanRotate())
-                                {
-                                    initialrot.Add(selitem.getRotation());
-                                }
+                            {                                    
+                                initialrot.Add(selitem.Transform.Rotation);
                             }
 
                             state = EditorState.rotating;
@@ -453,16 +450,13 @@ namespace LevelEditor
                     if (item != null) item.onMouseOut();
                     if (SelectedItems.Count > 0)
                     {
-                        grabbedpoint = mouseworldpos - SelectedItems[0].Position;
+                        grabbedpoint = mouseworldpos - SelectedItems[0].Transform.Position;
 
                         //save the initial scale for each item
                         initialscale.Clear();
                         foreach (var selitem in SelectedItems)
                         {
-                            if (selitem.CanScale())
-                            {
-                                initialscale.Add(selitem.getScale());
-                            }
+                            initialscale.Add(selitem.Transform.Scale);
                         }
 
                         state = EditorState.scaling;
@@ -510,7 +504,7 @@ namespace LevelEditor
                     newPosition = initialpos[i] + mouseworldpos - grabbedpoint;
                     if (Constants.Instance.SnapToGrid || kstate.IsKeyDown(Keys.G)) newPosition = snapToGrid(newPosition);
                     drawSnappedPoint = false;
-                    selitem.setPosition(newPosition);
+                    selitem.Transform.Position = newPosition;
                     i++;
                 }
                 MainForm.Instance.propertyGrid1.Refresh();
@@ -529,21 +523,18 @@ namespace LevelEditor
 
             if (state == EditorState.rotating)
             {
-                var newpos = mouseworldpos - SelectedItems[0].Position;
+                var newpos = mouseworldpos - SelectedItems[0].Transform.Position;
                 var deltatheta = (float)Math.Atan2(grabbedpoint.Y, grabbedpoint.X) - (float)Math.Atan2(newpos.Y, newpos.X);
                 var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
                     
-                    if (selitem.CanRotate())
+                    selitem.Transform.Rotation = (initialrot[i] - deltatheta);
+                    if (kstate.IsKeyDown(Keys.LeftControl))
                     {
-                        selitem.setRotation(initialrot[i] - deltatheta);
-                        if (kstate.IsKeyDown(Keys.LeftControl))
-                        {
-                            selitem.setRotation((float)Math.Round(selitem.getRotation() / MathHelper.PiOver4) * MathHelper.PiOver4);
-                        }
-                        i++;
+                        selitem.Transform.Rotation = ((float)Math.Round(selitem.Transform.Rotation / MathHelper.PiOver4) * MathHelper.PiOver4);
                     }
+                    i++;                    
                 }
                 MainForm.Instance.propertyGrid1.Refresh();
                 if ((mstate.MiddleButton == ButtonState.Released && oldmstate.MiddleButton == ButtonState.Pressed) ||
@@ -557,33 +548,30 @@ namespace LevelEditor
 
             if (state == EditorState.scaling)
             {
-                var newdistance = mouseworldpos - SelectedItems[0].Position;
+                var newdistance = mouseworldpos - SelectedItems[0].Transform.Position;
                 var factor = newdistance.Length() / grabbedpoint.Length();
                 var i = 0;
                 foreach (var selitem in SelectedItems)
                 {
                     
-                    if (selitem.CanScale())
+                    if (selitem is TextureItem)
                     {
-                        if (selitem is TextureItem)
-                        {
-                            MainForm.Instance.toolStripStatusLabel1.Text = "Hold down [X] or [Y] to limit scaling to the according dimension.";
-                        }
+                        MainForm.Instance.toolStripStatusLabel1.Text = "Hold down [X] or [Y] to limit scaling to the according dimension.";
+                    }
 
-                        var newscale = initialscale[i];
-                        if (!kstate.IsKeyDown(Keys.Y)) newscale.X = initialscale[i].X * (((factor - 1.0f) * 0.5f) + 1.0f);
-                        if (!kstate.IsKeyDown(Keys.X)) newscale.Y = initialscale[i].Y * (((factor - 1.0f) * 0.5f) + 1.0f);
-                        selitem.setScale(newscale);
+                    var newscale = initialscale[i];
+                    if (!kstate.IsKeyDown(Keys.Y)) newscale.X = initialscale[i].X * (((factor - 1.0f) * 0.5f) + 1.0f);
+                    if (!kstate.IsKeyDown(Keys.X)) newscale.Y = initialscale[i].Y * (((factor - 1.0f) * 0.5f) + 1.0f);
+                    selitem.Transform.Scale = newscale;
 
-                        if (kstate.IsKeyDown(Keys.LeftControl))
-                        {
-                            Vector2 scale;
-                            scale.X = (float)Math.Round(selitem.getScale().X * 10) / 10;
-                            scale.Y = (float)Math.Round(selitem.getScale().Y * 10) / 10;
-                            selitem.setScale(scale);
-                        }
-                        i++;
-                    }                    
+                    if (kstate.IsKeyDown(Keys.LeftControl))
+                    {
+                        Vector2 scale;
+                        scale.X = (float)Math.Round(selitem.Transform.Scale.X * 10) / 10;
+                        scale.Y = (float)Math.Round(selitem.Transform.Scale.Y * 10) / 10;
+                        selitem.Transform.Scale = scale;
+                    }
+                    i++;                                     
                 }
                 MainForm.Instance.propertyGrid1.Refresh();
                 if ((mstate.RightButton == ButtonState.Released && oldmstate.RightButton == ButtonState.Pressed) ||
@@ -620,7 +608,7 @@ namespace LevelEditor
                     selectionrectangle = Extensions.RectangleFromVectors(grabbedpoint, mouseworldpos);
                     foreach (var i in SelectedLayer.Items)
                     {
-                        if (i.Visible && selectionrectangle.Contains((int)i.Position.X, (int)i.Position.Y)) SelectedItems.Add(i);
+                        if (i.Visible && selectionrectangle.Contains((int)i.Transform.Position.X, (int)i.Transform.Position.Y)) SelectedItems.Add(i);
                     }
                     updatetreeviewselection();
                 }
@@ -966,7 +954,7 @@ namespace LevelEditor
             {
 
                 i = (GameObject)Activator.CreateInstance(ebr.entity.GetType());
-                i.Position = mouseworldpos;
+                i.Transform.Position = mouseworldpos;
                 i.OnTransformed();
             }
             i.Name = i.getNamePrefix() + level.getNextItemNumber();
@@ -1058,7 +1046,7 @@ namespace LevelEditor
             initialpos.Clear();
             foreach (var selitem in SelectedItems)
             {
-                initialpos.Add(selitem.Position);
+                initialpos.Add(selitem.Transform.Position);
             }
 
             state = EditorState.moving;
@@ -1235,7 +1223,7 @@ namespace LevelEditor
             beginCommand("Align Horizontally");
             foreach (var i in SelectedItems)
             {
-                i.Position = new Vector2(i.Position.X, SelectedItems[0].Position.Y);
+                i.Transform.Position = new Vector2(i.Transform.Position.X, SelectedItems[0].Transform.Position.Y);
             }
             endCommand();
         }
@@ -1245,7 +1233,7 @@ namespace LevelEditor
             beginCommand("Align Vertically");
             foreach (var i in SelectedItems)
             {
-                i.Position = new Vector2(SelectedItems[0].Position.X, i.Position.Y);
+                i.Transform.Position = new Vector2(SelectedItems[0].Transform.Position.X, i.Transform.Position.Y);
             }
             endCommand();
         }
@@ -1255,7 +1243,7 @@ namespace LevelEditor
             beginCommand("Align Rotation");
             foreach (TextureItem i in SelectedItems)
             {
-                i.Rotation = ((TextureItem)SelectedItems[0]).Rotation;
+                i.Transform.Rotation = ((TextureItem)SelectedItems[0]).Transform.Rotation;
             }
             endCommand();
         }
@@ -1265,7 +1253,7 @@ namespace LevelEditor
             beginCommand("Align Scale");
             foreach (TextureItem i in SelectedItems)
             {
-                i.Scale = ((TextureItem)SelectedItems[0]).Scale;
+                i.Transform.Scale = ((TextureItem)SelectedItems[0]).Transform.Scale;
             }
             endCommand();
         }

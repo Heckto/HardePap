@@ -28,7 +28,7 @@ namespace Game1.GameObjects.Characters
         public Zombie1(Vector2 loc, GameContext context) : base(context)
         {
             Visible = true;
-            Position = loc;
+            Transform.Position = loc;
 
             Initialize();
         }
@@ -38,7 +38,7 @@ namespace Game1.GameObjects.Characters
         public override void Initialize()
         {
             colBodySize = hitBoxSize;
-            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(Position), 0, BodyType.Kinematic);
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(Transform.Position), 0, BodyType.Kinematic);
             CollisionBox.Tag = this;
             CollisionBox.SetCollisionCategories(Category.Cat20);
 
@@ -64,7 +64,7 @@ namespace Game1.GameObjects.Characters
 
         private void HandleKeyInput(float delta, IInputHandler Input)
         {
-            var targetDist = Math.Abs(context.lvl.player.Position.X - Position.X);
+            var targetDist = Math.Abs(context.lvl.player.Transform.Position.X - Transform.Position.X);
             switch (state)
             {
                 case BehaviourState.Idle:
@@ -79,7 +79,7 @@ namespace Game1.GameObjects.Characters
                     {
                         var movementLength = Rand.GetRandomInt(300, 500);
                         var movementDir = Rand.GetRandomInt(0, 2);
-                        movingTarget = movementDir == 0 ? movingTarget = new Vector2(Position.X + movementLength, 0) : movingTarget = new Vector2(Position.X - movementLength, 0);
+                        movingTarget = movementDir == 0 ? movingTarget = new Vector2(Transform.Position.X + movementLength, 0) : movingTarget = new Vector2(Transform.Position.X - movementLength, 0);
                         state = BehaviourState.Walking;
                         SetAnimation("Walk");
                         IdleTimeout = 0;
@@ -91,7 +91,7 @@ namespace Game1.GameObjects.Characters
                     //    SetAnimation("Walk");
                     //    state = BehaviourState.Chasing;
                     //}
-                    var tv = movingTarget - Position;
+                    var tv = movingTarget - Transform.Position;
 
                     tv.Normalize();
                     velocity.X = tv.X;
@@ -101,22 +101,22 @@ namespace Game1.GameObjects.Characters
                     //else
                     //    velocity.X = Math.Min(0.05f * delta, (movingTarget - Position).X / delta);
 
-                    if (Math.Abs(movingTarget.X - Position.X) <= 1)
+                    if (Math.Abs(movingTarget.X - Transform.Position.X) <= 1)
                     {
                         state = BehaviourState.Idle;
                         SetAnimation("Idle");
-                        Console.WriteLine(Position + " - " + movingTarget);
+                        Console.WriteLine(Transform.Position + " - " + movingTarget);
                     }
                     break;
                 case BehaviourState.Chasing:
                     if (targetDist > 500)
                         state = BehaviourState.Idle;
-                    var v = context.lvl.player.Position - Position;
+                    var v = context.lvl.player.Transform.Position - Transform.Position;
                     v.Normalize();
                     if (v.X < 0)
-                        velocity.X = -Math.Min(Math.Abs(-0.03f * delta), Math.Abs((context.lvl.player.Position - Position).X / delta));
+                        velocity.X = -Math.Min(Math.Abs(-0.03f * delta), Math.Abs((context.lvl.player.Transform.Position - Transform.Position).X / delta));
                     else
-                        velocity.X = Math.Min(0.03f * delta, (context.lvl.player.Position - Position).X / delta);
+                        velocity.X = Math.Min(0.03f * delta, (context.lvl.player.Transform.Position - Transform.Position).X / delta);
                     break;
                 case BehaviourState.Attack:
                     //if (targetDist > context.lvl.player.CollisionBox.Width / 2 && CurrentAnimation.AnimationState == AnimationState.Finished)
@@ -131,11 +131,11 @@ namespace Game1.GameObjects.Characters
             velocity.Y += gravity * delta;
             controller.Move(velocity);
 
-            Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+            Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
 
             if (controller.collisions.edgeCase && controller.collisions.below)
             {
-                movingTarget.X -= ((movingTarget - Position).X * controller.collisions.faceDirection);
+                movingTarget.X -= ((movingTarget - Transform.Position).X * controller.collisions.faceDirection);
             }
             else if (controller.collisions.below)
                 velocity.Y = 0;
@@ -188,7 +188,7 @@ namespace Game1.GameObjects.Characters
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Position, 0, 0.5f, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
         }
 
         public enum BehaviourState

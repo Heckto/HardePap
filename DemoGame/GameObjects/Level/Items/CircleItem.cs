@@ -7,7 +7,7 @@ namespace Game1.GameObjects.Levels
 {
     public partial class CircleItem : GameObject
     {
-        public float Radius;
+        public float Radius { get; set; }
         public Color FillColor;
         public ItemTypes ItemType { get; set; } = ItemTypes.None;
 
@@ -16,7 +16,8 @@ namespace Game1.GameObjects.Levels
         public CircleItem(Vector2 startpos, float radius)
             : base()
         {
-            this.Position = startpos;
+            
+            this.Transform.Position = startpos;
             this.Radius = radius;
             this.FillColor = new Color(192, 0, 192, 145);
             
@@ -24,7 +25,7 @@ namespace Game1.GameObjects.Levels
 
         public override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)(Position.X - 0.5f * Radius), (int)(Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
+            return new Rectangle((int)(Transform.Position.X - 0.5f * Radius), (int)(Transform.Position.X - 0.5f * Radius), (int)(2 * Radius), (int)(2 * Radius));
         }
 
 
@@ -37,14 +38,9 @@ namespace Game1.GameObjects.Levels
             return result;
         }
 
-        public override string getNamePrefix()
-        {
-            return "Circle_";
-        }
-
         public override bool contains(Vector2 worldpos)
         {
-            return (worldpos - Position).Length() <= Radius;
+            return (worldpos - Transform.Position).Length() <= Radius;
         }
 
 
@@ -59,39 +55,18 @@ namespace Game1.GameObjects.Levels
             base.onMouseButtonDown(mouseworldpos);
         }
 
-
-        public override bool CanScale()
-        {
-            return true;
-        }
-
-        public override Vector2 getScale()
-        {
-            return new Vector2(Radius, Radius);
-        }
-
-        public override void setScale(Vector2 scale)
-        {
-            Radius = (float)Math.Round(scale.X);
-            base.setScale(scale);
-        }
-
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-            var c = FillColor;
-            //if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
-            if (hovering)
-                //c = Constants.Instance.ColorHighlight;
-                c = new Color(255, 0, 0, 228);
-            Primitives.Instance.drawCircleFilled(sb, Position, Radius, c);
+            var c = hovering ? new Color(255, 0, 0, 228) : FillColor;
+            Primitives.Instance.drawCircleFilled(sb, Transform.Position, Radius, c);
         }
 
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)
         {
 
-            var transformedPosition = Vector2.Transform(Position, matrix);
+            var transformedPosition = Vector2.Transform(Transform.Position, matrix);
             var transformedRadius = Vector2.TransformNormal(Vector2.UnitX * Radius, matrix);
             Primitives.Instance.drawCircle(sb, transformedPosition, transformedRadius.Length(), color, 2);
 
@@ -106,7 +81,7 @@ namespace Game1.GameObjects.Levels
                 Primitives.Instance.drawCircleFilled(sb, p, 4, color);
             }
 
-            var origin = Vector2.Transform(Position, matrix);
+            var origin = Vector2.Transform(Transform.Position, matrix);
             Primitives.Instance.drawBoxFilled(sb, origin.X - 5, origin.Y - 5, 10, 10, color);
 
         }

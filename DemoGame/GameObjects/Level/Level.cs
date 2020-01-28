@@ -131,7 +131,7 @@ namespace Game1.GameObjects.Levels
                 {
                     var rec = elem as RectangleItem;
                     var origin = new Vector2(rec.Width / 2, rec.Height / 2);
-                    var colBody = CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(rec.Width), ConvertUnits.ToSimUnits(rec.Height), 10, ConvertUnits.ToSimUnits(rec.Position + origin));
+                    var colBody = CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(rec.Width), ConvertUnits.ToSimUnits(rec.Height), 10, ConvertUnits.ToSimUnits(rec.Transform.Position + origin));
                     if (rec.ItemType == ItemTypes.Transition || rec.ItemType == ItemTypes.ScriptTrigger)
                     {
                         colBody.Tag = rec;
