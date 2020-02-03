@@ -906,7 +906,7 @@ namespace LevelEditor
             updatetreeview();
         }
 
-        public void createTextureBrush(Texture2D tex, SpriteSheet ss, string name)
+        public void createTextureBrush(Texture2D tex, Rectangle srcRect,string asset_name, string sprite_name)
         {
             if (SelectedLayer == null)
             {
@@ -915,7 +915,7 @@ namespace LevelEditor
                 return;
             }
             state = EditorState.brush;
-            currentbrush = new TextureBrush(tex, ss, name);
+            currentbrush = new TextureBrush(tex, srcRect, asset_name, sprite_name);
         }
 
         public void createEntityBrush(GameObject o,string name)

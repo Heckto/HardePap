@@ -275,8 +275,8 @@ namespace LevelEditor
             var lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
 
             var spriteSheet = (SpriteSheet)lvi.ListView.Tag;
-            var tex = GetBrushData(spriteSheet.SpriteDef[lvi.Name].SrcRectangle, spriteSheet.Texture);
-            Instance.picturebox.createTextureBrush(tex,spriteSheet,lvi.Name);
+            //var tex = GetBrushData(spriteSheet.SpriteDef[lvi.Name].SrcRectangle, spriteSheet.Texture);
+            Instance.picturebox.createTextureBrush(spriteSheet.Texture, spriteSheet.SpriteDef[lvi.Name].SrcRectangle,spriteSheet.Name, lvi.Name);
 
         }
         private void pictureBox1_DragOver(object sender, DragEventArgs e)
@@ -658,9 +658,9 @@ namespace LevelEditor
             var spriteSheet = (SpriteSheet)(sender as ListView).Tag;
             var spriteSheetDef = (string)(sender as ListView).FocusedItem.Tag;
             var rect = spriteSheet.SpriteDef[spriteSheetDef].SrcRectangle;
-            var tex = GetBrushData(rect, spriteSheet.Texture);
+            //var tex = GetBrushData(rect, spriteSheet.Texture);
             
-            Instance.picturebox.createTextureBrush(tex, spriteSheet, spriteSheetDef);
+            Instance.picturebox.createTextureBrush(spriteSheet.Texture, rect,spriteSheet.Name, spriteSheetDef);
         }
 
         private void AddEntityItem(object sender, MouseEventArgs e)
@@ -713,16 +713,16 @@ namespace LevelEditor
             return newname;
         }
 
-        private Texture2D GetBrushData(Microsoft.Xna.Framework.Rectangle tile, Texture2D tileTex)
-        {
-            var data = new int[tile.Width * tile.Height];
-            tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
+        //private Texture2D GetBrushData(Microsoft.Xna.Framework.Rectangle tile, Texture2D tileTex)
+        //{
+        //    var data = new int[tile.Width * tile.Height];
+        //    tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
 
-            var texBrush = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
-            texBrush.SetData<int>(data);
+        //    var texBrush = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
+        //    texBrush.SetData<int>(data);
 
-            return texBrush;
-        }
+        //    return texBrush;
+        //}
 
 
         private Bitmap GetButtonImage(Microsoft.Xna.Framework.Rectangle tile,Texture2D tileTex)
@@ -738,6 +738,44 @@ namespace LevelEditor
                     var bitmapColor =
                         Color.FromArgb(data[y * tile.Width + x]);
 
+                    bitmap.SetPixel(x, y, bitmapColor);
+                }
+            }
+            return bitmap;
+        }
+
+        private Bitmap ConvertTexToBmp(Microsoft.Xna.Framework.Rectangle tile, Texture2D texture)
+        {
+            var graphicsDevice = picturebox.Editor.graphics;
+            int width = tile.Width;
+            int height = tile.Height;
+            int max = (width >= height) ? width : height;
+            float f = 64.0f / (float)max;
+            width = (int)(width * f);
+            height = (int)(height * f);
+            var vond = new RenderTarget2D(graphicsDevice, width, height);
+            var renderRec = new Microsoft.Xna.Framework.Rectangle(0, 0, width, height);
+
+            graphicsDevice.SetRenderTarget(vond);
+            
+            graphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+            SpriteBatch cSpriteBatch = new SpriteBatch(graphicsDevice);
+            cSpriteBatch.Begin();
+            cSpriteBatch.Draw(texture, renderRec, tile, Microsoft.Xna.Framework.Color.White);
+            cSpriteBatch.End();
+
+            graphicsDevice.SetRenderTarget(null);
+            
+            Texture2D scaledTex = (Texture2D)vond;
+            int[] data = new int[width * height];
+            scaledTex.GetData<int>(0, renderRec, data, 0, width * height);
+
+            Bitmap bitmap = new Bitmap(width, height);
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    System.Drawing.Color bitmapColor = System.Drawing.Color.FromArgb(data[y * width + x]);
                     bitmap.SetPixel(x, y, bitmapColor);
                 }
             }
@@ -845,8 +883,8 @@ namespace LevelEditor
                     {
                         var rect = spriteDef.Value.SrcRectangle;
 
-                        var item = GetButtonImage(rect, spriteAtlas);                        
-
+                        //var item = GetButtonImage(rect, spriteAtlas);
+                        var item = ConvertTexToBmp(rect, spriteAtlas);
                         var lvi = new ListViewItem();
                         lvi.Name = file.FullName;
                         lvi.Text = spriteDef.Key;

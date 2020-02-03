@@ -20,6 +20,8 @@ using Game1.Screens;
 using Game1.GameObjects.Characters;
 using System.ComponentModel;
 using System.Text;
+using ProjectMercury.Renderers;
+using Game1.GameObjects.ParticleEffects;
 
 namespace Game1.GameObjects.Levels
 {
@@ -52,8 +54,11 @@ namespace Game1.GameObjects.Levels
 
         public SerializableDictionary CustomProperties;
 
+        private SpriteBatchRenderer particleRenderer;
+
         public Level() : base()
         {
+            particleRenderer = new SpriteBatchRenderer();
             Layers = new List<Layer>();
         }
 
@@ -150,6 +155,10 @@ namespace Game1.GameObjects.Levels
                     }
                 }
             }
+
+            var f = new FireEffect();
+            f.Transform.Position = new Vector2(3500, 3500);
+            l.Items.Add(f);
         }
 
         public GameObject GetItemByName(string name)
@@ -221,7 +230,13 @@ namespace Game1.GameObjects.Levels
                         {
                             if (item.Visible && item is IDrawableItem drawitem)
                             {
-                                drawitem.Draw(sb);
+                                
+                                if (drawitem is FireEffect)
+                                {
+                                    (drawitem as FireEffect).Draw(sb, camera.getViewMatrix(layer.ScrollSpeed));
+                                }
+                                else
+                                    drawitem.Draw(sb);
                             }
 
                         }

@@ -165,9 +165,9 @@ namespace Game1.GameObjects.Levels
         }
 
         public bool intersectpixels(Vector2 worldpos)
-        {
-            
-            Transform.GetLocalMatrix(out var mat);
+        {            
+
+            Transform.GetWorldMatrix(out var mat);
             var positionInB = Vector2.Transform(worldpos + Origin, Matrix.Invert(mat));
             var xB = (int)Math.Round(positionInB.X);
             var yB = (int)Math.Round(positionInB.Y);

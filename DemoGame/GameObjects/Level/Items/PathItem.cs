@@ -41,10 +41,14 @@ namespace Game1.GameObjects.Levels
         public PathItem(Vector2[] points)
             : base()
         {
-            Transform.Position = points[0];
+            
             WorldPoints = points;
             LocalPoints = (Vector2[])points.Clone();
-            for (var i = 0; i < LocalPoints.Length; i++) LocalPoints[i] -= Transform.Position;
+            for (var i = 0; i < LocalPoints.Length; i++)
+                LocalPoints[i] -= points[0];
+
+            Transform.Position = points[0];
+            
             //LineWidth = Constants.Instance.DefaultPathItemLineWidth;
             //LineColor = Constants.Instance.ColorPrimitives;
             LineWidth = 4;
@@ -59,11 +63,6 @@ namespace Game1.GameObjects.Levels
             result.WorldPoints = (Vector2[])this.WorldPoints.Clone();
             result.hovering = false;
             return result;
-        }
-
-        public override string getNamePrefix()
-        {
-            return "Path_";
         }
 
         public override bool contains(Vector2 worldpos)
@@ -143,77 +142,12 @@ namespace Game1.GameObjects.Levels
 
             pointgrabbed = -1;
             base.onMouseButtonUp(mouseworldpos);
-        }
-
-        //public override void setPosition(Vector2 pos)
-        //{
-        //    if (pointgrabbed >= 0)
-        //    {
-        //        LocalPoints[pointgrabbed] = initialpos + pos - Position * 2;
-        //        OnTransformed();
-        //        //MainForm.Instance.toolStripStatusLabel1.Text = Name + " (Point " + pointgrabbed.ToString() + ": " + WorldPoints[pointgrabbed].ToString() + ")";
-        //    }
-        //    else base.setPosition(pos);
-        //}
-
-
-        //public override bool CanRotate()
-        //{
-        //    return true;
-        //}
-
-        //public override float getRotation()
-        //{
-        //    return (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
-        //}
-
-        //public override void setRotation(float rotation)
-        //{
-        //    var current = (float)Math.Atan2(LocalPoints[1].Y, LocalPoints[1].X);
-        //    var delta = rotation - current;
-
-        //    var matrix = Matrix.CreateRotationZ(delta);
-
-        //    for (var i = 1; i < LocalPoints.Length; i++)
-        //    {
-        //        LocalPoints[i] = Vector2.Transform(LocalPoints[i], matrix);
-        //    }
-        //    base.setRotation(rotation);
-            
-        //}
-
-
-        //public override bool CanScale()
-        //{
-        //    return true;
-        //}
-
-        //public override Vector2 getScale()
-        //{
-        //    var length = (LocalPoints[1] - LocalPoints[0]).Length();
-        //    return new Vector2(length, length);
-        //}
-
-        //public override void setScale(Vector2 scale)
-        //{
-        //    var factor = scale.X / (LocalPoints[1] - LocalPoints[0]).Length();
-        //    for (var i = 1; i < LocalPoints.Length; i++)
-        //    {
-        //        var olddistance = LocalPoints[i] - LocalPoints[0];
-        //        LocalPoints[i] = LocalPoints[0] + olddistance * factor;
-        //    }
-        //    base.setScale(scale);
-
-        //}
+        }        
 
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-            var c = LineColor;
-            //if (hovering && Constants.Instance.EnableHighlightOnMouseOver) c = Constants.Instance.ColorHighlight;
-            if (hovering)
-                c = new Color(255, 0, 0, 228);
-
+            var c = hovering ? new Color(255, 0, 0, 228) : LineColor;
             if (IsPolygon)
                 Primitives.Instance.drawPolygon(sb, WorldPoints, c, LineWidth);
             else

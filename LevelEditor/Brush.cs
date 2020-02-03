@@ -21,7 +21,7 @@ namespace LevelEditor
 
         public Brush(string name)
         {
-            this.spriteName = name;            
+            spriteName = name;            
         }
 
         public virtual void Draw(SpriteBatch sb, Vector2 pos) { }
@@ -29,17 +29,20 @@ namespace LevelEditor
     public class TextureBrush : Brush
     {
         public string spriteSheet;
-        public Texture2D texture;
-        public TextureBrush(Texture2D tex,SpriteSheet ss, string name) : base(name)
+        private Texture2D texture;
+        private Rectangle srcRectangle;
+
+        public TextureBrush(Texture2D tex,Rectangle srcRect,string assetName, string name) : base(name)
         {
-            this.spriteSheet = ss.Name;
-            this.texture = tex;
+            spriteSheet = assetName;
+            srcRectangle = srcRect;
+            texture = tex;
         }
 
         public override void Draw(SpriteBatch sb, Vector2 pos)
-        {
-            sb.Draw(texture, new Vector2(pos.X, pos.Y), null, new Color(1f, 1f, 1f, 0.7f),
-                        0, new Vector2(texture.Width / 2, texture.Height / 2), 1, SpriteEffects.None, 0);
+        {            
+            sb.Draw(texture, new Vector2(pos.X, pos.Y), srcRectangle, new Color(1f, 1f, 1f, 0.7f),
+                        0, new Vector2(srcRectangle.Width / 2, srcRectangle.Height / 2), 1, SpriteEffects.None, 0);
             base.Draw(sb, pos);
         }
     }
@@ -50,14 +53,12 @@ namespace LevelEditor
 
         public EntityBrush(GameObject entity, string name) : base(name)
         {
-            this.entity = entity;
-            
+            this.entity = entity;            
         }
 
         public override void Draw(SpriteBatch sb, Vector2 pos)
         {
-            var bb = entity.getBoundingBox();
-            
+            var bb = entity.getBoundingBox();            
             Primitives.Instance.drawBox(sb, new Rectangle((int)pos.X, (int)pos.Y, bb.Width, bb.Height), Color.Red, 5);
             base.Draw(sb, pos);
         }
