@@ -44,8 +44,7 @@ namespace Game1.GameObjects.Levels
         [XmlIgnore]
         public Rectangle CamBounds;
 
-        [XmlIgnore]
-        public Rectangle LevelBounds;
+        public Rectangle LevelBounds { get; set; } 
 
         public string ContentPath { get; set; } = string.Empty;
 
@@ -118,10 +117,21 @@ namespace Game1.GameObjects.Levels
                 }
             }
 
-            CamBounds = (Rectangle)CustomProperties["bounds"].value;
-            LevelBounds = CamBounds;
-            LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
-            context.camera.Bounds = LevelBounds;
+            if (CustomProperties != null && CustomProperties.ContainsKey("bounds"))
+            {
+                CamBounds = (Rectangle)CustomProperties["bounds"].value;
+                var b = new Rectangle(-1000, -1000, 2000, 2000);
+                LevelBounds = CamBounds;
+                LevelBounds = b;
+                LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
+                context.camera.Bounds = LevelBounds;
+            }
+            else
+            {
+                var b = new Rectangle(-1000, -1000, 5000, 5000);
+                LevelBounds = b;
+                context.camera.Bounds = LevelBounds;
+            }
             var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);            
             AudioManager.MusicVolume = 0.0f;           
@@ -157,7 +167,7 @@ namespace Game1.GameObjects.Levels
             }
 
             var f = new FireEffect();
-            f.Transform.Position = new Vector2(3500, 3500);
+            f.Transform.Position = new Vector2(200, 1000);
             l.Items.Add(f);
         }
 
@@ -248,9 +258,10 @@ namespace Game1.GameObjects.Levels
 
         public void DrawDebug(SpriteBatch sb, SpriteFont font, FocusCamera camera)
         {
+
+
             var projection = Matrix.CreateOrthographicOffCenter(0f, ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Width), ConvertUnits.ToSimUnits(sb.GraphicsDevice.Viewport.Height), 0f, 0f, 1f);
             debugView.RenderDebugData(projection, camera.getScaledViewMatrix());
-
 
             var projection2 = Matrix.CreateOrthographicOffCenter(0f, sb.GraphicsDevice.Viewport.Width, sb.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
             debugView.BeginCustomDraw(projection2, camera.getViewMatrix());
@@ -315,9 +326,12 @@ namespace Game1.GameObjects.Levels
 
         public void SpawnPlayer(Vector2? loc)
         {
-            Vector2 spawnLocation = !loc.HasValue ? (Vector2)CustomProperties["spawnVector"].value : loc.Value;           
+            if (CustomProperties != null)
+            {
+                Vector2 spawnLocation = !loc.HasValue ? (Vector2)CustomProperties["spawnVector"].value : loc.Value;
+            }
             RemoveSprite("Player");
-            var l = new Vector2(3500, 3500);
+            var l = new Vector2(100, 0);
             player = new Ninja1(l, context);
             AddSprite("Player", player);
         }
@@ -484,9 +498,11 @@ namespace Game1.GameObjects.Levels
                 }
 
 
-                var writer = new XmlTextWriter(filename, null);
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 4;
+                var writer = new XmlTextWriter(filename, null)
+                {
+                    Formatting = Formatting.Indented,
+                    Indentation = 4
+                };
 
                 var serializer = new XmlSerializer(typeof(Level));
                 serializer.Serialize(writer, this);
@@ -545,3 +561,4 @@ namespace Game1.GameObjects.Levels
         #endregion
     }
 }
+

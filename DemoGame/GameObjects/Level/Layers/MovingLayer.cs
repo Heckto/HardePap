@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Game1.GameObjects;
 
 namespace Game1.GameObjects.Levels
 {
@@ -7,14 +6,12 @@ namespace Game1.GameObjects.Levels
     {
         public Vector2 ScrollVector { get; set; }
 
-        public MovingLayer() : base()
-        {
-        }
+        public MovingLayer() : base() {}
 
         public void Update(GameTime gameTime, Level lvl)
         {
 
-            var mapSize = new Vector2(lvl.CamBounds.Width, lvl.CamBounds.Height);
+            var mapSize = new Vector2(lvl.LevelBounds.Width, lvl.LevelBounds.Height);
             foreach (var Item in Items)
             {
                 var cam = new Vector2(1920, 1080);
@@ -22,11 +19,9 @@ namespace Game1.GameObjects.Levels
 
                 var screenPost2 = -((cam * (Vector2.One - ScrollSpeed)) - Item.Transform.Position) / ScrollSpeed;
 
-
                 var scrollAss = ScrollVector;
                 scrollAss.Normalize();
                 Item.Transform.Position += ScrollVector;
-
 
                 var itemBox = Item.getBoundingBox();
                 itemBox.X = (int)screenPost2.X;
@@ -34,20 +29,15 @@ namespace Game1.GameObjects.Levels
                 if (!lvl.CamBounds.Intersects(itemBox))
                 {
                     var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
-
                     Item.Transform.Position -= (posVector);
-
                     var pos = ScrollSpeed * Item.Transform.Position + (cam + (Vector2.One - ScrollSpeed));
-
                     Item.Transform.Position = pos;
                 }                
             }
         }
 
         #region Editor
-        public MovingLayer(string name) : base(name)
-        {
-        }
+        public MovingLayer(string name) : base(name) {}
 
         #endregion
     }

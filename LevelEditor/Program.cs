@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using AuxLib.Logging;
 
@@ -20,6 +21,9 @@ namespace LevelEditor
 
             try
             {
+                
+
+
                 Application.EnableVisualStyles();
                 Application.Run(new MainForm());
                 Logger.Instance.log("Creating Game1 object.");

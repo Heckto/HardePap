@@ -57,10 +57,12 @@ namespace LevelEditor
                     "already has a Custom Property named \"" + textBox1.Text + "\". Please use another name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var cp = new CustomProperty();
-            cp.name = textBox1.Text;
-            cp.type = typeof(GameObject);
-            cp.value = MainForm.Instance.picturebox.SelectedItems[1];
+            var cp = new CustomProperty
+            {
+                name = textBox1.Text,
+                type = typeof(GameObject),
+                value = MainForm.Instance.picturebox.SelectedItems[1]
+            };
             MainForm.Instance.picturebox.SelectedItems[0].CustomProperties.Add(cp.name, cp);
 
             if (checkBox1.Checked)
@@ -72,10 +74,12 @@ namespace LevelEditor
                     MainForm.Instance.picturebox.SelectedItems[0].CustomProperties.Remove(cp.name);
                     return;
                 }
-                cp = new CustomProperty();
-                cp.name = textBox2.Text;
-                cp.type = typeof(GameObject);
-                cp.value = MainForm.Instance.picturebox.SelectedItems[0];
+                cp = new CustomProperty
+                {
+                    name = textBox2.Text,
+                    type = typeof(GameObject),
+                    value = MainForm.Instance.picturebox.SelectedItems[0]
+                };
                 MainForm.Instance.picturebox.SelectedItems[1].CustomProperties.Add(cp.name, cp);
             }
             

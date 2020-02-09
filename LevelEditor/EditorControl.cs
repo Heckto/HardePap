@@ -2,29 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Text;
 using LevelEditor.Properties;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using MonoGame.Forms.Controls;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Forms = System.Windows.Forms;
 using AuxLib.Logging;
 using AuxLib.Camera;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects;
-using Game1;
-//using System.Windows.Forms;
+using System.ComponentModel;
+using CustomUITypeEditors;
 
 namespace LevelEditor
 {
 
-    
+
     public class EditorControl : MonoGameControl
     {        
-        //MonoGame.Forms.Controls.
         public bool canDraw = false;
 
         private EditorState _state;
@@ -177,6 +173,10 @@ namespace LevelEditor
                 camera.Position = maincameraposition;
             }
 
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix());
+            Primitives.Instance.drawBox(sb, level.LevelBounds, Color.Green, 10);          
+            sb.End();
+
 
             //draw selection frames around selected items
             if (SelectedItems.Count > 0)
@@ -311,7 +311,8 @@ namespace LevelEditor
 
             //get mouse world position considering the ScrollSpeed of the current layer
             var maincameraposition = camera.Position;
-            if (SelectedLayer != null) camera.Position *= SelectedLayer.ScrollSpeed;
+            if (SelectedLayer != null)
+                camera.Position *= SelectedLayer.ScrollSpeed;
             mouseworldpos = Vector2.Transform(new Vector2(mstate.X, mstate.Y), Matrix.Invert(camera.getViewMatrix()));
             //mouseworldpos = mouseworldpos.Round();
             mouseworldpos = new Vector2((float)Math.Round(mouseworldpos.X), (float)Math.Round(mouseworldpos.Y));
@@ -1057,7 +1058,8 @@ namespace LevelEditor
         public void setmousepos(int screenx, int screeny)
         {
             var maincameraposition = camera.Position;
-            if (SelectedLayer != null) camera.Position *= SelectedLayer.ScrollSpeed;
+            if (SelectedLayer != null)
+                camera.Position *= SelectedLayer.ScrollSpeed;
             mouseworldpos = Vector2.Transform(new Vector2(screenx, screeny), Matrix.Invert(camera.getViewMatrix()));
             if (Constants.Instance.SnapToGrid || kstate.IsKeyDown(Keys.G))
             {
@@ -1132,8 +1134,10 @@ namespace LevelEditor
 
 
 
-            camera = new BoundedCamera(new Viewport(0,0,MainForm.Instance.picturebox.Width, MainForm.Instance.picturebox.Height));
-            camera.Position = l.EditorRelated.CameraPosition;
+            camera = new BoundedCamera(new Viewport(0, 0, MainForm.Instance.picturebox.Width, MainForm.Instance.picturebox.Height))
+            {
+                Position = l.EditorRelated.CameraPosition
+            };
             MainForm.Instance.zoomcombo.Text = "100%";
             undoBuffer.Clear();
             redoBuffer.Clear();
@@ -1283,8 +1287,10 @@ namespace LevelEditor
             MainForm.Instance.undoButton.Enabled = MainForm.Instance.undoMenuItem.Enabled = undoBuffer.Count > 0;
             MainForm.Instance.redoButton.Enabled = MainForm.Instance.redoMenuItem.Enabled = redoBuffer.Count > 0;
 
-            var item = new Forms.ToolStripMenuItem(undoBuffer.Peek().Description);
-            item.Tag = undoBuffer.Peek();
+            var item = new Forms.ToolStripMenuItem(undoBuffer.Peek().Description)
+            {
+                Tag = undoBuffer.Peek()
+            };
             MainForm.Instance.undoButton.DropDownItems.Insert(0, item);
             commandInProgress = false;
         }

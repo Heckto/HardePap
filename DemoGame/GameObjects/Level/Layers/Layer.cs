@@ -70,6 +70,8 @@ namespace Game1.GameObjects.Levels
             {
                     item.drawInEditor(sb);
             }
+
+
         }
 
         #endregion

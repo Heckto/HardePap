@@ -24,9 +24,10 @@ namespace Game1.GameObjects.Sprite
 
             var rootNode = xDoc.GetElementsByTagName("TextureAtlas")[0];
 
-            var result = new SpriteSheetDefinition();
-
-            result.AssetName = rootNode.Attributes["imagePath"].Value;
+            var result = new SpriteSheetDefinition
+            {
+                AssetName = rootNode.Attributes["imagePath"].Value
+            };
 
             result.PresumedAssetLocation = Path.Combine(Path.GetDirectoryName(location), result.AssetName);
 
@@ -39,26 +40,27 @@ namespace Game1.GameObjects.Sprite
             var spriteNodes = xDoc.GetElementsByTagName("sprite");
             foreach (XmlNode n in spriteNodes)
             {
-                var imageDefinition = new SpriteSheetImageDefinition();
+                var imageDefinition = new SpriteSheetImageDefinition
+                {
+                    Name = n.Attributes["n"].Value,
 
-                imageDefinition.Name = n.Attributes["n"].Value;
-
-                imageDefinition.Position = new Point(
+                    Position = new Point(
                     Convert.ToInt32(n.Attributes["x"].Value),
-                    Convert.ToInt32(n.Attributes["y"].Value));
+                    Convert.ToInt32(n.Attributes["y"].Value)),
 
-                imageDefinition.Dimensions = new Point(
+                    Dimensions = new Point(
                     Convert.ToInt32(n.Attributes["w"].Value),
-                    Convert.ToInt32(n.Attributes["h"].Value));
+                    Convert.ToInt32(n.Attributes["h"].Value)),
 
-                imageDefinition.PivotPoint = new Vector2(
+                    PivotPoint = new Vector2(
                     Convert.ToSingle(n.Attributes["pX"].Value),
-                    Convert.ToSingle(n.Attributes["pY"].Value));
+                    Convert.ToSingle(n.Attributes["pY"].Value)),
 
 
-                imageDefinition.Offset = new Vector2(
+                    Offset = new Vector2(
                     n.Attributes["oX"] != null ? Convert.ToInt32(n.Attributes["oX"].Value) : 0,
-                    n.Attributes["oY"] != null ? Convert.ToInt32(n.Attributes["oY"].Value) : 0);
+                    n.Attributes["oY"] != null ? Convert.ToInt32(n.Attributes["oY"].Value) : 0)
+                };
 
                 imageDefinition.OriginalDimensions = new Vector2(
                     n.Attributes["oW"] != null ? Convert.ToInt32(n.Attributes["oW"].Value) : imageDefinition.Dimensions.X,

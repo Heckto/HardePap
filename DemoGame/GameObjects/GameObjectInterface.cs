@@ -15,7 +15,6 @@ namespace Game1.GameObjects
         void Draw(SpriteBatch sb);
     }
 
-
     public interface IEditableGameObject
     {
         GameObject clone();
@@ -24,12 +23,6 @@ namespace Game1.GameObjects
         bool contains(Vector2 worldpos);
         void onMouseButtonDown(Vector2 mouseworldpos);
 
-        //bool CanRotate();
-        //float getRotation();
-        //void setRotation(float rotation);
-        //bool CanScale();
-        //Vector2 getScale();
-        //void setScale(Vector2 scale);
         void drawInEditor(SpriteBatch sb);
         void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color);
 

@@ -125,7 +125,7 @@ namespace Game1.Screens
 
                 context.lvl.LoadContent();
 
-                var bounds = (Rectangle)context.lvl.CustomProperties["bounds"].value;
+                //var bounds = (Rectangle)context.lvl.CustomProperties["bounds"].value;
 
                 context.lvl.GenerateCollision();
 
@@ -133,7 +133,7 @@ namespace Game1.Screens
                 if (camera.focussedOnPlayer)
                     camera.Position = context.lvl.player.Transform.Position;
 
-                camera.Bounds = bounds;
+                //camera.Bounds = bounds;
 
                 //if (context.lvl.CustomProperties.ContainsKey("IntroScript"))
                 //{

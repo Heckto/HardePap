@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="bg.png" width="1157" height="1146" scale="1" format="RGBA8888">
+  <sprite n="bg" x="0" y="0" w="800" h="450" pX="0.5" pY="0.5" oX="42" oY="42" oW="585" oH="1238"/>
+</TextureAtlas>

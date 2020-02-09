@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="texture-5.png" width="1157" height="1146" scale="1" format="RGBA8888">
+  <sprite n="grass1.png" x="0" y="26" w="410" h="153" pX="0.5" pY="0.5" oX="42" oY="42" oW="585" oH="1238"/>
+  <sprite n="grass2.png" x="0" y="178" w="404" h="191" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="grass3.png" x="0" y="369" w="411" h="195" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="rock1.png" x="423" y="28" w="88" h="65" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="rock2.png" x="438" y="92" w="53" h="45" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="grave1.png" x="432" y="140" w="71" h="80" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="grave2.png" x="430" y="220" w="69" h="72" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="block1.png" x="512" y="0" w="99" h="93" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="block2.png" x="514" y="93" w="162" h="94" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="blackbox.png" x="16" y="570" w="362" h="226" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+  <sprite n="torch.png" x="437" y="300" w="42" h="109" pX="0.5" pY="0.5" oX="45" oY="45" oW="743" oH="1125"/>
+</TextureAtlas>

@@ -64,9 +64,11 @@ namespace Game1.GameObjects
 
             while (reader.NodeType != XmlNodeType.EndElement)
             {
-                var cp = new CustomProperty();
-                cp.name = reader.GetAttribute("Name");
-                cp.description = reader.GetAttribute("Description");
+                var cp = new CustomProperty
+                {
+                    name = reader.GetAttribute("Name"),
+                    description = reader.GetAttribute("Description")
+                };
 
                 var type = reader.GetAttribute("Type");
                 if (type == "string") cp.type = typeof(string);

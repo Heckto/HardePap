@@ -21,12 +21,11 @@ namespace Game1.GameObjects.Obstacles
         private Vector2 movement;
 
         private float Rotation;
-        //public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position);
 
         public Kunai(Vector2 loc, int direction, GameContext context) : base(context)
         {
             Visible = true;
-            this.Transform.Position = loc; 
+            Transform.Position = loc; 
             movement = new Vector2(Math.Sign(direction) * movementSpeed, 0);
             var texSize = CurrentAnimation.Frames.First().Size;
             colBodySize = 0.5f * texSize;

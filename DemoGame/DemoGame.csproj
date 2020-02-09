@@ -135,9 +135,6 @@
     <Reference Include="MonoGame.Extended, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.3.7.0\lib\netstandard2.0\MonoGame.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Extended.Particles, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoGame.Extended.Particles.3.7.0\lib\netstandard2.0\MonoGame.Extended.Particles.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
@@ -153,15 +150,6 @@
     </Reference>
     <Reference Include="ProjectMercury">
       <HintPath>..\..\ProjectMercury.MonoGame-develop\ProjectMercury.MonoGame-develop\ProjectMercury.Windows\bin\x86\Debug\ProjectMercury.dll</HintPath>
-    </Reference>
-    <Reference Include="ProjectMercury.ContentPipeline">
-      <HintPath>..\..\ProjectMercury.MonoGame-develop\ProjectMercury.MonoGame-develop\ProjectMercury.ContentPipeline\bin\x86\Debug\ProjectMercury.ContentPipeline.dll</HintPath>
-    </Reference>
-    <Reference Include="ProjectMercury.EffectEditor.DefaultPluginLibrary">
-      <HintPath>..\..\ProjectMercury.MonoGame-develop\ProjectMercury.MonoGame-develop\ProjectMercury.EffectEditor.DefaultPluginLibrary\obj\x86\Debug\ProjectMercury.EffectEditor.DefaultPluginLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="ProjectMercury.EffectEditor.PluginInterfaces">
-      <HintPath>..\..\ProjectMercury.MonoGame-develop\ProjectMercury.MonoGame-develop\ProjectMercury.EffectEditor.PluginInterfaces\bin\x86\Debug\ProjectMercury.EffectEditor.PluginInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

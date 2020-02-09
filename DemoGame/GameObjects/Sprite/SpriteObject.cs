@@ -138,12 +138,6 @@ namespace Game1.GameObjects.Sprite
             return new Rectangle((int)Transform.Position.X,(int)Transform.Position.Y,(int)Size.X,(int)Size.Y);
         }
 
-        //[XmlIgnore]
-        //Matrix transform;
-
-        [XmlIgnore]
-        Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
-
         [XmlIgnore]
         Vector2[] polygon;
         public override GameObject clone()

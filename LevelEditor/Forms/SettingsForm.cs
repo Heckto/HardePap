@@ -61,9 +61,11 @@ namespace LevelEditor
         }
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
-            var f = new OpenFileDialog();
-            f.FileName = textBox1.Text;
-            f.Filter = "Executable Files (*.exe, *.bat)|*.exe;*.bat";
+            var f = new OpenFileDialog
+            {
+                FileName = textBox1.Text,
+                Filter = "Executable Files (*.exe, *.bat)|*.exe;*.bat"
+            };
             if (f.ShowDialog() == DialogResult.OK)
             {
                 textBox1.Text = f.FileName;
@@ -83,9 +85,11 @@ namespace LevelEditor
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            var f = new OpenFileDialog();
-            f.FileName = textBox2.Text;
-            f.Filter = "Executable Files (*.exe, *.bat)|*.exe;*.bat";
+            var f = new OpenFileDialog
+            {
+                FileName = textBox2.Text,
+                Filter = "Executable Files (*.exe, *.bat)|*.exe;*.bat"
+            };
             if (f.ShowDialog() == DialogResult.OK)
             {
                 textBox2.Text = f.FileName;

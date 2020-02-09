@@ -662,11 +662,13 @@ namespace LevelEditor
         /// <returns></returns>
         public static List<Vertices> CreatePolygon(uint[] data, int width, int height, float hullTolerance, byte alphaTolerance, bool multiPartDetection, bool holeDetection)
         {
-            var pca = new PolygonCreationAssistance(data, width, height);
-            pca.HullTolerance = hullTolerance;
-            pca.AlphaTolerance = alphaTolerance;
-            pca.MultipartDetection = multiPartDetection;
-            pca.HoleDetection = holeDetection;
+            var pca = new PolygonCreationAssistance(data, width, height)
+            {
+                HullTolerance = hullTolerance,
+                AlphaTolerance = alphaTolerance,
+                MultipartDetection = multiPartDetection,
+                HoleDetection = holeDetection
+            };
             return CreatePolygon(ref pca);
         }
 

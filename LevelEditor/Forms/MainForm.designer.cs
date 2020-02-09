@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Rectangle", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Circle", 1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Path", 2);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Rectangle", 0);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Circle", 1);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Path", 2);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -127,7 +127,6 @@
             this.butonMoveUp = new System.Windows.Forms.ToolStripButton();
             this.buttonMoveDown = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.picturebox = new LevelEditor.EditorControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -140,6 +139,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.picturebox = new LevelEditor.EditorControl();
             this.statusStrip1.SuspendLayout();
             this.CustomPropertyContextMenu.SuspendLayout();
             this.ItemContextMenu.SuspendLayout();
@@ -560,7 +560,7 @@
             this.toolStripSeparator6,
             this.settingsToolStripMenuItem1});
             this.ToolsMenu.Name = "ToolsMenu";
-            this.ToolsMenu.Size = new System.Drawing.Size(47, 20);
+            this.ToolsMenu.Size = new System.Drawing.Size(46, 20);
             this.ToolsMenu.Text = "Tools";
             this.ToolsMenu.Click += new System.EventHandler(this.ToolsMenu_Click);
             this.ToolsMenu.MouseEnter += new System.EventHandler(this.ToolsMenu_MouseEnter);
@@ -1114,17 +1114,6 @@
             this.splitContainer2.SplitterDistance = 444;
             this.splitContainer2.TabIndex = 0;
             // 
-            // picturebox
-            // 
-            this.picturebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picturebox.Location = new System.Drawing.Point(0, 0);
-            this.picturebox.Name = "picturebox";
-            this.picturebox.SelectedLayer = null;
-            this.picturebox.Size = new System.Drawing.Size(751, 440);
-            this.picturebox.state = LevelEditor.EditorState.idle;
-            this.picturebox.TabIndex = 0;
-            this.picturebox.Text = "editorControl1";
-            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.tabControl1);
@@ -1160,15 +1149,15 @@
             // 
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView2.HideSelection = false;
-            listViewItem1.ToolTipText = "A simple rectangle defined by position, width and height. Rectangle Primitives ca" +
+            listViewItem4.ToolTipText = "A simple rectangle defined by position, width and height. Rectangle Primitives ca" +
     "n be scaled but not rotated.";
-            listViewItem2.ToolTipText = "A simple circle defined by position and radius. Circle Primitives can be scaled b" +
+            listViewItem5.ToolTipText = "A simple circle defined by position and radius. Circle Primitives can be scaled b" +
     "ut not rotated.";
-            listViewItem3.ToolTipText = "A Path is an array of Vector2. Path Primitives can be rotated and scaled.";
+            listViewItem6.ToolTipText = "A Path is an array of Vector2. Path Primitives can be rotated and scaled.";
             this.listView2.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.listView2.LargeImageList = this.imageList1;
             this.listView2.Location = new System.Drawing.Point(3, 3);
             this.listView2.MultiSelect = false;
@@ -1239,6 +1228,18 @@
             this.toolStripMenuItem6.Size = new System.Drawing.Size(189, 22);
             this.toolStripMenuItem6.Text = "Add Custom Property";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.ActionAddCustomProperty);
+            // 
+            // editorControl1
+            // 
+            this.picturebox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picturebox.Location = new System.Drawing.Point(0, 0);
+            this.picturebox.MouseHoverUpdatesOnly = false;
+            this.picturebox.Name = "editorControl1";
+            this.picturebox.SelectedLayer = null;
+            this.picturebox.Size = new System.Drawing.Size(751, 440);
+            this.picturebox.state = LevelEditor.EditorState.idle;
+            this.picturebox.TabIndex = 0;
+            this.picturebox.Text = "editorControl1";
             // 
             // MainForm
             // 

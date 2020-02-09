@@ -44,25 +44,31 @@ namespace CustomUITypeEditors
 
                 _control.BackColor = System.Drawing.SystemColors.Control;
 
-                var alphaPanel = new Panel();
-                alphaPanel.BackColor = System.Drawing.SystemColors.Control;
-                alphaPanel.Dock = DockStyle.Right;
-                alphaPanel.Width = 28;
+                var alphaPanel = new Panel
+                {
+                    BackColor = System.Drawing.SystemColors.Control,
+                    Dock = DockStyle.Right,
+                    Width = 28
+                };
                 _control.Controls.Add(alphaPanel);
 
-                _tbAlpha = new TrackBar();
-                _tbAlpha.Orientation = Orientation.Vertical;
-                _tbAlpha.Dock = DockStyle.Fill;
-                _tbAlpha.TickStyle = TickStyle.None;
-                _tbAlpha.Maximum = byte.MaxValue;
-                _tbAlpha.Minimum = byte.MinValue;
+                _tbAlpha = new TrackBar
+                {
+                    Orientation = Orientation.Vertical,
+                    Dock = DockStyle.Fill,
+                    TickStyle = TickStyle.None,
+                    Maximum = byte.MaxValue,
+                    Minimum = byte.MinValue
+                };
                 _tbAlpha.ValueChanged += new EventHandler(OnTrackBarAlphaValueChanged);
                 alphaPanel.Controls.Add(_tbAlpha);
 
-                _lblAlpha = new Label();
-                _lblAlpha.Text = "0";
-                _lblAlpha.Dock = DockStyle.Bottom;
-                _lblAlpha.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                _lblAlpha = new Label
+                {
+                    Text = "0",
+                    Dock = DockStyle.Bottom,
+                    TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+                };
                 alphaPanel.Controls.Add(_lblAlpha);
 
                 _startMethodInfo = _control.GetType().GetMethod("Start");

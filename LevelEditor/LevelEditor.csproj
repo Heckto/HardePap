@@ -51,7 +51,9 @@
     <Compile Include="CustomUITypeEditors\ItemSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomUITypeEditors\ItemSelector.Designer.cs" />
+    <Compile Include="CustomUITypeEditors\ItemSelector.Designer.cs">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomUITypeEditors\RectangleUITypeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -105,7 +107,6 @@
     <Compile Include="Forms\SettingsForm.designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Importer\SpriteSheetImporter.cs" />
     <Compile Include="Item.ICustomTypeDescriptor.cs" />
     <Compile Include="IUndoable.cs" />
     <Compile Include="Layer.ICustomTypeDescriptor.cs" />
@@ -120,12 +121,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SpriteSheet.cs" />
-    <Compile Include="SpriteSheetControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SpriteSheetControl.Designer.cs">
-      <DependentUpon>SpriteSheetControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="TextureLoader.cs" />
     <Compile Include="TypeConverters\ValueTypeTypeConverter.cs" />
     <Compile Include="Vertices.cs" />
@@ -180,11 +175,15 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CustomUITypeEditors\ItemSelector.resx" />
+    <EmbeddedResource Include="CustomUITypeEditors\ItemSelector.resx">
+      <DependentUpon>ItemSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomUITypeEditors\RectangleUITypeEditor.resx">
       <DependentUpon>RectangleUITypeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomUITypeEditors\Vector2UITypeEditor.resx" />
+    <EmbeddedResource Include="CustomUITypeEditors\Vector2UITypeEditor.resx">
+      <DependentUpon>Vector2UITypeEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddCustomProperty.resx">
       <DependentUpon>AddCustomProperty.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,9 +209,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SpriteSheetControl.resx">
-      <DependentUpon>SpriteSheetControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

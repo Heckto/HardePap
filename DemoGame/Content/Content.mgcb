@@ -149,6 +149,21 @@
 #begin level1.xml
 /copy:level1.xml
 
+#begin Level1/bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Level1/bg.png
+
+#begin Level1/bg.xml
+/copy:Level1/bg.xml
+
 #begin Level1/texture-0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -223,6 +238,21 @@
 
 #begin Level1/texture-4.xml
 /copy:Level1/texture-4.xml
+
+#begin Level1/texture-5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Level1/texture-5.png
+
+#begin Level1/texture-5.xml
+/copy:Level1/texture-5.xml
 
 #begin level2.xml
 /copy:level2.xml

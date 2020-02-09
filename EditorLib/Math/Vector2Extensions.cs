@@ -55,10 +55,12 @@ namespace AuxLib.Extensions
             var newpoly = new Vector2[2];
             Vector2.Transform(poly, ref m, newpoly);
 
-            var result = new Rectangle();
-            result.Location = newpoly[0].ToPoint();
-            result.Width = (int)(newpoly[1].X - newpoly[0].X);
-            result.Height = (int)(newpoly[1].Y - newpoly[0].Y);
+            var result = new Rectangle
+            {
+                Location = newpoly[0].ToPoint(),
+                Width = (int)(newpoly[1].X - newpoly[0].X),
+                Height = (int)(newpoly[1].Y - newpoly[0].Y)
+            };
             return result;
         }
 
@@ -81,11 +83,13 @@ namespace AuxLib.Extensions
         public static Rectangle RectangleFromVectors(Vector2 v1, Vector2 v2)
         {
             var distance = v2 - v1;
-            var result = new Rectangle();
-            result.X = (int)Math.Min(v1.X, v2.X);
-            result.Y = (int)Math.Min(v1.Y, v2.Y);
-            result.Width = (int)Math.Abs(distance.X);
-            result.Height = (int)Math.Abs(distance.Y);
+            var result = new Rectangle
+            {
+                X = (int)Math.Min(v1.X, v2.X),
+                Y = (int)Math.Min(v1.Y, v2.Y),
+                Width = (int)Math.Abs(distance.X),
+                Height = (int)Math.Abs(distance.Y)
+            };
             return result;
         }
 

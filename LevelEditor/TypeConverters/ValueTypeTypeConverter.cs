@@ -11,10 +11,7 @@ namespace LevelEditor
     {
         public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
         {
-            var ass = base.GetProperties(context, value, attributes);
-
-
-            return ass;
+            return base.GetProperties(context, value, attributes);
         }
 
         public override bool GetCreateInstanceSupported(System.ComponentModel.ITypeDescriptorContext context)

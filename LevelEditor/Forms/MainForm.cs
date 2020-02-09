@@ -19,6 +19,7 @@ using AuxLib.Logging;
 using System.Threading.Tasks;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects;
+using CustomUITypeEditors;
 
 namespace LevelEditor
 {
@@ -50,11 +51,11 @@ namespace LevelEditor
 
 
         public MainForm()
-        {
+        {            
             Instance = this;
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
+
         
         public void updatetitlebar()
         {
@@ -67,9 +68,9 @@ namespace LevelEditor
             var grp = Graphics.FromImage(retBmp);
             int tnWidth = imgWidth, tnHeight = imgHeight;
             if (bmp.Width > bmp.Height)
-                tnHeight = (int)(((float)bmp.Height / (float)bmp.Width) * tnWidth);
+                tnHeight = (int)((bmp.Height / (float)bmp.Width) * tnWidth);
             else if (bmp.Width < bmp.Height)
-                tnWidth = (int)(((float)bmp.Width / (float)bmp.Height) * tnHeight);
+                tnWidth = (int)((bmp.Width / (float)bmp.Height) * tnHeight);
             var iLeft = (imgWidth / 2) - (tnWidth / 2);
             var iTop = (imgHeight / 2) - (tnHeight / 2);
             grp.DrawImage(bmp, iLeft, iTop, tnWidth, tnHeight);
@@ -88,8 +89,7 @@ namespace LevelEditor
             }
             zoomcombo.SelectedIndex = 3;
             SetListViewSpacing(listView2, 128 + 8, 128 + 32);
-
-            picturebox.AllowDrop = true;
+            Instance.picturebox.AllowDrop = true;
 
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -334,7 +334,7 @@ namespace LevelEditor
         }
         private void ActionNewLayer(object sender, EventArgs e)
         {
-            var layerType = (int)Convert.ToInt32(((ToolStripMenuItem)sender).Tag);
+            var layerType = Convert.ToInt32(((ToolStripMenuItem)sender).Tag);
             var f = new AddLayer(this,layerType);
             f.ShowDialog();
         }
@@ -484,8 +484,10 @@ namespace LevelEditor
                 {
                     if (levelfilename == "untitled")
                     {
-                        var dialog = new SaveFileDialog();
-                        dialog.Filter = "XML Files (*.xml)|*.xml";
+                        var dialog = new SaveFileDialog
+                        {
+                            Filter = "XML Files (*.xml)|*.xml"
+                        };
                         if (dialog.ShowDialog() == DialogResult.OK) saveLevel(dialog.FileName);
                         else return DialogResult.Cancel;
                     }
@@ -507,8 +509,10 @@ namespace LevelEditor
         private void FileOpen(object sender, EventArgs e)
         {
             if (checkCurrentLevelAndSaveEventually() == DialogResult.Cancel) return;
-            var opendialog = new OpenFileDialog();
-            opendialog.Filter = "XML Files (*.xml)|*.xml";
+            var opendialog = new OpenFileDialog
+            {
+                Filter = "XML Files (*.xml)|*.xml"
+            };
             if (opendialog.ShowDialog() == DialogResult.OK) loadLevel(opendialog.FileName);
         }
         private void FileSave(object sender, EventArgs e)
@@ -519,8 +523,10 @@ namespace LevelEditor
         }
         private void FileSaveAs(object sender, EventArgs e)
         {
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "XML Files (*.xml)|*.xml";
+            var dialog = new SaveFileDialog
+            {
+                Filter = "XML Files (*.xml)|*.xml"
+            };
             if (dialog.ShowDialog() == DialogResult.OK) saveLevel(dialog.FileName);
         }
         private void FileExit(object sender, EventArgs e)
@@ -713,70 +719,41 @@ namespace LevelEditor
             return newname;
         }
 
-        //private Texture2D GetBrushData(Microsoft.Xna.Framework.Rectangle tile, Texture2D tileTex)
-        //{
-        //    var data = new int[tile.Width * tile.Height];
-        //    tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
-
-        //    var texBrush = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
-        //    texBrush.SetData<int>(data);
-
-        //    return texBrush;
-        //}
-
-
-        private Bitmap GetButtonImage(Microsoft.Xna.Framework.Rectangle tile,Texture2D tileTex)
-        {            
-            var data = new int[tile.Width * tile.Height];
-            tileTex.GetData<int>(0, tile, data, 0, tile.Width * tile.Height);
-            var bitmap = new Bitmap(tile.Width, tile.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            for (var x = 0; x < tile.Width; ++x)
-            {
-                for (var y = 0; y < tile.Height; ++y)
-                {
-                    var bitmapColor =
-                        Color.FromArgb(data[y * tile.Width + x]);
-
-                    bitmap.SetPixel(x, y, bitmapColor);
-                }
-            }
-            return bitmap;
-        }
-
         private Bitmap ConvertTexToBmp(Microsoft.Xna.Framework.Rectangle tile, Texture2D texture)
         {
             var graphicsDevice = picturebox.Editor.graphics;
-            int width = tile.Width;
-            int height = tile.Height;
-            int max = (width >= height) ? width : height;
-            float f = 64.0f / (float)max;
+            var width = tile.Width;
+            var height = tile.Height;
+            var max = (width >= height) ? width : height;
+            var f = 64.0f / max;
             width = (int)(width * f);
             height = (int)(height * f);
             var vond = new RenderTarget2D(graphicsDevice, width, height);
             var renderRec = new Microsoft.Xna.Framework.Rectangle(0, 0, width, height);
 
-            graphicsDevice.SetRenderTarget(vond);
-            
+            graphicsDevice.SetRenderTarget(vond);            
             graphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-            SpriteBatch cSpriteBatch = new SpriteBatch(graphicsDevice);
+            var cSpriteBatch = new SpriteBatch(graphicsDevice);
             cSpriteBatch.Begin();
             cSpriteBatch.Draw(texture, renderRec, tile, Microsoft.Xna.Framework.Color.White);
             cSpriteBatch.End();
 
             graphicsDevice.SetRenderTarget(null);
             
-            Texture2D scaledTex = (Texture2D)vond;
-            int[] data = new int[width * height];
-            scaledTex.GetData<int>(0, renderRec, data, 0, width * height);
+            var scaledTex = (Texture2D)vond;
+            var data = new int[width * height];
+            scaledTex.GetData(0, renderRec, data, 0, width * height);
 
-            Bitmap bitmap = new Bitmap(width, height);
-            for (int x = 0; x < width; x++)
+            var bitmap = new Bitmap(width, height);
+            for (var x = 0; x < width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (var y = 0; y < height; y++)
                 {
-                    System.Drawing.Color bitmapColor = System.Drawing.Color.FromArgb(data[y * width + x]);
-                    bitmap.SetPixel(x, y, bitmapColor);
+                    var c = Color.FromArgb(data[y * width + x]);
+
+                    var bitmapColor = Color.FromArgb(data[y * width + x]);
+                    var swappedColor = Color.FromArgb(bitmapColor.A, bitmapColor.B, bitmapColor.G, bitmapColor.R);                   
+                    bitmap.SetPixel(x, y, swappedColor);
                 }
             }
             return bitmap;
@@ -799,11 +776,13 @@ namespace LevelEditor
         private void LoadEntities(string path)
         {
             var tp = new TabPage("Entities");
-            var lv = new ListView();
-            //lv.LargeImageList = imgList;
-            lv.Dock = DockStyle.Fill;
-            lv.View = View.LargeIcon;
-            
+            var lv = new ListView
+            {
+                //lv.LargeImageList = imgList;
+                Dock = DockStyle.Fill,
+                View = View.LargeIcon
+            };
+
             tp.Controls.Add(lv);
 
             var asm = Assembly.Load("Game1");
@@ -814,12 +793,14 @@ namespace LevelEditor
 
                 if (entity.IsDefined(typeof(EditableAttribute)))
                 {
-                    var lvi = new ListViewItem();
-                    lvi.Name = entity.Name;
-                    lvi.Text = entity.Name;
-                    lvi.ImageKey = entity.Name;
-                    lvi.Tag = entity;
-                    lvi.ToolTipText = entity.Name;
+                    var lvi = new ListViewItem
+                    {
+                        Name = entity.Name,
+                        Text = entity.Name,
+                        ImageKey = entity.Name,
+                        Tag = entity,
+                        ToolTipText = entity.Name
+                    };
                     lv.Items.Add(lvi);
                 }
             }
@@ -846,10 +827,12 @@ namespace LevelEditor
                 var tp = new TabPage(Path.GetFileNameWithoutExtension(file.FullName));
                 var imgList = new ImageList() { TransparentColor = Color.Transparent, ColorDepth = ColorDepth.Depth32Bit };
                 imgList.ImageSize = new Size(64, 64);
-                var lv = new ListView();
-                lv.LargeImageList = imgList;
-                lv.Dock = DockStyle.Fill;
-                lv.View = View.LargeIcon;
+                var lv = new ListView
+                {
+                    LargeImageList = imgList,
+                    Dock = DockStyle.Fill,
+                    View = View.LargeIcon
+                };
 
                 tp.Controls.Add(lv);
 
@@ -879,18 +862,18 @@ namespace LevelEditor
 
                     var spriteSheet = new SpriteSheet(spriteAtlas, defFile);
                     spriteSheets.Add(spriteSheet.Name, spriteSheet);
+
                     foreach (var spriteDef in spriteSheet.SpriteDef)
                     {
-                        var rect = spriteDef.Value.SrcRectangle;
-
-                        //var item = GetButtonImage(rect, spriteAtlas);
-                        var item = ConvertTexToBmp(rect, spriteAtlas);
-                        var lvi = new ListViewItem();
-                        lvi.Name = file.FullName;
-                        lvi.Text = spriteDef.Key;
-                        lvi.ImageKey = spriteDef.Key;
-                        lvi.Tag = spriteDef.Key;
-                        lvi.ToolTipText = file.Name + " (" + spriteDef.Value.SrcRectangle.Width.ToString() + " x " + spriteDef.Value.SrcRectangle.Height.ToString() + ")";
+                        var item = ConvertTexToBmp(spriteDef.Value.SrcRectangle, spriteAtlas);
+                        var lvi = new ListViewItem
+                        {
+                            Name = file.FullName,
+                            Text = spriteDef.Key,
+                            ImageKey = spriteDef.Key,
+                            Tag = spriteDef.Key,
+                            ToolTipText = file.Name + " (" + spriteDef.Value.SrcRectangle.Width.ToString() + " x " + spriteDef.Value.SrcRectangle.Height.ToString() + ")"
+                        };
 
                         lv.Invoke((MethodInvoker)delegate {
                             lv.Items.Add(lvi);
@@ -942,13 +925,15 @@ namespace LevelEditor
 
                 FileSave(sender, e);
 
-                var processInfo = new ProcessStartInfo();
-                processInfo.FileName = Constants.Instance.RunLevelApplicationToStart;
-                processInfo.ErrorDialog = true;
-                processInfo.UseShellExecute = false;
-                processInfo.RedirectStandardOutput = true;
-                processInfo.RedirectStandardError = true;
-                processInfo.WorkingDirectory = Path.GetDirectoryName(Constants.Instance.RunLevelApplicationToStart);
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = Constants.Instance.RunLevelApplicationToStart,
+                    ErrorDialog = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    WorkingDirectory = Path.GetDirectoryName(Constants.Instance.RunLevelApplicationToStart)
+                };
                 if (Constants.Instance.RunLevelAppendLevelFilename)
                     processInfo.Arguments = levelfilename;
                 Process.Start(processInfo);
@@ -999,7 +984,5 @@ namespace LevelEditor
             Constants.Instance.SnapToGrid = SnapToGridButton.Checked = ViewSnapToGrid.Checked;
         }   
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-
-
     }
 }

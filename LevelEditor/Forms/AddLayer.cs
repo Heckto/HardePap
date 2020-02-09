@@ -33,7 +33,7 @@ namespace LevelEditor
             Layer l = null;
             if (layerType == 0)
                 l = new Layer(textBox1.Text);
-            else
+            else if (layerType == 1)
                 l = new MovingLayer(textBox1.Text);
             MainForm.Instance.picturebox.beginCommand("Add Layer \"" + l.Name + "\"");
             MainForm.Instance.picturebox.addLayer(l);

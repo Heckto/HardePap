@@ -64,11 +64,7 @@ namespace Game1.GameObjects.Levels
             this.TintColor = Color.White;
             FlipHorizontally = FlipVertically = false;
             this.srcRectangle = srcRect;
-            this.Origin = getTextureOrigin(srcRect);
-            
-            //compensate for origins that are not at the center of the texture
-            //var center = new Vector2(srcRect.Width / 2, srcRect.Height / 2);
-            //this.Transform.Position = position - (center - Origin);
+            this.Origin = getTextureOrigin(srcRect);           
             this.Transform.Position = position;
         }
 
@@ -122,7 +118,6 @@ namespace Game1.GameObjects.Levels
         public override void onMouseButtonDown(Vector2 mouseworldpos)
         {
             hovering = false;
-            //MainForm.Instance.picturebox.Cursor = Cursors.SizeAll;
             base.onMouseButtonDown(mouseworldpos);
         }
 
@@ -166,9 +161,8 @@ namespace Game1.GameObjects.Levels
 
         public bool intersectpixels(Vector2 worldpos)
         {            
-
-            Transform.GetWorldMatrix(out var mat);
-            var positionInB = Vector2.Transform(worldpos + Origin, Matrix.Invert(mat));
+            Transform.GetLocalMatrix(out var mat);
+            var positionInB = Vector2.Transform(worldpos, Matrix.Invert(mat)) + Origin;
             var xB = (int)Math.Round(positionInB.X);
             var yB = (int)Math.Round(positionInB.Y);
 
@@ -186,8 +180,6 @@ namespace Game1.GameObjects.Levels
             }
             return false;
         }
-
-
 
         public Vector2 getTextureOrigin(Rectangle srcRect)
         {

@@ -22,8 +22,8 @@ namespace Game1.GameObjects
 
         public GameObject()
         {
+            Visible = true;
             Transform = new Transform2();
-
             Transform.TranformUpdated += OnTransformed;
             Transform.TransformBecameDirty += OnTransformed;
             CustomProperties = new SerializableDictionary();
@@ -34,7 +34,6 @@ namespace Game1.GameObjects
 
         [XmlAttribute()]
         public bool Visible;
-
 
         public Transform2 Transform { get; set; }
 
@@ -52,10 +51,11 @@ namespace Game1.GameObjects
 
         [XmlIgnore]
         protected bool hovering;
+
         public abstract GameObject clone();
         public virtual string getNamePrefix()
         {
-            return this.GetType().Name + "_";
+            return GetType().Name + "_";
         }
         public abstract void OnTransformed();
         public abstract bool contains(Vector2 worldpos);
