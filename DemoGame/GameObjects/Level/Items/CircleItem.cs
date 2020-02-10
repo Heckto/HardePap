@@ -2,12 +2,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Drawing.Design;
+using System.ComponentModel;
 
 namespace Game1.GameObjects.Levels
 {
     public partial class CircleItem : GameObject
     {
         public float Radius { get; set; }
+
         public Color FillColor;
         public ItemTypes ItemType { get; set; } = ItemTypes.None;
 

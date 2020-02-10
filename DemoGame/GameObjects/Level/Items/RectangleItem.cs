@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml.Serialization;
 using AuxLib.Extensions;
+using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace Game1.GameObjects.Levels
 {
@@ -11,8 +13,6 @@ namespace Game1.GameObjects.Levels
     {
         public float Width { get; set; }
         public float Height { get; set; }
-
-        //[Editor(typeof(XNAColorUITypeEditor), typeof(UITypeEditor))]
         public Color FillColor { get; set; } = new Color(192, 0, 192, 145);
 
         public ItemTypes ItemType { get; set; } = ItemTypes.None;

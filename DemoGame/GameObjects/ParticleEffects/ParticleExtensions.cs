@@ -33,9 +33,8 @@ namespace Game1.GameObjects.ParticleEffects
                 var origin = new Vector2(source.Width / 2f, source.Height / 2f);
 
                 var blendState = GetBlendState(emitter.BlendMode);
-
-
-                spriteBatch.Begin(SpriteSortMode.Deferred, blendState, null, null, null, null, transform);
+                
+                spriteBatch.Begin(SpriteSortMode.Immediate, blendState, null, null, null, null, transform);
 
                 for (var i = 0; i < emitter.ActiveParticlesCount; i++)
                 {

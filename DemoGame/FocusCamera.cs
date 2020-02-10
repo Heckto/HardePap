@@ -165,6 +165,9 @@ namespace AuxLib.Camera
 
         public Matrix getViewMatrix(Vector2 parallax)
         {
+            if (parallax == Vector2.Zero)
+                return Matrix.Identity;
+            else
                 return
                 Matrix.CreateTranslation(new Vector3(-Position * parallax, 0.0f)) *
                 Matrix.CreateTranslation(-new Vector3(Bounds.Width* 0.5f, Bounds.Height * 0.5f, 0.0f)) *

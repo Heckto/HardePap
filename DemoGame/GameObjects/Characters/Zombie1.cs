@@ -129,6 +129,7 @@ namespace Game1.GameObjects.Characters
             Direction = velocity.X < 0 ? FaceDirection.Left : FaceDirection.Right;
 
             velocity.Y += gravity * delta;
+            velocity.X = 0;
             controller.Move(velocity);
 
             Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);

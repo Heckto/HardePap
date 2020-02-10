@@ -1119,6 +1119,7 @@ namespace LevelEditor
                 {
                     item.layer = layer;
                     item.loadIntoEditor(Editor.Content);
+                    item.OnTransformed();
                     //if (!item.loadIntoEditor()) return;
                 }
             }

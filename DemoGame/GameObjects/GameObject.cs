@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using Game1.GameObjects.Characters;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
+using Game1.GameObjects.ParticleEffects;
 
 namespace Game1.GameObjects
 {
@@ -16,6 +17,7 @@ namespace Game1.GameObjects
     [XmlInclude(typeof(Ninja1))]
     [XmlInclude(typeof(Zombie1))]
     [XmlInclude(typeof(Zombie2))]
+    [XmlInclude(typeof(FireEffect))]
 
     public abstract class GameObject : IEditableGameObject
     {
@@ -39,6 +41,8 @@ namespace Game1.GameObjects
 
         [XmlIgnore()]
         public Layer layer;
+
+        public virtual void LoadContent() { }
 
         [XmlIgnore]
         protected Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase

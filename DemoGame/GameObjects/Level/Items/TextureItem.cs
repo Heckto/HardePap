@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -105,13 +106,14 @@ namespace Game1.GameObjects.Levels
 
             // Find the minimum and maximum extents of the rectangle in world space
             var min = Vector2.Min(Vector2.Min(leftTop, rightTop),
-                                      Vector2.Min(leftBottom, rightBottom));
+                                        Vector2.Min(leftBottom, rightBottom));
             var max = Vector2.Max(Vector2.Max(leftTop, rightTop),
-                                      Vector2.Max(leftBottom, rightBottom));
+                                        Vector2.Max(leftBottom, rightBottom));
 
             // Return as a rectangle
             boundingrectangle = new Rectangle((int)min.X, (int)min.Y,
-                                 (int)(max.X - min.X), (int)(max.Y - min.Y));
+                                    (int)(max.X - min.X), (int)(max.Y - min.Y));
+            
         }
 
 

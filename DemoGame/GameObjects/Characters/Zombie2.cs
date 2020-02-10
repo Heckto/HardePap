@@ -15,42 +15,51 @@ using Game1.GameObjects.Sprite;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects.Sprite.Enums;
 using Game1.DataContext;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace Game1.GameObjects.Characters
 {
     [Editable("Char")]
     public class Zombie2 : LivingSpriteObject, IUpdateableItem, IDrawableItem
     {
-        private CharState CurrentState;
-
-        private int JumpCnt = 0;
-        private int MaxJumpCount = 2;
+        private BehaviourState state;
 
         private const float acc = -45f;
-        private const float gravity = 0.0012f;
+        private const float gravity = 64f;
         private const float friction = 0.001f;
         public const float jumpForce = 1.0f;
-
-        public Zombie2() { }
-
-        private Vector2 hitBoxSize = new Vector2(220, 400);
-
-        //public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position) + 0.5f * scale * hitBoxSize;
+        
+        private Vector2 hitBoxSize = new Vector2(110, 200);
 
         public override int MaxHealth => 100;
 
-        private readonly List<SpriteObject> thrownObjects = new List<SpriteObject>();
-
         public Zombie2(Vector2 loc, GameContext context) : base(context)
         {
-            colBodySize = hitBoxSize;
+            Visible = true;
+            Transform.Position = loc;
+
+            Initialize();
+            //colBodySize = hitBoxSize;
             
             //CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
             //CollisionBox.onCollisionResponse += OnResolveCollision;
 
             //(CollisionBox as IBox).AddTags(ItemTypes.Player);
             //CollisionBox.Data = this;
+        }
 
+        public Zombie2() { }
+
+        public override void Initialize()
+        {
+            colBodySize = hitBoxSize;
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(Transform.Position), 0, BodyType.Kinematic);
+            CollisionBox.Tag = this;
+            CollisionBox.SetCollisionCategories(Category.Cat20);
+
+            controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
+            state = BehaviourState.Idle;
+            base.Initialize();
         }
 
         public override void LoadContent()
@@ -61,73 +70,29 @@ namespace Game1.GameObjects.Characters
 
         public override void Update(GameTime gameTime, Level lvl)
         {
-            
-            base.Update(gameTime,lvl);
 
-            HandleCollision(gameTime);
-            UpdateAnimation(gameTime);
+            base.Update(gameTime, lvl);
 
-            if (!context.lvl.LevelBounds.Contains(context.lvl.player.Transform.Position) && !context.transitionManager.isTransitioning)
-                context.lvl.SpawnPlayer(null);
+            var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (HandleInput)
+                HandleKeyInput(delta, InputHandler.Instance);
 
         }
 
-        //public override void ManagedUpdate(GameTime gameTime)
-        //{
-        //    var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-        //    HandleCollision(delta);
-        //    UpdateAnimation(gameTime);
-
-        //    var deadObjects = thrownObjects.Where(x => !x.IsAlive).ToList();
-        //    foreach(var deadObject in deadObjects)
-        //    {
-        //        thrownObjects.Remove(deadObject);
-        //    }
-
-        //    foreach (var thrown in thrownObjects)
-        //    {
-        //        thrown.Update(gameTime);
-        //    }
-        //}
-
-       
-
-        private void HandleCollision(GameTime gameTime)
+        private void HandleKeyInput(float delta, IInputHandler Input)
         {
+            
 
-            //var ignore = thrownObjects.Select(elem => (IShape)elem.CollisionBox).ToList();
-            //var move = CollisionBox.Move(CollisionBox.X + delta * Trajectory.X, CollisionBox.Y + delta * Trajectory.Y,delta, ignore);
+            Direction = velocity.X < 0 ? FaceDirection.Left : FaceDirection.Right;
 
-            //var hits = move.Hits.ToList();
+            velocity.Y += gravity * delta;
+            velocity.X = 0;
+            controller.Move(velocity);
 
-            //if (hits.Any((c) => c.Box.HasTag(ItemTypes.Collider) && (c.Normal.Y < 0)))
-            //{
-            //    if (CurrentState != CharState.Grounded && CurrentState != CharState.GroundAttack && CurrentState != CharState.GroundThrow)
-            //        CurrentState = CharState.Grounded;
-            //    var mounted = move.Hits.Where(elem => elem.Normal.Y < 0);
-            //    if (mounted.Any())
-            //    {
-            //        CollisionBox.MountedBody = mounted.First().Box;
-            //    }
-            //    Trajectory = new Vector2(Trajectory.X, delta * 0.001f);                
-            //    JumpCnt = 0;
-            //}
-            //else if((hits.Any((c) => (c.Normal.Y < 0)) && Trajectory.Y > 0) || 
-            //        (hits.Any((c) => (c.Normal.Y > 0)) && Trajectory.Y < 0))
-            //{
-            //    Trajectory = new Vector2(Trajectory.X, delta * 0.001f);
-            //}
-            //else
-            //{
-            //    Trajectory = new Vector2(Trajectory.X, Trajectory.Y + delta * 0.001f);
-            //    CollisionBox.MountedBody = null;
-            //}
+            Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
 
-            //if (CurrentState == CharState.GroundAttack || CurrentState == CharState.JumpAttack)
-            //{
-            //    HandleAttackCollisions();
-            //}
+            if (controller.collisions.below)
+                velocity.Y = 0;
         }
 
         //private CollisionResponses OnResolveCollision(ICollision collision)
@@ -167,7 +132,7 @@ namespace Game1.GameObjects.Characters
         //        return CollisionResponses.Touch;
         //    }
 
-            
+
         //    return CollisionResponses.Slide;
         //}
 
@@ -236,23 +201,34 @@ namespace Game1.GameObjects.Characters
         //        thrown.Draw(spriteBatch);
         //}
 
+        protected override void OnDeath()
+        {
+            if (state != BehaviourState.Dying)
+            {
+                state = BehaviourState.Dying;
+                SetAnimation("Dead");
+            }
+            else if (CurrentAnimation.AnimationName == "Dead" && CurrentAnimation.AnimationState == AnimationState.Finished)
+            {
+                IsAlive = false;
+            }
+        }
+
         public void Draw(SpriteBatch sb)
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
         }
 
-        public enum CharState
+        public enum BehaviourState
         {
-            Grounded = 0x01,
-            Air = 0x02,
-            Glide = 0x04,
-            GroundAttack = 0x08,
-            JumpAttack = 0x10,
-            GroundThrow = 0x20,
-            JumpThrow = 0x40
-        };
+            Idle = 0,
+            Walking = 1,
+            Chasing = 2,
+            Attack = 4,
+            Dying = 8
+        }
     }
 
 

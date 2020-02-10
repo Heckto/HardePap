@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using Game1.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Drawing.Design;
+using System.ComponentModel;
 
 namespace Game1.GameObjects.Levels
 {

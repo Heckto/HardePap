@@ -70,7 +70,7 @@
     <ReleaseQuantity>1</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>10</Length>
+    <Length>30</Length>
     <Angle>0</Angle>
   </Emitter>
   <Emitter xsi:type="LineEmitter">
@@ -131,7 +131,7 @@
     <ReleaseQuantity>1</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>10</Length>
+    <Length>30</Length>
     <Angle>0</Angle>
   </Emitter>
   <Emitter xsi:type="LineEmitter">
@@ -199,10 +199,10 @@
     <Name>Flames1</Name>
     <Budget>1000</Budget>
     <Term>1</Term>
-    <ReleaseQuantity>1</ReleaseQuantity>
+    <ReleaseQuantity>3</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>10</Length>
+    <Length>20</Length>
     <Angle>0</Angle>
   </Emitter>
   <Emitter xsi:type="LineEmitter">
@@ -270,10 +270,10 @@
     <Name>Flames2</Name>
     <Budget>1000</Budget>
     <Term>1</Term>
-    <ReleaseQuantity>1</ReleaseQuantity>
+    <ReleaseQuantity>3</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>10</Length>
+    <Length>20</Length>
     <Angle>0</Angle>
   </Emitter>
 </ArrayOfEmitter>

@@ -8,17 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
-using LevelEditor;
-using Game1.GameObjects.Levels;
-using Game1.GameObjects;
 
 namespace CustomUITypeEditors
 {
     public partial class ItemSelector : UserControl
     {
-        public GameObject Value;
+        public object Value;
 
-        public ItemSelector(GameObject item)
+        public ItemSelector(object item)
         {
             InitializeComponent();
             Value = item;
@@ -26,27 +23,28 @@ namespace CustomUITypeEditors
 
         private void ItemSelector_Load(object sender, EventArgs e)
         {
-            treeView1.Nodes.Add((TreeNode)MainForm.Instance.treeView1.Nodes[0].Clone());
-            treeView1.ImageList = MainForm.Instance.treeView1.ImageList;
-            treeView1.ImageIndex = treeView1.SelectedImageIndex = 5;
-            treeView1.Nodes[0].Expand();
-            if (Value != null)
-            {
-                var nodes = treeView1.Nodes.Find(Value.Name, true);
-                if (nodes.Length > 0)
-                {
-                    treeView1.SelectedNode = nodes[0];
-                }
-                else
-                {
-                    Value = null;
-                }
-            }
+            //treeView1.Nodes.Add((TreeNode)MainForm.Instance.treeView1.Nodes[0].Clone());
+            //treeView1.ImageList = MainForm.Instance.treeView1.ImageList;
+            //treeView1.ImageIndex = treeView1.SelectedImageIndex = 5;
+            //treeView1.Nodes[0].Expand();
+            //if (Value != null)
+            //{
+            //    var nodes = treeView1.Nodes.Find(Value.Name, true);
+            //    if (nodes.Length > 0)
+            //    {
+            //        treeView1.SelectedNode = nodes[0];
+            //    }
+            //    else
+            //    {
+            //        Value = null;
+            //    }
+            //}
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is GameObject) Value = (GameObject)e.Node.Tag;
+            if (e.Node.Tag is object)
+                Value = (object)e.Node.Tag;
         }
 
     }
@@ -66,7 +64,7 @@ namespace CustomUITypeEditors
 
             if (wfes != null)
             {
-                var uc1 = new ItemSelector((GameObject)value);
+                var uc1 = new ItemSelector((object)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

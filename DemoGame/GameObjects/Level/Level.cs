@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Text;
 using ProjectMercury.Renderers;
 using Game1.GameObjects.ParticleEffects;
+using System.Drawing.Design;
 
 namespace Game1.GameObjects.Levels
 {
@@ -44,7 +45,7 @@ namespace Game1.GameObjects.Levels
         [XmlIgnore]
         public Rectangle CamBounds;
 
-        public Rectangle LevelBounds { get; set; } 
+        public Rectangle LevelBounds { get; set; }
 
         public string ContentPath { get; set; } = string.Empty;
 
@@ -53,11 +54,11 @@ namespace Game1.GameObjects.Levels
 
         public SerializableDictionary CustomProperties;
 
-        private SpriteBatchRenderer particleRenderer;
+        private SpriteBatch particleRenderer;
 
         public Level() : base()
         {
-            particleRenderer = new SpriteBatchRenderer();
+            
             Layers = new List<Layer>();
         }
 
@@ -91,6 +92,9 @@ namespace Game1.GameObjects.Levels
             CollisionWorld = new World(new Vector2(0, 10));
             debugView = new DebugView(CollisionWorld);
             debugView.LoadContent(DemoGame.graphics.GraphicsDevice, DemoGame.ContentManager);
+
+            particleRenderer = new SpriteBatch(DemoGame.graphics.GraphicsDevice);
+
             spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
             {
@@ -113,25 +117,17 @@ namespace Game1.GameObjects.Levels
                         sprite.context = context;
                         sprite.Initialize();
                     }
-
+                    if (item is ParticleEffectObject)
+                        (item as ParticleEffectObject).batch = particleRenderer;
+                    item.OnTransformed();
+                    item.LoadContent();
                 }
             }
 
-            if (CustomProperties != null && CustomProperties.ContainsKey("bounds"))
-            {
-                CamBounds = (Rectangle)CustomProperties["bounds"].value;
-                var b = new Rectangle(-1000, -1000, 2000, 2000);
-                LevelBounds = CamBounds;
-                LevelBounds = b;
-                LevelBounds.Inflate((int)(0.05 * CamBounds.Width), (int)(0.05 * CamBounds.Height));
-                context.camera.Bounds = LevelBounds;
-            }
-            else
-            {
-                var b = new Rectangle(-1000, -1000, 5000, 5000);
-                LevelBounds = b;
-                context.camera.Bounds = LevelBounds;
-            }
+            context.camera.Bounds = LevelBounds;
+
+            LevelBounds.Inflate((int)(0.05 * LevelBounds.Width), (int)(0.05 * LevelBounds.Height));
+
             var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);            
             AudioManager.MusicVolume = 0.0f;           
@@ -139,7 +135,7 @@ namespace Game1.GameObjects.Levels
 
         public void GenerateCollision()
         {
-            var l = Layers.FirstOrDefault(elem => elem.Name == "collision");
+            var l = Layers.FirstOrDefault(elem => elem.Name == "Collision");
             foreach (var elem in l.Items)
             {
                 if (elem is RectangleItem)
@@ -165,10 +161,6 @@ namespace Game1.GameObjects.Levels
                     }
                 }
             }
-
-            var f = new FireEffect();
-            f.Transform.Position = new Vector2(200, 1000);
-            l.Items.Add(f);
         }
 
         public GameObject GetItemByName(string name)
@@ -241,9 +233,11 @@ namespace Game1.GameObjects.Levels
                             if (item.Visible && item is IDrawableItem drawitem)
                             {
                                 
-                                if (drawitem is FireEffect)
+                                if (drawitem is ParticleEffectObject)
                                 {
-                                    (drawitem as FireEffect).Draw(sb, camera.getViewMatrix(layer.ScrollSpeed));
+                                    sb.End();
+                                    (drawitem as ParticleEffectObject).Draw(sb, camera.getViewMatrix(layer.ScrollSpeed));
+                                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix(layer.ScrollSpeed));
                                 }
                                 else
                                     drawitem.Draw(sb);
@@ -295,21 +289,21 @@ namespace Game1.GameObjects.Levels
 
         public void AddSprite(string spriteName, SpriteObject sprite)
         {
-            var playLayer = Layers.First(l => l.Name == "collision");
+            var playLayer = Layers.First(l => l.Name == "Collision");
             sprite.Name = spriteName;
             playLayer.Items.Add(sprite);
         }
 
         public void RemoveSprite(string spriteName)
         {
-            var playLayer = Layers.First(l => l.Name == "collision");
+            var playLayer = Layers.First(l => l.Name == "Collision");
             var spriteItem = playLayer.Items.FirstOrDefault(elem => elem.Name.Equals(spriteName));
             RemoveSprite(spriteItem as SpriteObject);
         }
 
         public void RemoveSprite(SpriteObject spriteItem)
         {
-            var playLayer = Layers.First(l => l.Name == "collision");
+            var playLayer = Layers.First(l => l.Name == "Collision");
             if (spriteItem != null)
             {
                 if (spriteItem is SpriteObject obj)

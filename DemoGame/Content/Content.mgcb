@@ -260,6 +260,9 @@
 #begin level3.xml
 /copy:level3.xml
 
+#begin level5.xml
+/copy:level5.xml
+
 #begin Misc/logo.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

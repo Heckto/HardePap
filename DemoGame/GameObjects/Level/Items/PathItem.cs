@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 using System.Xml.Serialization;
 using AuxLib.Extensions;
+using System.Drawing.Design;
+using System.ComponentModel;
 
 namespace Game1.GameObjects.Levels
 {
@@ -12,8 +14,10 @@ namespace Game1.GameObjects.Levels
     {
         public Vector2[] LocalPoints;
         public Vector2[] WorldPoints;
+
         public bool IsPolygon;
         public int LineWidth;
+
         public Color LineColor;
         public ItemTypes ItemType { get; set; } = ItemTypes.None;
 

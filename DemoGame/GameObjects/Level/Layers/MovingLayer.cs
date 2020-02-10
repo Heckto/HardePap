@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace Game1.GameObjects.Levels
 {

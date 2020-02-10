@@ -51,13 +51,38 @@ namespace LevelEditor
 
 
         public MainForm()
-        {            
+        {
+
+            LinkDefaultEditors();
+
             Instance = this;
             InitializeComponent();            
         }
 
-        
-        public void updatetitlebar()
+        private void LinkDefaultEditors()
+        {
+
+            // Vector2
+            System.Collections.Hashtable table = new System.Collections.Hashtable();
+            table.Add(typeof(Microsoft.Xna.Framework.Vector2), typeof(Vector2UITypeEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table);
+
+            // Color
+            System.Collections.Hashtable table2 = new System.Collections.Hashtable();
+            table.Add(typeof(Microsoft.Xna.Framework.Color), typeof(XNAColorUITypeEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table2);
+
+            // Rectangle
+            System.Collections.Hashtable table3 = new System.Collections.Hashtable();
+            table.Add(typeof(Microsoft.Xna.Framework.Rectangle), typeof(RectangleUITypeEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table3);
+
+
+
+        }
+
+
+    public void updatetitlebar()
         {
             Text = "LevelEditor - " + levelfilename + (DirtyFlag ? "*" : String.Empty);
         }
@@ -664,8 +689,6 @@ namespace LevelEditor
             var spriteSheet = (SpriteSheet)(sender as ListView).Tag;
             var spriteSheetDef = (string)(sender as ListView).FocusedItem.Tag;
             var rect = spriteSheet.SpriteDef[spriteSheetDef].SrcRectangle;
-            //var tex = GetBrushData(rect, spriteSheet.Texture);
-            
             Instance.picturebox.createTextureBrush(spriteSheet.Texture, rect,spriteSheet.Name, spriteSheetDef);
         }
 
@@ -673,35 +696,10 @@ namespace LevelEditor
         {
             var entityType = (Type)(sender as ListView).FocusedItem.Tag;
             var name = (sender as ListView).FocusedItem.Text;
-
-            //var tex = new Texture2D(Instance.picturebox.GraphicsDevice, tile.Width, tile.Height);
-            //tex.SetData<int>(data);
-            //var tex = CreateTexture(Instance.picturebox.GraphicsDevice, 50, 100, pixel => Color.Red);
-
             var obj = (GameObject)Activator.CreateInstance(entityType);
 
             Instance.picturebox.createEntityBrush(obj,name);
         }
-
-        //public static Texture2D CreateTexture(GraphicsDevice device, int width, int height, Func<int, Color> paint)
-        //{
-            
-        //    //initialize a texture
-        //    Texture2D texture = new Texture2D(device, width, height,false,SurfaceFormat.Color);
-
-        //    //the array holds the color for each pixel in the texture
-        //    Color[] data = new Color[width * height];
-        //    for (int pixel = 0; pixel < data.Count(); pixel++)
-        //    {
-        //        //the function applies the color according to the specified pixel
-        //        data[pixel] = paint(pixel);
-        //    }
-
-        //    //set the color
-        //    texture.SetData(data);
-
-        //    return texture;
-        //}
 
         private void listView1_DragOver(object sender, DragEventArgs e)
         {
@@ -775,23 +773,23 @@ namespace LevelEditor
 
         private void LoadEntities(string path)
         {
-            var tp = new TabPage("Entities");
-            var lv = new ListView
-            {
-                //lv.LargeImageList = imgList;
-                Dock = DockStyle.Fill,
-                View = View.LargeIcon
-            };
-
-            tp.Controls.Add(lv);
-
             var asm = Assembly.Load("Game1");
             var types = asm.GetTypes();
-            var t = types.Where(elem => elem.IsClass && !elem.IsAbstract && elem.IsSubclassOf(typeof(GameObject)));
-            foreach (var entity in t)
+            var t = types.Where(elem => elem.IsClass && !elem.IsAbstract && elem.IsSubclassOf(typeof(GameObject)) && elem.IsDefined(typeof(EditableAttribute))).GroupBy(elem2 => ((EditableAttribute)elem2.GetCustomAttribute(typeof(EditableAttribute))).cat);                       
+
+            foreach (var group in t)
             {
 
-                if (entity.IsDefined(typeof(EditableAttribute)))
+                var tp = new TabPage(group.Key);
+                var lv = new ListView
+                {
+                    Dock = DockStyle.Fill,
+                    View = View.LargeIcon
+                };
+
+                tp.Controls.Add(lv);
+
+                foreach (var entity in group)
                 {
                     var lvi = new ListViewItem
                     {
@@ -803,10 +801,13 @@ namespace LevelEditor
                     };
                     lv.Items.Add(lvi);
                 }
-            }
-            lv.MouseDoubleClick += AddEntityItem;
 
-            tabControl1.TabPages.Add(tp);            
+                lv.MouseDoubleClick += AddEntityItem;
+
+                tabControl1.TabPages.Add(tp);
+            }
+
+            
         }
 
         private async Task LoadSpriteSheets(string path)

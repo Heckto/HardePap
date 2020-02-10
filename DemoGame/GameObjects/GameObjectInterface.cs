@@ -42,7 +42,7 @@ namespace Game1.GameObjects
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class EditableAttribute : Attribute
     {
-        string cat { get; set; } = "DEFAULT";
+        public string cat { get; set; } = "DEFAULT";
 
         public EditableAttribute(string _cat)
         {

@@ -10,6 +10,7 @@ using tainicom.Aether.Physics2D.Dynamics;
 using Game1.GameObjects.Levels;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace Game1.GameObjects.Sprite
 {
@@ -17,7 +18,6 @@ namespace Game1.GameObjects.Sprite
     {
         [XmlIgnore]
         public bool IsAlive;
-
 
         public Vector2 Size = new Vector2(100, 200);
 
@@ -203,7 +203,7 @@ namespace Game1.GameObjects.Sprite
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;           
-            var c = hovering ? new Color(255, 0, 0, 228) : Color;
+            var c = hovering ? new Color(255, 0, 0, 228) : Color.Red;
             Primitives.Instance.drawBox(sb, getBoundingBox(),c, 5);
         }
 
