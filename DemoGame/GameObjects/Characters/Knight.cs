@@ -32,6 +32,11 @@ namespace Game1.GameObjects.Characters
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
 
+
+        public override Vector2 Size
+        {
+            get { return hitBoxSize; }
+        }
         //public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position) + 0.5f * scale * hitBoxSize;
 
         public override int MaxHealth => 100;

@@ -13,7 +13,7 @@
     <AssemblyName>LevelEditor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -53,6 +53,9 @@
     </Compile>
     <Compile Include="CustomUITypeEditors\ItemSelector.Designer.cs">
       <DependentUpon>ItemSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUITypeEditors\TransformUITypeEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CustomUITypeEditors\RectangleUITypeEditor.cs">
       <SubType>UserControl</SubType>
@@ -107,10 +110,7 @@
     <Compile Include="Forms\SettingsForm.designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Item.ICustomTypeDescriptor.cs" />
     <Compile Include="IUndoable.cs" />
-    <Compile Include="Layer.ICustomTypeDescriptor.cs" />
-    <Compile Include="Level.ICustomTypeDescriptor.cs" />
     <Compile Include="Level.IUndoable.cs" />
     <Compile Include="Primitives.cs" />
     <Compile Include="Program.cs" />
@@ -147,6 +147,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
@@ -177,6 +178,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CustomUITypeEditors\ItemSelector.resx">
       <DependentUpon>ItemSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomUITypeEditors\TransformUITypeEditor.resx">
+      <DependentUpon>TransformUITypeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomUITypeEditors\RectangleUITypeEditor.resx">
       <DependentUpon>RectangleUITypeEditor.cs</DependentUpon>

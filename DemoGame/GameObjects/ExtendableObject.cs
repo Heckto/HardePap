@@ -1,84 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using Game1.GameObjects;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Drawing.Design;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Game1.GameObjects.Levels
+namespace Game1.GameObjects
 {
-    [XmlInclude(typeof(MovingLayer))]
-    public partial class Layer : ICustomTypeDescriptor
+    public class ExtendableObject : ICustomTypeDescriptor
     {
-        [XmlAttribute()]
-        public string Name { get; set; }
 
-        [XmlAttribute()]
-        public bool Visible { get; set; }
-
-        public List<GameObject> Items;
-
-        public Vector2 ScrollSpeed { get; set; }
-
-        public SerializableDictionary CustomProperties;
-        public Layer() : base()
+        public ExtendableObject()
         {
-            Items = new List<GameObject>();
-            ScrollSpeed = Vector2.One;
             CustomProperties = new SerializableDictionary();
         }
 
-
-        #region EDITOR
-
-        [XmlIgnore]
-        public Level level;
-
-        public Layer(String name) : this()
-        {
-            this.Name = name;
-            this.Visible = true;
-        }
-
-        public Layer clone()
-        {
-            var result = (Layer)this.MemberwiseClone();
-            result.Items = new List<GameObject>(Items);
-            for (var i = 0; i < result.Items.Count; i++)
-            {
-                result.Items[i] = result.Items[i].clone();
-                result.Items[i].layer = result;
-            }
-            return result;
-        }
-
-
-
-        public GameObject getItemAtPos(Vector2 mouseworldpos)
-        {
-            for (var i = Items.Count - 1; i >= 0; i--)
-            {                    
-                if (Items[i].contains(mouseworldpos) && Items[i].Visible) return Items[i];
-            }
-            return null;
-        }
-
-        public void drawInEditor(SpriteBatch sb)
-        {
-            if (!Visible) return;
-            foreach (var item in Items)
-            {
-                    item.drawInEditor(sb);
-            }
-
-
-        }
-
-        #endregion
-
-        #region Typedescriptor
+        public SerializableDictionary CustomProperties;
 
         AttributeCollection ICustomTypeDescriptor.GetAttributes()
         {
@@ -148,7 +85,85 @@ namespace Game1.GameObjects.Levels
         {
             return this;
         }
+    }
 
-        #endregion
+    public class DictionaryPropertyDescriptor : PropertyDescriptor
+    {
+        String key;
+        public SerializableDictionary sdict;
+
+
+        public DictionaryPropertyDescriptor(SerializableDictionary dict, String key, Attribute[] attrs)
+            : base(key, attrs)
+        {
+            this.key = key;
+            this.sdict = dict;
+        }
+
+        public override bool CanResetValue(object component)
+        {
+            return false;
+        }
+
+        public override Type ComponentType
+        {
+            get { return null; }
+        }
+
+        public override object GetValue(object component)
+        {
+            return sdict[key].value;
+        }
+
+        public override string Description
+        {
+            get { return sdict[key].description; }
+        }
+
+        public override string Category
+        {
+            get { return "Custom Properties"; }
+        }
+
+        public override string DisplayName
+        {
+            get { return key; }
+        }
+
+        public override bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public override void ResetValue(object component)
+        {
+            //Have to implement
+        }
+
+        public override bool ShouldSerializeValue(object component)
+        {
+            return false;
+        }
+
+        public override void SetValue(object component, object value)
+        {
+            sdict[key].value = value;
+        }
+
+        public override Type PropertyType
+        {
+            get { return sdict[key].type; }
+        }
+
+        //public override object GetEditor(Type editorBaseType)
+        //{
+        //    if (sdict[key].type == typeof(Vector2)) return new Vector2UITypeEditor();
+        //    if (sdict[key].type == typeof(Rectangle)) return new RectangleUITypeEditor();
+        //    if (sdict[key].type == typeof(Color)) return new XNAColorUITypeEditor();
+        //    if (sdict[key].type == typeof(GameObject)) return new ItemUITypeEditor();
+
+        //    return base.GetEditor(editorBaseType);
+        //}
+
     }
 }

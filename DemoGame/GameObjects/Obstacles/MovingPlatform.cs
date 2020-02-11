@@ -14,38 +14,93 @@ using tainicom.Aether.Physics2D.Dynamics;
 
 namespace Game1.GameObjects.Obstacles
 {
-    public class MovingPlatform : LivingSpriteObject
+    [Editable("Entities")]
+    public class MovingPlatform : SpriteObject, IUpdateableItem
     {
-        public PlatformController cntlr;
+        private PlatformController cntlr;
 
-        public MovingPlatform(GameContext context, Vector2 size, Vector2 loc, World world, Vector2[] wayPoints, Category cat = Category.None) : base(context)
-        {
+        public List<Vector2> WayPoints { get; set; }
 
-            colBodySize = size;
+        private Vector2 defSize = new Vector2(200,100);
+        public Category collidesWith { get; set; }
 
+        private GameObject movingObj;
 
-            CollisionBox = world.CreateRectangle((float)ConvertUnits.ToSimUnits(size.X), (float)ConvertUnits.ToSimUnits(size.Y), 1, ConvertUnits.ToSimUnits(loc));
-            CollisionBox.SetCollisionCategories(cat);
-            CollisionBox.Tag = this;
-            cntlr = new PlatformController(CollisionBox, Category.Cat2)
-            {
-                speed = 0.1f,
-                easeAmount = 1.7f,
-                waitTime = 0.5f,
-                globalWaypoints = wayPoints
-            };
+        public MovingPlatform() {
+            WayPoints = new List<Vector2>();
         }
 
-        public override int MaxHealth => throw new NotImplementedException();
+        public MovingPlatform(GameContext context, World world, Category cat = Category.None) : base(context)
+        {
+
+            LoadContent();
+            collidesWith = cat;
+            WayPoints = new List<Vector2>();
+        }
+
+        public override Vector2 Size
+        {
+            get { return defSize; }
+        }
+
 
         public override void LoadContent()
         {
-            throw new NotImplementedException();
+            IsAlive = true;
+            colBodySize = Size;
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle((float)ConvertUnits.ToSimUnits(Size.X), (float)ConvertUnits.ToSimUnits(Size.Y), 1, ConvertUnits.ToSimUnits(Transform.Position),0, BodyType.Kinematic);
+            CollisionBox.SetCollisionCategories(collidesWith);
+            CollisionBox.Tag = this;
+            cntlr = new PlatformController(CollisionBox, Category.Cat2)
+            {
+                speed = 0.2f,
+                easeAmount = 1.7f,
+                waitTime = 0.5f,
+                globalWaypoints = WayPoints.ToArray()
+            };
+
+            if (CustomProperties.ContainsKey("tex"))
+            {
+                var texture = CustomProperties["tex"].value.ToString();
+                movingObj = context.lvl.getItemByName(texture);
+                movingObj.Transform.Position = Transform.Position;
+            }
+        }
+
+        public override Rectangle getBoundingBox()
+        {
+
+            return new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, (int)Size.X, (int)Size.Y);
         }
 
         public override void Update(GameTime gameTime, Level lvl)
         {
+            var oldPos = Transform.Position;
             cntlr.Update(gameTime);
+            Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+
+            var d = Transform.Position - oldPos;
+
+            if (movingObj != null)
+                movingObj.Transform.Position += d;
         }
+
+        public override void drawInEditor(SpriteBatch sb)
+        {
+            base.drawInEditor(sb);
+
+            if (WayPoints.Count > 0)
+            {
+                Primitives.Instance.drawLine(sb, Transform.Position, WayPoints[0], Color.Blue, 3);
+                for (var idx = 0; idx < WayPoints.Count - 1; idx++)
+                {
+                    var s1 = WayPoints[idx];
+                    var s2 = WayPoints[idx + 1];
+                    Primitives.Instance.drawLine(sb, s1, s2, Color.Blue, 3);
+                }
+            }
+
+        }
+
     }
 }

@@ -19,7 +19,12 @@ namespace Game1.GameObjects.Sprite
         [XmlIgnore]
         public bool IsAlive;
 
-        public Vector2 Size = new Vector2(100, 200);
+        public abstract Vector2 Size
+        {
+            get;
+        }
+
+        //public Vector2 Size = new Vector2(100, 200);
 
         [XmlIgnore]
         public Body CollisionBox;
@@ -162,11 +167,11 @@ namespace Game1.GameObjects.Sprite
             //    ///Matrix.CreateScale(Scale.X, Scale.Y, 1) *
             //    //Matrix.CreateRotationZ(Rotation) *
             //    Matrix.CreateTranslation(new Vector3(transform.Position, 0.0f));
-
+            
             var leftTop = new Vector2(0, 0);
-            var rightTop = new Vector2(colBodySize.X, 0);
-            var leftBottom = new Vector2(0, colBodySize.Y);
-            var rightBottom = new Vector2(colBodySize.X, colBodySize.Y);
+            var rightTop = new Vector2(Size.X, 0);
+            var leftBottom = new Vector2(0, Size.Y);
+            var rightBottom = new Vector2(Size.X, Size.Y);
 
             Transform.GetLocalMatrix(out var mat);
             // Transform all four corners into work space

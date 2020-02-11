@@ -52,7 +52,10 @@ namespace Game1.GameObjects.Characters
 
         private ColliderTriggerHelper trigger;
 
-        //public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position);
+        public override Vector2 Size
+        {
+            get { return hitBoxSize; }
+        }
 
         public override int MaxHealth => 100;
 
@@ -65,15 +68,16 @@ namespace Game1.GameObjects.Characters
             Transform.Position = loc;
             Visible = true;
             colBodySize = hitBoxSize;
-            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc),0,BodyType.Kinematic);
-            CollisionBox.Tag = this;           
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), 0, BodyType.Kinematic);
+            CollisionBox.Tag = this;
             CurrentState = CharState.Jumping;
 
             gravity = (float)((2 * maxJumpHeight) / Math.Pow(timeToJumpApex, 2));
             maxJumpVelocity = Math.Abs(gravity) * timeToJumpApex;
             minJumpVelocity = (float)Math.Sqrt(2 * Math.Abs(gravity) * minJumpHeight);
 
-            controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
+            controller = new Controller2D(CollisionBox, Category.Cat1 | Category.Cat2 | Category.Cat4 | Category.Cat5);
+             
             context.camera.SetViewTarget(this);
 
             trigger = new ColliderTriggerHelper(CollisionBox, Category.Cat9);

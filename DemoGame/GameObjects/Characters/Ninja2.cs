@@ -31,8 +31,10 @@ namespace Game1.GameObjects.Characters
         public const float jumpForce = 1.0f;        
 
         private Vector2 hitBoxSize = new Vector2(220, 400);
-
-        //public override Vector2 Position => ConvertUnits.ToDisplayUnits(CollisionBox.Position) + 0.5f * scale * hitBoxSize;
+        public override Vector2 Size
+        {
+            get { return hitBoxSize; }
+        }
 
         public override int MaxHealth => 100;
 

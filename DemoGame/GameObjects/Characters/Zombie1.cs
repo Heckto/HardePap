@@ -23,8 +23,12 @@ namespace Game1.GameObjects.Characters
         public override int MaxHealth => 150;
 
         private Vector2 movingTarget;
-        private float IdleTimeout = 0;        
+        private float IdleTimeout = 0;
 
+        public override Vector2 Size
+        {
+            get { return hitBoxSize; }
+        }
         public Zombie1(Vector2 loc, GameContext context) : base(context)
         {
             Visible = true;

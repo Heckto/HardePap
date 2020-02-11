@@ -92,14 +92,17 @@ namespace Game1
         {
             foreach (var passenger in passengerMovement)
             {
-                if (!passengerDictionary.ContainsKey(passenger.fixture))
+                if (passenger.fixture.Body.Tag is LivingSpriteObject)
                 {
-                    passengerDictionary.Add(passenger.fixture, ((LivingSpriteObject)passenger.fixture.Body.Tag).controller);
-                }
+                    if (!passengerDictionary.ContainsKey(passenger.fixture))
+                    {
+                        passengerDictionary.Add(passenger.fixture, ((LivingSpriteObject)passenger.fixture.Body.Tag).controller);
+                    }
 
-                if (passenger.moveBeforePlatform == beforeMovePlatform)
-                {
-                    passengerDictionary[passenger.fixture].Move(ConvertUnits.ToDisplayUnits(passenger.velocity),passenger.standingOnPlatform);
+                    if (passenger.moveBeforePlatform == beforeMovePlatform)
+                    {
+                        passengerDictionary[passenger.fixture].Move(ConvertUnits.ToDisplayUnits(passenger.velocity), passenger.standingOnPlatform);
+                    }
                 }
             }
         }

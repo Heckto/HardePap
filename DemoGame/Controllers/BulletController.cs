@@ -20,7 +20,7 @@ namespace Game1.Controllers
 
         public BulletController(Body body, Category collisionMask) : base(body, collisionMask)
         {
-
+            body.SetCollisionCategories(Category.Cat1);
         }
 
         public void Move(Vector2 moveAmount)

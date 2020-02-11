@@ -22,6 +22,11 @@ namespace Game1.GameObjects.Obstacles
 
         private float Rotation;
 
+        public override Vector2 Size
+        {
+            get { return Vector2.One; }
+        }
+
         public Kunai(Vector2 loc, int direction, GameContext context) : base(context)
         {
             Visible = true;
@@ -31,11 +36,14 @@ namespace Game1.GameObjects.Obstacles
             colBodySize = 0.5f * texSize;
             Rotation = (direction == 1) ? MathHelper.Pi / 2.0f : MathHelper.Pi / -2.0f;          
 
+
+
             CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), Rotation, BodyType.Kinematic);
             CollisionBox.Tag = this;
             CollisionBox.IsBullet = true;
 
-            controller = new BulletController(CollisionBox, Category.Cat20 | Category.Cat2 | Category.Cat4 | Category.Cat5);
+            //controller = new BulletController(CollisionBox, Category.Cat20 | Category.Cat2 | Category.Cat4 | Category.Cat5);
+            controller = new BulletController(CollisionBox, Category.All);
 
             controller.onCollision += hitInfo =>
             {

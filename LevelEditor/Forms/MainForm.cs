@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Data;
 using System.IO;
 using System.Drawing;
+using System.Design;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using LevelEditor.Properties;
@@ -25,6 +28,8 @@ namespace LevelEditor
 {
     public partial class MainForm : Form
     {
+        private string Caption = "ASS 2 ASS EDITOR";
+
         public static MainForm Instance;
         String levelfilename;
 
@@ -52,7 +57,7 @@ namespace LevelEditor
 
         public MainForm()
         {
-
+            this.Text = Caption;
             LinkDefaultEditors();
 
             Instance = this;
@@ -66,25 +71,40 @@ namespace LevelEditor
             System.Collections.Hashtable table = new System.Collections.Hashtable();
             table.Add(typeof(Microsoft.Xna.Framework.Vector2), typeof(Vector2UITypeEditor).AssemblyQualifiedName);
             TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table);
-
             // Color
             System.Collections.Hashtable table2 = new System.Collections.Hashtable();
             table.Add(typeof(Microsoft.Xna.Framework.Color), typeof(XNAColorUITypeEditor).AssemblyQualifiedName);
             TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table2);
-
             // Rectangle
             System.Collections.Hashtable table3 = new System.Collections.Hashtable();
             table.Add(typeof(Microsoft.Xna.Framework.Rectangle), typeof(RectangleUITypeEditor).AssemblyQualifiedName);
             TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table3);
 
+            // Transform
+            System.Collections.Hashtable table4 = new System.Collections.Hashtable();
+            table.Add(typeof(MonoGame.Extended.Transform2), typeof(TransformUITypeEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table4);
+            
+            // Vector2 List
+            System.Collections.Hashtable table5 = new System.Collections.Hashtable();
+            table.Add(typeof(List<Microsoft.Xna.Framework.Vector2>), typeof(CollectionEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table5);
+
+            // Vector2 List
+            System.Collections.Hashtable table6 = new System.Collections.Hashtable();
+            table.Add(typeof(GameObject), typeof(ItemUITypeEditor).AssemblyQualifiedName);
+            TypeDescriptor.AddEditorTable(typeof(System.Drawing.Design.UITypeEditor), table6);
 
 
-        }
+            
+
+
+    }
 
 
     public void updatetitlebar()
         {
-            Text = "LevelEditor - " + levelfilename + (DirtyFlag ? "*" : String.Empty);
+            Text = Caption + " - " + levelfilename + (DirtyFlag ? "*" : String.Empty);
         }
 
         public static Image getThumbNail(Bitmap bmp, int imgWidth, int imgHeight)

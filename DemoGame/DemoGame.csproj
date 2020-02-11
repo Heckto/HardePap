@@ -14,7 +14,7 @@
     <AssemblyName>Game1</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -59,6 +59,7 @@
     <Compile Include="GameObjects\Characters\Ninja2.cs" />
     <Compile Include="GameObjects\Characters\Zombie1.cs" />
     <Compile Include="GameObjects\Characters\Zombie2.cs" />
+    <Compile Include="GameObjects\ExtendableObject.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectInterface.cs" />
     <Compile Include="GameObjects\Level\Items\CircleItem.cs" />
