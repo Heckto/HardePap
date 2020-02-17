@@ -58,7 +58,8 @@ namespace AuxLib.Debug
                     
                     itemText = $"{item.Key} : { item.Value}";
                     strings.Add(itemText);
-                    var textSize = spriteBatch.MeasureString(font, itemText);
+                    
+                    var textSize = font.MeasureString(itemText);
 
                     maxLength = Math.Max(maxLength, textSize.X);
                     maxHeight = Math.Max(maxHeight, textSize.Y);
@@ -66,12 +67,12 @@ namespace AuxLib.Debug
 
                 var vectSize = itemCnt * maxHeight + 3f * maxHeight;
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                spriteBatch.DrawRectangle(new Rectangle(50, 50, 400, (int)vectSize), Color.Black, 0.5f);
+                Primitives.Instance.drawBoxFilled(spriteBatch,new Rectangle(50, 50, 400, (int)vectSize), Color.Black);
                 var vertIdx = 70;
                 var idx = 0;
                 foreach (var item in strings)
                 {
-                    spriteBatch.DrawString(font, item, 60, idx++ * itemSize + vertIdx, Color.White, 1.0f);
+                    spriteBatch.DrawString(font, item, new Vector2(60, idx++ * itemSize + vertIdx), Color.White);
                 }
                 spriteBatch.End();
             }

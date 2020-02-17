@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects;
 using CustomUITypeEditors;
+using static Game1.GameObjects.Levels.Level;
 
 namespace LevelEditor
 {
@@ -32,6 +33,9 @@ namespace LevelEditor
 
         public static MainForm Instance;
         String levelfilename;
+
+        public MruStripMenu mruMenu;
+        static string mruRegKey = "SOFTWARE\\LevelEditor\\LevelEditorMRU";
 
         public Dictionary<string,SpriteSheet> spriteSheets;
 
@@ -61,7 +65,10 @@ namespace LevelEditor
             LinkDefaultEditors();
 
             Instance = this;
-            InitializeComponent();            
+            InitializeComponent();
+
+            mruMenu = new MruStripMenu(recentMenu, new MruStripMenu.ClickedHandler(OpenMRUFile), mruRegKey + "\\MRU", 8);
+            mruMenu.LoadFromRegistry();
         }
 
         private void LinkDefaultEditors()
@@ -135,11 +142,12 @@ namespace LevelEditor
             zoomcombo.SelectedIndex = 3;
             SetListViewSpacing(listView2, 128 + 8, 128 + 32);
             Instance.picturebox.AllowDrop = true;
-
         }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Constants.Instance.export("settings.xml");
+            mruMenu.SaveToRegistry();
             Application.Exit();
         }
 
@@ -149,7 +157,12 @@ namespace LevelEditor
                 e.Cancel = true;
         }
 
-        //TREEVIEW
+        private void OpenMRUFile(int number, String filename)
+        {
+            loadLevel(filename);
+        }
+
+            //TREEVIEW
         private void treeView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.N) ActionNewLayer(sender, e);
@@ -217,14 +230,12 @@ namespace LevelEditor
             {
                 picturebox.selectlevel();
             }
-            if (e.Node.Tag is Layer)
+            if (e.Node.Tag is Layer l)
             {
-                var l = (Layer)e.Node.Tag;
                 picturebox.selectlayer(l);
             }
-            if (e.Node.Tag is GameObject)
+            if (e.Node.Tag is GameObject i)
             {
-                var i = (GameObject)e.Node.Tag;
                 picturebox.selectitem(i);
             }
         }
@@ -517,8 +528,10 @@ namespace LevelEditor
             var level = Level.FromFile(filename);
             Instance.picturebox.loadLevel(level);
             levelfilename = filename;
+            mruMenu.AddFile(filename);
             DirtyFlag = false;
         }
+
         public DialogResult checkCurrentLevelAndSaveEventually()
         {
             if (DirtyFlag)
@@ -833,9 +846,13 @@ namespace LevelEditor
         private async Task LoadSpriteSheets(string path)
         {
             Instance.picturebox.Editor.Content.RootDirectory = Constants.Instance.DefaultContentRootFolder;
+
             spriteSheets = new Dictionary<string, SpriteSheet>();
             Image img = Resources.folder;
+            //var texPath = Path.Combine(path, "Level1");
             var di = new DirectoryInfo(path);
+
+            
 
             var filters = "*.xnb";            
             var fileList = new List<FileInfo>();
@@ -879,7 +896,7 @@ namespace LevelEditor
                 {
 
                     var contentManager = Instance.picturebox.Editor.Content;
-                    var spriteAtlas = contentManager.Load<Texture2D>(Path.GetFileNameWithoutExtension(file.Name));
+                    var spriteAtlas = contentManager.Load<Texture2D>("Level1\\"  + Path.GetFileNameWithoutExtension(file.Name));
 
                     var spriteSheet = new SpriteSheet(spriteAtlas, defFile);
                     spriteSheets.Add(spriteSheet.Name, spriteSheet);

@@ -59,7 +59,6 @@
     <Compile Include="GameObjects\Characters\Ninja2.cs" />
     <Compile Include="GameObjects\Characters\Zombie1.cs" />
     <Compile Include="GameObjects\Characters\Zombie2.cs" />
-    <Compile Include="GameObjects\ExtendableObject.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectInterface.cs" />
     <Compile Include="GameObjects\Level\Items\CircleItem.cs" />
@@ -69,13 +68,12 @@
     <Compile Include="GameObjects\Level\Layers\Layer.cs" />
     <Compile Include="GameObjects\Level\Layers\MovingLayer.cs" />
     <Compile Include="GameObjects\Level\Level.cs" />
-    <Compile Include="GameObjects\Level\TransactionManager.cs" />
+    <Compile Include="TransactionManager.cs" />
     <Compile Include="GameObjects\Obstacles\Kunai.cs" />
     <Compile Include="GameObjects\Obstacles\MovingPlatform.cs" />
     <Compile Include="GameObjects\ParticleEffects\Fire.cs" />
     <Compile Include="GameObjects\ParticleEffects\ParticleEffectObject.cs" />
     <Compile Include="GameObjects\ParticleEffects\ParticleExtensions.cs" />
-    <Compile Include="GameObjects\ParticleEffects\Rain.cs" />
     <Compile Include="GameObjects\Properties.cs" />
     <Compile Include="GameObjects\Sprite\AnimationEffects\FlashWhiteAnimationEffect.cs" />
     <Compile Include="GameObjects\Sprite\AnimationEffects\IAnimationEffect.cs" />
@@ -95,7 +93,6 @@
     <Compile Include="HUD\HUD.cs" />
     <Compile Include="HUD\HUDComponent.cs" />
     <Compile Include="HUD\HUDText.cs" />
-    <Compile Include="Primitives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\ConsoleScreen.cs" />
@@ -205,10 +202,6 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CollisionDemo - Aether\CollisionDemo.csproj">
-      <Project>{80a829a1-0950-4bf8-856e-2c225a6cfa93}</Project>
-      <Name>CollisionDemo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EditorLib\AuxLib.csproj">
       <Project>{3cdec9b0-7b51-43a2-8dca-5bc7f5d96cb4}</Project>
       <Name>AuxLib</Name>

@@ -29,9 +29,9 @@ namespace Game1.GameObjects.Levels
             if (canTransition)
             {
                 
-                isTransitioning = true;
-                var levelfile = Path.Combine(DemoGame.ContentManager.RootDirectory, mapName);
-                stateManager.PushState(new PlayState(gameInstance, levelfile), new FadeTransition(gameInstance.GraphicsDevice, Color.Black, 2.0f));
+                //isTransitioning = true;
+                //var levelfile = Path.Combine(DemoGame.ContentManager.RootDirectory, mapName);
+                //stateManager.PushState(new PlayState(gameInstance, levelfile), new FadeTransition(gameInstance.GraphicsDevice, Color.Black, 2.0f));
             }
         }
 

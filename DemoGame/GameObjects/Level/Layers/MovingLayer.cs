@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
+using AuxLib;
 
 namespace Game1.GameObjects.Levels
 {
@@ -12,29 +14,19 @@ namespace Game1.GameObjects.Levels
 
         public void Update(GameTime gameTime, Level lvl)
         {
-
+            var m = lvl.context.camera.getViewMatrix(ScrollSpeed);
             var mapSize = new Vector2(lvl.LevelBounds.Width, lvl.LevelBounds.Height);
             foreach (var Item in Items)
             {
-                var cam = new Vector2(1920, 1080);
-                var screenPost = Item.Transform.Position * ScrollSpeed + (cam * (Vector2.One - ScrollSpeed));
-
-                var screenPost2 = -((cam * (Vector2.One - ScrollSpeed)) - Item.Transform.Position) / ScrollSpeed;
-
-                var scrollAss = ScrollVector;
-                scrollAss.Normalize();
                 Item.Transform.Position += ScrollVector;
-
-                var itemBox = Item.getBoundingBox();
-                itemBox.X = (int)screenPost2.X;
-                itemBox.Y = (int)screenPost2.Y;
-                if (!lvl.CamBounds.Intersects(itemBox))
+                var bb = Item.getBoundingBox();
+                var movedBB= new Rectangle((int)(Item.Transform.Position.X), (int)(Item.Transform.Position.Y), bb.Width / 2, bb.Height / 2);
+                if (!lvl.LevelBounds.Intersects(movedBB))
                 {
-                    var posVector = Vector2.Min(scrollAss * mapSize, mapSize);
-                    Item.Transform.Position -= (posVector);
-                    var pos = ScrollSpeed * Item.Transform.Position + (cam + (Vector2.One - ScrollSpeed));
-                    Item.Transform.Position = pos;
-                }                
+                    var d = mapSize;
+                    var screenPos = (Item.Transform.Position - (ScrollVector.Sign() * d));
+                    Item.Transform.Position = screenPos;
+                }
             }
         }
 

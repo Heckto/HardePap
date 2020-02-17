@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Drawing.Design;
 using System.ComponentModel;
+using static Game1.GameObjects.Levels.Level;
 
 namespace Game1.GameObjects.Levels
 {

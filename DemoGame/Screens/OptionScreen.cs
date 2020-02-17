@@ -11,6 +11,8 @@ using AuxLib.Debug;
 using AuxLib.Camera;
 using AuxLib.ScreenManagement;
 using Game1.Settings;
+using Microsoft.Xna.Framework.Content;
+using AuxLib;
 
 namespace Game1.Screens
 {
@@ -31,6 +33,9 @@ namespace Game1.Screens
             targetRect = new Rectangle((int)(0.1 * GraphicsDevice.Viewport.Width), (int)(0.1 * GraphicsDevice.Viewport.Height), (int)(0.8 * GraphicsDevice.Viewport.Width), (int)(0.8 * GraphicsDevice.Viewport.Height));
 
             settings = game.Services.GetService<GameSettings>();
+
+            LoadContent(game.Content);
+            Initialize();
         }
 
         public override void Update(GameTime gameTime)
@@ -48,8 +53,7 @@ namespace Game1.Screens
         public override void Draw(GameTime gameTime)
         {            
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.DrawRectangle(targetRect, Color.Black, 0.5f);
-
+            Primitives.Instance.drawBoxFilled(spriteBatch, targetRect, new Color(Color.Black, 0.5f));
             Menu.Draw();
 
             spriteBatch.End();
@@ -58,18 +62,6 @@ namespace Game1.Screens
 
         public override void Initialize()
         {
-            LoadContent();
-            
-        }
-
-        protected override void LoadContent()
-        {
-            
-            spriteBatch = OurGame.Services.GetService<SpriteBatch>();
-            font = DemoGame.ContentManager.Load<SpriteFont>("Font/DiagnosticFont");
-
-
-
             var items = new MenuItem[] { new MenuItem("Debug mode",settings.debugMode,(item,value) => {
                                                                                                         settings.debugMode = !settings.debugMode;
                                                                                                         item.Value = settings.debugMode;
@@ -83,6 +75,15 @@ namespace Game1.Screens
             var innerRect = new Rectangle(2 * targetRect.X, 2 * targetRect.Y, (int)(0.9 * targetRect.Width), (int)(0.9 * targetRect.Height));
             Menu = new MenuComponent(innerRect, Vector2.Zero, spriteBatch, font, items.ToList());
             Menu.Initialize();
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent(ContentManager contentManager)
+        {
+            
+            spriteBatch = OurGame.Services.GetService<SpriteBatch>();
+            font = contentManager.Load<SpriteFont>("Font/DiagnosticFont");
 
             base.LoadContent();
         }

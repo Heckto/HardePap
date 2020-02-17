@@ -12,8 +12,7 @@ using AuxLib.Logging;
 using AuxLib.Camera;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects;
-using System.ComponentModel;
-using CustomUITypeEditors;
+using AuxLib;
 
 namespace LevelEditor
 {
@@ -1108,19 +1107,16 @@ namespace LevelEditor
                 }
             }
 
-            
-            
-            TextureLoader.Instance.Clear();
-
             foreach (var layer in l.Layers)
             {
                 layer.level = l;
                 foreach (var item in layer.Items)
                 {
                     item.layer = layer;
-                    item.loadIntoEditor(Editor.Content);
+                    item.LoadContent(Editor.Content);
+                    //item.Initialize();
+
                     item.OnTransformed();
-                    //if (!item.loadIntoEditor()) return;
                 }
             }
 

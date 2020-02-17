@@ -6,8 +6,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using AuxLib.CollisionDetection;
-using AuxLib.CollisionDetection.Responses;
 using AuxLib;
 using Game1.Screens;
 using AuxLib.Input;
@@ -49,10 +47,15 @@ namespace Game1.GameObjects.Characters
            
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(@"Content\Characters\Knight\Knight_Definition.xml");
+            LoadFromSheet(@"Content\Characters\Knight\Knight_Definition.xml", contentManager);
             CurrentAnimation = Animations["Jump"];
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public override void Update(GameTime gameTime,Level lvl)

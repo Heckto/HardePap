@@ -67,8 +67,19 @@ namespace Game1.GameObjects.Characters
         {
             Transform.Position = loc;
             Visible = true;
+            
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+            LoadFromSheet(@"Content\Characters\Ninja1\Ninja1_Definition.xml", contentManager);
+            
+        }
+
+        public override void Initialize()
+        {
             colBodySize = hitBoxSize;
-            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), 0, BodyType.Kinematic);
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(Transform.Position), 0, BodyType.Kinematic);
             CollisionBox.Tag = this;
             CurrentState = CharState.Jumping;
 
@@ -77,17 +88,15 @@ namespace Game1.GameObjects.Characters
             minJumpVelocity = (float)Math.Sqrt(2 * Math.Abs(gravity) * minJumpHeight);
 
             controller = new Controller2D(CollisionBox, Category.Cat1 | Category.Cat2 | Category.Cat4 | Category.Cat5);
-             
+
             context.camera.SetViewTarget(this);
 
             trigger = new ColliderTriggerHelper(CollisionBox, Category.Cat9);
             trigger.onEnterZone += Trigger_onEnterZone;
-        }
 
-        public override void LoadContent()
-        {
-            LoadFromSheet(@"Content\Characters\Ninja1\Ninja1_Definition.xml");
             CurrentAnimation = Animations["Jump"];
+
+            base.Initialize();
         }
 
         public override void Update(GameTime gameTime,Level lvl)
@@ -254,6 +263,8 @@ namespace Game1.GameObjects.Characters
                 CurrentState = CharState.GroundThrow;
                 var location = new Vector2(Transform.Position.X, Transform.Position.Y); /*+ (trajectoryY * 50)); // Adding something since the kunai spawns before the animation*/
                 var kunai = new Kunai(location, controller.collisions.faceDirection, context);
+                kunai.LoadContent(context.content);
+                kunai.Initialize();
                 context.lvl.AddSprite(Guid.NewGuid().ToString(), kunai);
             }
 
@@ -379,11 +390,6 @@ namespace Game1.GameObjects.Characters
                         context.scripter.ExecuteScript(script);
                 }
             }
-        }
-
-        public override void loadIntoEditor(ContentManager content)
-        {
-            
         }
 
         public enum CharState

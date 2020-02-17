@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using System.Xml.Serialization;
-using AuxLib.Extensions;
 using System.Drawing.Design;
 using System.ComponentModel;
 

@@ -5,18 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuxLib.Extensions
+namespace AuxLib
 {
     public static class Extensions
     {
-
+        public static Vector2 Up(this Vector2 v1)
+        {
+            return new Vector2(0, 1);
+        }
 
         public static Vector2 Round(this Vector2 v)
-        {
-            
-            //v.X = (float)Math.Round(v.X);
-            //v.Y = (float)Math.Round(v.Y);
-            //return v;
+        {            
             return new Vector2((float)Math.Round(v.X), (float)Math.Round(v.Y));
         }
 
@@ -33,6 +32,11 @@ namespace AuxLib.Extensions
         public static float DistanceTo(this Vector2 v0, Vector2 v)
         {
             return (v - v0).Length();
+        }
+
+        public static Vector2 Sign(this Vector2 v0)
+        {
+            return new Vector2(Math.Sign(v0.X), Math.Sign(v0.Y));
         }
 
         public static float DistanceToLineSegment(this Vector2 v, Vector2 a, Vector2 b)

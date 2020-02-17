@@ -31,7 +31,7 @@ namespace Game1
         private GameContext context;
         private ScriptingEngine scriptManager;
 
-        public static ContentManager ContentManager;
+        public ContentManager ContentManager;
         public static GraphicsDeviceManager graphics;
 
         public string commandParam = string.Empty;
@@ -100,7 +100,8 @@ namespace Game1
                 transitionManager = transMan,
                 input = inputHandler,
                 scripter = scriptManager,
-                spriteBatch = spriteBatch
+                spriteBatch = spriteBatch,
+                content = Content
                 
             };
 

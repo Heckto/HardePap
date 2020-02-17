@@ -19,6 +19,7 @@ using Game1.GameObjects.Characters;
 using System.ComponentModel;
 using System.Text;
 using Game1.GameObjects.ParticleEffects;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.GameObjects.Levels
 {
@@ -34,12 +35,6 @@ namespace Game1.GameObjects.Levels
 
         [XmlIgnore]
         public DebugView debugView;
-
-        [XmlIgnore]
-        public Dictionary<string, Texture2D> spritesheets;
-
-        [XmlIgnore]
-        public Rectangle CamBounds;
 
         public Rectangle LevelBounds { get; set; }
 
@@ -83,41 +78,30 @@ namespace Game1.GameObjects.Levels
             }
             
         }
-        public void LoadContent()
+        public void LoadContent(ContentManager contentManager)
         {
             CollisionWorld = new World(new Vector2(0, 10));
             debugView = new DebugView(CollisionWorld);
-            debugView.LoadContent(DemoGame.graphics.GraphicsDevice, DemoGame.ContentManager);
+            debugView.LoadContent(DemoGame.graphics.GraphicsDevice, contentManager);
 
             particleRenderer = new SpriteBatch(DemoGame.graphics.GraphicsDevice);
 
-            spritesheets = new Dictionary<string, Texture2D>();
+            //spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
             {
                 foreach (var item in layer.Items)
-                {
-                    if (item is TextureItem texItem)
-                    {
-                        var asset = texItem.asset_name;
-                        var assetName = ContentPath + "/" + asset;
-                        if (!spritesheets.ContainsKey(asset))
-                        {                         
-                            var texture = DemoGame.ContentManager.Load<Texture2D>(assetName);
-                            spritesheets.Add(asset, texture);
-                        }
-                        texItem.texture = spritesheets[asset];
-                    }
+                {                    
                     if (item is SpriteObject sprite)
-                    {
-                        
+                    {                        
                         sprite.context = context;
-                        sprite.LoadContent();
-                        sprite.Initialize();
                     }
                     if (item is ParticleEffectObject)
                         (item as ParticleEffectObject).batch = particleRenderer;
-                    item.OnTransformed();
-                    item.LoadContent();
+                    
+                    item.LoadContent(contentManager);
+                    item.Initialize();
+                   // item.OnTransformed();
+                    
                 }
             }
 
@@ -189,10 +173,14 @@ namespace Game1.GameObjects.Levels
 
             foreach (var layer in Layers)
             {
-                
+                if (layer is IUpdateableItem updateableLayer)
+                    updateableLayer.Update(gameTime, this);
                 for (var idx=0;idx<layer.Items.Count; idx++)
                 {
                     
+
+
+
                     if (layer.Items[idx] is IUpdateableItem updateItem)                    
                         updateItem.Update(gameTime, this);
 
@@ -317,16 +305,15 @@ namespace Game1.GameObjects.Levels
 
         public void SpawnPlayer(Vector2? loc)
         {
-            if (CustomProperties != null)
+            if (CustomProperties != null && CustomProperties.ContainsKey("spawnVector"))
             {
-                if (CustomProperties.ContainsKey("spawnVector"))
-                {
-                    Vector2 spawnLocation = !loc.HasValue ? (Vector2)CustomProperties["spawnVector"].value : loc.Value;
-                }
+                var spawnLocation = !loc.HasValue ? (Vector2)CustomProperties["spawnVector"].value : loc.Value;
             }
             RemoveSprite("Player");
             var l = new Vector2(100, 0);
             player = new Ninja1(l, context);
+            player.LoadContent(context.content);
+            player.Initialize();
             AddSprite("Player", player);
         }
 

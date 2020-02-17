@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuxLib.Input;
-
+using Microsoft.Xna.Framework.Content;
 
 namespace AuxLib.ScreenManagement
 {
@@ -24,7 +24,7 @@ namespace AuxLib.ScreenManagement
             Input = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
         }
 
-        protected override void LoadContent()
+        protected virtual void LoadContent(ContentManager contentManager)
         {
             base.LoadContent();
         }

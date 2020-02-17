@@ -202,7 +202,7 @@
     <ReleaseQuantity>3</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>20</Length>
+    <Length>30</Length>
     <Angle>0</Angle>
   </Emitter>
   <Emitter xsi:type="LineEmitter">
@@ -273,7 +273,7 @@
     <ReleaseQuantity>3</ReleaseQuantity>
     <Rectilinear>true</Rectilinear>
     <EmitBothWays>false</EmitBothWays>
-    <Length>20</Length>
+    <Length>30</Length>
     <Angle>0</Angle>
   </Emitter>
 </ArrayOfEmitter>

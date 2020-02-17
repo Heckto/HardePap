@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game1.HUD
 {
@@ -29,12 +25,11 @@ namespace Game1.HUD
             TextToDisplay = text;
             TimeToLive = TTL;
             FadeTime = fadeTime;
-            LoadContent();
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager contentManager)
         {
-            levelIntrofont = DemoGame.ContentManager.Load<SpriteFont>("Font/LevelText");
+            levelIntrofont = contentManager.Load<SpriteFont>("Font/LevelText");
 
             var size = levelIntrofont.MeasureString(TextToDisplay);
             textPos = new Vector2(1980 / 2 - size.X / 2, 1080 / 2 - size.Y / 2);

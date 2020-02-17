@@ -10,6 +10,7 @@ using Game1.GameObjects.Levels;
 using Game1.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
 using Game1.GameObjects.Sprite.Enums;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.GameObjects.Obstacles
 {
@@ -19,7 +20,7 @@ namespace Game1.GameObjects.Obstacles
 
         private BulletController controller;
         private Vector2 movement;
-
+        private int dir;
         private float Rotation;
 
         public override Vector2 Size
@@ -30,15 +31,27 @@ namespace Game1.GameObjects.Obstacles
         public Kunai(Vector2 loc, int direction, GameContext context) : base(context)
         {
             Visible = true;
-            Transform.Position = loc; 
-            movement = new Vector2(Math.Sign(direction) * movementSpeed, 0);
+            Transform.Position = loc;
+            dir = direction;
+            IsAlive = true;          
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {            
+            LoadFromSheet(@"Content\KunaiSprite.xml", contentManager);
+            CurrentAnimation = Animations["Kunai"];
+        }
+
+        public override void Initialize()
+        {
+            movement = new Vector2(Math.Sign(dir) * movementSpeed, 0);
             var texSize = CurrentAnimation.Frames.First().Size;
             colBodySize = 0.5f * texSize;
-            Rotation = (direction == 1) ? MathHelper.Pi / 2.0f : MathHelper.Pi / -2.0f;          
+            Rotation = (dir == 1) ? MathHelper.Pi / 2.0f : MathHelper.Pi / -2.0f;
 
 
 
-            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(loc), Rotation, BodyType.Kinematic);
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(colBodySize.X), ConvertUnits.ToSimUnits(colBodySize.Y), 1, ConvertUnits.ToSimUnits(Transform.Position), Rotation, BodyType.Kinematic);
             CollisionBox.Tag = this;
             CollisionBox.IsBullet = true;
 
@@ -57,16 +70,11 @@ namespace Game1.GameObjects.Obstacles
                 }
             };
 
-            IsAlive = true;          
+
+            base.Initialize();
         }
 
-        public override void LoadContent()
-        {            
-            LoadFromSheet(@"Content\KunaiSprite.xml");
-            CurrentAnimation = Animations["Kunai"];
-        }
-
-        public void Update(GameTime gameTime,Level lvl)
+        public override void Update(GameTime gameTime,Level lvl)
         {
             var r = new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, (int)colBodySize.Y, (int)colBodySize.X);
             if (!context.camera.Bounds.Intersects(r))

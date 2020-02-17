@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml.Serialization;
-using AuxLib.Extensions;
 using System.ComponentModel;
 using System.Drawing.Design;
 
@@ -24,6 +23,8 @@ namespace Game1.GameObjects.Levels
         {
             return boundingrectangle;
         }
+
+
 
         #region Editable
 

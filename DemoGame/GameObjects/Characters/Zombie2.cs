@@ -6,8 +6,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using AuxLib.CollisionDetection;
-using AuxLib.CollisionDetection.Responses;
 using AuxLib;
 using Game1.Screens;
 using AuxLib.Input;
@@ -63,13 +61,15 @@ namespace Game1.GameObjects.Characters
 
             controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
             state = BehaviourState.Idle;
+
+            CurrentAnimation = Animations["Idle"];
+
             base.Initialize();
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(@"Content\Characters\Zombie2\Zombie2_Definition.xml");
-            CurrentAnimation = Animations["Idle"];
+            LoadFromSheet(@"Content\Characters\Zombie2\Zombie2_Definition.xml", contentManager);            
         }
 
         public override void Update(GameTime gameTime, Level lvl)

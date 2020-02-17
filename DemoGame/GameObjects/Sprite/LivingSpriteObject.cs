@@ -42,8 +42,7 @@ namespace Game1.GameObjects.Sprite
         public LivingSpriteObject() { }
 
         public LivingSpriteObject(GameContext context) : base(context)
-        {
-            Initialize();
+        {            
         }
 
         public override void Initialize()

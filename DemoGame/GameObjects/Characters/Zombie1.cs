@@ -9,6 +9,7 @@ using Game1.GameObjects.Sprite.Enums;
 using Game1.DataContext;
 using AuxLib.RandomGeneration;
 using tainicom.Aether.Physics2D.Dynamics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.GameObjects.Characters
 {
@@ -34,7 +35,7 @@ namespace Game1.GameObjects.Characters
             Visible = true;
             Transform.Position = loc;
 
-            Initialize();
+            //Initialize();
         }
 
         public Zombie1() {}
@@ -48,13 +49,16 @@ namespace Game1.GameObjects.Characters
 
             controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
             state = BehaviourState.Idle;
+
+            CurrentAnimation = Animations["Idle"];
+
             base.Initialize();
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(@"Content\Characters\Zombie1\Zombie1_Definition.xml");
-            CurrentAnimation = Animations["Idle"];
+            LoadFromSheet(@"Content\Characters\Zombie1\Zombie1_Definition.xml", contentManager);
+            
         }
 
         public override void Update(GameTime gameTime, Level lvl)
@@ -63,10 +67,10 @@ namespace Game1.GameObjects.Characters
 
             var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (HandleInput)
-                HandleKeyInput(delta, InputHandler.Instance);
+                HandleKeyInput(delta);
         }
 
-        private void HandleKeyInput(float delta, IInputHandler Input)
+        private void HandleKeyInput(float delta)
         {
             var targetDist = Math.Abs(context.lvl.player.Transform.Position.X - Transform.Position.X);
             switch (state)
@@ -81,35 +85,24 @@ namespace Game1.GameObjects.Characters
                     //else
                     if (IdleTimeout > 5)
                     {
-                        var movementLength = Rand.GetRandomInt(300, 500);
-                        var movementDir = Rand.GetRandomInt(0, 2);
-                        movingTarget = movementDir == 0 ? movingTarget = new Vector2(Transform.Position.X + movementLength, 0) : movingTarget = new Vector2(Transform.Position.X - movementLength, 0);
+                        var movementLength = Rand.GetRandomInt(-500, 500);
+                        //var movementDir = Rand.GetRandomInt(0, 2);
+                        movingTarget = new Vector2(Transform.Position.X + movementLength, 0);
                         state = BehaviourState.Walking;
                         SetAnimation("Walk");
                         IdleTimeout = 0;
                     }
                     break;
                 case BehaviourState.Walking:
-                    //if (targetDist < 500)
-                    //{
-                    //    SetAnimation("Walk");
-                    //    state = BehaviourState.Chasing;
-                    //}
                     var tv = movingTarget - Transform.Position;
-
                     tv.Normalize();
-                    velocity.X = tv.X;
-                    //if (tv.X < 0)
-
-                    //    velocity.X = -Math.Min(Math.Abs(-0.05f * delta), Math.Abs((movingTarget - Position).X / delta));
-                    //else
-                    //    velocity.X = Math.Min(0.05f * delta, (movingTarget - Position).X / delta);
+                    velocity.X = tv.X * delta * 1000;
 
                     if (Math.Abs(movingTarget.X - Transform.Position.X) <= 1)
                     {
                         state = BehaviourState.Idle;
                         SetAnimation("Idle");
-                        Console.WriteLine(Transform.Position + " - " + movingTarget);
+                        //Console.WriteLine(Transform.Position + " - " + movingTarget);
                     }
                     break;
                 case BehaviourState.Chasing:
@@ -133,20 +126,9 @@ namespace Game1.GameObjects.Characters
             Direction = velocity.X < 0 ? FaceDirection.Left : FaceDirection.Right;
 
             velocity.Y += gravity * delta;
-            velocity.X = 0;
             controller.Move(velocity);
 
             Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
-
-            if (controller.collisions.edgeCase && controller.collisions.below)
-            {
-                movingTarget.X -= ((movingTarget - Transform.Position).X * controller.collisions.faceDirection);
-            }
-            else if (controller.collisions.below)
-                velocity.Y = 0;
-
-
-
         }        
 
         private void HandleAttackCollisions()

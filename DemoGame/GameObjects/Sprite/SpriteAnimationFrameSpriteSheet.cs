@@ -89,15 +89,15 @@ namespace Game1.GameObjects.Sprite
             }
         }
 
-        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(string definitionLocation, float scale)
+        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(string definitionLocation, float scale,ContentManager content)
         {
             var definition = SpriteSheetDefinition.LoadFromFile(definitionLocation);
-            return FromDefinitionFile(definition, scale);
+            return FromDefinitionFile(definition, scale,content);
         }
 
-        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(SpriteSheetDefinition definition, float scale)
+        public static Dictionary<string, SpriteAnimationFrameSpriteSheet> FromDefinitionFile(SpriteSheetDefinition definition, float scale,ContentManager content)
         {
-            var spriteSheet = LoadTexture(definition.PresumedAssetLocation);
+            var spriteSheet = LoadTexture(definition.PresumedAssetLocation,content);
             var result = new Dictionary<string, SpriteAnimationFrameSpriteSheet>();
             foreach (var imageDefinition in definition.ImageDefinitions)
             {
@@ -109,13 +109,13 @@ namespace Game1.GameObjects.Sprite
 
 
         private static Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
-        private static Texture2D LoadTexture(string assetLocation)
+        private static Texture2D LoadTexture(string assetLocation,ContentManager content)
         {
             if (loadedTextures.ContainsKey(assetLocation))
                 return loadedTextures[assetLocation];
 
             
-            var texture = DemoGame.ContentManager.Load<Texture2D>(assetLocation);
+            var texture = content.Load<Texture2D>(assetLocation);
             loadedTextures.Add(assetLocation, texture);
             return texture;
         }

@@ -26,8 +26,7 @@ namespace Game1.Screens
         protected DemoGame OurGame;
         
         public BaseGameState(Game game) : base(game) 
-        {
-            
+        {           
             
             OurGame = (DemoGame)game;
         }

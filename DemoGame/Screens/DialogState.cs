@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using AuxLib.Input;
 using System.IO;
 using AuxLib.Debug;
+using Microsoft.Xna.Framework.Content;
+using AuxLib;
 
 namespace Game1.Screens
 {
@@ -122,22 +124,20 @@ namespace Game1.Screens
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawRectangle(dialogRect, Color.Black, 0.5f);
+            Primitives.Instance.drawBoxFilled(spriteBatch, dialogRect, new Color(Color.Black, 0.5f));
             spriteBatch.Draw(pictureTex, pictureRect, Color.White);
             spriteBatch.DrawString(dialogFont, currentText, lineIdx[0], Color.White);
             base.Draw(gameTime);
             spriteBatch.End();
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent(ContentManager contentManager)
         {
             spriteBatch = OurGame.Services.GetService<SpriteBatch>();
             
-            pictureTex = DemoGame.ContentManager.Load<Texture2D>(@"Misc\" + assetPic);
-
-            
-            dialogFont = DemoGame.ContentManager.Load<SpriteFont>("Font/DialogFont");
-            sound = DemoGame.ContentManager.Load<SoundEffect>(@"sfx\typewriter");
+            pictureTex = contentManager.Load<Texture2D>(@"Misc\" + assetPic);            
+            dialogFont = contentManager.Load<SpriteFont>("Font/DialogFont");
+            sound = contentManager.Load<SoundEffect>(@"sfx\typewriter");
             
 
             var x1 = (int)(0.1f * DemoGame.graphics.GraphicsDevice.DisplayMode.Width);

@@ -36,7 +36,7 @@ namespace AuxLib.ScreenManagement.Transitions
             var rectangle = new Rectangle((int)x,(int) y, (int)width, (int)height);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.DrawFill(rectangle, Color);
+            Primitives.Instance.drawBoxFilled(_spriteBatch, rectangle, Color);
             _spriteBatch.End();
         }
     }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.IO;
 using System.Xml.Serialization;
+using AuxLib;
 
 namespace Game1.GameObjects.Levels
 {
@@ -133,9 +134,22 @@ namespace Game1.GameObjects.Levels
             sb.Draw(texture, Transform.Position, srcRectangle, c, Transform.Rotation, Origin, Transform.Scale, se, 0);
         }
 
-        public override void loadIntoEditor(ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>(asset_name);            
+            var f = Path.Combine(content.RootDirectory, asset_name);
+            if (!Directory.Exists(f))
+            {
+                var dir = Path.Combine("Level1", asset_name);
+                texture = content.Load<Texture2D>(dir);
+            }
+            else
+            {
+                texture = content.Load<Texture2D>(asset_name);
+            }
+
+            //if (content.RootDirectory )
+//            var dir = Path.Combine("Level1", asset_name);
+//            texture = content.Load<Texture2D>(dir);            
         }
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)

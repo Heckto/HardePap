@@ -33,7 +33,7 @@ namespace AuxLib.ScreenManagement.Transitions
         public override void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            _spriteBatch.DrawFill(_graphicsDevice.Viewport.Bounds, Color * Value);
+            Primitives.Instance.drawBoxFilled(_spriteBatch, _graphicsDevice.Viewport.Bounds, Color * Value);
             _spriteBatch.End();
         }
     }

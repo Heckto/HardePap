@@ -6,12 +6,12 @@ using AuxLib.Debug;
 using System.IO;
 using Game1.Settings;
 using AuxLib.Camera;
-using AuxLib.ParticleEngine;
 using Game1.GameObjects.Levels;
 using Game1.DataContext;
 using Game1.Scripting;
 using Game1.HUD;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.Screens
 {
@@ -43,11 +43,15 @@ namespace Game1.Screens
             monitor = new FpsMonitor();
             
             lvlFile = LevelFile;
-            var dir = Path.Combine(DemoGame.ContentManager.RootDirectory,"Scripts");
-            var files = Directory.GetFiles(dir);
+            //var dir = Path.Combine(DemoGame.ContentManager.RootDirectory,"Scripts");
+            //var files = Directory.GetFiles(dir);
             //scriptingEngine.LoadScript(files);
 
-            hud = new HeadsUpDisplay();        
+            hud = new HeadsUpDisplay();
+
+
+            LoadContent(game.ContentManager);
+            Initialize();
         }
 
 
@@ -76,8 +80,6 @@ namespace Game1.Screens
                 GameManager.PushState(new ConsoleScreen(OurGame));
             }
             context.lvl.Update(gameTime);
-            foreach (var p in context.particleSystems)
-                p.Update(gameTime);
 
             //if (camera.focussedOnPlayer)
               //  camera.Position = context.lvl.player.Position;
@@ -96,9 +98,6 @@ namespace Game1.Screens
 
             context.lvl.Draw(spriteBatch, camera);
 
-            foreach (var p in context.particleSystems)
-                p.Draw(gameTime);
-
             hud.Draw(spriteBatch, gameTime);
 
             if (settings.debugMode)
@@ -110,26 +109,27 @@ namespace Game1.Screens
             base.Draw(gameTime);
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent(ContentManager contentManager)
         {
-            font = DemoGame.ContentManager.Load<SpriteFont>("Font/DiagnosticFont");
+            font = contentManager.Load<SpriteFont>("Font/DiagnosticFont");
             DebugMonitor.Initialize(font);
 
             if (!String.IsNullOrEmpty(lvlFile) && File.Exists(lvlFile))
             {
                 context.lvl = Level.FromFile(lvlFile);
-
                 // ????
                 context.lvl.context = context;
-                context.HUD = hud;
+                
 
-                context.lvl.LoadContent();
+                context.lvl.LoadContent(contentManager);
 
                 //var bounds = (Rectangle)context.lvl.CustomProperties["bounds"].value;
 
                 context.lvl.GenerateCollision();
 
                 context.lvl.SpawnPlayer(null);
+
+                context.HUD = hud;
                 if (camera.focussedOnPlayer)
                     camera.Position = context.lvl.player.Transform.Position;
 
@@ -144,6 +144,11 @@ namespace Game1.Screens
                 //    }
                 //}
             }
+        }
+
+        public override void Initialize()
+        {
+
         }
 
         protected override void UnloadContent()                    

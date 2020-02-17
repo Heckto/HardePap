@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AuxLib.Extensions;
+using static AuxLib.Extensions;
 
-namespace AubLib
+
+namespace AuxLib
 {
     public class Primitives
     {
@@ -126,6 +127,7 @@ namespace AubLib
                 pixel = new Texture2D(sb.GraphicsDevice, 1, 1);
                 pixel.SetData(new[] { Color.White });
             }
+            
             var r = Extensions.RectangleFromVectors(upperLeft, lowerRight);
             sb.Draw(pixel, r, c);
         }

@@ -52,7 +52,7 @@ namespace Game666
         public void FocusUpdate(GameTime gameTime)
         {
             var size = ConvertUnits.ToSimUnits(((Player)target.collider.Tag).colliderSize);
-            var bb = new RectangleF(target.collider.Position.X - size.X / 2, target.collider.Position.Y - size.Y / 2, size.X, size.Y);
+            var bb = new Rectangle((int)(target.collider.Position.X - size.X / 2), (int)(target.collider.Position.Y - size.Y / 2), (int)size.X, (int)size.Y);
             focusArea.Update(bb);
 
             focusPosition = focusArea.center + new Vector2(0,1) * verticalOffset;
@@ -119,7 +119,7 @@ namespace Game666
         {
             target = _target;
             var size = ConvertUnits.ToSimUnits(((Player)target.collider.Tag).colliderSize);
-            var bb = new RectangleF(target.collider.Position.X - size.X / 2, target.collider.Position.Y - size.Y / 2, size.X, size.Y);
+            var bb = new Rectangle((int)(target.collider.Position.X - size.X / 2), (int)(target.collider.Position.Y - size.Y / 2), (int)size.X, (int)size.Y);
             focusArea = new FocusArea(bb, focusAreaSize);
         }
 
@@ -273,7 +273,7 @@ namespace Game666
         public float left, right;
         public float top, bottom;
 
-        public FocusArea(RectangleF targetBounds, Vector2 size)
+        public FocusArea(Rectangle targetBounds, Vector2 size)
         {
             
             left = targetBounds.Left - size.X / 2;
@@ -284,7 +284,7 @@ namespace Game666
             center = new Vector2(left + right / 2, top + bottom / 2);
         }
 
-        public void Update(RectangleF targetBounds)
+        public void Update(Rectangle targetBounds)
         {
             float shiftX = 0;
             if (targetBounds.Left < left)

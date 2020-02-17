@@ -6,8 +6,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
-using AuxLib.CollisionDetection;
-using AuxLib.CollisionDetection.Responses;
 using AuxLib;
 using Game1.Screens;
 using AuxLib.Input;
@@ -53,10 +51,15 @@ namespace Game1.GameObjects.Characters
           
         }
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(@"Content\Characters\Ninja2\Ninja2_Definition.xml");
+            LoadFromSheet(@"Content\Characters\Ninja2\Ninja2_Definition.xml",contentManager);
             CurrentAnimation = Animations["Jump"];
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public override void Update(GameTime gameTime,Level lvl)
@@ -128,47 +131,6 @@ namespace Game1.GameObjects.Characters
             //{
             //    HandleAttackCollisions();
             //}
-        }
-
-        private CollisionResponses OnResolveCollision(ICollision collision)
-        {
-
-            if (thrownObjects.Contains(collision.Other.Data))
-            {
-                return CollisionResponses.None;
-            }
-
-            if (collision.Other.HasTag(ItemTypes.Transition) && !context.transitionManager.isTransitioning)
-            {
-                var item = collision.Other.Data as RectangleItem;
-                var lvl = item.CustomProperties["map"].value.ToString();
-                var f = Path.ChangeExtension(lvl, ".xml");
-                context.transitionManager.TransitionToMap(f);
-                return CollisionResponses.Cross;
-            }
-            if (collision.Other.HasTag(ItemTypes.ScriptTrigger))
-            {
-                var item = collision.Other.Data as RectangleItem;
-                var script = item.CustomProperties["Script"].value.ToString();
-                if (!String.IsNullOrEmpty(script))
-                {
-                    //context.lvl.CollisionWorld.Remove((IBox)collision.Other);
-                    context.scripter.ExecuteScript(script);
-                }
-                return CollisionResponses.Cross;
-            }
-            if (collision.Hit.Normal.Y < 0)
-            {
-                return CollisionResponses.Slide;
-            }
-            if (collision.Hit.Normal.Y > 0)
-            {
-                //Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
-                return CollisionResponses.Touch;
-            }
-
-            
-            return CollisionResponses.Slide;
         }
 
         private void HandleAttackCollisions()

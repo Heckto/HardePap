@@ -1,4 +1,4 @@
-﻿using AuxLib.Extensions;
+﻿using AuxLib;
 using Game1.GameObjects.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

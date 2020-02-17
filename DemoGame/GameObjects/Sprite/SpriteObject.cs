@@ -1,5 +1,4 @@
-﻿using AuxLib.CollisionDetection;
-using Game1.GameObjects.Sprite.Enums;
+﻿using Game1.GameObjects.Sprite.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +9,7 @@ using tainicom.Aether.Physics2D.Dynamics;
 using Game1.GameObjects.Levels;
 using System.Xml.Serialization;
 using System.ComponentModel;
-using System.Drawing.Design;
+using AuxLib;
 
 namespace Game1.GameObjects.Sprite
 {
@@ -64,13 +63,18 @@ namespace Game1.GameObjects.Sprite
 
         public SpriteObject(GameContext context)
         {
-            LoadContent();
+            //LoadContent();
             this.context = context;
         }
 
-        public virtual void Initialize()
+        public override void Initialize()
         {
 
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+            base.LoadContent(contentManager);
         }
 
         public virtual void LoadFromFile(ContentManager contentManager, string fileLocation)
@@ -85,22 +89,20 @@ namespace Game1.GameObjects.Sprite
             }
         }
 
-        public virtual void LoadFromSheet(string fileLocation)
+        public virtual void LoadFromSheet(string fileLocation, ContentManager content)
         {
             var config = SpriteConfig.Deserialize(fileLocation);
 
             Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
 
             var sheetDef = config.SpritesheetDefinitionFile;
-            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale);
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale, content);
 
             foreach (var animation in config.Animations)
             {
                 Animations.Add(animation.AnimationName, new SpriteAnimation(animation, frameDictionary));
             }
-        }
-
-        public abstract void LoadContent();
+        }        
 
         public virtual void Update(GameTime gameTime, Level lvl)
         {

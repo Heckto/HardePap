@@ -4,6 +4,7 @@ using Game1.DataContext;
 using Game1.GameObjects.Levels;
 using Game1.GameObjects.Sprite;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,6 @@ namespace Game1.GameObjects.Obstacles
         public MovingPlatform(GameContext context, World world, Category cat = Category.None) : base(context)
         {
 
-            LoadContent();
             collidesWith = cat;
             WayPoints = new List<Vector2>();
         }
@@ -44,11 +44,16 @@ namespace Game1.GameObjects.Obstacles
         }
 
 
-        public override void LoadContent()
+        public override void LoadContent(ContentManager contentManager)
         {
             IsAlive = true;
+            
+        }
+
+        public override void Initialize()
+        {
             colBodySize = Size;
-            CollisionBox = context.lvl.CollisionWorld.CreateRectangle((float)ConvertUnits.ToSimUnits(Size.X), (float)ConvertUnits.ToSimUnits(Size.Y), 1, ConvertUnits.ToSimUnits(Transform.Position),0, BodyType.Kinematic);
+            CollisionBox = context.lvl.CollisionWorld.CreateRectangle((float)ConvertUnits.ToSimUnits(Size.X), (float)ConvertUnits.ToSimUnits(Size.Y), 1, ConvertUnits.ToSimUnits(Transform.Position), 0, BodyType.Kinematic);
             CollisionBox.SetCollisionCategories(collidesWith);
             CollisionBox.Tag = this;
             cntlr = new PlatformController(CollisionBox, Category.Cat2)
@@ -65,6 +70,8 @@ namespace Game1.GameObjects.Obstacles
                 movingObj = context.lvl.getItemByName(texture);
                 movingObj.Transform.Position = Transform.Position;
             }
+
+            base.Initialize();
         }
 
         public override Rectangle getBoundingBox()

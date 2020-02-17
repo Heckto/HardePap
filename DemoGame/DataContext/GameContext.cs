@@ -13,9 +13,9 @@ using AuxLib.Input;
 using Game1.GameObjects.Sprite;
 using AuxLib.Sound;
 using Game1.HUD;
-using AuxLib.ParticleEngine;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.DataContext
 {
@@ -31,7 +31,7 @@ namespace Game1.DataContext
         public InputHandler input;
         public ScriptingEngine scripter;
         public HeadsUpDisplay HUD;
-        public List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+        public ContentManager content;
 
         public LivingSpriteObject SpawnEnemy(string name, int x, int y)
         {            
