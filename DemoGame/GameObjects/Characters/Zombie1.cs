@@ -19,7 +19,7 @@ namespace Game1.GameObjects.Characters
         private const float gravity = 64f;
 
         private BehaviourState state;
-        private Vector2 hitBoxSize = new Vector2(110, 200);
+        private Vector2 hitBoxSize = new Vector2(110, 180);
 
         public override int MaxHealth => 100;
 
@@ -180,7 +180,7 @@ namespace Game1.GameObjects.Characters
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
         }
 
         public enum BehaviourState
