@@ -1268,7 +1268,7 @@
             this.Location = new System.Drawing.Point(10, 10);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Hybrid Map Editor";
+            this.Text = "ASS 2 ASS EDITOR";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);

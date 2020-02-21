@@ -36,6 +36,7 @@ namespace LevelEditor
             ColorTextureTransparent = new Color(255, 0, 255, 255);
             DefaultPathItemLineWidth = 4;
             DefaultContentRootFolder = string.Empty;
+            SpritesFolder = string.Empty;
             DefaultEntityLocation = string.Empty;
             CameraSpeed = 500;
             CameraFastSpeed = 2000;
@@ -88,6 +89,9 @@ namespace LevelEditor
         [EditorAttribute(typeof(FolderUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         [Category("General"), Description("When a new level is created, its ContentRootFolder will be initially set to this.")]
         public string DefaultContentRootFolder { get; set; }
+
+        [Category("General"), Description("When a new level is created, its ContentRootFolder will be initially set to this.")]
+        public string SpritesFolder { get; set; }
 
         [EditorAttribute(typeof(FolderUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         [Category("General"), Description("Default entity location")]

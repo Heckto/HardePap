@@ -938,12 +938,6 @@ namespace LevelEditor
 
         public void paintTextureBrush(bool continueAfterPaint)
         {
-            //if (SelectedLayer == null)
-            //{
-            //    Forms.MessageBox.Show(Resources.No_Layer);
-            //    destroyTextureBrush();
-            //    return;
-            //}
             GameObject i = null;
             if (currentbrush is TextureBrush br)
             {
@@ -1101,9 +1095,21 @@ namespace LevelEditor
             {
                 if (!Directory.Exists(l.ContentRootFolder))
                 {
-                    Forms.MessageBox.Show("The directory \"" + l.ContentRootFolder + "\" doesn't exist! "
-                        + "Please adjust the XML file before trying again.");
-                    return;
+                    l.ContentRootFolder = Constants.Instance.DefaultContentRootFolder;
+                    if (!Directory.Exists(l.ContentRootFolder))
+                    {
+                        var dr = Forms.MessageBox.Show(
+                            "The DefaultContentRootFolder \"" + l.ContentRootFolder + "\" (as set in the Settings Dialog) doesn't exist!\n"
+                            + "The ContentRootFolder of the new level will be set to the Editor's work directory (" + Forms.Application.StartupPath + ").\n"
+                            + "Please adjust the DefaultContentRootFolder in the Settings Dialog.\n"
+                            + "Do you want to open the Settings Dialog now?", "Error",
+                            Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Exclamation);
+                        if (dr == Forms.DialogResult.Yes) new SettingsForm().ShowDialog();
+                        l.ContentRootFolder = Forms.Application.StartupPath;
+                    }
+                    //Forms.MessageBox.Show("The directory \"" + l.ContentRootFolder + "\" doesn't exist! "
+                    //    + "Please adjust the XML file before trying again.");
+                    //return;
                 }
             }
 
@@ -1115,6 +1121,9 @@ namespace LevelEditor
                     item.layer = layer;
                     item.LoadContent(Editor.Content);
                     //item.Initialize();
+
+                    item.Transform.TranformUpdated += item.OnTransformed;
+                    item.Transform.TransformBecameDirty += item.OnTransformed;
 
                     item.OnTransformed();
                 }

@@ -87,7 +87,6 @@
     <Compile Include="GameObjects\Sprite\LivingSpriteObject.cs" />
     <Compile Include="GameObjects\Sprite\SpriteAnimation.cs" />
     <Compile Include="GameObjects\Sprite\SpriteAnimationFrameSpriteSheet.cs" />
-    <Compile Include="GameObjects\Sprite\SpriteAnimationFrameTexture.cs" />
     <Compile Include="GameObjects\Sprite\SpriteObject.cs" />
     <Compile Include="GameObjects\Sprite\SpriteSheetDefinition.cs" />
     <Compile Include="HUD\HUD.cs" />

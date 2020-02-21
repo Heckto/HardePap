@@ -62,14 +62,15 @@ namespace Game1.GameObjects.Characters
             controller = new Controller2D(CollisionBox, Category.Cat2 | Category.Cat4 | Category.Cat5);
             state = BehaviourState.Idle;
 
-            CurrentAnimation = Animations["Idle"];
+            //CurrentAnimation = Animations["Idle"];
 
             base.Initialize();
         }
 
         public override void LoadContent(ContentManager contentManager)
         {
-            LoadFromSheet(@"Content\Characters\Zombie2\Zombie2_Definition.xml", contentManager);            
+            LoadFromSheet(@"Content\Characters\Zombie2\Zombie2_Definition.xml", contentManager);
+            CurrentAnimation = Animations["Idle"];
         }
 
         public override void Update(GameTime gameTime, Level lvl)
@@ -222,7 +223,7 @@ namespace Game1.GameObjects.Characters
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
         }
 
         public enum BehaviourState

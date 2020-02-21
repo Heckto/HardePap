@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-//using AuxLib.CollisionDetection;
 using tainicom.Aether.Physics2D.Dynamics;
 using tainicom.Aether.Physics2D.Diagnostics;
 using AuxLib;
@@ -117,28 +116,31 @@ namespace Game1.GameObjects.Levels
         public void GenerateCollision()
         {
             var l = Layers.FirstOrDefault(elem => elem.Name == "Collision");
-            foreach (var elem in l.Items)
+            if (l != null)
             {
-                if (elem is RectangleItem)
+                foreach (var elem in l.Items)
                 {
-                    var rec = elem as RectangleItem;
-                    var origin = new Vector2(rec.Width / 2, rec.Height / 2);
-                    var colBody = CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(rec.Width), ConvertUnits.ToSimUnits(rec.Height), 10, ConvertUnits.ToSimUnits(rec.Transform.Position + origin));
-                    if (rec.ItemType == ItemTypes.Transition || rec.ItemType == ItemTypes.ScriptTrigger)
+                    if (elem is RectangleItem)
                     {
-                        colBody.Tag = rec;
-                        colBody.SetCollisionCategories(Category.Cat9);
+                        var rec = elem as RectangleItem;
+                        var origin = new Vector2(rec.Width / 2, rec.Height / 2);
+                        var colBody = CollisionWorld.CreateRectangle(ConvertUnits.ToSimUnits(rec.Width), ConvertUnits.ToSimUnits(rec.Height), 10, ConvertUnits.ToSimUnits(rec.Transform.Position + origin));
+                        if (rec.ItemType == ItemTypes.Transition || rec.ItemType == ItemTypes.ScriptTrigger)
+                        {
+                            colBody.Tag = rec;
+                            colBody.SetCollisionCategories(Category.Cat9);
+                        }
+                        else
+                            colBody.SetCollisionCategories(Category.Cat2);
                     }
-                    else
-                        colBody.SetCollisionCategories(Category.Cat2);
-                }
-                else if (elem is PathItem)
-                {
-                    var path = elem as PathItem;
-                    for(var idx=0;idx < path.WorldPoints.Length-1; idx++)
+                    else if (elem is PathItem)
                     {
-                        var colBody = CollisionWorld.CreateEdge(ConvertUnits.ToSimUnits(path.WorldPoints[idx]), ConvertUnits.ToSimUnits(path.WorldPoints[idx + 1]));
-                        colBody.SetCollisionCategories(Category.Cat2);
+                        var path = elem as PathItem;
+                        for (var idx = 0; idx < path.WorldPoints.Length - 1; idx++)
+                        {
+                            var colBody = CollisionWorld.CreateEdge(ConvertUnits.ToSimUnits(path.WorldPoints[idx]), ConvertUnits.ToSimUnits(path.WorldPoints[idx + 1]));
+                            colBody.SetCollisionCategories(Category.Cat2);
+                        }
                     }
                 }
             }
@@ -274,28 +276,37 @@ namespace Game1.GameObjects.Levels
 
         public void AddSprite(string spriteName, SpriteObject sprite)
         {
-            var playLayer = Layers.First(l => l.Name == "Collision");
-            sprite.Name = spriteName;
-            playLayer.Items.Add(sprite);
+            var playLayer = Layers.FirstOrDefault(l => l.Name == "Collision");
+            if (playLayer != null)
+            {
+                sprite.Name = spriteName;
+                playLayer.Items.Add(sprite);
+            }
         }
 
         public void RemoveSprite(string spriteName)
         {
-            var playLayer = Layers.First(l => l.Name == "Collision");
-            var spriteItem = playLayer.Items.FirstOrDefault(elem => elem.Name.Equals(spriteName));
-            RemoveSprite(spriteItem as SpriteObject);
+            var playLayer = Layers.FirstOrDefault(l => l.Name == "Collision");
+            if (playLayer != null)
+            {
+                var spriteItem = playLayer.Items.FirstOrDefault(elem => elem.Name.Equals(spriteName));
+                RemoveSprite(spriteItem as SpriteObject);
+            }
         }
 
         public void RemoveSprite(SpriteObject spriteItem)
         {
             var playLayer = Layers.First(l => l.Name == "Collision");
-            if (spriteItem != null)
+            if (playLayer != null)
             {
-                if (spriteItem is SpriteObject obj)
+                if (spriteItem != null)
                 {
-                    CollisionWorld.Remove(obj.CollisionBox);
+                    if (spriteItem is SpriteObject obj)
+                    {
+                        CollisionWorld.Remove(obj.CollisionBox);
+                    }
+                    playLayer.Items.Remove(spriteItem);
                 }
-                playLayer.Items.Remove(spriteItem);
             }
         }
         #region NIGGA FIX THIS SHIT !!!
@@ -472,8 +483,8 @@ namespace Game1.GameObjects.Levels
                         if (i is TextureItem)
                         {
                             var ti = (TextureItem)i;
-                            ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_filename);
-                            ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
+                            ti.texture_filename = ti.texture.Name;
+                            //ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
                         }
                     }
                 }

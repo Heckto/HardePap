@@ -182,6 +182,7 @@ namespace Game1
                     var slopeAngle = MathHelper.ToDegrees((float)Math.Acos(Vector2.Dot(UpVector, hitInfo.normal)));
                     if (slopeAngle != collisions.slopeAngle)
                     {
+
                         moveAmount.X = (hitInfo.distance - skinWidth) * directionX;
                         collisions.slopeAngle = slopeAngle;
                         collisions.slopeNormal = hitInfo.normal;

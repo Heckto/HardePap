@@ -849,10 +849,10 @@ namespace LevelEditor
 
             spriteSheets = new Dictionary<string, SpriteSheet>();
             Image img = Resources.folder;
-            //var texPath = Path.Combine(path, "Level1");
-            var di = new DirectoryInfo(path);
 
-            
+            var spriteSheetDir = Path.Combine(Constants.Instance.DefaultContentRootFolder, Constants.Instance.SpritesFolder);
+
+            var di = new DirectoryInfo(spriteSheetDir);
 
             var filters = "*.xnb";            
             var fileList = new List<FileInfo>();
@@ -896,7 +896,8 @@ namespace LevelEditor
                 {
 
                     var contentManager = Instance.picturebox.Editor.Content;
-                    var spriteAtlas = contentManager.Load<Texture2D>("Level1\\"  + Path.GetFileNameWithoutExtension(file.Name));
+                    
+                    var spriteAtlas = contentManager.Load<Texture2D>(Constants.Instance.SpritesFolder + "\\"  + Path.GetFileNameWithoutExtension(file.Name));
 
                     var spriteSheet = new SpriteSheet(spriteAtlas, defFile);
                     spriteSheets.Add(spriteSheet.Name, spriteSheet);

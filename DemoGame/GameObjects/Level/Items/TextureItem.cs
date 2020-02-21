@@ -23,8 +23,8 @@ namespace Game1.GameObjects.Levels
 
         public String texture_filename;
 
-        [ReadOnly(true)]
-        public String asset_name { get; set; }
+//        [ReadOnly(true)]
+//        public String asset_name { get; set; }
 
         [ReadOnly(true)]
         public Rectangle srcRectangle { get; set; }
@@ -52,17 +52,14 @@ namespace Game1.GameObjects.Levels
         [XmlIgnore]
         Color[] coldata;
 
-
-        
-
         [XmlIgnore]
         Vector2[] polygon;
 
-        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect,Texture2D tex)
+        public TextureItem(String fullpath, Vector2 position, Rectangle srcRect, Texture2D tex) : base()
         {            
             this.texture = tex;
             this.texture_filename = fullpath;
-            this.asset_name = Path.GetFileNameWithoutExtension(fullpath);
+            //this.asset_name = Path.GetFileNameWithoutExtension(fullpath);
             this.TintColor = Color.White;
             FlipHorizontally = FlipVertically = false;
             this.srcRectangle = srcRect;
@@ -72,10 +69,15 @@ namespace Game1.GameObjects.Levels
 
         public override GameObject clone()
         {
-            var result = (TextureItem)this.MemberwiseClone();
-            result.CustomProperties = new SerializableDictionary(CustomProperties);
-            result.polygon = (Vector2[])polygon.Clone();
-            result.hovering = false;
+            var result = new TextureItem(texture_filename, Transform.Position, srcRectangle, texture)
+            {
+                polygon = (Vector2[])polygon.Clone(),
+                hovering = false,
+                layer = layer
+            };
+            result.Transform.Scale = Transform.Scale;
+            result.Transform.Rotation = Transform.Rotation;
+
             return result;
         }
 
@@ -114,7 +116,7 @@ namespace Game1.GameObjects.Levels
             // Return as a rectangle
             boundingrectangle = new Rectangle((int)min.X, (int)min.Y,
                                     (int)(max.X - min.X), (int)(max.Y - min.Y));
-            
+
         }
 
 
@@ -136,20 +138,7 @@ namespace Game1.GameObjects.Levels
 
         public override void LoadContent(ContentManager content)
         {
-            var f = Path.Combine(content.RootDirectory, asset_name);
-            if (!Directory.Exists(f))
-            {
-                var dir = Path.Combine("Level1", asset_name);
-                texture = content.Load<Texture2D>(dir);
-            }
-            else
-            {
-                texture = content.Load<Texture2D>(asset_name);
-            }
-
-            //if (content.RootDirectory )
-//            var dir = Path.Combine("Level1", asset_name);
-//            texture = content.Load<Texture2D>(dir);            
+            texture = content.Load<Texture2D>(texture_filename);            
         }
 
         public override void drawSelectionFrame(SpriteBatch sb, Matrix matrix, Color color)

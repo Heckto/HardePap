@@ -3,12 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Reflection;
+using System.Threading.Tasks;
+using AuxLib;
 
 namespace AuxLib.Debug
 {
     public class DebugMonitor
     {
         private const int itemSize = 20;
+        //private Dictionary<string, MonitorItem> debugMonitors;
         private Dictionary<string, object> debugData;
         private SpriteFont font;
         public DebugMonitor()
@@ -73,5 +78,14 @@ namespace AuxLib.Debug
             }
 
         }
+    }
+
+    public class MonitorItem
+    {
+        public Type t { get; set; }
+        public object DebugObject { get; set; }
+        public object DebugValue { get; set; }
+        public string Alias { get; set; } = String.Empty;
+
     }
 }

@@ -64,7 +64,7 @@ namespace Game1.GameObjects.Obstacles
                 {
                     if (hitInfo.fixture.CollisionCategories == Category.Cat20)
                     {
-                        ((LivingSpriteObject)hitInfo.fixture.Body.Tag).DealDamage(this, 50);
+                        ((LivingSpriteObject)hitInfo.fixture.Body.Tag).DealDamage(this, 20);
                     }
                     IsAlive = false;
                 }
@@ -90,7 +90,7 @@ namespace Game1.GameObjects.Obstacles
         {
             var flip = (Direction == FaceDirection.Left);
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, Rotation, 0.5f, Color, AnimationEffect.None);
+                CurrentAnimation.Draw(sb, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, Rotation, 0.5f, Color.White, AnimationEffect.None);
         }
     }
 }

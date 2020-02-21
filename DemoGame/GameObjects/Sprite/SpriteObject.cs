@@ -23,8 +23,6 @@ namespace Game1.GameObjects.Sprite
             get;
         }
 
-        //public Vector2 Size = new Vector2(100, 200);
-
         [XmlIgnore]
         public Body CollisionBox;
 
@@ -42,8 +40,6 @@ namespace Game1.GameObjects.Sprite
 
         private FaceDirection dir = FaceDirection.Right;
 
-        public Vector2 Origin;
-
         [Browsable(false)]
         public FaceDirection Direction
         {
@@ -55,9 +51,7 @@ namespace Game1.GameObjects.Sprite
             }
         }
 
-        //public float Rotation { get; set; }
-
-        public Vector2 colBodySize = new Vector2(100,200);
+        public Vector2 colBodySize = new Vector2(90,100);
 
         public SpriteObject() { }
 
@@ -77,26 +71,10 @@ namespace Game1.GameObjects.Sprite
             base.LoadContent(contentManager);
         }
 
-        public virtual void LoadFromFile(ContentManager contentManager, string fileLocation)
-        {
-            var config = SpriteConfig.Deserialize(fileLocation);
-
-            Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
-
-            foreach(var animation in config.Animations)
-            {
-                Animations.Add(animation.AnimationName, new SpriteAnimation(contentManager, animation));
-            }
-        }
-
         public virtual void LoadFromSheet(string fileLocation, ContentManager content)
         {
             var config = SpriteConfig.Deserialize(fileLocation);
-
-            Color = new Color(config.ColorR, config.ColorG, config.ColorB, config.ColorA);
-
-            var sheetDef = config.SpritesheetDefinitionFile;
-            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(sheetDef, config.SpriteSheetScale, content);
+            var frameDictionary = SpriteAnimationFrameSpriteSheet.FromDefinitionFile(config.SpritesheetDefinitionFile, content);
 
             foreach (var animation in config.Animations)
             {
@@ -156,11 +134,6 @@ namespace Game1.GameObjects.Sprite
             return result;
         }
 
-        //public override string getNamePrefix()
-        //{
-        //    return "SpriteItem_" + Name;
-        //}
-
         public override void OnTransformed()
         {
             polygon = new Vector2[4];
@@ -210,7 +183,14 @@ namespace Game1.GameObjects.Sprite
         public override void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;           
-            var c = hovering ? new Color(255, 0, 0, 228) : Color.Red;
+            var c = hovering ? new Color(255, 0, 0, 228) : Color;
+
+            var flip = (Direction == FaceDirection.Left);
+
+            if (CurrentAnimation != null)
+                CurrentAnimation.Draw(sb, (flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, c, AnimationEffect.None);
+
+
             Primitives.Instance.drawBox(sb, getBoundingBox(),c, 5);
         }
 

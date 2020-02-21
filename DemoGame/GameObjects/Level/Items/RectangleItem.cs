@@ -16,7 +16,7 @@ namespace Game1.GameObjects.Levels
 
         public ItemTypes ItemType { get; set; } = ItemTypes.None;
 
-        public RectangleItem() { }
+        public RectangleItem() : base() { }
 
 
         public override Rectangle getBoundingBox()

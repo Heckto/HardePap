@@ -48,7 +48,7 @@ namespace Game1.GameObjects.Characters
         bool wallSliding;
         int wallDirX;
 
-        public Vector2 hitBoxSize = new Vector2(110, 200);
+        public Vector2 hitBoxSize = new Vector2(110, 180);
 
         private ColliderTriggerHelper trigger;
 
@@ -73,7 +73,7 @@ namespace Game1.GameObjects.Characters
         public override void LoadContent(ContentManager contentManager)
         {
             LoadFromSheet(@"Content\Characters\Ninja1\Ninja1_Definition.xml", contentManager);
-            
+            CurrentAnimation = Animations["Jump"];
         }
 
         public override void Initialize()
@@ -94,7 +94,7 @@ namespace Game1.GameObjects.Characters
             trigger = new ColliderTriggerHelper(CollisionBox, Category.Cat9);
             trigger.onEnterZone += Trigger_onEnterZone;
 
-            CurrentAnimation = Animations["Jump"];
+            //CurrentAnimation = Animations["Jump"];
 
             base.Initialize();
         }
@@ -368,7 +368,7 @@ namespace Game1.GameObjects.Characters
         {
             var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
             if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 0.5f, Color, effect);
+                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
         }
 
         private void Trigger_onEnterZone(Fixture body)

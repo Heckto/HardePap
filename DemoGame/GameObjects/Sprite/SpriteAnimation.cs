@@ -29,15 +29,15 @@ namespace Game1.GameObjects.Sprite
         private AnimationEffect currentEffect;
         private Dictionary<AnimationEffect, IAnimationEffect> animationEffects;
 
-        public SpriteAnimation(ContentManager contentManager, SpriteAnimationConfig config)
-        {
-            LoadBasicConfigInfo(config);
+        //public SpriteAnimation(ContentManager contentManager, SpriteAnimationConfig config)
+        //{
+        //    LoadBasicConfigInfo(config);
 
-            foreach (var frame in config.Frames)
-                Frames.Add(new SpriteAnimationFrameTexture(frame.AssetName, contentManager));
+        //    foreach (var frame in config.Frames)
+        //        Frames.Add(new SpriteAnimationFrameTexture(frame.AssetName, contentManager));
 
-            AnimationState = AnimationState.Loaded;
-        }
+        //    AnimationState = AnimationState.Loaded;
+        //}
 
         public SpriteAnimation(SpriteAnimationConfig config, Dictionary<string, SpriteAnimationFrameSpriteSheet> framesDictionary)
         {
@@ -67,15 +67,6 @@ namespace Game1.GameObjects.Sprite
             animationEffects.Add(AnimationEffect.FlashWhite, new FlashWhiteAnimationEffect());
         }
 
-        private Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
-        private Texture2D LoadTexture(ContentManager cm, string assetName)
-        {
-            if (loadedTextures.ContainsKey(assetName))
-                return loadedTextures[assetName];
-            else
-                return cm.Load<Texture2D>(assetName);
-        }
-
         public void Reset()
         {
             currentFrame = 0;
@@ -101,7 +92,6 @@ namespace Game1.GameObjects.Sprite
             }
 
             animationEffects[currentEffect].Update(gameTime);
-            Frames[currentFrame].Update(gameTime);
         }
 
         private void SetAnimationEffect(AnimationEffect animationEffect)
@@ -117,7 +107,7 @@ namespace Game1.GameObjects.Sprite
         {
             SetAnimationEffect(animationEffect);
 
-            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, rotation, scale, color, Offset, animationEffects[currentEffect]);
+            Frames[currentFrame].Draw(spriteBatch, flipEffects, position + Offset, rotation, scale, color, animationEffects[currentEffect]);
         }
 
         public override string ToString() => $"{AnimationName}-{AnimationState}";
