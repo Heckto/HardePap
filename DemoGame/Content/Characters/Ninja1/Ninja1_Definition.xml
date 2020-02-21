@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SpriteConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SpriteName>Ninja1</SpriteName>
-  <ColorR>255</ColorR>
-  <ColorG>255</ColorG>
-  <ColorB>255</ColorB>
-  <ColorA>255</ColorA>
-  <SpriteSheetScale>0.54</SpriteSheetScale>
   <SpritesheetDefinitionFile>Characters\Ninja1\Ninja1_Map.xml</SpritesheetDefinitionFile>
   <Animations>
     <SpriteAnimationConfig>
@@ -345,49 +339,49 @@
       </Frames>
     </SpriteAnimationConfig>
     <SpriteAnimationConfig>
-      <AnimationName>Glide</AnimationName>
+      <AnimationName>Slide</AnimationName>
       <Loop>true</Loop>
       <OffsetX>0</OffsetX>
       <OffsetY>0</OffsetY>
       <Frames>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_000</AssetName>
+          <AssetName>Slide__000</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_001</AssetName>
+          <AssetName>Slide__001</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_002</AssetName>
+          <AssetName>Slide__002</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_003</AssetName>
+          <AssetName>Slide__003</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_004</AssetName>
+          <AssetName>Slide__004</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_005</AssetName>
+          <AssetName>Slide__005</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_004</AssetName>
+          <AssetName>Slide__006</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_003</AssetName>
+          <AssetName>Slide__007</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_002</AssetName>
+          <AssetName>Slide__008</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
         <SpriteAnimationFrameConfig>
-          <AssetName>Glide_001</AssetName>
+          <AssetName>Slide__009</AssetName>
           <FrameTime>0.05</FrameTime>
         </SpriteAnimationFrameConfig>
       </Frames>

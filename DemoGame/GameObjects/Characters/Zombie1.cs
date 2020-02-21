@@ -21,10 +21,15 @@ namespace Game1.GameObjects.Characters
         private BehaviourState state;
         private Vector2 hitBoxSize = new Vector2(110, 200);
 
-        public override int MaxHealth => 150;
+        public override int MaxHealth => 100;
 
-        private Vector2 movingTarget;
+        private int movementSpeed = 0;
+        private int movementDir = 0;
+
         private float IdleTimeout = 0;
+        private float IdleTime = 0;
+        private float WalkingTimeout = 0;
+        private float WalkingTime = 0;
 
         public override Vector2 Size
         {
@@ -76,33 +81,28 @@ namespace Game1.GameObjects.Characters
             switch (state)
             {
                 case BehaviourState.Idle:
-                    IdleTimeout += delta;
-                    //if (targetDist < 500)
-                    //{
-                    //    state = BehaviourState.Chasing;
-                    //    SetAnimation("Walk");
-                    //}
-                    //else
-                    if (IdleTimeout > 5)
-                    {
-                        var movementLength = Rand.GetRandomInt(-500, 500);
-                        //var movementDir = Rand.GetRandomInt(0, 2);
-                        movingTarget = new Vector2(Transform.Position.X + movementLength, 0);
+                    IdleTime += delta;
+                    velocity.X = 0;
+                    if (IdleTime > IdleTimeout)
+                    {                        
+                        movementDir = Rand.GetRandomInt(1,3) == 1 ? -1 : 1;
+                        movementSpeed = Rand.GetRandomInt(3, 5);
                         state = BehaviourState.Walking;
                         SetAnimation("Walk");
-                        IdleTimeout = 0;
+                        WalkingTimeout = Rand.GetRandomInt(2, 5);
+                        IdleTime = 0;
                     }
                     break;
                 case BehaviourState.Walking:
-                    var tv = movingTarget - Transform.Position;
-                    tv.Normalize();
-                    velocity.X = tv.X * delta * 1000;
+                    WalkingTime += delta;
+                    velocity.X = movementDir * movementSpeed;
 
-                    if (Math.Abs(movingTarget.X - Transform.Position.X) <= 1)
+                    if (WalkingTime > WalkingTimeout)
                     {
                         state = BehaviourState.Idle;
                         SetAnimation("Idle");
-                        //Console.WriteLine(Transform.Position + " - " + movingTarget);
+                        IdleTimeout = Rand.GetRandomInt(1, 5);
+                        WalkingTime = 0;
                     }
                     break;
                 case BehaviourState.Chasing:
@@ -127,6 +127,11 @@ namespace Game1.GameObjects.Characters
 
             velocity.Y += gravity * delta;
             controller.Move(velocity);
+
+            if (controller.collisions.left || controller.collisions.right)
+            {
+                movementDir *= -1;
+            }
 
             Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
         }        

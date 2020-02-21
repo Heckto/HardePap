@@ -64,7 +64,7 @@ namespace Game1.GameObjects.Obstacles
                 {
                     if (hitInfo.fixture.CollisionCategories == Category.Cat20)
                     {
-                        ((LivingSpriteObject)hitInfo.fixture.Body.Tag).DealDamage(this, 20);
+                        ((LivingSpriteObject)hitInfo.fixture.Body.Tag).DealDamage(this, 50);
                     }
                     IsAlive = false;
                 }
