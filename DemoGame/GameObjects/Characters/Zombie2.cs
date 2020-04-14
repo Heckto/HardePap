@@ -14,19 +14,34 @@ using Game1.GameObjects.Levels;
 using Game1.GameObjects.Sprite.Enums;
 using Game1.DataContext;
 using tainicom.Aether.Physics2D.Dynamics;
+using Game1.Rendering;
+using AuxLib.RandomGeneration;
+using Game1.GameObjects.Graphics.Effects;
 
 namespace Game1.GameObjects.Characters
 {
     [Editable("Char")]
     public class Zombie2 : LivingSpriteObject, IUpdateableItem, IDrawableItem
     {
+        private const float gravity = 64f;
         private BehaviourState state;
 
         private const float acc = -45f;
-        private const float gravity = 64f;
         private const float friction = 0.001f;
         public const float jumpForce = 1.0f;
-        
+
+        private int movementSpeed = 0;
+        private int movementDir = 0;
+
+        private float IdleTimeout = 0;
+        private float IdleTime = 0;
+        private float WalkingTimeout = 0;
+        private float WalkingTime = 0;
+
+        private RenderMaterial<SpriteBlinkEffect> blinkMaterial;
+
+        private Color blinkColor;
+
         private Vector2 hitBoxSize = new Vector2(110, 200);
         public override Vector2 Size
         {
@@ -41,16 +56,12 @@ namespace Game1.GameObjects.Characters
             Transform.Position = loc;
 
             Initialize();
-            //colBodySize = hitBoxSize;
-            
-            //CollisionBox = (MoveableBody)context.lvl.CollisionWorld.CreateMoveableBody(loc.X, loc.Y, colBodySize.X, colBodySize.Y);
-            //CollisionBox.onCollisionResponse += OnResolveCollision;
-
-            //(CollisionBox as IBox).AddTags(ItemTypes.Player);
-            //CollisionBox.Data = this;
+            blinkColor = Rand.GetRandomColor();
         }
 
-        public Zombie2() { }
+        public Zombie2() {
+            blinkColor = Rand.GetNormalizedRandomColor();
+        }
 
         public override void Initialize()
         {
@@ -63,7 +74,7 @@ namespace Game1.GameObjects.Characters
             state = BehaviourState.Idle;
 
             //CurrentAnimation = Animations["Idle"];
-
+            Material = RenderMaterial.DefaultMaterial;
             base.Initialize();
         }
 
@@ -71,12 +82,18 @@ namespace Game1.GameObjects.Characters
         {
             LoadFromSheet(@"Content\Characters\Zombie2\Zombie2_Definition.xml", contentManager);
             CurrentAnimation = Animations["Idle"];
+
+            var testEffect = new SpriteBlinkEffect(contentManager.Load<Effect>("Effects/Test"));
+
+            blinkMaterial = new RenderMaterial<SpriteBlinkEffect>(testEffect,BlendState.AlphaBlend);
+            blinkMaterial.Effect.BlinkColor = new Color((float)(blinkColor.R / 255.0), (float)(blinkColor.G / 255.0), (float)(blinkColor.B / 255.0), 1);
         }
 
         public override void Update(GameTime gameTime, Level lvl)
         {
 
             base.Update(gameTime, lvl);
+            blinkMaterial.Effect.Parameters["_time"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
 
             var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (HandleInput)
@@ -86,60 +103,72 @@ namespace Game1.GameObjects.Characters
 
         private void HandleKeyInput(float delta, IInputHandler Input)
         {
-            
+            var targetDist = Math.Abs(context.lvl.player.Transform.Position.X - Transform.Position.X);
+            switch (state)
+            {
+                case BehaviourState.Idle:
+                    IdleTime += delta;
+                    velocity.X = 0;
+                    if (IdleTime > IdleTimeout)
+                    {
+                        movementDir = Rand.GetRandomInt(1, 3) == 1 ? -1 : 1;
+                        movementSpeed = Rand.GetRandomInt(3, 5);
+                        state = BehaviourState.Walking;
+                        SetAnimation("Walk");
+                        WalkingTimeout = Rand.GetRandomInt(2, 5);
+                        IdleTime = 0;
+                    }
+                    break;
+                case BehaviourState.Walking:
+                    WalkingTime += delta;
+                    velocity.X = movementDir * movementSpeed;
+
+                    if (WalkingTime > WalkingTimeout)
+                    {
+                        state = BehaviourState.Idle;
+                        SetAnimation("Idle");
+                        IdleTimeout = Rand.GetRandomInt(1, 5);
+                        WalkingTime = 0;
+                    }
+                    break;
+                case BehaviourState.Chasing:
+                    if (targetDist > 500)
+                        state = BehaviourState.Idle;
+                    var v = context.lvl.player.Transform.Position - Transform.Position;
+                    v.Normalize();
+                    if (v.X < 0)
+                        velocity.X = -Math.Min(Math.Abs(-0.03f * delta), Math.Abs((context.lvl.player.Transform.Position - Transform.Position).X / delta));
+                    else
+                        velocity.X = Math.Min(0.03f * delta, (context.lvl.player.Transform.Position - Transform.Position).X / delta);
+                    break;
+                case BehaviourState.Attack:
+                    //if (targetDist > context.lvl.player.CollisionBox.Width / 2 && CurrentAnimation.AnimationState == AnimationState.Finished)
+                    //    state = BehaviourState.Idle;
+                    //if (CurrentAnimation.AnimationState != AnimationState.Running)
+                    //    SetAnimation("Attack");
+                    break;
+            }
 
             Direction = velocity.X < 0 ? FaceDirection.Left : FaceDirection.Right;
 
             velocity.Y += gravity * delta;
-            velocity.X = 0;
             controller.Move(velocity);
 
+            if (controller.collisions.left || controller.collisions.right)
+            {
+                movementDir *= -1;
+            }
+
+            if (controller.collisions.above || controller.collisions.below)
+            {
+                if (controller.collisions.slidingDown)
+                    velocity.Y -= controller.collisions.slopeNormal.Y * -gravity * delta;
+                else
+                    velocity.Y = 0;
+            }
+
             Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
-
-            if (controller.collisions.below)
-                velocity.Y = 0;
         }
-
-        //private CollisionResponses OnResolveCollision(ICollision collision)
-        //{
-
-        //    if (thrownObjects.Contains(collision.Other.Data))
-        //    {
-        //        return CollisionResponses.None;
-        //    }
-
-        //    if (collision.Other.HasTag(ItemTypes.Transition) && !context.transitionManager.isTransitioning)
-        //    {
-        //        var item = collision.Other.Data as RectangleItem;
-        //        var lvl = item.CustomProperties["map"].value.ToString();
-        //        var f = Path.ChangeExtension(lvl, ".xml");
-        //        context.transitionManager.TransitionToMap(f);
-        //        return CollisionResponses.Cross;
-        //    }
-        //    if (collision.Other.HasTag(ItemTypes.ScriptTrigger))
-        //    {
-        //        var item = collision.Other.Data as RectangleItem;
-        //        var script = item.CustomProperties["Script"].value.ToString();
-        //        if (!String.IsNullOrEmpty(script))
-        //        {
-        //            //context.lvl.CollisionWorld.Remove((IBox)collision.Other);
-        //            context.scripter.ExecuteScript(script);
-        //        }
-        //        return CollisionResponses.Cross;
-        //    }
-        //    if (collision.Hit.Normal.Y < 0)
-        //    {
-        //        return CollisionResponses.Slide;
-        //    }
-        //    if (collision.Hit.Normal.Y > 0)
-        //    {
-        //        Trajectory = new Vector2(Trajectory.X, -Trajectory.Y);
-        //        return CollisionResponses.Touch;
-        //    }
-
-
-        //    return CollisionResponses.Slide;
-        //}
 
         private void HandleAttackCollisions()
         {
@@ -221,9 +250,34 @@ namespace Game1.GameObjects.Characters
 
         public void Draw(SpriteBatch sb)
         {
-            var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
-            if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
+            if (InvulnerabilityTimer > 0)
+            {
+
+                var def = (CurrentAnimation.Frames[CurrentAnimation.currentFrame] as SpriteAnimationFrameSpriteSheet);
+                sb.Draw(def.spriteSheet, Transform.Position, def.definition.SrcRectangle, Color.White, 0f, def.definition.Origin, 1, effects: Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layerDepth: 1.0f);
+            }
+            else
+            {
+                var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
+                if (CurrentAnimation != null)
+                    CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
+            }
+        }
+
+        public override void DealDamage(SpriteObject sender, int damage)
+        {
+            if (InvulnerabilityTimer > 0)
+                return;
+
+            CurrentHealth -= damage;
+
+            if (CurrentHealth > 0)
+            {
+                InvulnerabilityTimer = InvulnerabilityTime;
+                Material = blinkMaterial;
+                //                renderer = typeof(EffectRenderer<SpriteBlinkEffect>);
+
+            }
         }
 
         public enum BehaviourState

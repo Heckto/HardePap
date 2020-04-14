@@ -10,6 +10,8 @@ using Game1.GameObjects.Levels;
 using Game1.DataContext;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Game1.Rendering;
+using Game1.GameObjects.Graphics.Effects;
 
 namespace Game1.GameObjects.Sprite
 {
@@ -62,7 +64,11 @@ namespace Game1.GameObjects.Sprite
             {
                 var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 InvulnerabilityTimer -= delta;
+                if (InvulnerabilityTimer <= 0)
+                    Material = RenderMaterial.DefaultMaterial;
             }
+
+            
 
             base.Update(gameTime, lvl);
         }
@@ -81,7 +87,7 @@ namespace Game1.GameObjects.Sprite
 
             if(CurrentHealth > 0)
             {
-                InvulnerabilityTimer = InvulnerabilityTime;
+                InvulnerabilityTimer = InvulnerabilityTime;                
             }
         }
 

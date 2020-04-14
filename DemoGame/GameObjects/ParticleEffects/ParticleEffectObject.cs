@@ -1,5 +1,6 @@
 ﻿using AuxLib;
 using Game1.GameObjects.Levels;
+using Game1.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectMercury;
@@ -16,14 +17,12 @@ namespace Game1.GameObjects.ParticleEffects
     [XmlInclude(typeof(FireEffect))]
     public class ParticleEffectObject : GameObject, IDrawableItem, IUpdateableItem
     {
-        [XmlIgnore]
-        public SpriteBatch batch;
 
         protected ParticleEffect effect;
 
         public ParticleEffectObject() : base()
         {
-
+            _Material = RenderMaterial.DefaultParticleMaterial;
         }
 
         public Vector2 Size = new Vector2(20, 20);
@@ -39,14 +38,37 @@ namespace Game1.GameObjects.ParticleEffects
             return r.Contains(worldpos);
         }
 
-        public void Draw(SpriteBatch sb, Matrix mat)
-        {   sb.Draw(this.effect, ref mat);
-            //batch.Draw(this.effect, ref mat);
-        }
+        //public void Draw(SpriteBatch sb, Matrix mat)
+        //{   sb.Draw(this.effect, ref mat);
+        //    //batch.Draw(this.effect, ref mat);
+        //}
 
         public void Draw(SpriteBatch sb)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < effect.Count; i++)
+            {
+                if (effect[i].ParticleTexture != null && effect[i].ActiveParticlesCount > 0)
+                {
+                    // Calculate the source rectangle and origin offset of the Particle texture...
+                    var source = new Rectangle(0, 0, effect[i].ParticleTexture.Width, effect[i].ParticleTexture.Height);
+                    var origin = new Vector2(source.Width / 2f, source.Height / 2f);
+
+                    for (var j = 0; j < effect[i].ActiveParticlesCount; j++)
+                    {
+                        var particle = effect[i].Particles[j];
+
+                        float scale = particle.Scale / effect[i].ParticleTexture.Width;
+                        sb.Draw(effect[i].ParticleTexture, particle.Position, source, new Color(particle.Colour), particle.Rotation, origin, scale, SpriteEffects.None, 0f);
+                    }
+
+                }
+            }
+            
+        }
+
+        public override void Initialize()
+        {
+            Material = RenderMaterial.DefaultParticleMaterial;
         }
 
         public override void drawInEditor(SpriteBatch sb)

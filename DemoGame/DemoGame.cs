@@ -41,7 +41,10 @@ namespace Game1
         {
 
             graphics = new GraphicsDeviceManager(this);
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
             commandParam = param;
+
+            this.IsFixedTimeStep = false;
         }
 
         /// <summary>
@@ -101,8 +104,8 @@ namespace Game1
                 input = inputHandler,
                 scripter = scriptManager,
                 spriteBatch = spriteBatch,
-                content = Content
-                
+                content = Content,
+                graphics = GraphicsDevice
             };
 
             scriptManager = new ScriptingEngine(context);

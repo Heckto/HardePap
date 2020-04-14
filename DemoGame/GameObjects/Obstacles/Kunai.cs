@@ -11,6 +11,7 @@ using Game1.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
 using Game1.GameObjects.Sprite.Enums;
 using Microsoft.Xna.Framework.Content;
+using Game1.Rendering;
 
 namespace Game1.GameObjects.Obstacles
 {
@@ -34,6 +35,8 @@ namespace Game1.GameObjects.Obstacles
             Transform.Position = loc;
             dir = direction;
             IsAlive = true;          
+            
+
         }
 
         public override void LoadContent(ContentManager contentManager)
@@ -70,6 +73,7 @@ namespace Game1.GameObjects.Obstacles
                 }
             };
 
+            Material = RenderMaterial.DefaultMaterial;
 
             base.Initialize();
         }

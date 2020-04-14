@@ -32,6 +32,7 @@ namespace Game1.DataContext
         public ScriptingEngine scripter;
         public HeadsUpDisplay HUD;
         public ContentManager content;
+        public GraphicsDevice graphics;
 
         public LivingSpriteObject SpawnEnemy(string name, int x, int y)
         {            

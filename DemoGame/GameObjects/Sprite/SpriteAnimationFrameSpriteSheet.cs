@@ -13,8 +13,8 @@ namespace Game1.GameObjects.Sprite
 {
     public class SpriteAnimationFrameSpriteSheet : ISpriteAnimationFrame
     {
-        Texture2D spriteSheet;
-        SpriteSheetImageDefinition definition;
+        public Texture2D spriteSheet;
+        public SpriteSheetImageDefinition definition;
 
         public Vector2 Size => new Vector2(definition.SrcRectangle.Size.X, definition.SrcRectangle.Size.Y);
 

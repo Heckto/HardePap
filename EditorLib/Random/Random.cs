@@ -31,6 +31,11 @@ namespace AuxLib.RandomGeneration
             return new Vector2(GetRandomFloat(xMin, xMax), GetRandomFloat(yMin, yMax));
         }
 
+        public static Vector3 GetRandomVector3(float xMin, float xMax, float yMin, float yMax,float zMin, float zMax)
+        {
+            return new Vector3(GetRandomFloat(xMin, xMax), GetRandomFloat(yMin, yMax), GetRandomFloat(zMin, zMax));
+        }
+
         public static int GetRandomInt(int iMin, int iMax)
         {
             return Random.Next(iMin, iMax);
@@ -39,6 +44,11 @@ namespace AuxLib.RandomGeneration
         public static Color GetRandomColor(float alpha = 0.5f)
         {
             return new Color(GetRandomFloat(0,255), GetRandomFloat(0, 255), GetRandomFloat(0, 255), alpha);
+        }
+
+        public static Color GetNormalizedRandomColor(float alpha = 0.5f)
+        {
+            return new Color((float)Random.NextDouble(), (float)Random.NextDouble(), (float)Random.NextDouble(), alpha);
         }
 
     }

@@ -35,14 +35,5 @@ namespace Game1.GameObjects.ParticleEffects
             }
             
         }
-
-        public override void Initialize()
-        {
-            if (DemoGame.graphics != null)
-            {
-                batch = new SpriteBatch(DemoGame.graphics.GraphicsDevice);
-            }
-        }
-
     }
 }

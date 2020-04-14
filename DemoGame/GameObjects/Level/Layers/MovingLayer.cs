@@ -3,6 +3,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using AuxLib;
+using Game1.GameObjects.Sprite;
+using System.Collections.Generic;
 
 namespace Game1.GameObjects.Levels
 {
@@ -12,9 +14,8 @@ namespace Game1.GameObjects.Levels
 
         public MovingLayer() : base() {}
 
-        public void Update(GameTime gameTime, Level lvl)
+        public override void Update(GameTime gameTime, Level lvl)
         {
-            var m = lvl.context.camera.getViewMatrix(ScrollSpeed);
             var mapSize = new Vector2(lvl.LevelBounds.Width, lvl.LevelBounds.Height);
             foreach (var Item in Items)
             {
@@ -28,10 +29,13 @@ namespace Game1.GameObjects.Levels
                     Item.Transform.Position = screenPos;
                 }
             }
+
+            base.Update(gameTime, lvl);
         }
 
         #region Editor
         public MovingLayer(string name) : base(name) {}
+
 
         #endregion
     }

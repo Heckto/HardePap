@@ -25,7 +25,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -61,6 +61,15 @@
     <Compile Include="GameObjects\Characters\Zombie2.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectInterface.cs" />
+    <Compile Include="GameObjects\Graphics\Effects\EffectResource.cs" />
+    <Compile Include="GameObjects\Graphics\Effects\GaussianBlurEffect.cs" />
+    <Compile Include="GameObjects\Graphics\Effects\SpriteBlinkEffect.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessor.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessors\BloomPostProcessor.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessors\BloomSettings.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessors\FogPostProcessor.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessors\PixelGlitchPostProcessor.cs" />
+    <Compile Include="GameObjects\Graphics\PostProcessing\PostProcessors\WaterReflectionPostProcessor.cs" />
     <Compile Include="GameObjects\Level\Items\CircleItem.cs" />
     <Compile Include="GameObjects\Level\Items\PathItem.cs" />
     <Compile Include="GameObjects\Level\Items\RectangleItem.cs" />
@@ -68,12 +77,12 @@
     <Compile Include="GameObjects\Level\Layers\Layer.cs" />
     <Compile Include="GameObjects\Level\Layers\MovingLayer.cs" />
     <Compile Include="GameObjects\Level\Level.cs" />
+    <Compile Include="GameObjects\Graphics\Rendering\Renderer.cs" />
     <Compile Include="TransactionManager.cs" />
     <Compile Include="GameObjects\Obstacles\Kunai.cs" />
     <Compile Include="GameObjects\Obstacles\MovingPlatform.cs" />
     <Compile Include="GameObjects\ParticleEffects\Fire.cs" />
     <Compile Include="GameObjects\ParticleEffects\ParticleEffectObject.cs" />
-    <Compile Include="GameObjects\ParticleEffects\ParticleExtensions.cs" />
     <Compile Include="GameObjects\Properties.cs" />
     <Compile Include="GameObjects\Sprite\AnimationEffects\FlashWhiteAnimationEffect.cs" />
     <Compile Include="GameObjects\Sprite\AnimationEffects\IAnimationEffect.cs" />

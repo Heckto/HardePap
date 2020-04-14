@@ -10,6 +10,8 @@ using Game1.DataContext;
 using AuxLib.RandomGeneration;
 using tainicom.Aether.Physics2D.Dynamics;
 using Microsoft.Xna.Framework.Content;
+using Game1.GameObjects.Graphics.Effects;
+using Game1.Rendering;
 
 namespace Game1.GameObjects.Characters
 {
@@ -30,6 +32,10 @@ namespace Game1.GameObjects.Characters
         private float IdleTime = 0;
         private float WalkingTimeout = 0;
         private float WalkingTime = 0;
+                
+        private RenderMaterial<SpriteBlinkEffect> blinkMaterial;
+
+        private Color blinkColor;
 
         public override Vector2 Size
         {
@@ -40,10 +46,13 @@ namespace Game1.GameObjects.Characters
             Visible = true;
             Transform.Position = loc;
 
+            blinkColor = Rand.GetRandomColor();
             //Initialize();
         }
 
-        public Zombie1() {}
+        public Zombie1() {
+            blinkColor = Rand.GetNormalizedRandomColor();            
+        }
 
         public override void Initialize()
         {
@@ -58,17 +67,27 @@ namespace Game1.GameObjects.Characters
             CurrentAnimation = Animations["Idle"];
 
             base.Initialize();
+
+            Material = RenderMaterial.DefaultMaterial;
         }
 
         public override void LoadContent(ContentManager contentManager)
         {
             LoadFromSheet(@"Content\Characters\Zombie1\Zombie1_Definition.xml", contentManager);
+
+            var testEffect = new SpriteBlinkEffect(contentManager.Load<Effect>("Effects/Test"));
+
+            blinkMaterial = new RenderMaterial<SpriteBlinkEffect>(testEffect, BlendState.AlphaBlend);
+            blinkMaterial.Effect.BlinkColor = new Color((float)(blinkColor.R / 255.0), (float)(blinkColor.G / 255.0), (float)(blinkColor.B / 255.0),1);
             
         }
 
         public override void Update(GameTime gameTime, Level lvl)
         {            
             base.Update(gameTime,lvl);
+
+            blinkMaterial.Effect.Parameters["_time"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);
+            
 
             var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (HandleInput)
@@ -133,6 +152,14 @@ namespace Game1.GameObjects.Characters
                 movementDir *= -1;
             }
 
+            if (controller.collisions.above || controller.collisions.below)
+            {
+                if (controller.collisions.slidingDown)
+                    velocity.Y -= controller.collisions.slopeNormal.Y * -gravity * delta;
+                else
+                    velocity.Y = 0;
+            }
+
             Transform.Position = ConvertUnits.ToDisplayUnits(CollisionBox.Position);
         }        
 
@@ -178,9 +205,36 @@ namespace Game1.GameObjects.Characters
 
         public void Draw(SpriteBatch sb)
         {
-            var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
-            if (CurrentAnimation != null)
-                CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
+            if (InvulnerabilityTimer > 0)
+            {
+
+                var def = (CurrentAnimation.Frames[CurrentAnimation.currentFrame] as SpriteAnimationFrameSpriteSheet);
+
+                blinkMaterial.Effect.BlinkColor = new Color((float)(blinkColor.R / 255.0), (float)(blinkColor.G / 255.0), (float)(blinkColor.B / 255.0), 1);
+                sb.Draw(def.spriteSheet, Transform.Position, def.definition.SrcRectangle, Color.White, 0f,def.definition.Origin, 1,effects: Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None, layerDepth:1.0f);
+            }
+            else
+            {
+                 var effect = InvulnerabilityTimer > 0 ? AnimationEffect.FlashWhite : AnimationEffect.None;
+                 if (CurrentAnimation != null)
+                    CurrentAnimation.Draw(sb, (Direction == FaceDirection.Left ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Transform.Position, 0, 1f, Color.White, effect);
+            }
+        }
+
+        public override void DealDamage(SpriteObject sender, int damage)
+        {
+            if (InvulnerabilityTimer > 0)
+                return;
+
+            CurrentHealth -= damage;
+
+            if (CurrentHealth > 0)
+            {
+                InvulnerabilityTimer = InvulnerabilityTime;
+                Material = blinkMaterial;
+//                renderer = typeof(EffectRenderer<SpriteBlinkEffect>);
+
+            }
         }
 
         public enum BehaviourState

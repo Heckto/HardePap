@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml;
+using System.Linq;
 
 namespace Game1.GameObjects.Sprite
 {
@@ -40,9 +41,18 @@ namespace Game1.GameObjects.Sprite
 
                     Origin = new Vector2(
                     Convert.ToSingle(n.Attributes["pX"].Value, new CultureInfo("en-US")) * Convert.ToInt32(n.Attributes["w"].Value),
-                    Convert.ToSingle(n.Attributes["pY"].Value, new CultureInfo("en-US")) * Convert.ToInt32(n.Attributes["h"].Value))
+                    Convert.ToSingle(n.Attributes["pY"].Value, new CultureInfo("en-US")) * Convert.ToInt32(n.Attributes["h"].Value)),
+
+                    
+                    
                 };
-                result.ImageDefinitions.Add(imageDefinition.Name, imageDefinition);
+
+                if (n.Attributes["oX"] != null)
+                    imageDefinition.FrameOffset = new Vector2(Convert.ToSingle(n.Attributes["oX"].Value), Convert.ToSingle(n.Attributes["oY"].Value));
+                else
+                    imageDefinition.FrameOffset = Vector2.Zero;
+
+                    result.ImageDefinitions.Add(imageDefinition.Name, imageDefinition);
             }
             return result;
         }
@@ -53,5 +63,6 @@ namespace Game1.GameObjects.Sprite
         public string Name { get; set; }
         public Rectangle SrcRectangle { get; set; }
         public Vector2 Origin { get; set; }
+        public Vector2 FrameOffset { get; set; }
     }
 }

@@ -10,13 +10,13 @@ using Game1.GameObjects.Levels;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using AuxLib;
+using Game1.Rendering;
 
 namespace Game1.GameObjects.Sprite
 {
     public abstract class SpriteObject : GameObject , IEditableGameObject
     {
-        [XmlIgnore]
-        public bool IsAlive;
+        
 
         public abstract Vector2 Size
         {
@@ -53,17 +53,20 @@ namespace Game1.GameObjects.Sprite
 
         public Vector2 colBodySize = new Vector2(90,100);
 
-        public SpriteObject() { }
+        public SpriteObject() {
+            IsAlive = true;
+        }
 
         public SpriteObject(GameContext context)
         {
             //LoadContent();
+            IsAlive = true;
             this.context = context;
         }
 
         public override void Initialize()
         {
-
+            Material = RenderMaterial.DefaultMaterial;
         }
 
         public override void LoadContent(ContentManager contentManager)

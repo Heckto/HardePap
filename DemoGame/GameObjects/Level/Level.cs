@@ -17,13 +17,19 @@ using Game1.DataContext;
 using Game1.GameObjects.Characters;
 using System.ComponentModel;
 using System.Text;
+using Game1.GameObjects.Graphics.PostProcessing;
 using Game1.GameObjects.ParticleEffects;
 using Microsoft.Xna.Framework.Content;
+using Game1.Rendering;
+using Game1.GameObjects.Graphics.PostProcessing.PostProcessors;
 
 namespace Game1.GameObjects.Levels
 {
     public class Level : ICustomTypeDescriptor
     {
+        [XmlIgnore]
+        public readonly List<PostProcessor> _postProcessors = new List<PostProcessor>();
+
         [XmlAttribute()]
         public string Name;
 
@@ -44,7 +50,11 @@ namespace Game1.GameObjects.Levels
 
         public SerializableDictionary CustomProperties;
 
-        private SpriteBatch particleRenderer;
+        [XmlIgnore]
+        private RenderTarget2D render_target;
+
+        [XmlIgnore]
+        public List<GameObject>  removeList = new List<GameObject>();
 
         public Level() : base()
         {
@@ -67,7 +77,7 @@ namespace Game1.GameObjects.Levels
                     {
                         item.CustomProperties.RestoreItemAssociations(level);
                     }
-                }
+                }                
                 return level;
             }
             catch (Exception ex)
@@ -83,26 +93,30 @@ namespace Game1.GameObjects.Levels
             debugView = new DebugView(CollisionWorld);
             debugView.LoadContent(DemoGame.graphics.GraphicsDevice, contentManager);
 
-            particleRenderer = new SpriteBatch(DemoGame.graphics.GraphicsDevice);
-
-            //spritesheets = new Dictionary<string, Texture2D>();
             foreach (var layer in Layers)
             {
+                layer.level = this;
+                layer.LoadContent(contentManager);
+                
+                if (layer.Name == "Mountains")
+                    layer._postProcessors.Add(new WaterReflectionPostProcessor(context));
+
                 foreach (var item in layer.Items)
                 {                    
                     if (item is SpriteObject sprite)
                     {                        
                         sprite.context = context;
                     }
-                    if (item is ParticleEffectObject)
-                        (item as ParticleEffectObject).batch = particleRenderer;
-                    
+                    item.layer = layer;
                     item.LoadContent(contentManager);
                     item.Initialize();
-                   // item.OnTransformed();
                     
                 }
             }
+
+            render_target = new RenderTarget2D(context.graphics, context.graphics.Viewport.Width, context.graphics.Viewport.Height,false, SurfaceFormat.Color,DepthFormat.None,0, RenderTargetUsage.PreserveContents);
+
+            this._postProcessors.Add(new FogPostProcessor(context));
 
             context.camera.Bounds = LevelBounds;
 
@@ -110,7 +124,7 @@ namespace Game1.GameObjects.Levels
 
             var song = "level" + Rand.GetRandomInt(1, 4);
             AudioManager.PlaySoundTrack(song, true, false);            
-            AudioManager.MusicVolume = 0.0f;           
+            AudioManager.MusicVolume = 0.1f;           
         }
 
         public void GenerateCollision()
@@ -171,31 +185,11 @@ namespace Game1.GameObjects.Levels
 
         public void Update(GameTime gameTime)
         {
-            var removeList = new List<SpriteObject>();
+            removeList.Clear();
 
             foreach (var layer in Layers)
             {
-                if (layer is IUpdateableItem updateableLayer)
-                    updateableLayer.Update(gameTime, this);
-                for (var idx=0;idx<layer.Items.Count; idx++)
-                {
-                    
-
-
-
-                    if (layer.Items[idx] is IUpdateableItem updateItem)                    
-                        updateItem.Update(gameTime, this);
-
-
-                    // Keep track of dead objects
-                    if (layer.Items[idx] is SpriteObject obj)
-                    {
-                        if (!obj.IsAlive)
-                        {
-                            removeList.Add(obj);
-                        }
-                    }
-                }
+                layer.Update(gameTime, this);
             }
 
             // Remove dead objects
@@ -204,37 +198,39 @@ namespace Game1.GameObjects.Levels
                 RemoveSprite(removeList[idx]);
             }
 
+            for (var idx = 0; idx < _postProcessors.Count; idx++)
+                _postProcessors[idx].Update(gameTime);
+
             context.camera.UpdateCamera(gameTime,player.controller.latestVelocity);
         }
 
         public void Draw(SpriteBatch sb, FocusCamera camera)
         {
+            context.graphics.SetRenderTarget(render_target);
             foreach (var layer in Layers)
             {
                 if (layer.Visible)
                 {
-                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix(layer.ScrollSpeed));
-                    {
-                        foreach (var item in layer.Items)
-                        {
-                            if (item.Visible && item is IDrawableItem drawitem)
-                            {
-                                
-                                if (drawitem is ParticleEffectObject)
-                                {
-                                    sb.End();
-                                    (drawitem as ParticleEffectObject).Draw(sb, camera.getViewMatrix(layer.ScrollSpeed));
-                                    sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.getViewMatrix(layer.ScrollSpeed));
-                                }
-                                else
-                                    drawitem.Draw(sb);
-                            }
-
-                        }
-                    }
-                    sb.End();
+                    layer.Draw(sb, camera,render_target);
                 }
             }
+
+
+            if (_postProcessors.Count > 0)
+            {
+
+                _postProcessors[0].Process(sb, render_target);
+            }
+
+
+            context.graphics.SetRenderTarget(null);
+
+            sb.Begin();
+            sb.Draw(render_target, new Rectangle(0, 0, this.render_target.Width, this.render_target.Height), Color.White);
+            sb.End();
+
+
+
         }
 
         public void DrawDebug(SpriteBatch sb, SpriteFont font, FocusCamera camera)
@@ -277,10 +273,12 @@ namespace Game1.GameObjects.Levels
         public void AddSprite(string spriteName, SpriteObject sprite)
         {
             var playLayer = Layers.FirstOrDefault(l => l.Name == "Collision");
+            
             if (playLayer != null)
             {
+                sprite.layer = playLayer;
                 sprite.Name = spriteName;
-                playLayer.Items.Add(sprite);
+                playLayer.AddObject(sprite);
             }
         }
 
@@ -290,11 +288,11 @@ namespace Game1.GameObjects.Levels
             if (playLayer != null)
             {
                 var spriteItem = playLayer.Items.FirstOrDefault(elem => elem.Name.Equals(spriteName));
-                RemoveSprite(spriteItem as SpriteObject);
+                RemoveSprite(spriteItem);
             }
         }
 
-        public void RemoveSprite(SpriteObject spriteItem)
+        public void RemoveSprite(GameObject spriteItem)
         {
             var playLayer = Layers.First(l => l.Name == "Collision");
             if (playLayer != null)
@@ -323,9 +321,13 @@ namespace Game1.GameObjects.Levels
             RemoveSprite("Player");
             var l = new Vector2(100, 0);
             player = new Ninja1(l, context);
+
+
             player.LoadContent(context.content);
-            player.Initialize();
             AddSprite("Player", player);
+
+            player.Initialize();
+            
         }
 
         public LivingSpriteObject SpawnEnemy(string name, Vector2 location)

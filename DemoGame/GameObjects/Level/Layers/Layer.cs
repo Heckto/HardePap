@@ -1,18 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using Game1.GameObjects;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Drawing.Design;
 using System.ComponentModel;
+using Game1.GameObjects.Graphics.PostProcessing;
 using static Game1.GameObjects.Levels.Level;
+using Game1.Rendering;
+using AuxLib.Camera;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1.GameObjects.Levels
 {
     [XmlInclude(typeof(MovingLayer))]
     public partial class Layer : ICustomTypeDescriptor
     {
+        [XmlIgnore]
+        public readonly List<PostProcessor> _postProcessors = new List<PostProcessor>();
+
         [XmlAttribute()]
         public string Name { get; set; }
 
@@ -23,7 +28,18 @@ namespace Game1.GameObjects.Levels
 
         public Vector2 ScrollSpeed { get; set; }
 
+        [XmlIgnore]
+        public Dictionary<string, Renderer> renderList;
+
         public SerializableDictionary CustomProperties;
+
+        public void LoadContent(ContentManager contentManager)
+        {
+            renderList = new Dictionary<string, Renderer>() {
+                { RenderMaterial.DefaultMaterial.ToString() ,new Renderer(RenderMaterial.DefaultMaterial) }
+            };
+        }
+
         public Layer() : base()
         {
             Items = new List<GameObject>();
@@ -31,6 +47,40 @@ namespace Game1.GameObjects.Levels
             CustomProperties = new SerializableDictionary();
         }
 
+        public virtual void Update(GameTime gameTime,Level lvl)
+        {
+            for (var idx = 0; idx < Items.Count; idx++)
+            {
+                if (Items[idx] is IUpdateableItem updateItem)
+                    updateItem.Update(gameTime, lvl);
+            }
+
+            for (var idx = 0; idx < _postProcessors.Count; idx++)
+                _postProcessors[idx].Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch sb, FocusCamera camera,RenderTarget2D renderTarget)
+        {
+            foreach (var entry in renderList)
+            {
+                if (entry.Value.getRenderCount() > 0)
+                    entry.Value.Render(sb, camera.getViewMatrix(ScrollSpeed));
+            }
+
+            if (_postProcessors.Count > 0)
+            {
+                for(var i=0; i < _postProcessors.Count; i++)
+                {
+                    _postProcessors[i].Process(sb, renderTarget);
+                }
+            }
+        }
+
+        public void AddObject(GameObject obj)
+        {
+            obj.layer = this;
+            Items.Add(obj);
+        }
 
         #region EDITOR
 

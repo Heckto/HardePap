@@ -20,7 +20,7 @@ namespace Game1.GameObjects.Sprite
         public bool Loop { get; private set; }
         public AnimationState AnimationState { get; private set; }
 
-        private int currentFrame = 0;
+        public int currentFrame = 0;
         private float frameTime = 0.05f; // Total time a frame should be visible
         private float frameRunTime = 0f; // Active time spent executing the current frame
 
@@ -94,20 +94,20 @@ namespace Game1.GameObjects.Sprite
             animationEffects[currentEffect].Update(gameTime);
         }
 
-        private void SetAnimationEffect(AnimationEffect animationEffect)
-        {
-            if (currentEffect == animationEffect || !animationEffects.ContainsKey(animationEffect))
-                return;
+        //private void SetAnimationEffect(AnimationEffect animationEffect)
+        //{
+        //    if (currentEffect == animationEffect || !animationEffects.ContainsKey(animationEffect))
+        //        return;
 
-            animationEffects[animationEffect].Reset();
-            currentEffect = animationEffect;
-        }
+        //    animationEffects[animationEffect].Reset();
+        //    currentEffect = animationEffect;
+        //}
 
         public void Draw(SpriteBatch spriteBatch, SpriteEffects flipEffects, Vector2 position, float rotation, float scale, Color color, AnimationEffect animationEffect)
         {
-            SetAnimationEffect(animationEffect);
+            //SetAnimationEffect(animationEffect);
 
-            Frames[currentFrame].Draw(spriteBatch, flipEffects, position + Offset, rotation, scale, color, animationEffects[currentEffect]);
+            Frames[currentFrame].Draw(spriteBatch, flipEffects, position, rotation, scale, color, animationEffects[currentEffect]);
         }
 
         public override string ToString() => $"{AnimationName}-{AnimationState}";

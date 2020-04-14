@@ -15,6 +15,7 @@ using tainicom.Aether.Physics2D.Dynamics;
 using Game1.GameObjects.Obstacles;
 using System.IO;
 using Microsoft.Xna.Framework.Content;
+using Game1.Rendering;
 
 namespace Game1.GameObjects.Characters
 {
@@ -97,6 +98,8 @@ namespace Game1.GameObjects.Characters
             //CurrentAnimation = Animations["Jump"];
 
             base.Initialize();
+
+            Material = RenderMaterial.DefaultMaterial;
         }
 
         public override void Update(GameTime gameTime,Level lvl)
@@ -264,8 +267,9 @@ namespace Game1.GameObjects.Characters
                 var location = new Vector2(Transform.Position.X, Transform.Position.Y); /*+ (trajectoryY * 50)); // Adding something since the kunai spawns before the animation*/
                 var kunai = new Kunai(location, controller.collisions.faceDirection, context);
                 kunai.LoadContent(context.content);
-                kunai.Initialize();
                 context.lvl.AddSprite(Guid.NewGuid().ToString(), kunai);
+                kunai.Initialize();
+                
             }
 
             if (isXKey)

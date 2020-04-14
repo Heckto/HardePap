@@ -26,7 +26,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>bg</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>0</Y>
@@ -51,6 +50,1443 @@
             <ScrollSpeed>
                 <X>0</X>
                 <Y>0</Y>
+            </ScrollSpeed>
+        </Layer>
+        <Layer Name="Mountains" Visible="true">
+            <Items>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0155">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2017</X>
+                            <Y>2310</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0188">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3202</X>
+                            <Y>2310</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0154">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>1593</X>
+                            <Y>2442</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0151">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2137</X>
+                            <Y>2512</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.919842839</X>
+                            <Y>0.919842839</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0150">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>1584</X>
+                            <Y>2475</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.6429933</X>
+                            <Y>0.6429933</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0153">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>724</X>
+                            <Y>2475</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0149">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>791</X>
+                            <Y>2487</Y>
+                        </Position>
+                        <Rotation>-0.0393650159</Rotation>
+                        <Scale>
+                            <X>0.68122685</X>
+                            <Y>0.68122685</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0152">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-398</X>
+                            <Y>2378</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0148">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>170</X>
+                            <Y>2478</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.771705031</X>
+                            <Y>0.771705031</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0170">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-1266</X>
+                            <Y>2427</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>0</Y>
+                        <Width>1785</Width>
+                        <Height>324</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Location>
+                        <Size>
+                            <X>1785</X>
+                            <Y>324</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>892</X>
+                        <Y>162</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0146">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-939</X>
+                            <Y>2437</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.7312778</X>
+                            <Y>0.7312778</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0147">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-404</X>
+                            <Y>2463</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.5808812</X>
+                            <Y>0.5808812</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0169">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-1539</X>
+                            <Y>2435</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.6747229</X>
+                            <Y>0.6747229</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0168">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-1411</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0171">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-1028</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0172">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-646</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0173">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-262</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0174">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>123</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0175">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>505</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0176">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>885</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0177">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>1265</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0178">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>1650</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0179">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2025</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0186">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2862</X>
+                            <Y>2462</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.919842839</X>
+                            <Y>0.919842839</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0180">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2395</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0181">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2229</X>
+                            <Y>2525</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.355229855</X>
+                            <Y>0.355229855</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>324</Y>
+                        <Width>1746</Width>
+                        <Height>1358</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>324</Y>
+                        </Location>
+                        <Size>
+                            <X>1746</X>
+                            <Y>1358</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>873</X>
+                        <Y>679</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0182">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2780</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0187">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3672</X>
+                            <Y>2442</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.919842839</X>
+                            <Y>0.919842839</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0183">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3170</X>
+                            <Y>2646</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0184">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3550</X>
+                            <Y>2651</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0185">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3930</X>
+                            <Y>2651</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0191">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-2064</X>
+                            <Y>2450</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.6747229</X>
+                            <Y>0.6747229</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1682</Y>
+                        <Width>909</Width>
+                        <Height>355</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>909</X>
+                            <Y>355</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>454</X>
+                        <Y>177</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0189">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-1781</X>
+                            <Y>2636</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0190">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>-2151</X>
+                            <Y>2641</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>0.532777965</X>
+                            <Y>0.532777965</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-2</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1311</X>
+                        <Y>1167</Y>
+                        <Width>721</Width>
+                        <Height>470</Height>
+                        <Location>
+                            <X>1311</X>
+                            <Y>1167</Y>
+                        </Location>
+                        <Size>
+                            <X>721</X>
+                            <Y>470</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>360</X>
+                        <Y>235</Y>
+                    </Origin>
+                </GameObject>
+            </Items>
+            <CustomProperties />
+            <ScrollSpeed>
+                <X>0.1</X>
+                <Y>1</Y>
             </ScrollSpeed>
         </Layer>
         <Layer xsi:type="MovingLayer" Name="BG_Clouds" Visible="true">
@@ -78,7 +1514,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -121,7 +1556,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -164,7 +1598,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -207,7 +1640,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-0</asset_name>
                     <srcRectangle>
                         <X>769</X>
                         <Y>1336</Y>
@@ -250,7 +1682,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-0</asset_name>
                     <srcRectangle>
                         <X>769</X>
                         <Y>1336</Y>
@@ -293,7 +1724,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -336,7 +1766,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -379,7 +1808,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -422,7 +1850,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -465,7 +1892,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -521,7 +1947,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-0</asset_name>
                     <srcRectangle>
                         <X>769</X>
                         <Y>1421</Y>
@@ -564,7 +1989,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -607,7 +2031,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1311</X>
                         <Y>1803</Y>
@@ -663,7 +2086,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>324</Y>
@@ -706,7 +2128,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>1091</X>
                         <Y>0</Y>
@@ -749,7 +2170,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>695</X>
                         <Y>0</Y>
@@ -792,7 +2212,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1606</Y>
@@ -835,7 +2254,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -878,7 +2296,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -921,7 +2338,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -964,7 +2380,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -1007,7 +2422,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -1050,7 +2464,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-3</asset_name>
                     <srcRectangle>
                         <X>0</X>
                         <Y>1148</Y>
@@ -1068,6 +2481,1098 @@
                     <Origin>
                         <X>419</X>
                         <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0117">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6581</X>
+                            <Y>1611</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0118">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7235</X>
+                            <Y>1791</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0119">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7745</X>
+                            <Y>1991</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0120">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6949</X>
+                            <Y>1984</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0121">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6152</X>
+                            <Y>1978</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0122">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>5365</X>
+                            <Y>1965</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0123">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>4569</X>
+                            <Y>1969</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0124">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>3773</X>
+                            <Y>1952</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0125">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2973</X>
+                            <Y>1948</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0126">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>2180</X>
+                            <Y>1945</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0127">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>1400</X>
+                            <Y>1892</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0128">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>657</X>
+                            <Y>1889</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0129">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>214</X>
+                            <Y>1892</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0133">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7965</X>
+                            <Y>2015</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0134">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7945</X>
+                            <Y>2405</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0135">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7158</X>
+                            <Y>2399</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0136">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7940</X>
+                            <Y>2790</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0137">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7935</X>
+                            <Y>3175</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0138">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7150</X>
+                            <Y>2775</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0139">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7140</X>
+                            <Y>3170</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-3</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>0</X>
+                        <Y>1148</Y>
+                        <Width>839</Width>
+                        <Height>458</Height>
+                        <Location>
+                            <X>0</X>
+                            <Y>1148</Y>
+                        </Location>
+                        <Size>
+                            <X>839</X>
+                            <Y>458</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>419</X>
+                        <Y>229</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0140">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>9331</X>
+                            <Y>3275</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1123</X>
+                        <Y>1682</Y>
+                        <Width>813</Width>
+                        <Height>329</Height>
+                        <Location>
+                            <X>1123</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>813</X>
+                            <Y>329</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>406</X>
+                        <Y>164</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0141">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>10141</X>
+                            <Y>3275</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1123</X>
+                        <Y>1682</Y>
+                        <Width>813</Width>
+                        <Height>329</Height>
+                        <Location>
+                            <X>1123</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>813</X>
+                            <Y>329</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>406</X>
+                        <Y>164</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0142">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>10951</X>
+                            <Y>3270</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1123</X>
+                        <Y>1682</Y>
+                        <Width>813</Width>
+                        <Height>329</Height>
+                        <Location>
+                            <X>1123</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>813</X>
+                            <Y>329</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>406</X>
+                        <Y>164</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0143">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>11741</X>
+                            <Y>3265</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1123</X>
+                        <Y>1682</Y>
+                        <Width>813</Width>
+                        <Height>329</Height>
+                        <Location>
+                            <X>1123</X>
+                            <Y>1682</Y>
+                        </Location>
+                        <Size>
+                            <X>813</X>
+                            <Y>329</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>406</X>
+                        <Y>164</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0144">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>12266</X>
+                            <Y>3290</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>324</Y>
+                        <Width>267</Width>
+                        <Height>319</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>324</Y>
+                        </Location>
+                        <Size>
+                            <X>267</X>
+                            <Y>319</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>133</X>
+                        <Y>159</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0145">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>8796</X>
+                            <Y>3300</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>true</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>324</Y>
+                        <Width>267</Width>
+                        <Height>319</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>324</Y>
+                        </Location>
+                        <Size>
+                            <X>267</X>
+                            <Y>319</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>133</X>
+                        <Y>159</Y>
                     </Origin>
                 </GameObject>
             </Items>
@@ -1102,7 +3607,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -1145,7 +3649,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -1188,7 +3691,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -1208,399 +3710,12 @@
                         <Y>164</Y>
                     </Origin>
                 </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0077">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>5955</X>
-                            <Y>247</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0076">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6020</X>
-                            <Y>247</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0075">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6080</X>
-                            <Y>249</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0074">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6142</X>
-                            <Y>244</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0073">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6200</X>
-                            <Y>249</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0072">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6260</X>
-                            <Y>249</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0071">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6317</X>
-                            <Y>247</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0070">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6317</X>
-                            <Y>309</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0069">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6315</X>
-                            <Y>367</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
                 <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0068">
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6065</X>
-                            <Y>572</Y>
+                            <X>6137</X>
+                            <Y>827</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -1618,7 +3733,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>512</X>
                         <Y>0</Y>
@@ -1642,8 +3756,8 @@
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6067</X>
-                            <Y>634</Y>
+                            <X>6202</X>
+                            <Y>827</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -1661,7 +3775,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>512</X>
                         <Y>0</Y>
@@ -1685,8 +3798,8 @@
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6070</X>
-                            <Y>694</Y>
+                            <X>5747</X>
+                            <Y>761</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -1704,265 +3817,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0065">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6315</X>
-                            <Y>434</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0064">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6315</X>
-                            <Y>502</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0063">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6312</X>
-                            <Y>569</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0062">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6312</X>
-                            <Y>637</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0061">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6315</X>
-                            <Y>699</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0060">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6317</X>
-                            <Y>764</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>512</X>
                         <Y>0</Y>
@@ -1986,7 +3840,7 @@
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6072</X>
+                            <X>6202</X>
                             <Y>759</Y>
                         </Position>
                         <Rotation>0</Rotation>
@@ -2005,7 +3859,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>512</X>
                         <Y>0</Y>
@@ -2048,7 +3901,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -2091,7 +3943,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -2134,7 +3985,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -2152,307 +4002,6 @@
                     <Origin>
                         <X>81</X>
                         <Y>47</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0055">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6316</X>
-                            <Y>828</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0054">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6316</X>
-                            <Y>885</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0053">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6316</X>
-                            <Y>945</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0052">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6320</X>
-                            <Y>1012</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0051">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6320</X>
-                            <Y>1078</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0050">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6323</X>
-                            <Y>1138</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
-                    </Origin>
-                </GameObject>
-                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0049">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>6320</X>
-                            <Y>1205</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <texture_filename>Level1\texture-5</texture_filename>
-                    <TintColor>
-                        <B>255</B>
-                        <G>255</G>
-                        <R>255</R>
-                        <A>255</A>
-                        <PackedValue>4294967295</PackedValue>
-                    </TintColor>
-                    <FlipHorizontally>false</FlipHorizontally>
-                    <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
-                    <srcRectangle>
-                        <X>512</X>
-                        <Y>0</Y>
-                        <Width>99</Width>
-                        <Height>93</Height>
-                        <Location>
-                            <X>512</X>
-                            <Y>0</Y>
-                        </Location>
-                        <Size>
-                            <X>99</X>
-                            <Y>93</Y>
-                        </Size>
-                    </srcRectangle>
-                    <Origin>
-                        <X>49</X>
-                        <Y>46</Y>
                     </Origin>
                 </GameObject>
                 <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0047">
@@ -2478,7 +4027,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -2521,7 +4069,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>437</X>
                         <Y>300</Y>
@@ -2564,7 +4111,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>437</X>
                         <Y>300</Y>
@@ -2607,7 +4153,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>430</X>
                         <Y>220</Y>
@@ -2650,7 +4195,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>430</X>
                         <Y>220</Y>
@@ -2693,7 +4237,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>432</X>
                         <Y>140</Y>
@@ -2736,7 +4279,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>432</X>
                         <Y>140</Y>
@@ -2779,7 +4321,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -2822,7 +4363,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -2865,7 +4405,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -2908,7 +4447,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -2951,7 +4489,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -2994,7 +4531,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -3037,7 +4573,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3080,7 +4615,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-1</asset_name>
                     <srcRectangle>
                         <X>1123</X>
                         <Y>1682</Y>
@@ -3123,7 +4657,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3166,7 +4699,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3209,7 +4741,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3270,9 +4801,9 @@
                     <Transform>
                         <Position>
                             <X>4005</X>
-                            <Y>1159</Y>
+                            <Y>1165</Y>
                         </Position>
-                        <Rotation>0</Rotation>
+                        <Rotation>0.0247501135</Rotation>
                         <Scale>
                             <X>1.98173833</X>
                             <Y>1.98173833</Y>
@@ -3288,7 +4819,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3331,7 +4861,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3374,7 +4903,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-2</asset_name>
                     <srcRectangle>
                         <X>458</X>
                         <Y>1807</Y>
@@ -3398,8 +4926,8 @@
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>3802</X>
-                            <Y>1299</Y>
+                            <X>3754</X>
+                            <Y>1307</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -3417,7 +4945,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3460,7 +4987,216 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
+                    <srcRectangle>
+                        <X>514</X>
+                        <Y>93</Y>
+                        <Width>162</Width>
+                        <Height>94</Height>
+                        <Location>
+                            <X>514</X>
+                            <Y>93</Y>
+                        </Location>
+                        <Size>
+                            <X>162</X>
+                            <Y>94</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>81</X>
+                        <Y>47</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0114">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6658</X>
+                            <Y>1396</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>3</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>1149</Y>
+                        <Width>207</Width>
+                        <Height>480</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>1149</Y>
+                        </Location>
+                        <Size>
+                            <X>207</X>
+                            <Y>480</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>103</X>
+                        <Y>240</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0115">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7268</X>
+                            <Y>1596</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>3</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>1149</Y>
+                        <Width>207</Width>
+                        <Height>480</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>1149</Y>
+                        </Location>
+                        <Size>
+                            <X>207</X>
+                            <Y>480</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>103</X>
+                        <Y>240</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0116">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>7871</X>
+                            <Y>1792</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>3</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>1149</Y>
+                        <Width>207</Width>
+                        <Height>480</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>1149</Y>
+                        </Location>
+                        <Size>
+                            <X>207</X>
+                            <Y>480</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>103</X>
+                        <Y>240</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0132">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>8302</X>
+                            <Y>1896</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-1</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <srcRectangle>
+                        <X>1746</X>
+                        <Y>324</Y>
+                        <Width>267</Width>
+                        <Height>319</Height>
+                        <Location>
+                            <X>1746</X>
+                            <Y>324</Y>
+                        </Location>
+                        <Size>
+                            <X>267</X>
+                            <Y>319</Y>
+                        </Size>
+                    </srcRectangle>
+                    <Origin>
+                        <X>133</X>
+                        <Y>159</Y>
+                    </Origin>
+                </GameObject>
+                <GameObject xsi:type="TextureItem" Visible="true" Name="TextureItem_0167">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>8579</X>
+                            <Y>1973</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1.56093061</X>
+                            <Y>1.56093061</Y>
+                        </Scale>
+                    </Transform>
+                    <texture_filename>Level1\texture-5</texture_filename>
+                    <TintColor>
+                        <B>255</B>
+                        <G>255</G>
+                        <R>255</R>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
                     <srcRectangle>
                         <X>514</X>
                         <Y>93</Y>
@@ -3489,12 +5225,12 @@
         </Layer>
         <Layer Name="Collision" Visible="true">
             <Items>
-                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0079">
+                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0085">
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6286</X>
-                            <Y>258</Y>
+                            <X>5314</X>
+                            <Y>821</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -3502,23 +5238,18 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Width>70</Width>
-                    <Height>1170</Height>
-                    <FillColor>
-                        <B>192</B>
-                        <G>0</G>
-                        <R>192</R>
-                        <A>145</A>
-                        <PackedValue>2445279424</PackedValue>
-                    </FillColor>
-                    <ItemType>None</ItemType>
+                    <colBodySize>
+                        <X>100</X>
+                        <Y>200</Y>
+                    </colBodySize>
+                    <Direction>Right</Direction>
                 </GameObject>
-                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0078">
+                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0084">
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>5930</X>
-                            <Y>215</Y>
+                            <X>5829</X>
+                            <Y>481</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -3526,23 +5257,18 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Width>420</Width>
-                    <Height>70</Height>
-                    <FillColor>
-                        <B>192</B>
-                        <G>0</G>
-                        <R>192</R>
-                        <A>145</A>
-                        <PackedValue>2445279424</PackedValue>
-                    </FillColor>
-                    <ItemType>None</ItemType>
+                    <colBodySize>
+                        <X>100</X>
+                        <Y>200</Y>
+                    </colBodySize>
+                    <Direction>Right</Direction>
                 </GameObject>
-                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0080">
+                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0083">
                     <CustomProperties />
                     <Transform>
                         <Position>
-                            <X>6036</X>
-                            <Y>542</Y>
+                            <X>4694</X>
+                            <Y>856</Y>
                         </Position>
                         <Rotation>0</Rotation>
                         <Scale>
@@ -3550,16 +5276,11 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Width>70</Width>
-                    <Height>320</Height>
-                    <FillColor>
-                        <B>192</B>
-                        <G>0</G>
-                        <R>192</R>
-                        <A>145</A>
-                        <PackedValue>2445279424</PackedValue>
-                    </FillColor>
-                    <ItemType>None</ItemType>
+                    <colBodySize>
+                        <X>100</X>
+                        <Y>200</Y>
+                    </colBodySize>
+                    <Direction>Right</Direction>
                 </GameObject>
                 <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0081">
                     <CustomProperties />
@@ -3574,7 +5295,7 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Width>364</Width>
+                    <Width>520</Width>
                     <Height>64</Height>
                     <FillColor>
                         <B>192</B>
@@ -3598,10 +5319,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3621,10 +5338,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3644,10 +5357,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3667,10 +5376,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3690,10 +5395,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3821,10 +5522,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3844,10 +5541,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3871,10 +5564,6 @@
                             <Y>1</Y>
                         </Scale>
                     </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
                     <colBodySize>
                         <X>100</X>
                         <Y>200</Y>
@@ -3980,6 +5669,188 @@
                     </FillColor>
                     <ItemType>None</ItemType>
                 </GameObject>
+                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0111">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>5714</X>
+                            <Y>733</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <Width>67</Width>
+                    <Height>79</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>None</ItemType>
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0112">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6173</X>
+                            <Y>728</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <Width>63</Width>
+                    <Height>85</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>None</ItemType>
+                </GameObject>
+                <GameObject xsi:type="PathItem" Visible="true" Name="PathItem_0163">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>6316</X>
+                            <Y>1248</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <LocalPoints>
+                        <Vector2>
+                            <X>0</X>
+                            <Y>0</Y>
+                        </Vector2>
+                        <Vector2>
+                            <X>32</X>
+                            <Y>0</Y>
+                        </Vector2>
+                        <Vector2>
+                            <X>1858</X>
+                            <Y>594</Y>
+                        </Vector2>
+                    </LocalPoints>
+                    <WorldPoints>
+                        <Vector2>
+                            <X>6316</X>
+                            <Y>1248</Y>
+                        </Vector2>
+                        <Vector2>
+                            <X>6348</X>
+                            <Y>1248</Y>
+                        </Vector2>
+                        <Vector2>
+                            <X>8174</X>
+                            <Y>1842</Y>
+                        </Vector2>
+                    </WorldPoints>
+                    <IsPolygon>false</IsPolygon>
+                    <LineWidth>4</LineWidth>
+                    <LineColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </LineColor>
+                    <ItemType>None</ItemType>
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0164">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>8165</X>
+                            <Y>1844</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <Width>177</Width>
+                    <Height>1550</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>None</ItemType>
+                </GameObject>
+                <GameObject xsi:type="RectangleItem" Visible="true" Name="RectangleItem_0165">
+                    <CustomProperties />
+                    <Transform>
+                        <Position>
+                            <X>8714</X>
+                            <Y>3243</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <Width>3635</Width>
+                    <Height>165</Height>
+                    <FillColor>
+                        <B>192</B>
+                        <G>0</G>
+                        <R>192</R>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                    <ItemType>None</ItemType>
+                </GameObject>
+                <GameObject xsi:type="MovingPlatform" Visible="true" Name="MovingPlatform_0166">
+                    <CustomProperties>
+                        <Property Name="tex" Type="string" Description="TextureItem_0167">
+                            <string>TextureItem_0167</string>
+                        </Property>
+                    </CustomProperties>
+                    <Transform>
+                        <Position>
+                            <X>8465</X>
+                            <Y>1920</Y>
+                        </Position>
+                        <Rotation>0</Rotation>
+                        <Scale>
+                            <X>1</X>
+                            <Y>1</Y>
+                        </Scale>
+                    </Transform>
+                    <colBodySize>
+                        <X>90</X>
+                        <Y>100</Y>
+                    </colBodySize>
+                    <Direction>Right</Direction>
+                    <WayPoints>
+                        <Vector2>
+                            <X>8465</X>
+                            <Y>1858</Y>
+                        </Vector2>
+                        <Vector2>
+                            <X>8465</X>
+                            <Y>3258</Y>
+                        </Vector2>
+                    </WayPoints>
+                    <collidesWith>Cat1</collidesWith>
+                </GameObject>
             </Items>
             <CustomProperties />
             <ScrollSpeed>
@@ -4012,7 +5883,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>437</X>
                         <Y>300</Y>
@@ -4055,7 +5925,6 @@
                     </TintColor>
                     <FlipHorizontally>false</FlipHorizontally>
                     <FlipVertically>false</FlipVertically>
-                    <asset_name>Level1\texture-5</asset_name>
                     <srcRectangle>
                         <X>437</X>
                         <Y>300</Y>
@@ -4111,75 +5980,6 @@
                         <Y>20</Y>
                     </Size>
                 </GameObject>
-                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0083">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>4694</X>
-                            <Y>856</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
-                    <colBodySize>
-                        <X>100</X>
-                        <Y>200</Y>
-                    </colBodySize>
-                    <Direction>Right</Direction>
-                </GameObject>
-                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0084">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>5829</X>
-                            <Y>481</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
-                    <colBodySize>
-                        <X>100</X>
-                        <Y>200</Y>
-                    </colBodySize>
-                    <Direction>Right</Direction>
-                </GameObject>
-                <GameObject xsi:type="Zombie2" Visible="true" Name="Zombie2_0085">
-                    <CustomProperties />
-                    <Transform>
-                        <Position>
-                            <X>5314</X>
-                            <Y>821</Y>
-                        </Position>
-                        <Rotation>0</Rotation>
-                        <Scale>
-                            <X>1</X>
-                            <Y>1</Y>
-                        </Scale>
-                    </Transform>
-                    <Origin>
-                        <X>0</X>
-                        <Y>0</Y>
-                    </Origin>
-                    <colBodySize>
-                        <X>100</X>
-                        <Y>200</Y>
-                    </colBodySize>
-                    <Direction>Right</Direction>
-                </GameObject>
             </Items>
             <CustomProperties />
             <ScrollSpeed>
@@ -4192,24 +5992,24 @@
     <LevelBounds>
         <X>0</X>
         <Y>0</Y>
-        <Width>6350</Width>
-        <Height>1650</Height>
+        <Width>12350</Width>
+        <Height>3350</Height>
         <Location>
             <X>0</X>
             <Y>0</Y>
         </Location>
         <Size>
-            <X>6350</X>
-            <Y>1650</Y>
+            <X>12350</X>
+            <Y>3350</Y>
         </Size>
     </LevelBounds>
     <ContentPath>Level1</ContentPath>
     <EditorRelated>
-        <NextItemNumber>110</NextItemNumber>
+        <NextItemNumber>191</NextItemNumber>
         <ContentRootFolder>C:\Users\Heckto\Desktop\testGame\LevelEditor\bin\Windows\x86\Debug\Content\Level1</ContentRootFolder>
         <CameraPosition>
-            <X>2174</X>
-            <Y>486</Y>
+            <X>11620.667</X>
+            <Y>1821.99988</Y>
         </CameraPosition>
         <Version>1.0.0.0</Version>
     </EditorRelated>

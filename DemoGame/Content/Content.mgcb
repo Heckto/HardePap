@@ -38,7 +38,7 @@
 /processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
+/processorParam:PremultiplyAlpha=False
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
@@ -103,6 +103,49 @@
 
 #begin Characters/Zombie2/Zombie2_Map.xml
 /copy:Characters/Zombie2/Zombie2_Map.xml
+
+#begin Effects/BloomCombine2.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/BloomCombine2.fx
+
+#begin Effects/BloomExtract2.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/BloomExtract2.fx
+
+#begin Effects/Fog.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/processorParam:Defines=
+/build:Effects/Fog.fx
+
+#begin Effects/GaussianBlur2.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/GaussianBlur2.fx
+
+#begin Effects/PixelGlitch.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/PixelGlitch.fx
+
+#begin Effects/Test.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/Test.fx
+
+#begin Effects/Water.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/Water.fx
 
 #begin EnemySprite.xml
 /copy:EnemySprite.xml

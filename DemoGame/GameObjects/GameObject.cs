@@ -10,6 +10,8 @@ using Game1.GameObjects.ParticleEffects;
 using Game1.GameObjects.Obstacles;
 using System.ComponentModel;
 using static Game1.GameObjects.Levels.Level;
+using Game1.Rendering;
+using Game1.GameObjects.Graphics.Effects;
 
 namespace Game1.GameObjects
 {
@@ -33,6 +35,28 @@ namespace Game1.GameObjects
             Transform.TranformUpdated += OnTransformed;
             Transform.TransformBecameDirty += OnTransformed;
             CustomProperties = new SerializableDictionary();
+            
+        }
+
+        private bool _IsAlive = true;
+
+        [XmlIgnore]
+        public bool IsAlive
+        {
+            get
+            {
+                return _IsAlive;
+            }
+            set
+            {
+                if (!value)
+                {
+                    layer.level.removeList.Add(this);
+                    if (this is IDrawableItem item)
+                        layer.renderList[Material.ToString()].Remove(item);
+                }
+                _IsAlive = value;
+            }
         }
 
         [XmlAttribute()]
@@ -46,9 +70,40 @@ namespace Game1.GameObjects
         [XmlIgnore()]
         public Layer layer;
 
+
+        protected RenderMaterial _Material;
+
+        [XmlIgnore()]
+        public RenderMaterial Material 
+        {
+            get
+            {
+                return _Material;
+            }
+            set
+            {
+                if (this is IDrawableItem)
+                {
+                    if (_Material != null && layer.renderList.ContainsKey(_Material.ToString()))
+                        layer.renderList[_Material.ToString()].Remove(this as IDrawableItem);
+                    if (!layer.renderList.ContainsKey(value.ToString()))
+                        
+                        layer.renderList.Add(value.ToString(), new Renderer(value));
+                    if (layer.renderList.ContainsKey(value.ToString()))
+                    {
+                        layer.renderList[value.ToString()].Add(this as IDrawableItem);
+                        _Material = value;
+                    }
+                }
+            }
+
+        } 
+
         public virtual void LoadContent(ContentManager contentManager) { }
 
         public virtual void Initialize() {
+
+            Material = RenderMaterial.DefaultMaterial;
             OnTransformed();
         }
 
